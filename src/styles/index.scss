@@ -1,0 +1,123 @@
+@import 'src/styles/variables.module';
+@import './mixin.scss';
+@import './transition.scss';
+@import 'src/styles/element-plus';
+@import './sidebar.scss';
+@import './reset.scss';
+
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+	font-size: 12px;
+}
+
+label {
+	font-weight: 700;
+}
+
+html {
+	height: 100%;
+	box-sizing: border-box;
+}
+
+#app {
+	height: 100%;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+a:focus,
+a:active {
+	outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+	cursor: pointer;
+	color: inherit;
+	text-decoration: none;
+}
+
+div:focus {
+	outline: none;
+}
+
+.clearfix {
+	&:after {
+		visibility: hidden;
+		display: block;
+		font-size: 0;
+		content: ' ';
+		clear: both;
+		height: 0;
+	}
+}
+
+// main-container global css
+.app-container {
+	padding: 10px;
+}
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+::-webkit-scrollbar-track {
+	border-radius: 4px;
+	background: #fafafa;
+}
+::-webkit-scrollbar-track:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+	box-shadow: 0 0 0 #fff inset, 0 0 0 rgba(255, 255, 255, 0.9) inset, 0 0 0 rgba(255, 255, 255, 0.9) inset, 0 0 0 rgba(255, 255, 255, 0.9) inset;
+}
+::-webkit-scrollbar-track:active {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background-color: rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 0 #fff inset, 0 0 0 #fff inset, 0 0 0 rgba(255, 255, 255, 0.9) inset, 0 0 0 rgba(255, 255, 255, 0.9) inset;
+}
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(0, 0, 0, 0.4);
+}
+::-webkit-scrollbar-thumb:active {
+	background: rgba(0, 0, 0, 0.6);
+}
+
+/* 公用样式 */
+// 公用path页面外壳
+.column-page-wrap {
+	flex: 1;
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+}
+// 文字超出隐藏
+.text-overflow_ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+@mixin text-overflow_ellipsis_line($line: 2) {
+	white-space: normal;
+	text-overflow: -o-ellipsis-lastline;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box; // 作为弹性伸缩盒子模型显示。
+	-webkit-box-orient: vertical; // 设置伸缩盒子的子元素排列方式--从上到下垂直排列
+	-webkit-line-clamp: $line; // 显示的行
+	-webkit-box-orient: vertical;
+}
+.text-overflow_ellipsis_line_2 {
+	@include text-overflow_ellipsis_line;
+}

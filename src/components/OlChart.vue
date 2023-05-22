@@ -1,0 +1,454 @@
+<!--
+* @description 通用图表组件 OlChart
+!-->
+<template>
+	<div class="chartWrap" :style="localStyle">
+		<div
+			v-show="localLoading"
+			v-loading="true"
+			element-loading-text="加载中..."
+			element-loading-background="rgba(0, 0, 0, 0.1)"
+			class="tableLoading"
+		></div>
+		<div class="chart-head">
+			<div class="axis-name top_left">
+				<slot name="top_left">{{ label_topLeft }}</slot>
+			</div>
+			<div class="axis-name top_right">
+				<slot name="top_right">{{ label_topRight }}</slot>
+			</div>
+		</div>
+		<div class="chart-wrap">
+			<div class="chart-container" ref="chartRef" />
+			<div class="overlay" :class="{ overlayTopLevel: noData }">
+				<slot name="overlay">
+					<NoData class="chart_noData" :class="{ chart_noData_show: noData }" size="small" message="暂无数据" />
+				</slot>
+			</div>
+		</div>
+		<div class="chart-footer">
+			<div class="axis-name bottom_left">
+				<slot name="bottom_left">{{ label_bottomLeft }}</slot>
+			</div>
+			<div class="axis-name bottom_left">
+				<slot name="bottom_right">{{ label_bottomRight }}</slot>
+			</div>
+		</div>
+		<slot />
+	</div>
+</template>
+
+<script lang="ts">
+import { debounce, objDeepMerge } from '@/utils'
+import { init, EChartsOption } from 'echarts'
+import NoData from '@/components/NoData'
+import { defineComponent, PropType } from 'vue'
+/*const showLoading = chart => chart && chart.showLoading({
+  text: '',
+  textColor: '#1890ff',
+  color: '#1890ff',
+  maskColor: 'rgba(0,0,0,.05)'
+})*/
+// chart 内部的事件触发
+const emits = ['legendselectchanged', 'click']
+const props = {
+	// id: {
+	//   type: String as PropType<string>,
+	//   default: `chart_${Math.random().toString().slice(-10)}_${+new Date()}`
+	// },
+	width: {
+		type: String,
+		default: '100%'
+	},
+	height: {
+		type: String,
+		default: '400px'
+	},
+	label_topLeft: {
+		type: String,
+		default: ''
+	},
+	label_topRight: {
+		type: String,
+		default: ''
+	},
+	label_bottomLeft: {
+		type: String,
+		default: ''
+	},
+	label_bottomRight: {
+		type: String,
+		default: ''
+	},
+	// 图表loading
+	loading: {
+		type: [Boolean, undefined],
+		default: undefined
+	},
+	// 图表配置参数对象
+	option: {
+		type: Object as PropType<EChartsOption>,
+		default: () => ({})
+	},
+	// 是否初始化就更新 options
+	isInitOption: {
+		type: Boolean,
+		default: false
+	},
+	// 是否展示数据图表
+	showChart: {
+		type: Boolean,
+		default: true
+	}
+}
+export const ChartComponent = defineComponent({
+	name: 'OlChart',
+	components: {
+		NoData
+	},
+	emits,
+	props,
+	data() {
+		return {
+			localLoading: false
+		}
+	},
+	computed: {
+		localStyle() {
+			const { width, height } = this
+			return {
+				width,
+				height
+			}
+		},
+		noData() {
+			if (this.loading) return true
+			// console.error(this.showChart, 'this.showChart')
+			return !this.showChart
+			// return !this.showChart && !this.loading
+		}
+	},
+	watch: {
+		option: {
+			deep: true,
+			// immediate: true,
+			handler(val) {
+				if (val) {
+					if (this.chart) {
+						this.chart.clear()
+					}
+					this.updateOption()
+				}
+			}
+		},
+		loading(bool) {
+			if (bool !== undefined) {
+				// 修复部分组件(通过 v-show 展示 组件生命周期走，但样式未同步问题)
+				if (bool) this.updateResize()
+				// console.error('loading', bool)
+				this.localLoading = bool
+			}
+			// if (bool) {
+			//   showLoading(this.chart)
+			// } else {
+			//   this.chart && this.chart.hideLoading()
+			// }
+		}
+	},
+	created() {
+		this.debounceUpdateResize = debounce(this.updateResize, 50, true)
+		window.addEventListener('resize', this.debounceUpdateResize)
+		this.localLoading = true
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.debounceUpdateResize)
+	},
+	mounted() {
+		const el = this.$refs.chartRef
+		this.chart = init(el)
+		// this.chart = init(document.getElementById(this.id))
+		// showLoading(this.chart)
+		// 事件组触发
+		emits.map(eventName => {
+			this.chart.on(eventName, params => {
+				console.log(eventName, 'params', params)
+				this.$emit(eventName, params)
+			})
+		})
+
+		this.isInitOption && this.updateOption()
+	},
+	methods: {
+		updateResize() {
+			this.chart?.resize?.()
+		},
+		updateOption() {
+			let xAxis = [
+				{
+					axisLine: {
+						show: false
+					}
+				}
+			]
+			let yAxis = [
+				{
+					axisLine: {
+						show: false
+					}
+				}
+			]
+			let grid = {}
+			const axisLabelColor = 'rgba(0, 0, 0, 0.45)'
+			const axisLabelColor_x = 'rgba(0, 0, 0, 0.65)'
+
+			const defaultAxis_common = {
+				nameTextStyle: {
+					color: axisLabelColor
+				},
+				axisLine: {
+					lineStyle: {
+						color: axisLabelColor,
+						width: 1
+					}
+				},
+				axisLabel: {
+					color: axisLabelColor
+				},
+				// axisTick: {
+				//   show: false
+				// },
+				splitLine: {
+					lineStyle: {
+						type: 'dashed',
+						color: '#e9e9e9'
+					}
+				}
+			}
+			const defaultAxis_x = {
+				nameTextStyle: {
+					color: axisLabelColor_x
+				},
+				axisLabel: {
+					color: axisLabelColor_x
+				}
+			}
+
+			const defaultGrid = {
+				// top: 10,
+				// left: 10,
+				// right: 10,
+				// bottom: 5,
+				containLabel: true
+			}
+
+			const { xAxis: _xAxis, yAxis: _yAxis, series: _series, grid: _grid, legend: _legend, tooltip, ...othersOpts } = this.option as EChartsOption
+			// 图表内部不通过鼠标放大缩小
+			if (Array.isArray(othersOpts.dataZoom)) {
+				const dataZoomInside: any = othersOpts.dataZoom.find(v => {
+					return v.type === 'inside'
+				})
+				if (dataZoomInside && dataZoomInside.zoomOnMouseWheel === undefined) {
+					dataZoomInside.zoomOnMouseWheel = false
+				}
+			}
+			if (Array.isArray(_grid)) {
+				grid = _grid.map(v => Object.assign({}, defaultGrid, v || {}))
+			} else {
+				grid = Object.assign({}, defaultGrid, _grid || {})
+			}
+			if (_xAxis) {
+				const xAxisDefault = objDeepMerge(defaultAxis_common, defaultAxis_x)
+				if (Array.isArray(_xAxis)) {
+					xAxis = _xAxis.map(item => {
+						return {
+							type: 'category',
+							...objDeepMerge(xAxisDefault, item)
+						}
+					})
+				} else {
+					xAxis = [
+						{
+							type: 'value',
+							...objDeepMerge(xAxisDefault, _xAxis)
+						}
+					]
+				}
+			}
+			if (_yAxis) {
+				const yAxisDefault = defaultAxis_common // objDeepMerge(defaultAxis_common, {axisLine: {show: false}})
+				if (Array.isArray(_yAxis)) {
+					yAxis = _yAxis.map(item => {
+						return objDeepMerge(yAxisDefault, item)
+					})
+				} else {
+					yAxis = [objDeepMerge(yAxisDefault, _yAxis)]
+				}
+			}
+			const series = ((_series || []) as []).map(item => {
+				return objDeepMerge(
+					{
+						lineStyle: {
+							width: 2
+						}
+					},
+					item
+				)
+			})
+			const option = {
+				legend: {
+					icon: 'rect',
+					itemHeight: 4,
+					itemWidth: 10,
+					textStyle: {
+						color: 'rgba(0, 0, 0, 0.65)',
+						lineHeight: 14
+						// fontSize: 10
+					},
+					type: 'scroll',
+					pageIconSize: 10,
+					pageTextStyle: {
+						lineHeight: 10,
+						fontSize: 12
+					},
+					...(_legend || {})
+				},
+				tooltip: {
+					trigger: 'item',
+					// formatter: '{c}',
+					position: 'top',
+					axisPointer: {
+						type: 'cross',
+						label: {
+							show: true
+						}
+					},
+					...(tooltip || {})
+				},
+				grid,
+				textStyle: {
+					fontSize: 12
+				},
+				// ...{},
+				xAxis,
+				yAxis,
+				series,
+				...(othersOpts || {})
+			} as EChartsOption
+			// if (this.loading === undefined) {
+			//   // this.chart && showLoading(this.chart)
+			//   this.localLoading = true
+			// }
+			// return new Promise((resolve, reject) => setTimeout(resolve, this.loading === undefined ? 100 : 0)).then(_ => {
+			// })
+			this.updateResize()
+			if (this.chart) {
+				this.localLoading = false
+				// this.chart.hideLoading()
+				// console.log(option, 'option .................')
+				this.chart.setOption(option)
+			}
+		}
+	}
+})
+export default ChartComponent
+
+// 10项 基本颜色配置
+export const colorBase1 = ['#5B8FF9', '#5AD8A6', '#5D7092', '#F6BD16', '#E86452', '#6DC8EC', '#945FB9', '#FF9845', '#1E9493', '#FF99C3']
+// 20项 基本颜色配置
+export const colorBase2 = [
+	'#5B8FF9',
+	'#CDDDFD',
+	'#5AD8A6',
+	'#CDF3E4',
+	'#5D7092',
+	'#CED4DE',
+	'#F6BD16',
+	'#FCEBB9',
+	'#E86452',
+	'#F8D0CB',
+	'#6DC8EC',
+	'#D3EEF9',
+	'#945FB9',
+	'#DECFEA',
+	'#FF9845',
+	'#FFE0C7',
+	'#1E9493',
+	'#BBDEDE',
+	'#FF99C3',
+	'#FFE0ED'
+]
+</script>
+
+<style lang="scss" scoped>
+.chartWrap {
+	//padding: 2px 0;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	position: relative;
+	background: #fff;
+
+	.tableLoading {
+		position: absolute;
+		left: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		z-index: 999;
+		background: rgba(0, 0, 0, 0.05);
+	}
+
+	.chart-head,
+	.chart-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		.axis-name {
+			font-size: 12px;
+		}
+	}
+
+	.chart-wrap {
+		flex: 1;
+		position: relative;
+		// 图表壳样式
+		.chart-container {
+			width: 100%;
+			height: 100%;
+		}
+
+		.overlay {
+			&.overlayTopLevel {
+				pointer-events: unset;
+			}
+
+			&::v-deep {
+				// 暂无数据展示样式 (组件外也可使用)
+				.chart_noData {
+					position: absolute;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					z-index: -1;
+
+					&.chart_noData_show {
+						z-index: 1;
+						background: #fff;
+					}
+				}
+			}
+
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			pointer-events: none;
+		}
+	}
+}
+</style>

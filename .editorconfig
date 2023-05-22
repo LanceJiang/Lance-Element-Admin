@@ -1,0 +1,21 @@
+root = true
+
+[*]
+# utf-8编码
+charset=utf-8
+# 控制换行类型(lf | cr | crlf)
+end_of_line=lf
+# 缩进风格(tab | space)
+indent_style=tab
+indent_size=2
+max_line_length = 150
+
+# [*.{yml,yaml,json}]
+# indent_style = space
+# indent_size = 2
+
+[*.{js,jsx,ts,tsx,vue}]
+# indent_style = space
+# indent_size = 2
+# 去除行首的任意空白字符
+trim_trailing_whitespace = true
