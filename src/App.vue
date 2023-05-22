@@ -8,13 +8,13 @@
 import {computed, nextTick, onMounted, ref, watch} from 'vue'
 import { ElConfigProvider } from 'element-plus'
 import { ls } from '@/utils'
-import useStore from '@/store'
+import useAppStore from '@/store/modules/app'
 
 // 导入 Element Plus 语言包
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import en from 'element-plus/es/locale/lang/en'
 
-const { app } = useStore()
+const app = useAppStore()
 
 const language = computed(() => app.language)
 const size = computed(() => app.size)

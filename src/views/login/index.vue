@@ -97,8 +97,8 @@ const state = reactive({
 		}
 	},
 	loginForm: {
-		username: '',
-		password: ''
+		username: 'admin',
+		password: '123456'
 	},
 	loginRules: {
 		username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
