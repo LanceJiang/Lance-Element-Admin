@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 import { ref, reactive, toRefs } from 'vue'
-import SvgIcon from '@/components/SvgIcon/index.vue'
 
 const props = defineProps({
 	collapse: {

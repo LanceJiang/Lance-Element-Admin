@@ -70,7 +70,6 @@ import { onMounted, reactive, ref, toRefs, watch, nextTick } from 'vue'
 // 组件依赖
 import { /*ElForm, ElInput,*/ ElMessage } from 'element-plus'
 import LangSelect from '@/components/LangSelect/index.vue'
-import SvgIcon from '@/components/SvgIcon/index.vue'
 // 谷歌验证
 import GoogleVerifyDialog from './components/GoogleVerifyDialog.vue'
 

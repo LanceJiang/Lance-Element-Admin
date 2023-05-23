@@ -21,7 +21,8 @@
       </el-col>
     </el-row>-->
 		<!-- 公用搜索组件 -->
-		<SearchForm v-model:searchParams="searchParams" :forms="forms" />
+		<SearchForm ref="searchForm" v-model:searchParams="searchParams" :forms="forms" />
+		<el-button @click="toggleForm">toggleForm</el-button>
 		<!--  TableComponent 组件使用 示例：  -->
 		<TableComponent
 			v-model:searchParams="searchParams"
@@ -78,8 +79,8 @@
 // @ts-ignore
 import FormConfig from '@/components/FormConfig'
 import SearchForm from '@/components/SearchForm'
-import TableComponent from '@/components/TableComponent'
-import { defineComponent } from 'vue'
+import TableComponent from '@/components/Table'
+import {defineComponent, nextTick} from 'vue'
 import { getAdminList } from '@/api/personManage'
 
 export default defineComponent({
@@ -395,13 +396,50 @@ export default defineComponent({
 		}
 	},
 	created() {
-		this.queryList()
+		// this.queryList()
+		setTimeout(() => {
+			this.searchParams = {
+				page: 1,
+				size: 10,
+				projectType: '类型one'
+			}
+			debugger
+			const ref = this.$refs.searchForm
+			ref.forceUpdateInitParams() // (this.searchParams)
+		})
+		nextTick(() => {
+			console.error(this.$refs.searchForm, 'this.$refs.searchForm')
+			window.searchForm = this.$refs.searchForm
+
+		})
 	},
 	methods: {
 		addHandler() {
 			this.isCreate = true
 			this.activeData = {}
 			this.visible = true
+		},
+		toggleForm() {
+			const idx = this.forms.findIndex((v) => v.prop === 'projectType')
+			if(idx >= 0) {
+				this.forms.splice(idx, 1)
+			} else {
+				this.forms.unshift({
+					prop: 'projectType',
+					label: '项目类型',
+					itemType: 'select',
+					// span: 8,
+					// xs: { span: 23 },
+					placeholder: '请选择项目类型',
+					options: [
+						{ value: '类型one', label: '类型一' },
+						{ value: '类型two', label: '类型二' }
+					]
+					/* rules: [
+														{ required: true, message: '请输入邮箱地址', trigger: 'blur' }
+												]*/
+				})
+			}
 		},
 		// 重置form表单参数
 		resetForm() {
@@ -426,9 +464,9 @@ export default defineComponent({
 		queryList() {
 			const _this = this
 			const { options, formData } = this
-			console.error(formData, 'formData todo...')
+			// console.error(formData, 'formData todo...')
 			options.loading = true
-
+			console.log('搜索参数： ', this.searchParams)
 			getAdminList(this.searchParams)
 				.then((data: any) => {
 					// const { total, list } = data

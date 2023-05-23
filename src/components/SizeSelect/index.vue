@@ -18,7 +18,6 @@ import { ref, computed } from 'vue'
 import { ElMessage } from 'element-plus'
 
 import useStore from '@/store'
-import SvgIcon from '@/components/SvgIcon/index.vue'
 
 const { app } = useStore()
 const size = computed(() => app.size)

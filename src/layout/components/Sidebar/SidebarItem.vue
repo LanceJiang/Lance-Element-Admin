@@ -14,7 +14,7 @@
 				</el-menu-item>
 			</app-link>
 		</template>
-		<el-sub-menu v-else :index="resolvePath(item.path)" popper-append-to-body>
+		<el-sub-menu v-else :index="resolvePath(item.path)" teleported>
 			<!-- popper-append-to-body -->
 			<template #title>
 				<svg-icon v-if="item.meta?.icon" :icon-class="item.meta.icon"></svg-icon>
@@ -41,7 +41,6 @@ import { isExternal } from '@/utils/validate'
 import AppLink from './Link.vue'
 
 import { generateTitle } from '@/utils/i18n'
-import SvgIcon from '@/components/SvgIcon/index.vue'
 
 const props = defineProps({
 	item: {

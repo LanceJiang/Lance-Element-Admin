@@ -17,7 +17,6 @@ import { computed } from 'vue'
 import useStore from '@/store'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
-import SvgIcon from '@/components/SvgIcon/index.vue'
 const { app } = useStore()
 const language = computed(() => app.language)
 // import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'

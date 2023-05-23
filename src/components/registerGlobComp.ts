@@ -4,10 +4,11 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import DialogForm from './DialogForm.vue'
 import FormConfig from './FormConfig.vue'
 import SearchForm from './SearchForm.vue'
-import TableComponent from './TableComponent/index'
+import TableComponent from '@/components/Table/index'
+import SvgIcon from '@/components/SvgIcon/index.vue'
 
 // you want register components
-const compList = [DialogForm, FormConfig, SearchForm, TableComponent]
+const compList = [SvgIcon, DialogForm, FormConfig, SearchForm, TableComponent]
 
 export function registerGlobComp(app: App) {
 	Object.entries(ElementPlusIconsVue).map(([key, component]) => {

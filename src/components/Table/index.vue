@@ -1,9 +1,5 @@
-<!--
- Created by lanceJiang
- -->
 <script lang="tsx">
 import { defineComponent, PropType, onMounted, ref } from 'vue'
-import SvgIcon from '@/components/SvgIcon/index.vue'
 // import { ElMessage } from 'element-plus'
 import { OlTableColumnProps, OlTableProps, SearchParams } from './index.d'
 import { getDeepValue, $log } from '@/utils'
@@ -242,9 +238,9 @@ const render = function () {
 
 const TableComponent = defineComponent({
 	name: 'TableComponent',
-	components: {
-		SvgIcon
-	},
+	// components: {
+	// 	SvgIcon
+	// },
 	props: tableProps,
 	render,
 	data() {

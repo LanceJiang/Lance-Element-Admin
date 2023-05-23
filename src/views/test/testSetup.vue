@@ -16,6 +16,7 @@
 				<el-button :icon="Refresh" @click="resetQuery">重置</el-button>
 			</el-form-item>
 		</el-form>
+		<Child/>
 	</div>
 </template>
 
@@ -24,7 +25,7 @@ import { onMounted, reactive, ref, toRefs } from 'vue'
 import { ElForm, ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Plus, Refresh, Delete } from '@element-plus/icons-vue'
 const queryFormRef = ref() // 属性名必须和元素的ref属性值一致
-
+import Child from './setupComponent.vue'
 const state = reactive({
 	loading: true,
 	// 选中ID数组

@@ -54,7 +54,6 @@ import { RouteRecordRaw, useRoute, useRouter } from 'vue-router'
 import { TagView } from '@/types'
 
 import ScrollPane from './ScrollPane.vue'
-import SvgIcon from '@/components/SvgIcon/index.vue'
 import { generateTitle } from '@/utils/i18n'
 import useStore from '@/store'
 
