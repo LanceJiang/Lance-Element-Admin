@@ -1,14 +1,14 @@
 import { PermissionState } from '@/types'
-import { RouteRecordRaw } from 'vue-router'
+import { AppRouteRecordRaw } from '@/router/types'
+// import { RouteRecordRaw } from 'vue-router'
 import { defineStore } from 'pinia'
 import { constantRoutes, noFoundRouters } from '@/router'
 import { listRoutes } from '@/api/system/menu'
-import { RouteItem } from '@/types'
 
-const modules = import.meta.glob('../../views/**/**.vue')
+const modules = import.meta.glob('@/views/**/**.vue')
 export const Layout = () => import('@/layout/index.vue')
 
-// const hasPermission = (roles: string[], route: RouteRecordRaw) => {
+// const hasPermission = (roles: string[], route: AppRouteRecordRaw) => {
 // 	if (route.meta && route.meta.roles) {
 // 		if (roles.includes('ROOT')) {
 // 			return true
@@ -22,8 +22,8 @@ export const Layout = () => import('@/layout/index.vue')
 // 	return false
 // }
 
-export const filterAsyncRoutes = (routes: RouteItem[], roles: string[]) => {
-	const res: RouteRecordRaw[] = []
+export const filterAsyncRoutes = (routes: AppRouteRecordRaw[], roles: string[]) => {
+	const res: AppRouteRecordRaw[] = []
 	routes.forEach(route => {
 		const tmp = { ...route } as any
 		// if (hasPermission(roles, tmp)) {
@@ -33,11 +33,11 @@ export const filterAsyncRoutes = (routes: RouteItem[], roles: string[]) => {
 		if (tmp.component == 'Layout') {
 			tmp.component = Layout
 		} else {
-			const component = modules[`../../views/${tmp.component}.vue`] as any
+			const component = modules[`/src/views/${tmp.component}.vue`] as any
 			if (component) {
 				tmp.component = component
 			} else {
-				tmp.component = modules[`../../views/error-page/404.vue`]
+				tmp.component = modules[`/src/views/error-page/404.vue`]
 			}
 		}
 		res.push(tmp)
@@ -57,7 +57,7 @@ const usePermissionStore = defineStore({
 		addRoutes: []
 	}),
 	actions: {
-		setRoutes(routes: RouteRecordRaw[]) {
+		setRoutes(routes: AppRouteRecordRaw[]) {
 			this.addRoutes = routes
 			this.routes = constantRoutes.concat(routes, noFoundRouters)
 		},

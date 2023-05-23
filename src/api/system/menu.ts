@@ -1,4 +1,3 @@
-import { RouteItem } from '@/types'
 import request from '@/utils/request'
 import { AxiosPromise } from 'axios'
 import { devAllRouters } from '@/router'
@@ -6,7 +5,7 @@ import { devAllRouters } from '@/router'
 /**
  * 获取路由列表
  */
-export function listRoutes(): AxiosPromise<RouteItem> {
+export function listRoutes(): AxiosPromise {
 	const isRequestAsyncRoutes = true // import.meta.env.VITE_APP_USE_LOCAL_ROUTES === '1'
 	// 请求本地路由配置
 	if (isRequestAsyncRoutes) {

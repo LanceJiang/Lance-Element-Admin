@@ -1,12 +1,12 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import { RouteItem } from '@/types'
+import { AppRouteRecordRaw } from './types'
 import useStore from '@/store'
 
 export const Layout = () => import('@/layout/index.vue')
 
 // 参数说明: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
 // 静态路由
-export const constantRoutes: Array<RouteRecordRaw> = [
+export const constantRoutes: Array<AppRouteRecordRaw> = [
 	{
 		path: '/redirect',
 		component: Layout,
@@ -102,7 +102,7 @@ export const noFoundRouters = [
  * 本地 dev 调试 默认使用本地路由数据
  * (若想要调试 接口数据 请在 env.development.local 修改 VITE_APP_USE_LOCAL_ROUTES 不为 1即可)
  */
-export const devAllRouters: Array<RouteItem> = [
+export const devAllRouters: Array<AppRouteRecordRaw> = [
 	{
 		// 人员管理
 		// "value": 1,

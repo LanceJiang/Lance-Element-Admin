@@ -16,16 +16,16 @@
 <script setup lang="ts">
 import { onBeforeMount, ref, watch } from 'vue'
 import { useRoute, RouteLocationMatched } from 'vue-router'
-import { compile } from 'path-to-regexp'
+// import { compile } from 'path-to-regexp'
 import router from '@/router'
 import { generateTitle } from '@/utils/i18n'
 
 const currentRoute = useRoute()
-const pathCompile = (path: string) => {
-	const { params } = currentRoute
-	const toPath = compile(path)
-	return toPath(params)
-}
+// const pathCompile = (path: string) => {
+// 	const { params } = currentRoute
+// 	const toPath = compile(path)
+// 	return toPath(params)
+// }
 
 const breadcrumbs = ref([] as Array<RouteLocationMatched>)
 
@@ -58,7 +58,8 @@ function handleLink(item: any) {
 		})
 		return
 	}
-	router.push(pathCompile(path)).catch(err => {
+	// router.push(pathCompile(path)).catch(err => {
+	router.push(path).catch(err => {
 		console.warn(err)
 	})
 }

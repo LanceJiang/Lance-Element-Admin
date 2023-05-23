@@ -1,4 +1,6 @@
-import { RouteRecordRaw, RouteLocationNormalized } from 'vue-router'
+import { /*RouteRecordRaw,*/ RouteLocationNormalized } from 'vue-router'
+import { AppRouteRecordRaw } from '@/router/types'
+
 /**
  * 用户状态类型声明
  */
@@ -16,8 +18,8 @@ export interface AppState {
  * 权限类型声明
  */
 export interface PermissionState {
-	routes: RouteRecordRaw[]
-	addRoutes: RouteRecordRaw[]
+	routes: AppRouteRecordRaw[]
+	addRoutes: AppRouteRecordRaw[]
 }
 
 /**

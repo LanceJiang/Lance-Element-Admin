@@ -1,5 +1,4 @@
 <script lang="jsx">
-import { getDeepValue } from '@/utils'
 
 const emits = ['update:searchParams']
 import {
@@ -178,13 +177,13 @@ export const SearchForm = defineComponent({
 					<div class="action-wrap">
 						<el-button size="default" plain onClick={this.local_resetHandler}>
 							<el-icon>
-								<refresh />
+								<Refresh />
 							</el-icon>
 							重置
 						</el-button>
 						<el-button size="default" type="primary" onClick={this.searchHandler}>
 							<el-icon>
-								<search />
+								<Search />
 							</el-icon>
 							查询
 						</el-button>

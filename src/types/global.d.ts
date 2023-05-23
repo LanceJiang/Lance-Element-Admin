@@ -77,3 +77,15 @@ type ObjToKeyValUnion<T> = {
 type ObjToKeyValArray<T> = {
 	[K in keyof T]: [K, T[K]]
 }[keyof T]
+
+// declare module 'vue' {
+// 	export type JSXComponent<Props = any> =
+// 		| { new (): ComponentPublicInstance<Props> }
+// 		| FunctionalComponent<Props>;
+// }
+declare module '*.vue' {
+	import { DefineComponent } from 'vue';
+
+	const Component: DefineComponent<{}, {}, any>;
+	export default Component;
+}

@@ -17,8 +17,8 @@
 		<el-sub-menu v-else :index="resolvePath(item.path)" popper-append-to-body>
 			<!-- popper-append-to-body -->
 			<template #title>
-				<svg-icon v-if="item.meta && item.meta.icon" :icon-class="item.meta.icon"></svg-icon>
-				<span v-if="item.meta && item.meta.title">{{ generateTitle(item.meta.title) }}</span>
+				<svg-icon v-if="item.meta?.icon" :icon-class="item.meta.icon"></svg-icon>
+				<span v-if="item.meta?.title">{{ generateTitle(item.meta.title) }}</span>
 			</template>
 
 			<sidebar-item
@@ -35,6 +35,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { RouteRecordRaw } from 'vue-router'
 import path from 'path-browserify'
 import { isExternal } from '@/utils/validate'
 import AppLink from './Link.vue'
@@ -44,7 +45,7 @@ import SvgIcon from '@/components/SvgIcon/index.vue'
 
 const props = defineProps({
 	item: {
-		type: Object,
+		type: Object as () => Partial<RouteRecordRaw>,
 		required: true
 	},
 	isNest: {
@@ -91,7 +92,7 @@ function resolvePath(routePath: string) {
 	if (isExternal(routePath)) {
 		return routePath
 	}
-	if (isExternal(props.basePath)) {
+	if (isExternal(props.basePath as string)) {
 		return props.basePath
 	}
 	return path.resolve(props.basePath, routePath)

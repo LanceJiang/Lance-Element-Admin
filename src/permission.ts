@@ -55,6 +55,17 @@ router.beforeEach(async (to, from, next) => {
 	}
 })
 
+/**
+ * @description 路由跳转错误
+ * */
+router.onError(error => {
+	NProgress.done()
+	console.error('路由错误:', error)
+})
+
+/**
+ * @description 路由跳转结束
+ * */
 router.afterEach(() => {
 	NProgress.done()
 })
