@@ -238,9 +238,6 @@ const render = function () {
 
 const TableComponent = defineComponent({
 	name: 'TableComponent',
-	// components: {
-	// 	SvgIcon
-	// },
 	props: tableProps,
 	render,
 	data() {

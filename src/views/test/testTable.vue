@@ -1,25 +1,25 @@
 <template>
 	<div class="testTable column-page-wrap">
 		<!--  form配置组件  -->
-		<!--    <FormConfig
+		    <FormConfig
       style="background: #fff;"
         ref="form"
         v-bind="formOptions"
         :form-data="formData"
     >
-      &lt;!&ndash; 若有必要可以塞入额外内容 &ndash;&gt;
-&lt;!&ndash;      <template #extraContent>
+      <!-- 若有必要可以塞入额外内容 -->
+<!--      <template #extraContent>
         <el-col key='extraContent' :span='24'>
           额外内容
         </el-col>
-      </template>&ndash;&gt;
+      </template>-->
     </FormConfig>
     <el-row>
       <el-col :span="8" :xs="{span: 11, offset:2}">
         <el-button type="primary" size="small" @click="filterHandler">查找</el-button>
-        <el-button type="primary" size="small" @click="resetForm">重置</el-button>
+        <el-button type="primary" size="small" @click="resetHandler">重置</el-button>
       </el-col>
-    </el-row>-->
+    </el-row>
 		<!-- 公用搜索组件 -->
 		<SearchForm ref="searchForm" v-model:searchParams="searchParams" :forms="forms" />
 		<el-button @click="toggleForm">toggleForm</el-button>
@@ -442,9 +442,10 @@ export default defineComponent({
 			}
 		},
 		// 重置form表单参数
-		resetForm() {
+		resetHandler() {
 			// @ts-ignore
-			this.$refs['form'].resetForm()
+			// window.form = this.$refs['form']
+			this.$refs['form']!.resetHandler()
 		},
 		filterHandler() {
 			const _form = this.$refs['form']
