@@ -37,7 +37,8 @@ export default defineConfig(({ mode /*command,*/ }: ConfigEnv): UserConfig => {
 		resolve: {
 			// Vite路径别名配置
 			alias: {
-				'@': path.resolve(__dirname, './src')
+				'@': path.resolve(__dirname, './src'),
+				'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js'
 			},
 			extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.vue', '.json'] // 默认 ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
 		},
