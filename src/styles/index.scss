@@ -4,6 +4,7 @@
 @import 'src/styles/element-plus';
 @import './sidebar.scss';
 @import './reset.scss';
+@import './project_normal.scss';
 
 body {
 	margin: 0;
@@ -12,13 +13,13 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
-	font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+	//font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
 	font-size: 12px;
 }
 
-label {
+/*label {
 	font-weight: 700;
-}
+}*/
 
 html {
 	height: 100%;

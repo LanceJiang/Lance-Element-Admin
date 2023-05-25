@@ -21,5 +21,26 @@ export default {
 	navbar: {
 		dashboard: '首页',
 		logout: '退出登录'
+	},
+	example: {
+		forms: {
+			test1_select: '测试1_选择'
+		},
+		table: {
+			user: '客户',
+			orderNo: '订单号',
+			skuQty: '商品数',
+			outboundNo: '出库单号',
+			location: '库位',
+			multiple: '一票多件',
+			store: '店铺',
+			action: '操作'
+		},
+		validate: {
+			validateEmptyTips: '{name}不能为空'
+		},
+		message: {
+			editSuccess: '编辑成功'
+		}
 	}
 }

@@ -46,6 +46,19 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 			}
 		]
 	},
+	{
+		path: '/form',
+		component: Layout,
+		redirect: '/default',
+		children: [
+			{
+				path: 'default',
+				component: () => import('@/views/form/default.vue'),
+				name: 'Form',
+				meta: { title: 'Form', icon: 'excel' }
+			}
+		]
+	},
 	// 仅用于研发测试 START
 	{
 		path: '/test',

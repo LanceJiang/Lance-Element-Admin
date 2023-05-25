@@ -5,12 +5,15 @@ import { ls } from '@/utils'
 // 本地语言包
 import enLocale from './en'
 import zhCnLocale from './zh-cn'
-
+import EnAdbLocale from '@/lang/adber/en'
+import CNAdbLocale from '@/lang/adber/zh-cn'
 const messages = {
 	'zh-cn': {
+		...CNAdbLocale,
 		...zhCnLocale
 	},
 	en: {
+		...EnAdbLocale,
 		...enLocale
 	}
 }

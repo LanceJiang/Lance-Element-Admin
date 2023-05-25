@@ -1,22 +1,62 @@
 <script lang="tsx">
-import OnlyShowItem from './customizeFormItem/OnlyShowItem'
-import {defineComponent, watch, computed, ref, reactive, unref} from 'vue'
+import {defineComponent, watch, computed, ref, reactive, unref, h } from 'vue'
 import { useI18n } from 'vue-i18n'
-
+// import { t } from '@adber/adber-ui/src/locale'
+// import InputNumber from '@adber/adber-ui/packages/InputNumber'
+import InputNumber from './customizeFormItem/InputNumber'
+// import InputNumberRange from '@adber/adber-ui/packages/InputNumberRange'
+// import CustomRender from '@adber/adber-ui/packages/CustomRender'
+import CustomRender from './customizeFormItem/CustomRender'
+// import AdSelect from '@adber/adber-ui/packages/Select'
+// import { renderSelectOption } from '@adber/adber-ui/src/utils/slotsUtils' // todo
+/**
+ * select Option 自定义 渲染
+ * @param slots
+ * @param slotOption
+ * @param option
+ * @param label
+ * @returns {*}
+ */
+export const renderSelectOption = function(slots, slotOption, option, label) {
+	if (slotOption) {
+		const args = [{
+			option,
+			label
+		}]
+		let scopedSlots_option = slotOption
+		if (typeof slotOption === 'string') {
+			scopedSlots_option = slots[slotOption]
+		} else {
+			// todo....
+			args.unshift(h)
+		}
+		if (typeof scopedSlots_option === 'function') {
+			// scopedSlots
+			return scopedSlots_option(...args)
+		}
+	}
+	return label
+}
 const formConfigProps = {
 	forms: {
 		type: Array,
 		required: true
 		// [{
+		//   t_label: String, // 多语言转义
 		//   label: String,
-		//   prop: [String, Array],
+		//   t_placeholder: String, // 多语言转义
+		//   placeholder: String,
+		//   prop: String,
+		//   props: Array, // 当前Item额外数据
 		//   itemType: String,
 		//   size: String,
 		//   options: Array,
 		//   valueKey: String,
 		//   labelKey: String,
-		//   format: Function, // 提交前的数据修改
+		//   formValueFormat: Function, // 提交前的数据修改
 		//   rules: Array
+		//   render?: function(h, { form, params }) { JSX || createElement } // itemType === 'render' 专用
+		//   i18n: Boolean (option label展示)多语言转义
 		// }]
 	},
 	formData: {
@@ -47,17 +87,17 @@ const default_formConfig = {
 	// 是否展示 底部操作集合
 	showFooter: true,
 	// footer下的 提交按钮 描述
-	submitBtnText: '提交',
+	submitBtnText: 'adb.btn.confirm',
 	// footer下的 提交按钮loading
 	submitLoading: false,
 	// footer下的 取消按钮 是否显示
 	showCancelBtn: false,
 	// footer下的 取消按钮 text
-	cancelBtnText: '取消',
+	cancelBtnText: 'adb.btn.cancel',
 	// footer下的 重置按钮 是否显示
 	showResetBtn: false,
 	// footer下的 重置按钮 text
-	resetBtnText: '重置',
+	resetBtnText: 'adb.btn.reset',
 
 	/**
 	 * element中的配置
@@ -70,9 +110,12 @@ const default_formConfig = {
 	size: 'default'
 }
 const FormConfig = defineComponent({
-	name: 'FormConfig',
+	name: 'AdFormConfig',
 	components: {
-		OnlyShowItem
+		CustomRender,
+		InputNumber,
+		// InputNumberRange,
+		// AdSelect
 	},
 	emits: formConfigEmits,
 	props: formConfigProps,
@@ -125,7 +168,17 @@ const FormConfig = defineComponent({
 				state.params = params
 			}
 		}
-
+		const get_formSlotLabel = (slotOption) => {
+			if (!slotOption) return
+			if (typeof slotOption === 'string') {
+				// return this.$scopedSlots[slotOption]
+				return ctx.slots[slotOption]
+			} else {
+				// fn
+				return () => slotOption(h)
+				// return slotOption(h)
+			}
+		}
 		const cancelHandler = () => {
 			ctx.emit('cancel')
 		}
@@ -140,16 +193,16 @@ const FormConfig = defineComponent({
 					ctx.emit('submit', params)
 				} else {
 					console.warn(error, '错误rule数组.... 如果需要对该错误数组 操作 请在此处添加')
-					// eg:
-					/* var errObj = error;
-                        // 提示弹窗的 示例代码
-                        var keys = Object.keys(errObj);
-                        console.log(errObj[keys[0]], 'errObj[keys[0]]');
-                        var errTipObj = (errObj[keys[0]][0] || {});
-                        debugger;
-                        if (errTipObj.message) {
-                            this.$message.error(errTipObj.message)
-                        }*/
+					/*// eg:
+					var errObj = error;
+					// 提示弹窗的 示例代码
+					var keys = Object.keys(errObj);
+					console.log(errObj[keys[0]], 'errObj[keys[0]]');
+					var errTipObj = (errObj[keys[0]][0] || {});
+					debugger;
+					if (errTipObj.message) {
+							console.error(errTipObj.message)
+					}*/
 				}
 			})
 		}
@@ -244,6 +297,7 @@ const FormConfig = defineComponent({
 			const {
 				showLabel,
 				size,
+				gutter,
 				span,
 				showFooter,
 				submitBtnText,
@@ -258,8 +312,7 @@ const FormConfig = defineComponent({
 			const itemRender = form => {
 				// const propKey = form.prop
 				const { prop, itemType, itemWidth, options, change, itemStyle: form_itemStyle = '', itemClass, size: _size, placeholder,
-					t_placeholder,
-					on: form_on, ...formOthers } = form
+					t_placeholder, ...formOthers } = form
 				const _options = options || []
 				const _itemStyle = unref(itemStyle) + form_itemStyle + (itemWidth ? `width: ${itemWidth};` : '')
 				const _placeholder = t_placeholder ? t(t_placeholder) : placeholder
@@ -267,45 +320,102 @@ const FormConfig = defineComponent({
 				if (disabled === undefined) {
 					disabled = isEdit === false
 				}
+				// 优化后的 change事件
+				const formatterChange = async () => {
+					console.log(params[prop], 'params[prop]', _options)
+					if (change) {
+						// onChange={() => change && change(params[prop], _options, params)}
+						return change(params[prop], _options, params)
+					}
+				}
+				const render_selectOptions = () => {
+					return _options.map((option) => {
+						let value = option
+						let label = option
+						let disabled = false
+						if (typeof option === 'object') {
+							value = option[form.valueKey || 'value']
+							label = option[form.labelKey || 'label']
+							if (form.i18n) label = t(label)
+							disabled = option.disabled
+						}
+						return <el-option
+							key={value}
+							value={value}
+							label={label}
+							disabled={disabled}
+							title={label}>
+							{renderSelectOption.call(null, ctx.slots, form.slotOption, option, label)}
+						</el-option>
+					})
+				}
 				switch (itemType) {
+					/* 自定义 adber 自定义Select */
+					/*case 'adSelect' :
+						return <AdSelect
+							class={itemClass}
+							v-model={params[prop]}
+							{...formOthers}
+							isPopover={formOthers.isPopover ?? true}
+							popperAppendToBody={formOthers.popperAppendToBody ?? true}
+							onChange={formatterChange}
+							size={_size ?? size}
+							placeholder={_placeholder}
+							style={_itemStyle}
+						>
+							{render_selectOptions()}
+						</AdSelect>*/
 					/* 自定义 render */
-					/*case 'render' :
-						return 'todo'*/
+						/* todo... */
+					case 'render' :
+						return <CustomRender
+							form={form}
+							params={params}
+						/>
 					/* 下拉框 */
 					case 'select':
 						return (
 							<el-select
-								v-model={params[prop]}
+								class={itemClass}
 								{...formOthers}
-								onChange={() => change && change(params[prop], _options, params)}
+								v-model={params[prop]}
+								onChange={formatterChange}
 								style={_itemStyle}
 								disabled={disabled}
 								size={_size ?? size}
-								placeholder={form.placeholder || `请选择${form.label}`}
+								placeholder={_placeholder}
 							>
-								{_options.map((option, optionIndex) => {
-									const value = typeof option === 'object' ? option[form.valueKey || 'value'] : option
-									const label = typeof option === 'object' ? option[form.labelKey || 'label'] : option
-									return <el-option key={value} label={label} value={value} />
-								})}
+								{render_selectOptions()}
 							</el-select>
 						)
 					/* 单选框 */
 					case 'radio':
 						return (
 							<el-radio-group
-								v-model={params[prop]}
+								class={itemClass}
 								{...formOthers}
+								v-model={params[prop]}
 								disabled={disabled}
 								size={_size ?? size}
-								onChange={() => change && change(params[prop], _options, params)}
+								onChange={formatterChange}
 								style={_itemStyle}
 							>
 								{_options.map((option, optionIndex) => {
-									const value = typeof option === 'object' ? option[form.valueKey || 'value'] : option
-									const label = typeof option === 'object' ? option[form.labelKey || 'label'] : option
+									let value = option
+									let label = option
+									let disabled = false
+									if (typeof option === 'object') {
+										value = option[form.valueKey || 'value']
+										label = option[form.labelKey || 'label']
+										if (form.i18n) label = t(label)
+										disabled = option.disabled
+									}
 									return (
-										<el-radio key={optionIndex + '_local'} label={value}>
+										<el-radio
+											key={`${optionIndex}_local`}
+											label={value}
+											disabled={disabled}
+											title={label}>
 											{label}
 										</el-radio>
 									)
@@ -316,93 +426,100 @@ const FormConfig = defineComponent({
 					case 'cascader':
 						return (
 							<el-cascader
-								v-model={params[prop]}
+								class={itemClass}
 								{...formOthers}
-								onChange={() => change && change(params[prop], _options, params)}
+								v-model={params[prop]}
+								onChange={formatterChange}
 								style={_itemStyle}
 								disabled={disabled}
 								size={_size ?? size}
 								clearable={form.clearable ?? true}
 								filterable={form.filterable ?? true}
 								options={_options}
-								placeholder={form.placeholder || `请选择${form.label}`}
+								placeholder={_placeholder}
 							/>
 						)
 					/* 数字 */
 					case 'inputNumber':
 						return (
-							<el-input-number
-								class="rate100"
+							// <el-input-number
+							<InputNumber
+								class={`rate100 ${itemClass}`}
 								{...formOthers}
 								v-model={params[prop]}
-								onChange={() => change && change(params[prop], _options, params)}
+								onChange={formatterChange}
 								style={_itemStyle}
 								disabled={disabled}
-								placeholder={form.placeholder || `${form.label || ''}`}
+								placeholder={_placeholder}
 								size={_size ?? size}
 								precision={form.precision || 0}
 							/>
 						)
-					/*return <InputNumber
-						class="rate100 todo"
-						{ ...formOthers }
-						v-model:value={params[prop]}
-						onChange={() => change && change(params[prop], _options, params)}
-						style={_itemStyle}
-						disabled={disabled}
-						precision={form.precision || 0}
-					/>*/
-					/* 日期选择 */
+					/* /!* 数字区间 *!/
+					case 'InputNumberRange':
+						return (
+							<InputNumberRange
+								class={itemClass}
+								{...formOthers}
+								v-model={params}
+								onChange={(e, propKey) => change && change(params, _options, params, propKey)}
+								style={_itemStyle}
+								disabled={disabled}
+								placeholder={_placeholder}
+								size={_size ?? size}
+								precision={form.precision || 0}
+							/>
+						) */
+					/* 日期选择(单日期 || 日期区间) */
 					case 'datePicker':
-						let dateOpts = {}
+						let dateOpts: any = {}
 						dateOpts.valueFormat = form.valueFormat || 'MM/DD/YYYY'
 						dateOpts.format = form.format || dateOpts.valueFormat
 						// 区间类型
 						if (/range$/.test(form.type || '')) {
 							dateOpts = Object.assign(dateOpts, {
-								// startPlaceholder: t(form.startPlaceholder || 'adb.filter.startDate'),
-								// endPlaceholder: t(form.endPlaceholder || 'adb.filter.endDate'),
-								unlinkPanels: form.unlinkPanels ?? true // 双面板联动
+								startPlaceholder: t(form.startPlaceholder || 'adb.filter.startDate'),
+								endPlaceholder: t(form.endPlaceholder || 'adb.filter.endDate'),
+								unlinkPanels: form.unlinkPanels ?? true // 解除联动
 							})
 						} else {
 							dateOpts.placeholder = _placeholder || t('adb.filter.selectDate')
 						}
 						return (
 							<el-date-picker
-								v-model={params[prop]}
+								class={itemClass}
 								{...formOthers}
-								onChange={() => change && change(params[prop], _options, params)}
+								{...dateOpts}
+								v-model={params[prop]}
+								onChange={formatterChange}
 								style={_itemStyle}
 								disabled={disabled}
 								size={_size ?? size}
-								placeholder={form.placeholder || `请选择${form.label}`}
-								value-format={form.valueFormat || 'YYYY-MM-DD'}
 							/>
 						)
 					/* switch */
 					case 'switch':
 						return (
 							<el-switch
-								v-model={params[prop]}
 								{...formOthers}
+								v-model={params[prop]}
 								size={_size ?? size}
-								onChange={() => change && change(params[prop], _options, params)}
+								onChange={formatterChange}
 								disabled={disabled}
 							/>
 						)
-					/* 纯展示 */
-					case 'onlyShow':
-						return <OnlyShowItem form={form} params={params} formData={formData} />
 					case 'input':
 					default:
 						return (
 							<el-input
-								v-model={params[prop]}
+								class={itemClass}
 								{...formOthers}
+								maxlength={formOthers.maxlength}
+								v-model={params[prop]}
 								size={_size ?? size}
-								onChange={() => change && change(params[prop], _options, params)}
+								onChange={formatterChange}
 								disabled={disabled}
-								placeholder={form.placeholder || `请输入${form.label}`}
+								placeholder={_placeholder}
 								style={_itemStyle}
 							/>
 						)
@@ -411,31 +528,48 @@ const FormConfig = defineComponent({
 			const createFooter = () => {
 				return (
 					<div class="footer">
-						{showResetBtn && (
-							<el-button plain size={size} onClick={resetHandler.bind(null, undefined)}>
-								{resetBtnText}
-							</el-button>
-						)}
 						{showCancelBtn && (
-							<el-button size={size} onClick={cancelHandler}>
-								{cancelBtnText}
+							<el-button class="cancel-button" size={size} onClick={cancelHandler}>
+								{t(cancelBtnText)}
 							</el-button>
 						)}
-						<el-button type="primary" size={size} loading={submitLoading} onClick={submitHandler}>
-							{submitBtnText}
-						</el-button>
+						<div class="right-actions">
+							{showResetBtn && (
+								<el-button class="reset-button" plain size={size} onClick={resetHandler.bind(null, undefined)}>
+									{t(resetBtnText)}
+								</el-button>
+							)}
+							<el-button class="submit-button" type="primary" size={size} loading={submitLoading} onClick={submitHandler}>
+								{t(submitBtnText)}
+							</el-button>
+						</div>
 					</div>
 				)
 			}
-
 			return (
-				<el-form ref={formRef} class="formConfig_wrap" model={params} {...form_config} size={size}>
-					<el-row class={`form_wrap ${showLabel === false && 'hideLabel'}`}>
+				<el-form
+					ref={formRef}
+					class={`ad-form-config ad-form-config--${size}`}
+					{ ...form_config }
+					size={size}
+					model={params}
+				>
+					<el-row class={`form_wrap ${showLabel === false && 'hideLabel'}`} gutter={gutter}>
 						{forms.map((form, idx) => {
-							const { span: _span, ...others } = form
+							const { span: _span, t_label, label, ...others } = form
+							const slot_label = get_formSlotLabel(form.slotLabel)
+							const formItemSlots: any = {}
+							if(slot_label) formItemSlots.label = slot_label
+							const _label = t_label ? t(t_label) : label
 							return (
 								<el-col key={idx} span={_span ?? span}>
-									<el-form-item {...others}>{itemRender(form)}</el-form-item>
+									<el-form-item
+										{...others}
+										label={_label}
+										v-slots={formItemSlots}
+									>
+										{itemRender(form)}
+									</el-form-item>
 								</el-col>
 							)
 						})}
@@ -449,6 +583,7 @@ const FormConfig = defineComponent({
 	}
 })
 export default FormConfig
+
 /**
  * eg:  示例  实例参考 TestForm.vue
  */
@@ -485,156 +620,8 @@ export default FormConfig
                 ]
             }
         ]
-    }*/
+    } */
 </script>
-
-<style scoped lang="scss">
-$themeColor: #ebeef5;
-$themeBgColor: #f9f9f9;
-.formConfig_wrap {
-	.form_wrap {
-		max-height: 70vh;
-		overflow-y: auto;
-	}
-	/* 隐藏formItem label */
-	.hideLabel {
-		&::v-deep(.el-form-item__label) {
-			display: none;
-		}
-	}
-	.footer {
-		padding-top: 10px;
-		border-top: 1px solid #dcdfe6;
-		text-align: right;
-	}
-	/*::v-deep {
-    .text {
-      margin-left: 10px;
-    }
-    .el-col {
-      !*padding: 10px 10px 0 0 !important;*!
-      border-bottom: 0;
-    }
-    .labelHidden {
-      color: transparent;
-    }
-    .el-select,
-    .el-input-number,
-    .el-cascader,
-    .el-date-editor.el-input {
-      // date 样式
-      width: 100%;
-    }
-    .el-date-editor--daterange.el-input__inner {
-      // dateRange样式
-      height: 29px;
-      width: calc(100% - 20px);
-      margin-left: 10px;
-    }
-    .el-date-editor .el-range-separator {
-      // 拆分器 样式
-      line-height: 29px;
-    }
-    .el-col-24 {
-      .el-form-item__label {
-        width: 16.67%;
-      }
-      .el-form-item__content {
-        margin-left: 16.67%;
-        background: #fff;
-      }
-    }
-    !*.el-form-item {
-            margin-bottom: 12px;
-          }*!
-    // 给inputNumber 添加的样式类名
-    .textCenter .el-input__inner {
-      text-align: center;
-    }
-  }*/
-}
-/*!* 如果表单有其他的 样式 可参照此处修改 来更改类名 在父级调用 写class 请用 父级类 包裹 *!
-.defaultFormWrapClass {
-	border: 1px solid $themeColor;
-	border-bottom: 0;
-	::v-deep {
-		.el-row {
-			display: flex;
-			flex-wrap: wrap;
-		}
-		.el-form-item {
-			background-color: $themeBgColor;
-			margin-bottom: 0;
-			border-bottom: 1px solid $themeColor;
-			height: 100%;
-			&:last-child {
-				border-bottom: 0;
-			}
-		}
-		.el-form-item__label {
-			width: 33.33333%;
-			color: #444;
-			vertical-align: middle;
-		}
-		.el-form-item__content {
-			margin-left: 33.33333%;
-			border-left: 1px solid $themeColor;
-			background: #fff;
-			height: 100%; !* old End *!
-			> div {
-				box-sizing: border-box;
-				width: 100%;
-				padding: 0 10px;
-				&:first-child {
-					margin-top: 4px;
-					margin-bottom: 12px;
-				}
-				.el-input__suffix {
-					right: 15px;
-				}
-				.el-input__prefix {
-					left: 15px;
-				}
-				!* inputNumber样式 *!
-				&.el-input-number {
-					.el-input__inner {
-						text-align: left;
-					}
-					.el-input-number__decrease,
-					.el-input-number__increase {
-						right: 11px;
-					}
-				}
-			}
-			> .el-form-item__error {
-				// 给错误提示更改位置
-				!*transform: translate(0, -18px);*!
-				transform: translate(0, -12px);
-				top: auto;
-			}
-			.areaItem .showNum {
-				// 兼容自定义 textArea组件的 数字展示
-				!*bottom: -14px;
-                    right: 5px;*!
-				bottom: -18px;
-				right: 10px;
-			}
-		}
-		.el-col {
-			border-bottom: 1px solid $themeColor !important;
-			flex: 0 0 auto;
-		}
-
-		@media only screen and (max-width: 767px) {
-			// 兼容手机端 样式
-			.el-row {
-				.el-col-12 {
-					&:nth-last-child(2) {
-						border-bottom: 1px solid $themeColor !important;
-					}
-				}
-			}
-		}
-	}
-}*/
+<style lang="scss">
+@import '@/styles/adber/formConfig';
 </style>

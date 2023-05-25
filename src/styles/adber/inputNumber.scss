@@ -1,0 +1,126 @@
+@import "../variables.scss";
+// InputNumber 样式
+.#{$prefix}input-number {
+  //position: relative;
+  //font-size: 14px;
+  //font-variant: tabular-nums;
+  //display: table;
+  display: flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  color: $ad-color_1;
+  width: 150px;
+  &.rate100 {
+    width: 100%;
+  }
+  &--prefix {
+    .el-input-number {
+      .el-input__wrapper {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        //border: 1px solid $ad-border-color_1;
+        //border-left-width: 0;
+      }
+    }
+  }
+  &--suffix {
+    .el-input-number {
+      .el-input__wrapper {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        //border: 1px solid $ad-border-color_1;
+        //border-right-width: 0;
+      }
+    }
+  }
+  .el-input-number {
+    //display: table-cell; // todo
+    width: 100%;
+    flex: 1;
+		//height: fit-content;
+    /* float: left; */
+    //margin-bottom: 0;
+    //text-align: inherit;
+    /*.el-input__wrapper {
+      //border-radius: 6px;
+      //border: 1px solid $ad-border-color_1;
+    }*/
+  }
+  .ad-addon {
+    position: relative;
+    //display: table-cell;
+    display: flex;
+    align-items: center;
+    width: unset;
+    padding: 0 10px;
+    color: $ad-color_1;
+    //font-weight: 400;
+    //font-size: 14px;
+    text-align: center;
+    //background-color: #fafafa;
+    //background-color: $ad-border-color_3;
+    transition: all .3s;
+		line-height: initial; // todo
+
+    &.ad-input-number__prefix {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+      border: 1px solid $ad-border-color_1;
+      border-right-width: 0;
+    }
+    &.ad-input-number__suffix {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border: 1px solid $ad-border-color_1;
+      border-left-width: 0;
+    }
+  }
+
+  // size类型样式覆盖
+  &--mini {
+    .ad-addon {
+      padding: 0 8px;
+    }
+  }
+}
+// InputNumberRange 样式(inputNumber 区间)
+.#{$prefix}input-number-range {
+  display: inline-flex;
+  //align-items: center;
+  &_addon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: unset;
+    //padding: 0 10px;
+    color: $ad-color_1;
+    text-align: center;
+    transition: all .3s;
+    padding-left: 4px;
+    padding-right: 4px;
+
+    // 前置
+    &.prepend {
+      //padding-left:
+    }
+    // 后置
+    &.append {
+      padding-left: 4px;
+      padding-right: 8px;
+    }
+  }
+  &_line {
+    padding: 0 12px;
+    align-self: center;
+    //text-align: center;
+  }
+  // min
+  &_start {
+  }
+  // max
+  &_end {
+  }
+  .#{$prefix}input-number {
+    flex: 1;
+  }
+}

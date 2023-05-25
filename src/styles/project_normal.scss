@@ -1,0 +1,46 @@
+body {
+	font-family: $ad-family;
+	font-size: 14px;
+}
+// 页面公用样式 flex column 外壳
+.flex-column-page-wrap {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+// 单行超出隐藏
+.text-overflow-hidden {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.common_title {
+	position: relative;
+	display: flex;
+	align-items: center;
+	//line-height: 22px;
+	padding: 12px 0;
+	font-size: 14px;
+	color: rgba(0, 0, 0, 0.85);
+	&:before {
+		content: '';
+		width: 3px;
+		height: 16px;
+		margin-right: 6px;
+		background: #4097fd;
+	}
+}
+
+// 全局滚动条样式
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{border-radius:6px;background: #FAFAFA;}
+::-webkit-scrollbar-track:hover{background-color:rgba(0,0,0,0.06);box-shadow:0 0 0 #fff inset,0 0 0 rgba(255,255,255,0.9) inset,0 0 0 rgba(255,255,255,0.9) inset,0 0 0 rgba(255,255,255,0.9) inset}
+::-webkit-scrollbar-track:active{background-color:rgba(0,0,0,0.1)}
+::-webkit-scrollbar-thumb{border-radius:6px;background-color:rgba(0,0,0,0.1);box-shadow:0 0 0 #fff inset,0 0 0 #fff inset,0 0 0 rgba(255,255,255,0.9) inset,0 0 0 rgba(255,255,255,0.9) inset}
+::-webkit-scrollbar-thumb:hover{background-color:rgba(0,0,0,0.4)}
+::-webkit-scrollbar-thumb:active{background:rgba(0,0,0,0.6)}

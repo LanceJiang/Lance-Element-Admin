@@ -46,9 +46,10 @@ export default defineConfig(({ mode /*command,*/ }: ConfigEnv): UserConfig => {
 			__APP_INFO__: JSON.stringify(__APP_INFO__)
 		},
 		css: {
+			devSourcemap: true,
 			preprocessorOptions: {
 				scss: {
-					// additionalData: `@import "@/styles/var.scss";`
+					additionalData: `@import "@/styles/variables.scss";`
 				}
 			}
 		},

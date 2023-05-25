@@ -22,5 +22,26 @@ export default {
 	navbar: {
 		dashboard: 'Dashboard',
 		logout: 'Logout'
+	},
+	example: {
+		forms: {
+			test1_select: 'test1_select'
+		},
+		table: {
+			user: 'User',
+			orderNo: 'Order No.',
+			skuQty: 'SKU Qty',
+			outboundNo: 'Outbound No.',
+			location: 'Location',
+			multiple: 'Multiple',
+			store: 'Store',
+			action: 'Action'
+		},
+		validate: {
+			validateEmptyTips: '{name} is required'
+		},
+		message: {
+			editSuccess: 'Edit Success'
+		}
 	}
 }
