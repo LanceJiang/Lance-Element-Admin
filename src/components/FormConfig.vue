@@ -1,6 +1,7 @@
 <script lang="tsx">
 import OnlyShowItem from './customizeFormItem/OnlyShowItem'
-import { defineComponent, watch, computed, ref, reactive } from 'vue'
+import {defineComponent, watch, computed, ref, reactive, unref} from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const formConfigProps = {
 	forms: {
@@ -76,6 +77,7 @@ const FormConfig = defineComponent({
 	emits: formConfigEmits,
 	props: formConfigProps,
 	setup(props, ctx) {
+		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
 		const setItemData = (value, defaultValue?) => {
 			if (typeof value !== 'boolean' && typeof value !== 'number') {
@@ -85,22 +87,25 @@ const FormConfig = defineComponent({
 		}
 		const changeFormData = (formData, isInit?) => {
 			const { forms } = props,
-				params = {}
-			const bindProps = []
+				params = {},
+				bindProps = []
 			forms.forEach((v, i) => {
 				const _prop = v.prop,
 					propType = typeof _prop,
 					props = v.props // 绑定的其他数据
 				if (propType === 'string') {
 					params[_prop] = setItemData(formData[_prop]) // 数据初始化
-					if (v.itemType === 'dateRange') {
-						const startKey = v.startKey || `${_prop}Start`,
-							endKey = v.endKey || `${_prop}End`,
-							hasDate = formData[startKey] && formData[endKey]
-						// 仅当 初始日期 和 结束日期 都有的情况下 才赋值 prop值
-						// （只有一个值时，存在 rangeDate不展示对应数据，点选日期 也被置回1970年 的问题）
-						params[_prop] = hasDate ? [formData[startKey], formData[endKey]] : formData[_prop] || undefined
-					} else if (v.itemType === 'cascader') {
+					/* if (v.itemType === 'dateRange') {
+            const propStart = v.propStart || `${_prop}Start`
+            const propEnd = v.propEnd || `${_prop}End`
+            const hasDate = formData[propStart] && formData[propEnd]
+            // 仅当 初始日期 和 结束日期 都有的情况下 才赋值 prop值
+            // （只有一个值时，存在 rangeDate不展示对应数据，点选日期 也被置回1970年 的问题）
+            params[_prop] = hasDate
+              ? [formData[propStart], formData[propEnd]]
+              : formData[_prop] || undefined
+          } else */
+					if (v.itemType === 'cascader') {
 						// 级联数据为数组
 						params[_prop] = params[_prop] || [] // 变成数组  // 若不是数组 怎么操作
 					}
@@ -108,11 +113,7 @@ const FormConfig = defineComponent({
 					if (Array.isArray(props)) {
 						bindProps.push(...props)
 					}
-				} /* else if (_this.isArray(_prop)) {
-          _prop.forEach(vv => {
-            params[vv] = formData[vv] || ''
-          })
-        }*/
+				}
 			})
 			// 赋值其他被绑的的值
 			bindProps.map(prop => {
@@ -155,22 +156,22 @@ const FormConfig = defineComponent({
 		const getParams = (callback, unValidate = false) => {
 			const _getParams = () => {
 				const { forms } = props
-				const { params, formats } = state
+				const { params, formValueFormats } = state
 				const formattedForm = {} // 最后提交后台使用的params对象
 				forms.forEach(form => {
 					const key = form.prop
 					if (key) {
-						// 对应的form 内部设置有 formats 函数的值做提交前的最后操作 fn(value, key)
-						if (form.itemType === 'dateRange' && form.startKey) {
-							// 含有startKey 表示拆分出来
-							const startKey = form.startKey // || key + 'Start'
-							const endKey = form.endKey // || key + 'End'
+						// 对应的form 内部设置有 formValueFormats 函数的值做提交前的最后操作 fn(value, key)
+						/* if (form.itemType === 'dateRange' && form.propStart) {
+							// 含有propStart 表示拆分出来
+							const { propStart } = form // || key + 'Start'
+							const { propEnd } = form // || key + 'End'
 							const [startDate, endDate] = params[key] || []
-							formattedForm[startKey] = startDate
-							formattedForm[endKey] = endDate
-						} else {
-							formattedForm[key] = formats[key] ? formats[key](params, key) : params[key]
-						}
+							formattedForm[propStart] = startDate
+							formattedForm[propEnd] = endDate
+						} else { */
+						formattedForm[key] = formValueFormats[key] ? formValueFormats[key](params, key) : params[key]
+						// }
 					}
 					// 对含有 其他prop的数据 赋值
 					if (Array.isArray(form.props)) {
@@ -200,19 +201,20 @@ const FormConfig = defineComponent({
 				formRef.value.resetFields()
 			}
 		}
-		watch(props.formData, (newData, oldData) => {
-			// console.warn(newData, oldData, 'newFormData, oldFormData  formData 发生改变 ... 监听  formData... 触发此处...')
+		watch(() => props.formData, (newData, oldData) => {
+			console.warn(JSON.stringify(newData), JSON.stringify(oldData), 'newFormData, oldFormData  formData 发生改变 ... 监听  formData... 触发此处...')
 			changeFormData(newData)
 		})
 		// 本地数据
 		const state = reactive({
 			params: changeFormData(props.formData, true),
-			formats: props.forms.reduce((res, v) => {
-				const { prop, format } = v
-				if (format) {
-					// 遍历 集成format对象
-					res[prop] = format
+			formValueFormats: props.forms.reduce((res, v) => {
+				const { prop, formValueFormat } = v
+				if (formValueFormat) {
+					// 遍历 集成formValueFormat对象
+					res[prop] = formValueFormat
 				}
+				return res
 			}, {})
 		})
 		const local_formConfig = computed(() => {
@@ -222,7 +224,7 @@ const FormConfig = defineComponent({
 			}
 		})
 		const itemStyle = computed(() => {
-			const { itemWidth } = this.formConfig
+			const { itemWidth } = props.formConfig
 			if (itemWidth) {
 				return `width: ${itemWidth};`
 			}
@@ -251,12 +253,16 @@ const FormConfig = defineComponent({
 				showCancelBtn,
 				showResetBtn,
 				...form_config
-			} = local_formConfig
+			} = unref(local_formConfig)
+
 			const itemRender = form => {
 				// const propKey = form.prop
-				const { prop, itemType, itemWidth, options, change, itemStyle: form_itemStyle = '', size: _size, ...formOthers } = form
+				const { prop, itemType, itemWidth, options, change, itemStyle: form_itemStyle = '', itemClass, size: _size, placeholder,
+					t_placeholder,
+					on: form_on, ...formOthers } = form
 				const _options = options || []
-				const _itemStyle = itemStyle + form_itemStyle + (itemWidth ? `width: ${itemWidth};` : '')
+				const _itemStyle = unref(itemStyle) + form_itemStyle + (itemWidth ? `width: ${itemWidth};` : '')
+				const _placeholder = t_placeholder ? t(t_placeholder) : placeholder
 				let disabled = form.disabled
 				if (disabled === undefined) {
 					disabled = isEdit === false
@@ -347,7 +353,20 @@ const FormConfig = defineComponent({
 						precision={form.precision || 0}
 					/>*/
 					/* 日期选择 */
-					case 'date':
+					case 'datePicker':
+						let dateOpts = {}
+						dateOpts.valueFormat = form.valueFormat || 'MM/DD/YYYY'
+						dateOpts.format = form.format || dateOpts.valueFormat
+						// 区间类型
+						if (/range$/.test(form.type || '')) {
+							dateOpts = Object.assign(dateOpts, {
+								// startPlaceholder: t(form.startPlaceholder || 'adb.filter.startDate'),
+								// endPlaceholder: t(form.endPlaceholder || 'adb.filter.endDate'),
+								unlinkPanels: form.unlinkPanels ?? true // 双面板联动
+							})
+						} else {
+							dateOpts.placeholder = _placeholder || t('adb.filter.selectDate')
+						}
 						return (
 							<el-date-picker
 								v-model={params[prop]}
@@ -360,23 +379,6 @@ const FormConfig = defineComponent({
 								value-format={form.valueFormat || 'YYYY-MM-DD'}
 							/>
 						)
-					/* 日期区间 */
-					case 'dateRange':
-						return (
-							<el-date-picker
-								v-model={params[prop]}
-								type="daterange"
-								{...formOthers}
-								startPlaceholder={form.startPlaceholder ?? '开始日期'}
-								endPlaceholder={form.startPlaceholder ?? '结束日期'}
-								size={_size ?? size}
-								onChange={() => change && change(params[prop], _options, params)}
-								style={_itemStyle}
-								disabled={disabled}
-								value-format={form.valueFormat || 'YYYY-MM-DD'}
-							/>
-						)
-					// </el-date-picker>
 					/* switch */
 					case 'switch':
 						return (
