@@ -28,7 +28,7 @@
 import FormConfig from './FormConfig'
 
 export default {
-	name: 'DialogForm',
+	name: 'FormConfigDialog',
 	components: {
 		FormConfig
 	},

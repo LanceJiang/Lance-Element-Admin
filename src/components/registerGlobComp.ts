@@ -1,7 +1,7 @@
 import { App } from 'vue'
 //全局引用icon图标
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import DialogForm from './DialogForm.vue'
+import DialogForm from './FormConfigDialog.vue'
 import FormConfig from './FormConfig.vue'
 import SearchForm from './SearchForm.vue'
 import TableComponent from '@/components/Table/index'
