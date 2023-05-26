@@ -1,0 +1,199 @@
+/* adber-element-ui: 涉及element-ui的全局样式类改造&&新增修饰 */
+@import "variables.scss";
+// 覆盖默认的 element-ui 样式
+
+.el-form-item__label {
+  color: $ad-color_1;
+}
+
+// dialog覆盖样式
+// <el-dialog customClass="ad-dialog"/>
+%el-dialog {
+  position: absolute;
+  margin: 0 !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  border-radius: 6px;
+  //max-height: calc(100% - 48px);
+  max-height: calc(100% - 24px);
+  max-width: calc(100% - 24px);
+}
+.#{$prefix}dialog {
+  &.el-dialog {
+    @extend %el-dialog;
+  }
+
+  .el-dialog__header {
+    display: flex;
+    padding: 16px 24px;
+    align-items: center;
+    justify-content: space-between;
+    background: #E3E9F1;
+    text-align: left;
+		margin-right: 0;
+    .el-dialog__title {
+      //color: $ad-color_1;
+    }
+  }
+  .el-dialog__headerbtn {
+    position: unset;
+		width: 16px;
+		height: 16px;
+  }
+
+  .el-dialog__body {
+    //height: auto;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+    padding: 24px;
+    color: $ad-color_1;
+  }
+
+  .el-dialog__footer {
+    padding: 8px 24px 11px 24px;
+    border-top: 1px solid $ad-border-color_3;
+  }
+}
+
+// dialog覆盖样式 <el-dialog class="ad-dialog-wrap"/> 与 .el-dialog__wrapper 同级
+.ad-dialog-wrap {
+  .el-dialog {
+    @extend %el-dialog;
+  }
+  @extend .#{$prefix}dialog;
+}
+
+// input-number 样式覆盖（右侧）
+.el-input-number {
+  &.is-controls-right {
+    &.is-disabled {
+      .el-input-number__decrease,
+      .el-input-number__increase {
+        &:hover {
+          color: $ad-color_5;
+        }
+        color: $ad-color_5;
+      }
+    }
+    .el-input-number__decrease,
+    .el-input-number__increase {
+      border: none !important;
+      background-color: transparent;
+      width: 17px;
+      color: $ad-color_4;
+      &:hover {
+        color: $ad-color-primary;
+      }
+      &.is-disabled {
+        color: $ad-color_5;
+        cursor: not-allowed;
+      }
+    }
+    .el-input .el-input__inner {
+      padding: 0 20px 0 8px;
+    }
+    .el-input__inner {
+      text-align: left;
+    }
+  }
+  // 向上箭头样式重置 向下箭头重置样式
+  .el-icon-arrow-up,
+  .el-icon-arrow-down {
+    transform: scale(1.2) !important;
+  }
+  .el-icon-arrow-up::before {
+    content: '\e78f';
+  }
+  .el-icon-arrow-down::before {
+    content: '\e790';
+  }
+}
+
+// 针对 el-button-group 无法兼容popover内嵌 el-button 的处理
+// eg: 内嵌 adPopover(el-popover) reference 为 Button  的 兼容
+.el-button-group {
+  > .#{$prefix}popover-box {
+    //& > .el-popover__reference-wrapper > .el-button {
+    //}
+    & > .el-popover__reference-wrapper > .el-button {
+      border-radius: 6px;
+      padding: 10px;
+    }
+    &:first-child {
+      .el-popover__reference-wrapper > .el-button {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+
+    &:last-child {
+      .el-popover__reference-wrapper > .el-button {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+
+    &:first-child:last-child {
+      .el-popover__reference-wrapper > .el-button {
+        border-radius: 6px;
+      }
+    }
+    &:not(:first-child) {
+      .el-popover__reference-wrapper > .el-button {
+        margin-left: -1px;
+      }
+    }
+    &:not(:first-child):not(:last-child) {
+      .el-popover__reference-wrapper > .el-button {
+        margin-left: -1px;
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+// table表格样式覆盖
+// 排序类型样式调整
+//.el-table th.el-table__cell.is-sortable {
+/*.el-table th.is-sortable {
+  //cursor: pointer
+}*/
+// 按钮样式覆盖
+.el-button {
+  font-family: $ad-family;
+  font-weight: normal;
+  border-radius: 6px;
+  &--medium {
+    border-radius: 6px;
+  }
+
+  &.is-disabled.is-plain {
+    border-color: #B3D5FE;
+    color: #B3D5FE;
+    &:hover, &:focus{
+      border-color: #B3D5FE;
+      color: #B3D5FE;
+    }
+  }
+
+  // 若需要重置样式 todo...
+  //&:focus {
+  //  color: $ad-color_1;
+  //  border-color: $ad-border-color_1;
+  //  background-color: inherit;
+  //}
+}
+// input 输入框
+.el-input__inner, .el-input .el-input__inner {
+  border-radius: 6px;
+}
+
+// 文字提示
+.el-tooltip__popper {
+  max-width: 400px;
+  //max-width: 20%;
+  word-break: break-word;
+}
+

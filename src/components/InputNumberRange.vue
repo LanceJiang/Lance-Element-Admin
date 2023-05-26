@@ -1,8 +1,9 @@
 <script lang="jsx">
 // import { t } from '@adber/adber-ui/src/locale'
-import { defineComponent } from 'vue'
+import {defineComponent, unref} from 'vue'
 import { useI18n } from 'vue-i18n'
 import InputNumber from './InputNumber.vue'
+import {useFormSize} from "element-plus";
 export default defineComponent({
 	name: 'AdInputNumberRange',
 	emits: ['update:modelValue', 'blur', 'change'],
@@ -67,19 +68,21 @@ export default defineComponent({
 	},
 	render() {
 		const { t } = useI18n()
-		const { prepend, append, controlsPosition, min, max, ...props } = this.$attrs
+		const { prepend, append, controlsPosition, min, max, size, ...props } = this.$attrs
 		console.log(this, 'this....')
 		const { modelValue, placeholderStart, placeholderEnd, precision, local_propStart, local_propEnd, localStyle } = this
 		const _controlsPosition = controlsPosition || 'right'
 		const { prepend: slot_prepend, append: slot_append, ...childSlots } = this.$slots
+		const inputNumberSize = size || unref(useFormSize())
 
 		const _prepend = prepend ? <span class="ad-input-number-range_addon prepend">{prepend}</span> : ''
 		const _append = append ? <span class="ad-input-number-range_addon append">{append}</span> : ''
 		return (
-			<div class={`ad-input-number-range ad-input-number-range`}>
+			<div class={`ad-input-number-range ad-input-number-range--${inputNumberSize}`}>
 				{slot_prepend ? slot_prepend() : _prepend}
 				<InputNumber
 					class="ad-input-number-range_start"
+					size={inputNumberSize}
 					{...props}
 					min={min}
 					max={modelValue[local_propEnd] ?? max}
@@ -96,6 +99,7 @@ export default defineComponent({
 				<span class="ad-input-number-range_line">-</span>
 				<InputNumber
 					class="ad-input-number-range_end"
+					size={inputNumberSize}
 					{...props}
 					min={modelValue[local_propStart] ?? min}
 					max={max}
@@ -175,6 +179,3 @@ export default defineComponent({
 	}
 })
 </script>
-<style lang="scss">
-@import '@/styles/adber/inputNumber';
-</style>

@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, nextTick, onMounted, ref, watch} from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { ElConfigProvider } from 'element-plus'
 import { ls } from '@/utils'
 import useAppStore from '@/store/modules/app'
@@ -24,7 +24,7 @@ nextTick(() => {
 	// 尝试获取原主题样式 并做设置
 	const node: HTMLElement = document.documentElement
 	const styles = ls.get('style')
-	if(styles) {
+	if (styles) {
 		node.style = styles
 	}
 })
@@ -38,5 +38,4 @@ watch(
 		immediate: true
 	}
 )
-
 </script>

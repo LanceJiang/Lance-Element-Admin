@@ -5,6 +5,7 @@ import {
 	watch,
 	ref
 } from 'vue'
+import { useI18n } from 'vue-i18n'
 const props = {
 	forms: {
 		type: Array,
@@ -29,6 +30,7 @@ export const SearchForm = defineComponent({
 	emits,
 	props,
 	setup(props, ctx) {
+		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
 		let initSearchParams = undefined
 		watch(

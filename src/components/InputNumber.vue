@@ -1,6 +1,7 @@
 <script lang="tsx">
-import { defineComponent } from 'vue'
+import { defineComponent, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useFormSize } from 'element-plus'
 const Props = {
 	modelValue: {},
 	params: {
@@ -19,14 +20,15 @@ const Component = defineComponent({
 	setup(props, ctx) {
 		const { t } = useI18n()
 		return () => {
-			const { prefixIcon, suffixIcon, prop, controlsPosition, t_placeholder, placeholder, max = 999999999999999, ...local_props } = ctx.attrs
+			const { prefixIcon, suffixIcon, prop, controlsPosition, t_placeholder, size, placeholder, max = 999999999999999, ...local_props } = ctx.attrs
+			const inputNumberSize = size || unref(useFormSize())
 			const _prefix = prefixIcon ? <span class="ad-addon ad-input-number__prefix">{prefixIcon}</span> : ''
 			const _suffix = suffixIcon ? <span class="ad-addon ad-input-number__suffix">{suffixIcon}</span> : ''
 			const _placeholder = (t_placeholder ? t(t_placeholder) : placeholder) ?? t('adb.el.input.placeholder')
 			const slots = Object.keys(ctx.slots).length ? ctx.slots : local_props.slots || {}
 			return (
 				<div
-					class={`ad-input-number el-input el-input-group
+					class={`ad-input-number ad-input-number--${inputNumberSize} el-input el-input-group
 					 ${_prefix || slots.prefix ? 'el-input-group--prepend ad-input-number--prefix' : ''}
 					 ${_suffix || slots.suffix ? 'el-input-group--append ad-input-number--suffix' : ''}
 				 `}
@@ -35,7 +37,8 @@ const Component = defineComponent({
 					<el-input-number
 						max={max}
 						{...local_props}
-						controlsPosition={controlsPosition || 'right'}
+						size={inputNumberSize}
+						controlsPosition={controlsPosition ?? 'right'}
 						placeholder={_placeholder}
 						model-value={props.modelValue}
 					/>
@@ -77,6 +80,3 @@ const Component = defineComponent({
 })
 export default Component
 </script>
-<style lang="scss">
-@import '@/styles/adber/inputNumber';
-</style>

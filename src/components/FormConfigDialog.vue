@@ -1,38 +1,39 @@
-<template>
-	<!--
-    申明: 弹窗的展示 visible 在父级定义
-         弹窗的展示和隐藏 调用 @changeDialog='changeDialog' // 传参true/false 作为显示隐藏
-         测试用例见： testForm的操作
-     -->
-	<el-dialog
-		:title="title"
-		:modelValue="visible"
-		@update:modelValue="changeVisible"
-		:closeOnClickModal="false"
-		:width="width"
-		modalClass="formDialogWrap"
-		@close="changeVisible"
-	>
-		<FormConfig
-			v-if="visible"
-			ref="configForm"
-			v-bind="formOptions"
-			:form-data="formData"
-			@submit="$emit('submit', $event)"
-			@cancel="changeVisible"
-		/>
-	</el-dialog>
-</template>
-
-<script>
+<script lang="jsx">
 import FormConfig from './FormConfig'
 
+const render = function() {
+	const { title, modelValue, width, changeVisible, formOptions, formData } = this
+	return <el-dialog
+		title={title}
+		modelValue={modelValue}
+		props={this.$attrs}
+		closeOnClickModal={false}
+		width={width}
+		class="ad-dialog ad-form-config-dialog"
+		// on={on}
+		onClose={changeVisible}
+		onUpdate:modelValue={changeVisible}
+	>
+		{
+			modelValue && <FormConfig
+				ref="configForm"
+				{...formOptions}
+				form-data={formData}
+				onSubmit={this.onSubmit}
+				onCancel={changeVisible}
+				v-slots={this.$slots}
+			/>
+		}
+	</el-dialog>
+}
+
 export default {
-	name: 'FormConfigDialog',
+	name: 'AdFormConfigDialog',
 	components: {
 		FormConfig
 	},
-	emits: ['submit', 'update:visible'],
+	render,
+	emits: ['submit', 'update:modelValue'],
 	props: {
 		title: {
 			type: String,
@@ -64,7 +65,7 @@ export default {
 			type: Object,
 			default: () => ({})
 		},
-		visible: {
+		modelValue: {
 			type: Boolean,
 			required: true
 		},
@@ -80,17 +81,12 @@ export default {
 	mounted() {},
 	methods: {
 		changeVisible(bool = false) {
-			this.$emit('update:visible', bool)
+			this.$emit('update:modelValue', bool)
+		},
+		onSubmit(events) {
+			this.$emit('submit', events)
 		}
 	}
 }
 </script>
 
-<style lang="scss">
-.formDialogWrap {
-	.el-dialog__body {
-		height: auto;
-		padding-bottom: 10px;
-	}
-}
-</style>

@@ -1,0 +1,126 @@
+/* adber-ui 涉及adber-ui的全局组件样式 */
+@import "variables.scss";
+
+/* --------adber-ui 组件内部样式 Start-------- */
+//@import "adber/table.scss";
+//@import "adber/vxe-table.scss";
+//@import "adber/draggableNest.scss";
+@import "adber/formConfig.scss";
+//@import "adber/icon.scss";
+@import "adber/inputNumber.scss";
+//@import "adber/noData.scss";
+//@import "adber/popover.scss";
+//@import "adber/searchGroup.scss";
+//@import "adber/select.scss";
+//@import "adber/dropdown.scss";
+//@import "adber/tabs.scss";
+
+/* --------adber-ui 组件内部样式 End-------- */
+
+// table Cell 内置默认渲染相关公用样式
+//@import "cellSlots.scss";
+
+
+/* --------引用 adber-ui 根据ui/产品 用于项目的默认样式 Start-------- */
+
+// 纯icon button 样式
+.#{$prefix}icon-button {
+  //font-size: 16px;
+  font-size: 14px;
+  padding: 0;
+  border-radius: 6px;
+  font-weight: 400;
+  height: 32px;
+  width: 32px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  color: $ad-color_3;
+  background: transparent;
+  &:hover {
+    background: $ad-border-color_3;
+    color: $ad-color_3;
+  }
+}
+
+// 带搜索icon 的input
+.#{$prefix}input-search {
+  min-width: 60px;
+  flex: 1;
+  margin-right: 12px;
+  .el-input__suffix {
+    top: 1px;
+    height: calc(100% - 2px);
+  }
+  .el-input__icon {
+    cursor: pointer;
+    color: $ad-color_1;
+    background: #fff;
+    &:hover {
+      color: $ad-color-primary;
+    }
+  }
+}
+
+// 公用 触发 提示 的 tag(el-tag) 样式
+.#{$prefix}trigger-tag {
+  border: 0;
+  background: #f0f4f8;
+  height: 22px;
+  padding: 0 8px;
+  line-height: 22px;
+  //cursor: pointer;
+}
+
+// card卡片样式
+.#{$prefix}card,
+.#{$prefix}card-bg {
+  display: flex;
+  flex-direction: column;
+  .el-card__header {
+    position: relative;
+    padding: 12px 24px;
+    line-height: 20px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 1px solid $ad-border-color_3;
+
+    &::before {
+      display: none;
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 16px;
+      left: 0;
+      border-radius: 4px;
+      background-color: $ad-color-primary;
+    }
+  }
+  .el-card__body {
+    padding: 16px 24px;
+    flex: 1;
+  }
+}
+// header 带有背景色的 和 before 条样式
+.#{$prefix}card-bg {
+  .el-card__header {
+    background-color: $ad-bg-color_3;
+    &::before {
+      display: block;
+    }
+  }
+}
+// $confirm 警示类型公用样式
+.#{$prefix}message-box--warn {
+  .el-message-box__btns button:last-child {
+    border-color: $ad-color-warning;
+    background: $ad-color-warning;
+  }
+}
+
+.#{$prefix}test {}
+/* --------引用 adber-ui 根据ui/产品 用于项目的默认样式 End-------- */
