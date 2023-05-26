@@ -1,21 +1,21 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
+const Props = {
+	modelValue: {},
+	params: {
+		type: Object
+	}
+	// 扩展
+	// 1. prefix -> prefixIcon (prefix 已被vue 拦截)
+	// prefixIcon: String, // eg: '测试Prefix'
+	// 2. suffix -> suffixIcon (prefix 已被vue 拦截 与 suffix 对应做处理)
+	// suffixIcon: String, // eg: '测试suffix'
+	// 3. v-slot: { prefix, suffix } or slots: { prefix: render, suffix: render, }
+}
 const Component = defineComponent({
-// const Component = defineCustomElement({
 	name: 'AdInputNumber',
-	props: {
-		modelValue: {},
-		params: {
-			type: Object
-		}
-		// 扩展
-		// 1. prefix -> prefixIcon (prefix 已被vue 拦截)
-		// prefixIcon: String, // eg: '测试Prefix'
-		// 2. suffix -> suffixIcon (prefix 已被vue 拦截 与 suffix 对应做处理)
-		// suffixIcon: String, // eg: '测试suffix'
-		// 3. v-slot: { prefix, suffix } or slots: { prefix: render, suffix: render, }
-	},
+	props: Props,
 	setup(props, ctx) {
 		const { t } = useI18n()
 		return () => {
@@ -24,7 +24,6 @@ const Component = defineComponent({
 			const _suffix = suffixIcon ? <span class="ad-addon ad-input-number__suffix">{suffixIcon}</span> : ''
 			const _placeholder = (t_placeholder ? t(t_placeholder) : placeholder) ?? t('adb.el.input.placeholder')
 			const slots = Object.keys(ctx.slots).length ? ctx.slots : local_props.slots || {}
-			console.log(ctx, 'ctx', slots, 'slots')
 			return (
 				<div
 					class={`ad-input-number el-input el-input-group
@@ -44,7 +43,7 @@ const Component = defineComponent({
 				</div>
 			)
 		}
-	},
+	}
 	/*render() {
 		const { t } = useI18n()
 		const { prefix, suffix, prop, controlsPosition, placeholder, max = 999999999999999, ...props } = this.$attrs

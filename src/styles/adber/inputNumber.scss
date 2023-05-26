@@ -45,6 +45,11 @@
       //border-radius: 6px;
       //border: 1px solid $ad-border-color_1;
     }*/
+		&.is-controls-right {
+			[class*=decrease], [class*=increase] {
+				height: 50%;
+			}
+		}
   }
   .ad-addon {
     position: relative;
