@@ -34,24 +34,8 @@
     .right-actions {
       margin-left: auto;
     }
-    //// btn-按钮设置
-    //[class^="el-icon-"], [class*=" el-icon-"] {
-    //  font-size: 13px;
-    //}
   }
 }
-/*
-// 修复因 全局reset-element-ui 的 less BUG
-.#{$prefix}form-config {
-  .el-form-item.is-required:not(.is-no-asterisk)
-  .el-form-item__label-wrap
-  > .el-form-item__label:before,
-  .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
-    content: '*' !important;
-    color: #f56c6c;
-    margin-right: 4px;
-  }
-}*/
 // FormConfigDialog 样式 (区别于 ad-dialog 样式以外的)
 .#{$prefix}form-config-dialog {
   .el-dialog__body {
@@ -60,13 +44,6 @@
     padding-bottom: 10px;
   }
   .#{$prefix}form-config {
-    &--mini {
-      .form_wrap {
-        // （el-dialog__body 的 maxHeight） - （el-dialog__body 的 padding-top）- （footer 的高度）
-        // mini
-        max-height: calc(100vh - 160px - 49px - 20px);
-      }
-    }
     &--small {
       .form_wrap {
         // （el-dialog__body 的 maxHeight） - （el-dialog__body 的 padding-top）- （footer 的高度）

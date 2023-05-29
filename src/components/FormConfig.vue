@@ -1,14 +1,14 @@
 <script lang="tsx">
-import {defineComponent, watch, computed, ref, reactive, unref, h } from 'vue'
+import {defineComponent, watch, computed, ref, reactive, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // import { t } from '@adber/adber-ui/src/locale'
 // import InputNumber from '@adber/adber-ui/packages/InputNumber'
-import InputNumber from './customizeFormItem/InputNumber'
+import InputNumber from './InputNumber'
 // import InputNumberRange from '@adber/adber-ui/packages/InputNumberRange'
+import InputNumberRange from './InputNumberRange'
 // import CustomRender from '@adber/adber-ui/packages/CustomRender'
-import CustomRender from './customizeFormItem/CustomRender'
-// import AdSelect from '@adber/adber-ui/packages/Select'
-// import { renderSelectOption } from '@adber/adber-ui/src/utils/slotsUtils' // todo
+import CustomRender from './CustomRender'
+// import AdSelect from '@adber/adber-ui/packages/Select' // todo...
 /**
  * select Option 自定义 渲染
  * @param slots
@@ -19,23 +19,29 @@ import CustomRender from './customizeFormItem/CustomRender'
  */
 export const renderSelectOption = function(slots, slotOption, option, label) {
 	if (slotOption) {
-		const args = [{
-			option,
-			label
-		}]
 		let scopedSlots_option = slotOption
 		if (typeof slotOption === 'string') {
 			scopedSlots_option = slots[slotOption]
-		} else {
-			// todo....
-			args.unshift(h)
 		}
 		if (typeof scopedSlots_option === 'function') {
+			const args = [{
+				option,
+				label
+			}]
 			// scopedSlots
 			return scopedSlots_option(...args)
 		}
 	}
 	return label
+}
+const cascaderSlot = (slots, slotOption) => {
+	let scopedSlots_option = slotOption
+	if (typeof slotOption === 'string') {
+		scopedSlots_option = slots[slotOption]
+	}
+	if (typeof scopedSlots_option === 'function') {
+		return scopedSlots_option
+	}
 }
 const formConfigProps = {
 	forms: {
@@ -44,6 +50,7 @@ const formConfigProps = {
 		// [{
 		//   t_label: String, // 多语言转义
 		//   label: String,
+		//   slotLabel: [String[定义的slotLabel插槽名称], function[slotLabel插槽jsx渲染函数]], // slotLabel: ({label}) => DOM
 		//   t_placeholder: String, // 多语言转义
 		//   placeholder: String,
 		//   prop: String,
@@ -51,6 +58,7 @@ const formConfigProps = {
 		//   itemType: String,
 		//   size: String,
 		//   options: Array,
+		//   slotOption: [String[定义的options Item 渲染插槽名称], function[options Item 插槽jsx渲染函数]], // slotOption: ({option, label}) => DOM, !cascader 类型返回数据(且不可使用默认i18n) slotOption: ({data, node}) => DOM
 		//   valueKey: String,
 		//   labelKey: String,
 		//   formValueFormat: Function, // 提交前的数据修改
@@ -77,7 +85,7 @@ const formConfigProps = {
 }
 const formConfigEmits = ['cancel', 'submit']
 const default_formConfig = {
-	/**ol自定义Config*/
+	/**自定义Config*/
 	// 默认的formItem内容宽度(eg: input/select/radio...)
 	itemWidth: undefined,
 	// 默认的formItem 对应的 col 外壳 span 配置
@@ -114,7 +122,7 @@ const FormConfig = defineComponent({
 	components: {
 		CustomRender,
 		InputNumber,
-		// InputNumberRange,
+		InputNumberRange,
 		// AdSelect
 	},
 	emits: formConfigEmits,
@@ -122,6 +130,27 @@ const FormConfig = defineComponent({
 	setup(props, ctx) {
 		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
+		const queryItemTypeKeys = (form) => {
+			const { prop, itemType } = form
+			switch (itemType) {
+				case 'render':
+					/** !!! 暂不对render类型 进行更多标签处理 */
+					return []
+				// 对Number区间进行特殊处理
+				case 'inputNumberRange':
+					const propStart = form.propStart || `${prop}Start`
+					const propEnd = form.propEnd || `${prop}End`
+					return [propStart, propEnd]
+				case 'adSelect':
+				case 'select':
+				case 'radio':
+				case 'datePicker':
+				case 'inputNumber':
+				case 'input':
+				default:
+					return [prop]
+			}
+		}
 		const setItemData = (value, defaultValue?) => {
 			if (typeof value !== 'boolean' && typeof value !== 'number') {
 				return value || defaultValue
@@ -136,8 +165,10 @@ const FormConfig = defineComponent({
 				const _prop = v.prop,
 					propType = typeof _prop,
 					props = v.props // 绑定的其他数据
-				if (propType === 'string') {
-					params[_prop] = setItemData(formData[_prop]) // 数据初始化
+					queryItemTypeKeys(v).map(prop => {
+						params[prop] = setItemData(formData[prop]) // 数据初始化
+					})
+					// todo...
 					/* if (v.itemType === 'dateRange') {
             const propStart = v.propStart || `${_prop}Start`
             const propEnd = v.propEnd || `${_prop}End`
@@ -148,15 +179,10 @@ const FormConfig = defineComponent({
               ? [formData[propStart], formData[propEnd]]
               : formData[_prop] || undefined
           } else */
-					if (v.itemType === 'cascader') {
-						// 级联数据为数组
-						params[_prop] = params[_prop] || [] // 变成数组  // 若不是数组 怎么操作
-					}
 					// 若该formItem  包含forms列表中未定义的prop 需要从formData取值
 					if (Array.isArray(props)) {
 						bindProps.push(...props)
 					}
-				}
 			})
 			// 赋值其他被绑的的值
 			bindProps.map(prop => {
@@ -171,13 +197,10 @@ const FormConfig = defineComponent({
 		const get_formSlotLabel = (slotOption) => {
 			if (!slotOption) return
 			if (typeof slotOption === 'string') {
-				// return this.$scopedSlots[slotOption]
 				return ctx.slots[slotOption]
-			} else {
-				// fn
-				return () => slotOption(h)
-				// return slotOption(h)
 			}
+			// fn
+			return slotOption
 		}
 		const cancelHandler = () => {
 			ctx.emit('cancel')
@@ -191,18 +214,6 @@ const FormConfig = defineComponent({
 						return submitCallback(params)
 					}
 					ctx.emit('submit', params)
-				} else {
-					console.warn(error, '错误rule数组.... 如果需要对该错误数组 操作 请在此处添加')
-					/*// eg:
-					var errObj = error;
-					// 提示弹窗的 示例代码
-					var keys = Object.keys(errObj);
-					console.log(errObj[keys[0]], 'errObj[keys[0]]');
-					var errTipObj = (errObj[keys[0]][0] || {});
-					debugger;
-					if (errTipObj.message) {
-							console.error(errTipObj.message)
-					}*/
 				}
 			})
 		}
@@ -240,7 +251,6 @@ const FormConfig = defineComponent({
 				if (valid) {
 					_getParams()
 				} else {
-					// console.error(errObj, 'errObj..................')
 					if (callback) callback(errObj)
 				}
 			})
@@ -255,7 +265,7 @@ const FormConfig = defineComponent({
 			}
 		}
 		watch(() => props.formData, (newData, oldData) => {
-			console.warn(JSON.stringify(newData), JSON.stringify(oldData), 'newFormData, oldFormData  formData 发生改变 ... 监听  formData... 触发此处...')
+			// console.warn(JSON.stringify(newData), JSON.stringify(oldData), 'newFormData, oldFormData... 监听  formData')
 			changeFormData(newData)
 		})
 		// 本地数据
@@ -366,7 +376,6 @@ const FormConfig = defineComponent({
 							{render_selectOptions()}
 						</AdSelect>*/
 					/* 自定义 render */
-						/* todo... */
 					case 'render' :
 						return <CustomRender
 							form={form}
@@ -424,6 +433,9 @@ const FormConfig = defineComponent({
 						)
 					/* 级联 */
 					case 'cascader':
+						const slots = {
+							default: cascaderSlot(ctx.slots, form.slotOption)
+						}
 						return (
 							<el-cascader
 								class={itemClass}
@@ -437,6 +449,7 @@ const FormConfig = defineComponent({
 								filterable={form.filterable ?? true}
 								options={_options}
 								placeholder={_placeholder}
+								v-slots={slots}
 							/>
 						)
 					/* 数字 */
@@ -455,21 +468,24 @@ const FormConfig = defineComponent({
 								precision={form.precision || 0}
 							/>
 						)
-					/* /!* 数字区间 *!/
-					case 'InputNumberRange':
+					 /* 数字区间 todo */
+					/*case 'inputNumberRange':
+						const numberChange = (e, propKey) => {
+							change && change(params, _options, params, propKey)
+						}
 						return (
 							<InputNumberRange
 								class={itemClass}
 								{...formOthers}
-								v-model={params}
-								onChange={(e, propKey) => change && change(params, _options, params, propKey)}
+								modelValue={params}
+								// onChange={numberChange}
 								style={_itemStyle}
 								disabled={disabled}
 								placeholder={_placeholder}
 								size={_size ?? size}
 								precision={form.precision || 0}
 							/>
-						) */
+						)*/
 					/* 日期选择(单日期 || 日期区间) */
 					case 'datePicker':
 						let dateOpts: any = {}
@@ -592,11 +608,8 @@ export default FormConfig
         :forms="formOptions.forms" // 遍历formItem 的数组
         :formData="formOptions.formData" // 初始化 form数据
         @submit="submit" // form 表单提交使用： 会传递 form 对应的值
-
         @cancel="close" // 取消按钮点击操作
-
-        :isEdit="formOptions.isEdit" // 是否以 纯展示方式 展示数据 //(不可编辑) // 需要传递的 参数也最少
-
+        :isEdit="formOptions.isEdit"
         />
 
         var formOptions = {
@@ -622,6 +635,3 @@ export default FormConfig
         ]
     } */
 </script>
-<style lang="scss">
-@import '@/styles/adber/formConfig';
-</style>

@@ -7,7 +7,7 @@
 }
 
 // dialog覆盖样式
-// <el-dialog customClass="ad-dialog"/>
+// <el-dialog class="ad-dialog"/>
 %el-dialog {
   position: absolute;
   margin: 0 !important;
@@ -57,14 +57,6 @@
   }
 }
 
-// dialog覆盖样式 <el-dialog class="ad-dialog-wrap"/> 与 .el-dialog__wrapper 同级
-.ad-dialog-wrap {
-  .el-dialog {
-    @extend %el-dialog;
-  }
-  @extend .#{$prefix}dialog;
-}
-
 // input-number 样式覆盖（右侧）
 .el-input-number {
   &.is-controls-right {
@@ -91,23 +83,12 @@
         cursor: not-allowed;
       }
     }
-    .el-input .el-input__inner {
+    .el-input .el-input__wrapper {
       padding: 0 20px 0 8px;
     }
     .el-input__inner {
       text-align: left;
     }
-  }
-  // 向上箭头样式重置 向下箭头重置样式
-  .el-icon-arrow-up,
-  .el-icon-arrow-down {
-    transform: scale(1.2) !important;
-  }
-  .el-icon-arrow-up::before {
-    content: '\e78f';
-  }
-  .el-icon-arrow-down::before {
-    content: '\e790';
   }
 }
 
@@ -186,9 +167,9 @@
   //}
 }
 // input 输入框
-.el-input__inner, .el-input .el-input__inner {
+/*.el-input__inner, .el-input .el-input__inner {
   border-radius: 6px;
-}
+}*/
 
 // 文字提示
 .el-tooltip__popper {

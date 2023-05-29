@@ -2,14 +2,8 @@
 	<div class="flex-column-page-wrap pageWrap">
 		Forms
 		<div class="common_title">ad-form-config</div>
-		<el-input-number size="default" controlsPosition="right" v-model="formData.inputNumber"></el-input-number>
-		<AdInputNumber size="default" controlsPosition="right" v-model="formData.inputNumber">
-			<template #prefix>
-				<span class="ad-addon ad-input-number__prefix" style="background: #0f0;">prefix</span>
-			</template>
-		</AdInputNumber>
 		<div class="content">
-			<AdFormConfig ref="local_form" class="local_formConfig" :forms="forms" :form-config="formConfig" @submit="formSubmit">
+			<AdFormConfig ref="local_form" class="local_formConfig" :formData="formData" :forms="forms" :form-config="formConfig" @submit="formSubmit">
 				<template #adSelectSlot="{ option, label }">
 					<div style="background: #a0aab7">{{ label }} + {{ option.value_1 }}</div>
 				</template>
@@ -21,20 +15,17 @@
 			</AdFormConfig>
 		</div>
 
-		<!--		<div class="common_title">ad-form-config 表单 嵌入 dialog</div>
+		<div class="common_title">ad-form-config 表单 嵌入 dialog</div>
 		<div class="content">
 			<el-button @click="dialogVisible = true">打开 弹窗</el-button>
-&lt;!&ndash;			todo&ndash;&gt;
-&lt;!&ndash;			<el-dialog
+			<el-dialog
 				:title="'表单 嵌入 dialog'"
-				:visible="dialogVisible"
-				@update:visible="changeVisible"
+				v-model="dialogVisible"
 				:closeOnClickModal="false"
-				class="local_dialog ad-dialog-wrap"
-				customClass="ad-dialog ad-form-config-dialog"
+				class="local_dialog ad-dialog ad-form-config-dialog"
 				@close="changeVisible(false)"
 			>
-				<FormConfig
+				<AdFormConfig
 					v-if="dialogVisible"
 					ref="configForm"
 					:forms="forms"
@@ -46,17 +37,16 @@
 					<template #adSelectSlot="{ option, label }">
 						<div style="background: #00f">{{ label }} + {{ option.value_1 }}</div>
 					</template>
-				</FormConfig>
-			</el-dialog>&ndash;&gt;
+				</AdFormConfig>
+			</el-dialog>
 		</div>
 		<div class="common_title">ad-form-config-dialog 表单弹窗</div>
 		<div class="content">
 			<el-button @click="dialogVisible2 = true">打开 弹窗</el-button>
-&lt;!&ndash;			todo...&ndash;&gt;
-&lt;!&ndash;			<FormConfigDialog
+			<AdFormConfigDialog
 				v-if="dialogVisible2"
 				title="ad-form-config-dialog 表单弹窗"
-				:visible.sync="dialogVisible2"
+				v-model="dialogVisible2"
 				:formOptions="{
 					forms,
 					formConfig
@@ -65,28 +55,40 @@
 				@submit="formSubmit"
 			>
 				<template #adSelectSlot="{ option, label }">
-					<div style="background: #a0aab7">{{ label }} + {{ option.value_1 }}</div>
+					<div style="background: #f00">{{ label }} + {{ option.value_1 }}</div>
 				</template>
-			</FormConfigDialog>&ndash;&gt;
-		</div>-->
+			</AdFormConfigDialog>
+		</div>
 	</div>
 </template>
 <script lang="tsx">
-import AdInputNumber from '@/components/customizeFormItem/InputNumber.vue'
 const prefix = 'example.forms.'
-import { ref } from 'vue'
+// import { ref } from 'vue'
+import i18n from '@/lang/index'
 export default {
 	name: 'Form',
-	components: {
-		AdInputNumber
-	},
 	data() {
 		// const _this = this
 		return {
+			numberRangeForm: {
+				prop: 'inputNumberRange',
+				label: 'inputNumberRange',
+				// // t_label: `${prefix}test5`,
+				// prepend: 'Prepend',
+				// append: 'Append',
+				prefixIcon: 'Http://',
+				suffixIcon: '.com',
+				itemType: 'inputNumberRange',
+				change(...args) {
+					console.error(...args, 'change...inputNumberinputNumberinputNumberinputNumberinputNumber')
+				}
+			},
 			formData: {
 				test1_select: 'test1_2',
 				input: 'ssssssss',
-				inputNumber: 22222222
+				inputNumber: 22222222,
+				inputNumberRangeStart: 1,
+				inputNumberRangeEnd: 2
 			},
 			forms: [
 				// todo
@@ -125,45 +127,60 @@ export default {
 					rules: [
 						{
 							required: true,
-							message: 'validate.validateEmptyTips',
+							message: i18n.global.t('adb.validate.validateEmptyTips', {
+								name: 'test2'// i18n.global.t(`${prefix}test2`)
+							}),
+							// message: 'validate.validateEmptyTips',
 							trigger: 'blur'
 						}
 					],
-					onInput: (e) => {
+					onInput: e => {
 						console.error('onInput....', e)
 					},
 					render: (h, extendsParams) => {
 						const { form, params } = extendsParams
 						console.error(form, params, '///////////')
-						return <el-input onChange={form.onChange} v-model={params[form.prop]} placeholder="placeholder test... 666"/>
+						return <el-input onChange={form.onChange} v-model={params[form.prop]} placeholder="placeholder test... 666" />
 					}
 				},
 				// select
 				{
 					prop: 'test1_select',
-					// label: 'test1_select',
-					t_label: `${prefix}test1_select`,
-					slotLabel: 'adSelect_label',
+					label: 'test1_select',
+					// t_label: `${prefix}test1_select`,
+					// slotLabel: 'adSelect_label',
 					// // render fn 支持
-					// slotLabel() {
-					// 	return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ 'custom: fn' }</span></span>
-					// },
+					slotLabel({ label }) {
+						// console.log(label, '//// args slotLabel 带 {label} 参数')
+						return (
+							<span style="background: #f00;display: flex">
+								label custom: fn<span style="margin-left: auto; background: #0f0">{'custom: fn'}</span>
+							</span>
+						)
+					},
 					itemType: 'select',
 					disabled: false,
 					// valueKey: 'value', // 默认
 					// labelKey: 'label', // 默认
 					// clearable: true,
 					filterable: true,
+					// i18n: true,
 					// placeholder: '请选择项目阶段',
 					options: Array.from({ length: 6 }).map((_, i) => ({
+						// label: 'adb.validate.validateEmptyTips',
 						label: `test1_LABEL_${i}`,
 						value: `test1_${i}`
 					})),
+					/*slotOption({ option, label }) {
+						// console.error(option, label, 'option, label')
+						const style = `color: red`
+						return <div style={style}>{label}</div>
+					},*/
 					slotOption: 'adSelectSlot',
 					rules: [
 						{
 							required: true,
-							message: 'validate.validateEmptyTips',
+							// message: 'validate.validateEmptyTips',
 							trigger: ['change', 'blur']
 						}
 					]
@@ -187,7 +204,7 @@ export default {
 					rules: [
 						{
 							required: true,
-							message: 'validate.validateEmptyTips',
+							// message: 'validate.validateEmptyTips',
 							trigger: 'blur'
 						}
 					]
@@ -233,49 +250,52 @@ export default {
 							]
 						}
 					],
+					// // slotOption: 'cascaderSelectSlot',
+					slotOption: ({node, data}) => {
+						return <div style="color: #f0c;">{data.label}</div>
+					},
 					rules: [
 						{
 							required: true,
-							message: 'validate.validateEmptyTips',
-							// message: i18n.t('validate.validateEmptyTips', {
-							// 	name: i18n.t(`${prefix}test4`)
-							// }),
+							// message: 'validate.validateEmptyTips',
+							message: i18n.global.t('adb.validate.validateEmptyTips', {
+								name: 'cascader' // i18n.global.t(`${prefix}test4`)
+							}),
 							trigger: 'blur'
 						}
 					]
 				},
 				// inputNumber
-				{ // todo...
+				{
+					// todo...
 					prop: 'inputNumber',
 					label: 'inputNumber',
-/*					slots: {
+					/* slots: {
 						prefix: () => <span class="ad-addon ad-input-number__prefix" style="background: #0f0;">prefix</span>,
 						suffix: () => <span class="ad-addon ad-input-number__suffix" style="background: #0f0; height: 45px;">suffix</span>
 					},*/
 					// t_label: `${prefix}test5`,
-					// prefix: 'Http://',
 					prefixIcon: 'Http',
-					// prefix: ref('Http://'),
-					suffix: '.com',
+					suffixIcon: '.com',
 					itemType: 'inputNumber',
 					change(...args) {
 						console.error(...args, 'change...inputNumberinputNumberinputNumberinputNumberinputNumber')
 					}
 				},
-				/* // inputNumberRange // todo 是否添加
+				// inputNumberRange // todo 是否添加
 				{
 					prop: 'inputNumberRange',
 					label: 'inputNumberRange',
-					// t_label: `${prefix}test5`,
-					prepend: 'Prepend',
-					append: 'Append',
-					prefix: 'Http://',
-					suffix: '.com',
+					// // t_label: `${prefix}test5`,
+					// prepend: 'Prepend',
+					// append: 'Append',
+					// prefixIcon: 'Http://',
+					// suffixIcon: '.com',
 					itemType: 'inputNumberRange',
 					change(...args) {
 						console.error(...args, 'change...inputNumberinputNumberinputNumberinputNumberinputNumber')
 					}
-				}, */
+				},
 				// date
 				{
 					prop: 'date',
@@ -332,8 +352,9 @@ export default {
 				// labelSuffix: '',
 				submitLoading: false,
 				showCancelBtn: true,
-				showResetBtn: true,
-				size: 'small'
+				showResetBtn: true
+				// size: 'small'
+				// size: 'large'
 				// showFooter: false
 			},
 			dialogVisible: false,
@@ -354,7 +375,7 @@ export default {
 		},
 		formSubmit(params) {
 			debugger
-			console.error('params', params)
+			console.error('params', JSON.stringify(params))
 			this.formConfig.submitLoading = true
 			setTimeout(() => {
 				this.formConfig.submitLoading = false

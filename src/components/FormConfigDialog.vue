@@ -6,7 +6,7 @@ const render = function() {
 	return <el-dialog
 		title={title}
 		modelValue={modelValue}
-		props={this.$attrs}
+		{...this.$attrs}
 		closeOnClickModal={false}
 		width={width}
 		class="ad-dialog ad-form-config-dialog"

@@ -7,10 +7,11 @@ import InputNumberRange from './InputNumberRange.vue'
 import FormConfig from './FormConfig.vue'
 import SearchForm from './SearchForm.vue'
 import TableComponent from '@/components/Table/index'
+import NoData from '@/components/NoData'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 
 // you want register components
-const compList = [SvgIcon, InputNumber, InputNumberRange, DialogForm, FormConfig, SearchForm, TableComponent]
+const compList = [SvgIcon, InputNumber, InputNumberRange, DialogForm, FormConfig, SearchForm, TableComponent, NoData]
 
 export function registerGlobComp(app: App) {
 	Object.entries(ElementPlusIconsVue).map(([key, component]) => {

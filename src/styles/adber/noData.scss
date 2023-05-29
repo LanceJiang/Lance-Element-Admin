@@ -1,0 +1,36 @@
+@import "../variables.scss";
+// NoData 样式
+.#{$prefix}no-data {
+  &.small {
+		.#{$prefix}no-data__img {
+			width: 108px;
+		}
+  }
+  &.large {
+    .#{$prefix}no-data__img {
+      //font-size: 120px;
+			width: 162px;
+    }
+  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &--full {
+    width: 100%;
+    height: 100%;
+  }
+
+  padding: 20px 0;
+
+  &__img {
+    //font-size: 80px;
+    pointer-events: none;
+  }
+
+  .message {
+    color: $ad-color_4;
+    line-height: initial;
+		font-size: 12px;
+  }
+}
