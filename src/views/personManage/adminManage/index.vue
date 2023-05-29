@@ -9,14 +9,14 @@
 				</el-button>
 			</template>
 			<template #谷歌验证状态="{ row }">
-				<el-button type="text" @click="changGooGleKey(row.id, row.google_key)">
+				<el-tag @click="changGooGleKey(row.id, row.google_key)">
 					{{ { 0: '未绑定', 1: '已绑定' }[row.google_key] }}
-				</el-button>
+				</el-tag>
 			</template>
 			<template #账号状态="{ row }">
-				<el-button type="text" @click="changUserStatus(row.id)">
-					{{ { 0: '禁用', 1: '正常', 2: '锁定' }[row.status] }}
-				</el-button>
+				<el-tag @click="changUserStatus(row.id)">
+					{{ { 0: '禁用', 1: '正常', 2: '锁定' }[row.status] || '-' }}
+				</el-tag>
 			</template>
 			<template #角色="{ row }">
 				<template v-if="row.roles.length">
@@ -25,8 +25,8 @@
 				<template>--</template>
 			</template>
 			<template #操作="{ row }">
-				<el-button type="text" @click.prevent="changGooGleKey(row.id)"> 删除</el-button>
-				<el-button type="text" @click.prevent="changeUser(row)"> 修改</el-button>
+				<el-button @click.prevent="changGooGleKey(row.id)"> 删除</el-button>
+				<el-button @click.prevent="changeUser(row)"> 修改</el-button>
 			</template>
 		</TableComponent>
 	</div>

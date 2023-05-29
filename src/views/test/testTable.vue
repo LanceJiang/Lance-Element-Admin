@@ -61,10 +61,10 @@
 				</div>
 			</template>
 		</TableComponent>
-		<DialogForm
+		<AdFormConfigDialog
 			ref="dialogRef"
 			v-if="visible"
-			v-model:visible="visible"
+			v-model="visible"
 			:title="`${isCreate ? '新增' : '编辑'}配置`"
 			width="1200px"
 			:formData="activeData"
@@ -403,7 +403,7 @@ export default defineComponent({
 				size: 10,
 				projectType: '类型one'
 			}
-			debugger
+			// debugger
 			const ref = this.$refs.searchForm
 			ref.forceUpdateInitParams() // (this.searchParams)
 		})

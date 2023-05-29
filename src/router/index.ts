@@ -47,6 +47,19 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 		]
 	},
 	{
+		path: '/components',
+		component: Layout,
+		redirect: '/index',
+		children: [
+			{
+				path: 'index',
+				component: () => import('@/views/components/index.vue'),
+				name: 'Comps',
+				meta: { title: 'Comps', icon: 'excel' }
+			}
+		]
+	},
+	{
 		path: '/form',
 		component: Layout,
 		redirect: '/default',
@@ -55,7 +68,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 				path: 'default',
 				component: () => import('@/views/form/default.vue'),
 				name: 'Form',
-				meta: { title: 'Form', icon: 'excel' }
+				meta: { title: 'Form', icon: 'guide' }
 			}
 		]
 	},
