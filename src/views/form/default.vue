@@ -66,7 +66,7 @@ const prefix = 'example.forms.'
 // import { ref } from 'vue'
 import i18n from '@/lang/index'
 export default {
-	name: 'Form',
+	name: 'FormDefault',
 	data() {
 		// const _this = this
 		return {
