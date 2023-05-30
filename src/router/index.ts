@@ -67,8 +67,21 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 			{
 				path: 'default',
 				component: () => import('@/views/form/default.vue'),
-				name: 'Form',
+				name: 'FormDefault',
 				meta: { title: 'Form', icon: 'guide' }
+			}
+		]
+	},
+	{
+		path: '/table',
+		component: Layout,
+		redirect: '/default',
+		children: [
+			{
+				path: 'default',
+				component: () => import('@/views/table/default.vue'),
+				name: 'TableDefault',
+				meta: { title: 'Table', icon: 'table' }
 			}
 		]
 	},

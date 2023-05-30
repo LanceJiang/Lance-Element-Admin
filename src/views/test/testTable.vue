@@ -1,19 +1,5 @@
 <template>
 	<div class="testTable column-page-wrap">
-		<!--  form配置组件  -->
-		    <FormConfig
-      style="background: #fff;"
-        ref="form"
-        v-bind="formOptions"
-        :form-data="formData"
-    >
-      <!-- 若有必要可以塞入额外内容 -->
-<!--      <template #extraContent>
-        <el-col key='extraContent' :span='24'>
-          额外内容
-        </el-col>
-      </template>-->
-    </FormConfig>
     <el-row>
       <el-col :span="8" :xs="{span: 11, offset:2}">
         <el-button type="primary" size="small" @click="filterHandler">查找</el-button>
@@ -22,9 +8,9 @@
     </el-row>
 		<!-- 公用搜索组件 -->
 		<SearchForm ref="searchForm" v-model:searchParams="searchParams" :forms="forms" />
-		<el-button @click="toggleForm">toggleForm</el-button>
-		<!--  TableComponent 组件使用 示例：  -->
-		<TableComponent
+		<el-button @click="toggleForm">toggleForm 测试</el-button>
+		<!--  AdTable 组件使用 示例：  -->
+		<AdTable
 			v-model:searchParams="searchParams"
 			:list="list"
 			:total="total"
@@ -60,7 +46,7 @@
 					index: {{ $index }}
 				</div>
 			</template>
-		</TableComponent>
+		</AdTable>
 		<AdFormConfigDialog
 			ref="dialogRef"
 			v-if="visible"
@@ -75,20 +61,14 @@
 </template>
 
 <script lang="tsx">
-// eslint-disable-next-line
-// @ts-ignore
-import FormConfig from '@/components/FormConfig'
 import SearchForm from '@/components/SearchForm'
-import TableComponent from '@/components/Table'
 import {defineComponent, nextTick} from 'vue'
 import { getAdminList } from '@/api/personManage'
 
 export default defineComponent({
 	name: 'testTable',
 	components: {
-		FormConfig,
-		SearchForm,
-		TableComponent
+		SearchForm
 	},
 	data() {
 		const _this = this
@@ -279,7 +259,7 @@ export default defineComponent({
 				rules: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' }]
 			}
 		]
-		const labelWidth = 80
+		const labelWidth = 120
 		const span = 23
 		const xs = { span: 23 }
 		const showResetBtn = true
@@ -470,10 +450,9 @@ export default defineComponent({
 			console.log('搜索参数： ', this.searchParams)
 			getAdminList(this.searchParams)
 				.then((data: any) => {
-					// const { total, list } = data
 					const { total, data: list } = data
 					this.total = total
-					list.push({})
+					// list.push({})
 					_this.list = list
 				})
 				.finally(() => {

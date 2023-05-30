@@ -37,6 +37,12 @@
 					<template #adSelectSlot="{ option, label }">
 						<div style="background: #00f">{{ label }} + {{ option.value_1 }}</div>
 					</template>
+					<template #extraContent>
+<!--						若有需要可以塞入额外内容-->
+						<el-col key='extraContent' :span='24'>
+							额外内容
+						</el-col>
+					</template>
 				</AdFormConfig>
 			</el-dialog>
 		</div>

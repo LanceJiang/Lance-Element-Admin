@@ -19,7 +19,20 @@ import 'virtual:svg-icons-register'
 	const existIconVersion = false
 	if (!existIconVersion) {
 		/** update 最新 iconfont(.css && .js) */
-		const origin_prefix = '//at.alicdn.com/t/c/font_4091949_vvz6zn4y5l'
+		/* todo delete Start */
+		const origin_prefix_ = '//at.alicdn.com/t/c/font_4091949_vvz6zn4y5l'
+		const link_ = d.createElement('link')
+		link_.rel = 'stylesheet'
+		link_.type = 'text/css'
+		link_.className = 'ad-icon_iconfont'
+		link_.href = `${origin_prefix_}.css`
+		d.getElementsByTagName('head')[0].appendChild(link_)
+		const s_ = d.createElement('script')
+		s_.className = 'ad-icon_svg'
+		s_.src = `${origin_prefix_}.js`
+		d.getElementsByTagName('head')[0].appendChild(s_)
+		/* todo delete End */
+		const origin_prefix = '//at.alicdn.com/t/c/font_4091949_1g37iqlkjlq'
 		const link = d.createElement('link')
 		link.rel = 'stylesheet'
 		link.type = 'text/css'

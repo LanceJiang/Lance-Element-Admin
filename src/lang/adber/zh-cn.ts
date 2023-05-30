@@ -19,6 +19,8 @@ export default {
 		selectAll: '全选',
 		noData: '无数据',
 		refresh: '刷新',
+		fullscreen: '全屏',
+		exitFullscreen: '退出全屏',
 		copy: '复制',
 		column: '视图',
 		// 筛选相关
