@@ -1,8 +1,8 @@
 <template>
 	<div class="column-page-wrap app-container">
 		<!-- 公用搜索组件 -->
-		<SearchForm v-model:searchParams="searchParams" :forms="forms" />
-		<TableComponent v-model:searchParams="searchParams" :list="list" :total="total" :options="options" :columns="columns">
+		<LeSearchForm v-model:searchParams="searchParams" :forms="forms" />
+		<LeTable v-model:searchParams="searchParams" :list="list" :total="total" :options="options" :columns="columns">
 			<template #toolLeft>
 				<el-button type="primary" @click="testDialog">
 					新增<el-icon class="btn-icon"><Plus /></el-icon>
@@ -28,7 +28,7 @@
 				<el-button @click.prevent="changGooGleKey(row.id)"> 删除</el-button>
 				<el-button @click.prevent="changeUser(row)"> 修改</el-button>
 			</template>
-		</TableComponent>
+		</LeTable>
 	</div>
 </template>
 <script setup lang="ts">

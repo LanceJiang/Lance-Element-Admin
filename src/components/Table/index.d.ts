@@ -1,16 +1,16 @@
 import type { ElTable, ElTableColumn } from 'element-plus/lib/components/table'
-export type AdSlots = {
+export type LeSlots = {
 	default?: (scope: Record<string, any>) => any | string
 	header?: (scope: Record<string, any>) => any | string
 }
-export type AdColumnProps = {
-	slots?: AdSlots
-	children?: AdTableColumnProps[]
+export type LeColumnProps = {
+	slots?: LeSlots
+	children?: LeTableColumnProps[]
 }
 /* Column */
-export type AdTableColumnProps = InstanceType<typeof ElTableColumn>['$props'] & AdColumnProps
+export type LeTableColumnProps = InstanceType<typeof ElTableColumn>['$props'] & LeColumnProps
 
-export type AdOptions = {
+export type LeOptions = {
 	// 表格分页器 pageSizes (默认:[10, 20, 50, 100])
 	pageSizes?: number[]
 	// 表格分页器 layout (默认:'total, sizes, prev, pager, next, jumper')
@@ -40,7 +40,7 @@ export type AdOptions = {
 	showPagination?: boolean
 }
 /* Table */
-export type AdTableProps = InstanceType<typeof ElTable>['$props'] & AdOptions
+export type LeTableProps = InstanceType<typeof ElTable>['$props'] & LeOptions
 
 export type SearchParams = {
 	page: number

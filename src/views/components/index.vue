@@ -5,33 +5,33 @@
     <div class="content">
       <el-button @click="switchLang" size="small">
         lang: 切换
-<!--        <AdIcon iconClass="ad-frozen"/>
-        <AdIcon iconClass="ad-warning"/>-->
+<!--        <LeIcon iconClass="le-frozen"/>
+        <LeIcon iconClass="le-warning"/>-->
         {{$i18n.locale}}
       </el-button>
       <div>local文字: {{$t('route.dashboard')}}</div>
-      <div>src/locale 文字(携带 adb前缀做区分): {{$t('adb.btn.add')}}</div>
+      <div>src/locale 文字(携带 le前缀做区分): {{$t('le.btn.add')}}</div>
     </div>
-    <div class="common_title">AdSearchGroup 使用 示例(继承于AdPopover)</div>
+    <div class="common_title">LeSearchGroup 使用 示例(继承于LePopover)</div>
 <!--    <div class="content">
-      <AdSearchGroup v-bind="formOptions" v-model="searchParams" :selectedSettingSubmit="selectedSettingSubmit"/>
+      <LeSearchGroup v-bind="formOptions" v-model="searchParams" :selectedSettingSubmit="selectedSettingSubmit"/>
     </div>-->
-    <div class="common_title">AdPopover 使用</div>
+    <div class="common_title">LePopover 使用</div>
     <div class="content">
-      <div>-------类AdSearchGroup 组件创建示例-------</div>
-      <!-- button-group 类型 下拉弹窗选择 AdSearchGroup 生成模拟 -->
+      <div>-------类LeSearchGroup 组件创建示例-------</div>
+      <!-- button-group 类型 下拉弹窗选择 LeSearchGroup 生成模拟 -->
 <!--      <el-button-group>
-        &lt;!&ndash; ad-search-group_btn  &ndash;&gt;
-        <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover&#45;&#45;select ${'popperClass'}`" placement="bottom">
-          <el-button slot="reference" class="ad-popover-box__btn">
+        &lt;!&ndash; le-search-group_btn  &ndash;&gt;
+        <LePopover :first-load='false' trigger="click" :popperClass="`le-popover&#45;&#45;select ${'popperClass'}`" placement="bottom">
+          <el-button slot="reference" class="le-popover-box__btn">
           <span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
-            <span class="ad-popover-box__btn__label">{{ 'item.label  1' }}</span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
+            <i class="el-icon-arrow-down le-popover-box__btn__prefix" slot="prefix" />
+            <span class="le-popover-box__btn__label">{{ 'item.label  1' }}</span>
+            <i class="el-icon-arrow-down le-popover-box__btn__suffix" slot="suffix" />
           </span>
           </el-button>
 
-          <div class="ad-popover&#45;&#45;select_content">
+          <div class="le-popover&#45;&#45;select_content">
             <div
               class="more-item"
               v-for='num of Array.from({length: 10}).map((_, i) => i)'
@@ -42,35 +42,35 @@
             </div>
           </div>
 
-          <div class="ad-popover&#45;&#45;select_footer">
+          <div class="le-popover&#45;&#45;select_footer">
             <el-tooltip
               placement="top"
-              :content="$t('adb.btn.reset')"
+              :content="$t('le.btn.reset')"
             >
               <el-button size='small' @click='$message.warning("触发 reset 方法")'>
-                <ad-icon icon-class="ad-clear" />
+                <le-icon icon-class="le-clear" />
               </el-button>
             </el-tooltip>
             <el-tooltip
               placement="top"
-              :content="$t('adb.btn.confirm')"
+              :content="$t('le.btn.confirm')"
             >
               <el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-                <ad-icon icon-class="ad-confirm" />
+                <le-icon icon-class="le-confirm" />
               </el-button>
             </el-tooltip>
           </div>
-        </AdPopover>
-        <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover&#45;&#45;select ${'popperClass'}`" placement="top">
-          <el-button slot="reference" class="ad-popover-box__btn">
+        </LePopover>
+        <LePopover :first-load='false' trigger="click" :popperClass="`le-popover&#45;&#45;select ${'popperClass'}`" placement="top">
+          <el-button slot="reference" class="le-popover-box__btn">
           <span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
-            <span class="ad-popover-box__btn__label">{{ 'item.label  2' }}</span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
+            <i class="el-icon-arrow-down le-popover-box__btn__prefix" slot="prefix" />
+            <span class="le-popover-box__btn__label">{{ 'item.label  2' }}</span>
+            <i class="el-icon-arrow-down le-popover-box__btn__suffix" slot="suffix" />
           </span>
           </el-button>
 
-          <div class="ad-popover&#45;&#45;select_content">
+          <div class="le-popover&#45;&#45;select_content">
             <div
               class="more-item"
               v-for='num of Array.from({length: 10}).map((_, i) => i)'
@@ -81,25 +81,25 @@
             </div>
           </div>
 
-          <div class="ad-popover&#45;&#45;select_footer">
+          <div class="le-popover&#45;&#45;select_footer">
             <el-button size='small' @click='$message.warning("触发 reset 方法")'>
-              <ad-icon icon-class="ad-clear" />
+              <le-icon icon-class="le-clear" />
             </el-button>
             <el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-              <ad-icon icon-class="ad-confirm" />
+              <le-icon icon-class="le-confirm" />
             </el-button>
           </div>
-        </AdPopover>
-        <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover&#45;&#45;select ${'popperClass'}`" placement="top">
-          <el-button slot="reference" class="ad-popover-box__btn">
+        </LePopover>
+        <LePopover :first-load='false' trigger="click" :popperClass="`le-popover&#45;&#45;select ${'popperClass'}`" placement="top">
+          <el-button slot="reference" class="le-popover-box__btn">
           <span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
-            <span class="ad-popover-box__btn__label">{{ 'item.label  3' }}</span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
+            <i class="el-icon-arrow-down le-popover-box__btn__prefix" slot="prefix" />
+            <span class="le-popover-box__btn__label">{{ 'item.label  3' }}</span>
+            <i class="el-icon-arrow-down le-popover-box__btn__suffix" slot="suffix" />
           </span>
           </el-button>
 
-          <div class="ad-popover&#45;&#45;select_content">
+          <div class="le-popover&#45;&#45;select_content">
             <div
               class="more-item"
               v-for='num of Array.from({length: 10}).map((_, i) => i)'
@@ -110,47 +110,47 @@
             </div>
           </div>
 
-          <div class="ad-popover&#45;&#45;select_footer">
+          <div class="le-popover&#45;&#45;select_footer">
             <el-button size='small' @click='$message.warning("触发 reset 方法")'>
-              <ad-icon icon-class="ad-clear" />
+              <le-icon icon-class="le-clear" />
             </el-button>
             <el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-              <ad-icon icon-class="ad-confirm" />
+              <le-icon icon-class="le-confirm" />
             </el-button>
           </div>
-        </AdPopover>
-        <span class="ad-popover-box">
+        </LePopover>
+        <span class="le-popover-box">
           <span class="el-popover__reference-wrapper">
             <el-tooltip
               placement="top"
-              :content="$t('adb.filter.filterLabel')"
+              :content="$t('le.filter.filterLabel')"
             >
               <el-button @click='triggerFilter'>
-                <ad-icon icon-class="ad-filter"/>
+                <le-icon icon-class="le-filter"/>
               </el-button>
             </el-tooltip>
           </span>
         </span>
       </el-button-group>-->
       <!--   FilterDrawer抽屉示例   -->
-<!--      <AdSearchFilterDrawer :visible.sync="testDrawer">
+<!--      <LeSearchFilterDrawer :visible.sync="testDrawer">
         测试......
         <template #footer>
           1
         </template>
-      </AdSearchFilterDrawer>-->
+      </LeSearchFilterDrawer>-->
       <div>-------button 类型 下拉弹窗 示例--------</div>
-      <!--   模拟 button 类型 下拉弹窗选择 ad-popover--select   -->
-<!--      <AdPopover :first-load='false' trigger="click" :popperClass="`ad-popover&#45;&#45;select ${'popperClass'}`" placement="top">
-        <el-button slot="reference" class="ad-popover-box__btn">
+      <!--   模拟 button 类型 下拉弹窗选择 le-popover--select   -->
+<!--      <LePopover :first-load='false' trigger="click" :popperClass="`le-popover&#45;&#45;select ${'popperClass'}`" placement="top">
+        <el-button slot="reference" class="le-popover-box__btn">
           <span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__prefix" slot="prefix" />
-            <span class="ad-popover-box__btn__label">{{ 'item.label' }}</span>
-            <i class="el-icon-arrow-down ad-popover-box__btn__suffix" slot="suffix" />
+            <i class="el-icon-arrow-down le-popover-box__btn__prefix" slot="prefix" />
+            <span class="le-popover-box__btn__label">{{ 'item.label' }}</span>
+            <i class="el-icon-arrow-down le-popover-box__btn__suffix" slot="suffix" />
           </span>
         </el-button>
 
-        <div class="ad-popover&#45;&#45;select_content">
+        <div class="le-popover&#45;&#45;select_content">
           <div
             class="more-item"
             v-for='num of Array.from({length: 10}).map((_, i) => i)'
@@ -161,36 +161,36 @@
           </div>
         </div>
 
-        <div class="ad-popover&#45;&#45;select_footer">
+        <div class="le-popover&#45;&#45;select_footer">
           <el-tooltip
             placement="top"
-            :content="$t('adb.btn.reset')"
+            :content="$t('le.btn.reset')"
           >
             <el-button size='small' @click='$message.warning("触发 reset 方法")'>
-              <ad-icon icon-class="ad-clear" />
+              <le-icon icon-class="le-clear" />
             </el-button>
           </el-tooltip>
           <el-tooltip
             placement="top"
-            :content="$t('adb.btn.confirm')"
+            :content="$t('le.btn.confirm')"
           >
             <el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-              <ad-icon icon-class="ad-confirm" />
+              <le-icon icon-class="le-confirm" />
             </el-button>
           </el-tooltip>
         </div>
-      </AdPopover>-->
+      </LePopover>-->
       <div>-------分割--------</div>
-      <!--   模拟 查看更多下拉列表 类型 ad-popover--list   -->
-<!--      <AdPopover trigger="click" :popperClass="`ad-popover&#45;&#45;list ${'popperClass'}`" placement="right">
+      <!--   模拟 查看更多下拉列表 类型 le-popover--list   -->
+<!--      <LePopover trigger="click" :popperClass="`le-popover&#45;&#45;list ${'popperClass'}`" placement="right">
         <div class="labelWrap" style="width: 400px;background: #f00;" slot="reference">
-          可售：666（ad-popover默认 click 触发ad-popover-list展示）
+          可售：666（le-popover默认 click 触发le-popover-list展示）
         </div>
         <div class="more-item_title">
           <span class="label">类目</span>
           <span class="value" style='color: #BDC3C9;'>数量</span>
         </div>
-        <el-main style='padding: 0;' class="ad-popover&#45;&#45;list_content" @hook:created='$log("创建完成 触发(可能有接口请求) 。。。1111")'>
+        <el-main style='padding: 0;' class="le-popover&#45;&#45;list_content" @hook:created='$log("创建完成 触发(可能有接口请求) 。。。1111")'>
           <div class="more-item">
             <span class="label"> 可售 </span>
             <span class="value"> 666 </span>
@@ -204,13 +204,13 @@
             <span class="value"> 1{{num}} </span>
           </div>
         </el-main>
-      </AdPopover>-->
+      </LePopover>-->
       <div>-------分割--------</div>
-<!--      <AdPopover :first-load='true' trigger="click" :popperClass="`ad-popover&#45;&#45;list ${'popperClass'}`" placement="right">
+<!--      <LePopover :first-load='true' trigger="click" :popperClass="`le-popover&#45;&#45;list ${'popperClass'}`" placement="right">
         <div class="labelWrap" style="width: 690px;background: #ff0;" slot="reference">
-          可售：666（ad-popover默认 click 触发ad-popover-list展示【slot default 内容未展示 就触发生命周期示例】）
+          可售：666（le-popover默认 click 触发le-popover-list展示【slot default 内容未展示 就触发生命周期示例】）
         </div>
-        <el-main style='padding: 0;' @hook:created='$log("创建完成 触发(可能有接口请求) 。。。22222")' class="ad-popover&#45;&#45;list_content">
+        <el-main style='padding: 0;' @hook:created='$log("创建完成 触发(可能有接口请求) 。。。22222")' class="le-popover&#45;&#45;list_content">
           <div class="more-item">
             <span class="label"> 可售 </span>
             <span class="value"> 666 </span>
@@ -224,88 +224,88 @@
             <span class="value"> 1{{num}} </span>
           </div>
         </el-main>
-      </AdPopover>-->
+      </LePopover>-->
     </div>
 
-    <div class="common_title">AdSelect 使用</div>
+    <div class="common_title">LeSelect 使用</div>
     <div class="content">
-<!--      <AdSelect v-model="testValue" filterable multiple isPopover>
+<!--      <LeSelect v-model="testValue" filterable multiple isPopover>
         <el-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item.value">
         </el-option>
-      </AdSelect>
-      <div>-&#45;&#45;&#45;&#45;&#45;&#45;AdSelect 无弹窗(isPopover  false)&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</div>
-      <AdSelect v-model="testValue2" filterable multiple :isPopover="false">
+      </LeSelect>
+      <div>-&#45;&#45;&#45;&#45;&#45;&#45;LeSelect 无弹窗(isPopover  false)&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</div>
+      <LeSelect v-model="testValue2" filterable multiple :isPopover="false">
         <el-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item.value">
         </el-option>
-      </AdSelect>-->
+      </LeSelect>-->
     </div>
 
-    <div class="common_title">AdInputNumber && AdInputNumberRange</div>
+    <div class="common_title">LeInputNumber && LeInputNumberRange</div>
     <div class="content">
       {{testNumber}}
-      <AdInputNumber disabled v-model="testNumber" :min="0" prefixIcon="#" _controlsPosition=""></AdInputNumber>
-      <AdInputNumber v-model="testNumber" :min="0" prefixIcon="#" suffixIcon="￥" size="small" _controlsPosition=""></AdInputNumber>
-      <AdInputNumber v-model="testNumber" :min="0" prefixIcon="#" size="small" _controlsPosition=""></AdInputNumber>
-      <AdInputNumber v-model="testNumber" :min="0" suffixIcon="￥" _controlsPosition=""></AdInputNumber>
-      <AdInputNumber size="small" v-model="testNumber" :min="0" prefixIcon="#" suffixIcon="￥" _controlsPosition=""></AdInputNumber>
-      <AdInputNumber v-model="testNumber" :min="0" style="width: 300px;" controlsPosition="">
-        <template slot="prefix"><span class="ad-addon ad-input-number__prefix" style="background: #0f0;">prefix</span></template>
-        <template slot="suffix"><span class="ad-addon ad-input-number__suffix" style="background: #f00">suffix</span></template>
-      </AdInputNumber>
-      <div>-------AdInputNumberRange--------</div>
+      <LeInputNumber disabled v-model="testNumber" :min="0" prefixIcon="#" _controlsPosition=""></LeInputNumber>
+      <LeInputNumber v-model="testNumber" :min="0" prefixIcon="#" suffixIcon="￥" size="small" _controlsPosition=""></LeInputNumber>
+      <LeInputNumber v-model="testNumber" :min="0" prefixIcon="#" size="small" _controlsPosition=""></LeInputNumber>
+      <LeInputNumber v-model="testNumber" :min="0" suffixIcon="￥" _controlsPosition=""></LeInputNumber>
+      <LeInputNumber size="small" v-model="testNumber" :min="0" prefixIcon="#" suffixIcon="￥" _controlsPosition=""></LeInputNumber>
+      <LeInputNumber v-model="testNumber" :min="0" style="width: 300px;" controlsPosition="">
+        <template slot="prefix"><span class="le-addon le-input-number__prefix" style="background: #0f0;">prefix</span></template>
+        <template slot="suffix"><span class="le-addon le-input-number__suffix" style="background: #f00">suffix</span></template>
+      </LeInputNumber>
+      <div>-------LeInputNumberRange--------</div>
       {{numberRangeParams}}<br>
-      <AdInputNumberRange v-model="numberRangeParams" v-bind="numberRangeForm" style='width: 500px;'>
-<!--        <template slot="prepend"><span class="ad-input-number-range_addon local_prepend" style="background: #0f0;">prepend</span></template>-->
-        <template slot="append"><span class="ad-input-number-range_addon local_append" style="background: #f00">append</span></template>
-      </AdInputNumberRange>
+      <LeInputNumberRange v-model="numberRangeParams" v-bind="numberRangeForm" style='width: 500px;'>
+<!--        <template slot="prepend"><span class="le-input-number-range_addon local_prepend" style="background: #0f0;">prepend</span></template>-->
+        <template slot="append"><span class="le-input-number-range_addon local_append" style="background: #f00">append</span></template>
+      </LeInputNumberRange>
     </div>
-<!--    <div class="common_title">iconfont && AdIcon</div>
+<!--    <div class="common_title">iconfont && LeIcon</div>
     <div class="content">
       &lt;!&ndash;  单色样式类  &ndash;&gt;
-      <span class="ad-iconfont ad-Review"></span>
-      <AdIcon iconClass="ad-checkbox_checked"></AdIcon>
-      <span class="ad-iconfont ad-checkbox_checked"></span>
-      <AdIcon iconClass="ad-checkbox"></AdIcon>
-      <span class="ad-iconfont ad-checkbox"></span>
-&lt;!&ndash;      <AdIcon iconClass="ad-checkbox"></AdIcon>&ndash;&gt;
-&lt;!&ndash;      <span class="ad-iconfont ad-radio_checked_disable"></span>&ndash;&gt;
-      <AdIcon iconClass="ad-radio_checked"></AdIcon>
-      <span class="ad-iconfont ad-radio_checked"></span>
-      <AdIcon iconClass="ad-radio"></AdIcon>
-      <span class="ad-iconfont ad-radio"></span>
+      <span class="le-iconfont le-Review"></span>
+      <LeIcon iconClass="le-checkbox_checked"></LeIcon>
+      <span class="le-iconfont le-checkbox_checked"></span>
+      <LeIcon iconClass="le-checkbox"></LeIcon>
+      <span class="le-iconfont le-checkbox"></span>
+&lt;!&ndash;      <LeIcon iconClass="le-checkbox"></LeIcon>&ndash;&gt;
+&lt;!&ndash;      <span class="le-iconfont le-radio_checked_disable"></span>&ndash;&gt;
+      <LeIcon iconClass="le-radio_checked"></LeIcon>
+      <span class="le-iconfont le-radio_checked"></span>
+      <LeIcon iconClass="le-radio"></LeIcon>
+      <span class="le-iconfont le-radio"></span>
       &lt;!&ndash;  svg  &ndash;&gt;
-      <AdIcon iconClass="ad-frozen" @click="test"></AdIcon>
+      <LeIcon iconClass="le-frozen" @click="test"></LeIcon>
       &lt;!&ndash;Table 操作 用： Icon按钮&ndash;&gt;
       <el-tooltip placement="top" :content="$t('outboundOrder.btn.view')">
-        <el-button class="ad-icon-button" @click="test('row')">
-          <AdIcon iconClass="ad-view"></AdIcon>
+        <el-button class="le-icon-button" @click="test('row')">
+          <LeIcon iconClass="le-view"></LeIcon>
         </el-button>
       </el-tooltip>
     </div>-->
 
-<!--    <div class="common_title">下拉Dropdown AdDropdown</div>
+<!--    <div class="common_title">下拉Dropdown LeDropdown</div>
     <div class="content">
-      <AdDropdown v-model="dropdownValue" :options="dropdownOptions" clearable modelValue>
+      <LeDropdown v-model="dropdownValue" :options="dropdownOptions" clearable modelValue>
 &lt;!&ndash;        <template #btn="{ selectOption, showClear }">
-          <span class="ad-dropdown-link">
+          <span class="le-dropdown-link">
             {{$log(showClear, 'showClear')}}
             {{selectOption.label}}
              <i :class="['action el-icon-arrow-down']" />
           </span>
         </template>&ndash;&gt;
-      </AdDropdown>
+      </LeDropdown>
 
-      <AdDropdown v-model="dropdownValue" :options="dropdownOptions" @command="$log($event, 'command 测试')">
+      <LeDropdown v-model="dropdownValue" :options="dropdownOptions" @command="$log($event, 'command 测试')">
         <template #btn="test">
-          <span class="ad-dropdown-link">
+          <span class="le-dropdown-link">
             {{test}}
              <i :class="['action el-icon-arrow-down']" />
           </span>
@@ -320,20 +320,20 @@
             -&#45;&#45;{{ opt.label }}&#45;&#45;&#45;&#45; label
           </el-dropdown-item>
         </template>
-      </AdDropdown>
+      </LeDropdown>
     </div>-->
-    <div class="common_title">暂无数据 AdNoData</div>
+    <div class="common_title">暂无数据 LeNoData</div>
     <div class="content">
-      <AdNoData
+      <LeNoData
         @click="$log('test....')"
 				:message="`<div style='background: #f00;'>test: lang: ${$i18n.locale}</div>`"
       >
         <template v-slot:extraContent>no data</template>
-      </AdNoData>
+      </LeNoData>
     </div>
-<!--    <div class="common_title">AdDraggableNest</div>
+<!--    <div class="common_title">LeDraggableNest</div>
     <div class="content">
-      <AdDraggableNest
+      <LeDraggableNest
         style="background: #fafafa;"
         v-model="checkedOptions"
         :move="onMove"
@@ -341,9 +341,9 @@
     </div>-->
 <!--    <div class="common_title">ElCard Style</div>
     <div class="content">...</div>
-    <div class="common_title">iconfont && AdIcon</div>
+    <div class="common_title">iconfont && LeIcon</div>
     <div class="content">
-      <el-card shadow="never" class="ad-card-bg picking-list" header="Picking List">
+      <el-card shadow="never" class="le-card-bg picking-list" header="Picking List">
         <template slot="header">
           Picking List&#45;&#45;&#45;&#45;
           <el-button type="text">Clear</el-button>
@@ -358,10 +358,10 @@
 import useStore from "@/store/index";
 
 const iconOptions = [
-  { label: 'ad-insurance_grey', value: 2, icon: 'ad-insurance', color: '#C6CDD5' },
-  { label: 'ad-sign_grey', value: 4, icon: 'ad-sign', color: '#C6CDD5' },
-  { label: 'ad-insurance_green', value: 1, icon: 'ad-insurance', color: '#03B497' },
-  { label: 'ad-sign_green', value: 3, icon: 'ad-sign', color: '#03B497' }
+  { label: 'le-insurance_grey', value: 2, icon: 'le-insurance', color: '#C6CDD5' },
+  { label: 'le-sign_grey', value: 4, icon: 'le-sign', color: '#C6CDD5' },
+  { label: 'le-insurance_green', value: 1, icon: 'le-insurance', color: '#03B497' },
+  { label: 'le-sign_green', value: 3, icon: 'le-sign', color: '#03B497' }
 ]
 const icon_configObj = iconOptions.reduce((res, v) => {
   res[v.value] = {
@@ -401,7 +401,7 @@ export default {
         },
         {
           // 多语言
-          t_label: `adb.table.action`,
+          t_label: `le.table.action`,
           prop: 'action',
           fixed: 'right'
         }
@@ -469,7 +469,7 @@ export default {
             slotOption(h, { option, label }) {
               // console.error(option, label, 'option, label')
               const style = `color: ${option.color}`
-              return <ad-icon icon-class={option.icon} style={style}></ad-icon>
+              return <le-icon icon-class={option.icon} style={style}></le-icon>
             },
             // 渲染选中的特殊展示
             tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
@@ -481,7 +481,7 @@ export default {
               if (iconValue) {
                 const option = icon_configObj[iconValue]
                 const style = `color: ${option.color}`
-                showValue = <ad-icon icon-class={option.icon} style={style}></ad-icon>
+                showValue = <le-icon icon-class={option.icon} style={style}></le-icon>
                 // isMore请求 无需生成 tag
                 if (isMore) return { showValue }
                 tag = <el-tag disable-transitions>
@@ -506,7 +506,7 @@ export default {
             options: iconOptions,
             slotOption(h, { option, label }) {
               const style = `color: ${option.color}`
-              return <ad-icon icon-class={option.icon} style={style}></ad-icon>
+              return <le-icon icon-class={option.icon} style={style}></le-icon>
             },
             // 渲染选中的特殊展示
             tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
@@ -519,7 +519,7 @@ export default {
                 const options = Array.isArray(iconValue) ? iconValue.map(v => icon_configObj[v]) : [icon_configObj[iconValue]]
                 showValue = options.map(option => {
                   const style = `color: ${option.color}`
-                  return <ad-icon icon-class={option.icon} style={style}></ad-icon>
+                  return <le-icon icon-class={option.icon} style={style}></le-icon>
                 })
                 // isMore请求 无需生成 tag
                 if (isMore) return { showValue }
@@ -873,7 +873,7 @@ export default {
         console.warn('todo...... checkedOptions 提交 commit', dialog.checkedOptions)
         dialog.submitLoading = false
         // dialog.visibleChange(false)
-        this.$message.success(this.$t('adb.message.editSuccess'))
+        this.$message.success(this.$t('le.message.editSuccess'))
         // const forms = JSON.parse(JSON.stringify(this.formOptions.forms))
         const moreForms = this.formOptions.forms
         moreForms.forEach(v => {

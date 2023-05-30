@@ -64,7 +64,7 @@ export const getTableConfig = (input = {}) => {
 							columns: [
 								{
 									prop: 'action',
-									t_label: 'adb.table.action',
+									t_label: 'le.table.action',
 									fixed: 'right' // boolean string
 								},
 								{

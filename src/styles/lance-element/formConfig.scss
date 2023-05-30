@@ -22,7 +22,7 @@
     width: calc(100% + 48px);
     margin-left: -24px;
     padding: 10px 24px 0 24px;
-    border-top: 1px solid $ad-border-color_3;
+    border-top: 1px solid $le-border-color_3;
     // 取消
     .cancel-button {
       //margin-right: auto;
@@ -36,7 +36,7 @@
     }
   }
 }
-// FormConfigDialog 样式 (区别于 ad-dialog 样式以外的)
+// FormConfigDialog 样式 (区别于 le-dialog 样式以外的)
 .#{$prefix}form-config-dialog {
   .el-dialog__body {
     //height: auto;

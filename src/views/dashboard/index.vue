@@ -6,7 +6,7 @@
 				<BarChart id="barChart" height="400px" width="100%" class="chart-container" />
 			</el-col>
 			<el-col :sm="24" :lg="8" class="card-panel__col">
-				<OlChart
+				<LeChart
 					class="local_chartWrap"
 					ref="chartRef"
 					:loading="chartLoading"
@@ -19,7 +19,7 @@
 				/>
 			</el-col>
 			<el-col :sm="24" :lg="8" class="card-panel__col">
-				<OlChart :loading="chartLoading2" :option="chartOption2" height="400px" />
+				<LeChart :loading="chartLoading2" :option="chartOption2" height="400px" />
 			</el-col>
 		</el-row>
 	</div>
@@ -28,7 +28,7 @@
 <script setup lang="ts">
 // 组件引用
 import BarChart from './components/Chart/BarChart.vue'
-import OlChart from '@/components/OlChart.vue'
+import LeChart from '@/components/Chart.vue'
 import { reactive, ref, toRefs } from 'vue'
 import * as echarts from 'echarts'
 

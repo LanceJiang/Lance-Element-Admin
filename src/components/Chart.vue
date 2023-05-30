@@ -1,5 +1,5 @@
 <!--
-* @description 通用图表组件 OlChart
+* @description 通用图表组件 LeChart
 !-->
 <template>
 	<div class="chartWrap" :style="localStyle">
@@ -19,7 +19,7 @@
 			</div>
 		</div>
 		<div class="chart-wrap">
-			<div class="chart-container" ref="chartRef" />
+			<div ref="chartRef" class="chart-container" />
 			<div class="overlay" :class="{ overlayTopLevel: noData }">
 				<slot name="overlay">
 					<NoData class="chart_noData" :class="{ chart_noData_show: noData }" size="small" message="暂无数据" />
@@ -102,12 +102,12 @@ const props = {
 	}
 }
 export const ChartComponent = defineComponent({
-	name: 'OlChart',
+	name: 'LeChart',
 	components: {
 		NoData
 	},
-	emits,
 	props,
+	emits,
 	data() {
 		return {
 			localLoading: false
@@ -160,7 +160,7 @@ export const ChartComponent = defineComponent({
 		window.addEventListener('resize', this.debounceUpdateResize)
 		this.localLoading = true
 	},
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('resize', this.debounceUpdateResize)
 	},
 	mounted() {

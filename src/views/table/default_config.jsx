@@ -7,8 +7,8 @@ const tPrefix = 'example.table.'
 
 /**
  *  不同组件下配置的区别
- *  adTable slots.default: ({row, column, (index...)}, h){ return <element> } 为方便 ad(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
- *  adVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}, h){ return [<element>]}
+ *  leTable slots.default: ({row, column, (index...)}, h){ return <element> } 为方便 le(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
+ *  leVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}, h){ return [<element>]}
  */
 const slot_user = (scope, h) => {
 	// $rowIndex 指 vxeTable Cell  $index 指 elTable Cell
@@ -67,8 +67,8 @@ export const columns = [
 		slots: {
 			/**
 			 *  不同组件下配置的区别
-			 *  adTable slots.default: ({row, column, (index...)}, h){ return [<element>] || <element> } 为方便 ad(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
-			 *  adVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}, h){ return [<element>]}
+			 *  leTable slots.default: ({row, column, (index...)}, h){ return [<element>] || <element> } 为方便 le(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
+			 *  leVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}, h){ return [<element>]}
 			 */
 			default: ''
 		},
@@ -77,8 +77,8 @@ export const columns = [
 		formatter(maybeRow, ...others) {
 			/**
 			 * 不同组件下配置的区别
-			 *  adTable formatter: (row, column, cellValue, index){}
-			 *  adVxeTable formatter: ( {row, column, cellValue, rowIndex} ){}
+			 *  leTable formatter: (row, column, cellValue, index){}
+			 *  leVxeTable formatter: ( {row, column, cellValue, rowIndex} ){}
 			 */
 			// console.error(maybeRow, 'maybeRow ', others, 'others')
 			const row = maybeRow.row || maybeRow
@@ -98,8 +98,9 @@ export const columns = [
 	},
 	...testColumns,
 	{
-		t_label: 'adb.table.action',
-		// title: 'adb.table.action',
+		t_label: 'le.table.action',
+		// align: 'right',
+		// title: 'le.table.action',
 		label: '测试的 action label 非 t_label',
 		prop: 'action',
 		// field: 'action',
@@ -115,10 +116,10 @@ export const columns = [
 export const tabs_checkedColumns = columns.map(v => v)
 
 const iconOptions = [
-	{ label: 'ad-insurance_grey', value: 2, icon: 'ad-insurance', color: '#C6CDD5' },
-	{ label: 'ad-sign_grey', value: 4, icon: 'ad-sign', color: '#C6CDD5' },
-	{ label: 'ad-insurance_green', value: 1, icon: 'ad-insurance', color: '#03B497' },
-	{ label: 'ad-sign_green', value: 3, icon: 'ad-sign', color: '#03B497' }
+	{ label: 'le-insurance_grey', value: 2, icon: 'le-insurance', color: '#C6CDD5' },
+	{ label: 'le-sign_grey', value: 4, icon: 'le-sign', color: '#C6CDD5' },
+	{ label: 'le-insurance_green', value: 1, icon: 'le-insurance', color: '#03B497' },
+	{ label: 'le-sign_green', value: 3, icon: 'le-sign', color: '#03B497' }
 ]
 const icon_configObj = iconOptions.reduce((res, v) => {
 	res[v.value] = {
@@ -183,7 +184,7 @@ export const get_tabs_filterForms = () => [
 		slotOption(h, { option, label }) {
 			// console.error(option, label, 'option, label')
 			const style = `color: ${option.color}`
-			return <ad-icon icon-class={option.icon} style={style}></ad-icon>
+			return <le-icon icon-class={option.icon} style={style}></le-icon>
 		},
 		// 渲染选中的特殊展示
 		tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
@@ -195,7 +196,7 @@ export const get_tabs_filterForms = () => [
 			if (iconValue) {
 				const option = icon_configObj[iconValue]
 				const style = `color: ${option.color}`
-				showValue = <ad-icon icon-class={option.icon} style={style}></ad-icon>
+				showValue = <le-icon icon-class={option.icon} style={style}></le-icon>
 				// isMore请求 无需生成 tag
 				if (isMore) return { showValue }
 				tag = (
@@ -472,7 +473,7 @@ export const tableBaseMixin = {
 				// showIndex: true,
 				multipleSelect: true
 			},
-			dropdownList: ['PickingList', 'PackingList'],
+			dropdownList: ['save', 'cancel'],
 			// 列配置对象
 			tabs_columnsConfig: {
 				// 所有的 columns 配置

@@ -24,7 +24,7 @@
   // 分割线
   .divider {
     margin: 0 12px;
-    border-bottom:1px solid $ad-border-color_3;
+    border-bottom:1px solid $le-border-color_3;
   }
   .el-scrollbar__wrap {
     margin-bottom: 0 !important;
@@ -40,13 +40,13 @@
     .title {
       padding: 0 12px;
       line-height: 22px;
-      color: $ad-color_3;
+      color: $le-color_3;
     }
     .label {
       padding: 0 12px;
       height: 36px;
       line-height: 36px;
-      color: $ad-color_5;
+      color: $le-color_5;
     }
     //.draggableWrap {
     //  //display: flex;
@@ -111,7 +111,7 @@
       margin-left: .2em;
       font-size: 14px;
       cursor: pointer;
-      color: $ad-color_3;
+      color: $le-color_3;
       font-weight: normal;
     }
   }
@@ -163,9 +163,9 @@
       overflow-y: hidden;
     }
 
-    //.ad-table {}
+    //.le-table {}
   }
-  .ad-table {
+  .le-table {
     font-size: 14px;
     transform: translate(0, 0);
 		//$header-bg: #f5f7fa;
@@ -202,7 +202,7 @@
       .cell {
         //font-size: 13px;
         font-weight: normal;
-        color: $ad-color_1;
+        color: $le-color_1;
         line-height: 17px;
         padding-left: 12px;
         padding-right: 12px;
@@ -221,13 +221,13 @@
     &.el-table--striped {
       .el-table__body {
         tr.el-table__row--striped td {
-          background: $ad-hover-color_1;
+          background: $le-hover-color_1;
         }
       }
     }
     .el-table__body {
       //td {
-      //  color: $ad-color_2;
+      //  color: $le-color_2;
       //  font-size: 12px;
       //}
 
@@ -244,7 +244,7 @@
       }
     }
     .el-table__body tr.hover-row > td {
-      background: $ad-hover-color_1;
+      background: $le-hover-color_1;
     }
     // 排序类型样式调整
     .caret-wrapper {

@@ -26,7 +26,7 @@ const props = {
 	}
 }
 export const SearchForm = defineComponent({
-	name: 'SearchForm',
+	name: 'LeSearchForm',
 	emits,
 	props,
 	setup(props, ctx) {

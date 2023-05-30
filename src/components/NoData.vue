@@ -1,12 +1,12 @@
 <template>
-	<div @click="$emit('click')" :class="['ad-no-data', size, isFull ? 'ad-no-data--full' : '']">
-		<img class="ad-no-data__img" v-if="isShow" src="~@/assets/images/img_nodata.svg" />
+	<div @click="$emit('click')" :class="['le-no-data', size, isFull ? 'le-no-data--full' : '']">
+		<img class="le-no-data__img" v-if="isShow" src="~@/assets/images/img_nodata.svg" />
 		<div class="message" v-html="message" />
 		<!-- 额外处理 -->
 		<slot name="extraContent" />
 	</div>
 </template>
-<script setup name="AdNoData" lang="ts">
+<script setup name="LeNoData" lang="ts">
 import { defineProps, defineEmits } from 'vue'
 defineEmits(['click'])
 const props = defineProps({

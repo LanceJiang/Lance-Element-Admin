@@ -1,13 +1,13 @@
-/* adber-element-ui: 涉及element-ui的全局样式类改造&&新增修饰 */
+/* lance-element-ui: 涉及element-ui的全局样式类改造&&新增修饰 */
 @import "variables.scss";
 // 覆盖默认的 element-ui 样式
 
 .el-form-item__label {
-  color: $ad-color_1;
+  color: $le-color_1;
 }
 
 // dialog覆盖样式
-// <el-dialog class="ad-dialog"/>
+// <el-dialog class="le-dialog"/>
 %el-dialog {
   position: absolute;
   margin: 0 !important;
@@ -34,7 +34,7 @@
     text-align: left;
 		margin-right: 0;
     .el-dialog__title {
-      //color: $ad-color_1;
+      //color: $le-color_1;
     }
   }
   .el-dialog__headerbtn {
@@ -48,12 +48,12 @@
     max-height: calc(100vh - 160px);
     overflow-y: auto;
     padding: 24px;
-    color: $ad-color_1;
+    color: $le-color_1;
   }
 
   .el-dialog__footer {
     padding: 8px 24px 11px 24px;
-    border-top: 1px solid $ad-border-color_3;
+    border-top: 1px solid $le-border-color_3;
   }
 }
 
@@ -64,9 +64,9 @@
       .el-input-number__decrease,
       .el-input-number__increase {
         &:hover {
-          color: $ad-color_5;
+          color: $le-color_5;
         }
-        color: $ad-color_5;
+        color: $le-color_5;
       }
     }
     .el-input-number__decrease,
@@ -74,12 +74,12 @@
       border: none !important;
       background-color: transparent;
       width: 17px;
-      color: $ad-color_4;
+      color: $le-color_4;
       &:hover {
-        color: $ad-color-primary;
+        color: $le-color-primary;
       }
       &.is-disabled {
-        color: $ad-color_5;
+        color: $le-color_5;
         cursor: not-allowed;
       }
     }
@@ -143,7 +143,7 @@
 }*/
 // 按钮样式覆盖
 .el-button {
-  font-family: $ad-family;
+  font-family: $le-family;
   font-weight: normal;
   border-radius: 6px;
   &--medium {
@@ -161,8 +161,8 @@
 
   // 若需要重置样式 todo...
   //&:focus {
-  //  color: $ad-color_1;
-  //  border-color: $ad-border-color_1;
+  //  color: $le-color_1;
+  //  border-color: $le-border-color_1;
   //  background-color: inherit;
   //}
 }

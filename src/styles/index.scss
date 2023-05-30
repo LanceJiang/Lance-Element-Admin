@@ -6,9 +6,9 @@
 @import './reset.scss';
 @import './project_normal.scss';
 // 涉及element-ui的全局样式类改造&&新增修饰
-@import './adber-element-ui.scss';
-// 涉及adber-ui的全局组件样式
-@import './adber-ui.scss';
+@import './lance-element-ui.scss';
+// 涉及lance-element-ui的全局组件样式
+@import './lance-element-vue.scss';
 body {
 	margin: 0;
 	padding: 0;

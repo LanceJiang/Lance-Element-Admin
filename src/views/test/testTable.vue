@@ -9,8 +9,8 @@
 		<!-- 公用搜索组件 -->
 		<SearchForm ref="searchForm" v-model:searchParams="searchParams" :forms="forms" />
 		<el-button @click="toggleForm">toggleForm 测试</el-button>
-		<!--  AdTable 组件使用 示例：  -->
-		<AdTable
+		<!--  LeTable 组件使用 示例：  -->
+		<LeTable
 			v-model:searchParams="searchParams"
 			:list="list"
 			:total="total"
@@ -46,8 +46,8 @@
 					index: {{ $index }}
 				</div>
 			</template>
-		</AdTable>
-		<AdFormConfigDialog
+		</LeTable>
+		<LeFormConfigDialog
 			ref="dialogRef"
 			v-if="visible"
 			v-model="visible"

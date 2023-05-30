@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue'
 // 自定义渲染
 const Component = defineComponent({
-	name: 'AdCustomRender',
+	name: 'LeCustomRender',
 	props: {
 		form: {
 			required: true,

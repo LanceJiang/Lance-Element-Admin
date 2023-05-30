@@ -1,31 +1,31 @@
 <template>
 	<div class="flex-column-page-wrap pageWrap">
 		Forms
-		<div class="common_title">ad-form-config</div>
+		<div class="common_title">le-form-config</div>
 		<div class="content">
-			<AdFormConfig ref="local_form" class="local_formConfig" :formData="formData" :forms="forms" :form-config="formConfig" @submit="formSubmit">
-				<template #adSelectSlot="{ option, label }">
+			<LeFormConfig ref="local_form" class="local_formConfig" :formData="formData" :forms="forms" :form-config="formConfig" @submit="formSubmit">
+				<template #leSelectSlot="{ option, label }">
 					<div style="background: #a0aab7">{{ label }} + {{ option.value_1 }}</div>
 				</template>
-				<template #adSelect_label>
+				<template #leSelect_label>
 					<span style="background: #f00; display: flex"
 						>label custom: template<span style="margin-left: auto; background: #00f; color: #fff">{{ 'custom: template' }}</span></span
 					>
 				</template>
-			</AdFormConfig>
+			</LeFormConfig>
 		</div>
 
-		<div class="common_title">ad-form-config 表单 嵌入 dialog</div>
+		<div class="common_title">le-form-config 表单 嵌入 dialog</div>
 		<div class="content">
 			<el-button @click="dialogVisible = true">打开 弹窗</el-button>
 			<el-dialog
 				:title="'表单 嵌入 dialog'"
 				v-model="dialogVisible"
 				:closeOnClickModal="false"
-				class="local_dialog ad-dialog ad-form-config-dialog"
+				class="local_dialog le-dialog le-form-config-dialog"
 				@close="changeVisible(false)"
 			>
-				<AdFormConfig
+				<LeFormConfig
 					v-if="dialogVisible"
 					ref="configForm"
 					:forms="forms"
@@ -34,7 +34,7 @@
 					@submit="formSubmit"
 					@cancel="changeVisible"
 				>
-					<template #adSelectSlot="{ option, label }">
+					<template #leSelectSlot="{ option, label }">
 						<div style="background: #00f">{{ label }} + {{ option.value_1 }}</div>
 					</template>
 					<template #extraContent>
@@ -43,15 +43,15 @@
 							额外内容
 						</el-col>
 					</template>
-				</AdFormConfig>
+				</LeFormConfig>
 			</el-dialog>
 		</div>
-		<div class="common_title">ad-form-config-dialog 表单弹窗</div>
+		<div class="common_title">le-form-config-dialog 表单弹窗</div>
 		<div class="content">
 			<el-button @click="dialogVisible2 = true">打开 弹窗</el-button>
-			<AdFormConfigDialog
+			<LeFormConfigDialog
 				v-if="dialogVisible2"
-				title="ad-form-config-dialog 表单弹窗"
+				title="le-form-config-dialog 表单弹窗"
 				v-model="dialogVisible2"
 				:formOptions="{
 					forms,
@@ -60,10 +60,10 @@
 				:formData="formData"
 				@submit="formSubmit"
 			>
-				<template #adSelectSlot="{ option, label }">
+				<template #leSelectSlot="{ option, label }">
 					<div style="background: #f00">{{ label }} + {{ option.value_1 }}</div>
 				</template>
-			</AdFormConfigDialog>
+			</LeFormConfigDialog>
 		</div>
 	</div>
 </template>
@@ -100,7 +100,7 @@ export default {
 				// todo
 				/*// select
 				{
-					prop: 'adSelect', // 提交的 params 的字段
+					prop: 'leSelect', // 提交的 params 的字段
 					// label: 'adSelect', // label 标签
 					itemType: 'adSelect', // form-item 类型
 					labelKey: 'label_1',
@@ -133,7 +133,7 @@ export default {
 					rules: [
 						{
 							required: true,
-							message: i18n.global.t('adb.validate.validateEmptyTips', {
+							message: i18n.global.t('le.validate.validateEmptyTips', {
 								name: 'test2'// i18n.global.t(`${prefix}test2`)
 							}),
 							// message: 'validate.validateEmptyTips',
@@ -173,7 +173,7 @@ export default {
 					// i18n: true,
 					// placeholder: '请选择项目阶段',
 					options: Array.from({ length: 6 }).map((_, i) => ({
-						// label: 'adb.validate.validateEmptyTips',
+						// label: 'le.validate.validateEmptyTips',
 						label: `test1_LABEL_${i}`,
 						value: `test1_${i}`
 					})),
@@ -264,7 +264,7 @@ export default {
 						{
 							required: true,
 							// message: 'validate.validateEmptyTips',
-							message: i18n.global.t('adb.validate.validateEmptyTips', {
+							message: i18n.global.t('le.validate.validateEmptyTips', {
 								name: 'cascader' // i18n.global.t(`${prefix}test4`)
 							}),
 							trigger: 'blur'
@@ -277,8 +277,8 @@ export default {
 					prop: 'inputNumber',
 					label: 'inputNumber',
 					/* slots: {
-						prefix: () => <span class="ad-addon ad-input-number__prefix" style="background: #0f0;">prefix</span>,
-						suffix: () => <span class="ad-addon ad-input-number__suffix" style="background: #0f0; height: 45px;">suffix</span>
+						prefix: () => <span class="le-addon le-input-number__prefix" style="background: #0f0;">prefix</span>,
+						suffix: () => <span class="le-addon le-input-number__suffix" style="background: #0f0; height: 45px;">suffix</span>
 					},*/
 					// t_label: `${prefix}test5`,
 					prefixIcon: 'Http',

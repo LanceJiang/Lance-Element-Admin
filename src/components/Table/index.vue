@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, PropType, computed, unref, onMounted, ref } from 'vue'
 import type { Table } from 'element-plus/lib/components/table'
-import { AdTableColumnProps, AdTableProps, SearchParams } from './index.d'
+import { LeTableColumnProps, LeTableProps, SearchParams } from './index.d'
 import { getDeepValue, $log } from '@/utils'
 import NoData from "@/components/NoData.vue";
 import Icon from "@/components/Icon.vue";
@@ -33,7 +33,7 @@ export const tableProps = {
 	 * }]
 	 */
 	columns: {
-		type: Array as PropType<AdTableColumnProps[]>,
+		type: Array as PropType<LeTableColumnProps[]>,
 		default: () => []
 	},
 	// 选中column的配置参数
@@ -65,7 +65,7 @@ export const tableProps = {
 	 * 具体配置参考 computedOptions 默认参
 	 */
 	options: {
-		type: Object as PropType<AdTableProps>,
+		type: Object as PropType<LeTableProps>,
 		default: () => {
 			return {}
 		}
@@ -195,7 +195,7 @@ const columnSlots = (column, $slots) => {
 		empty: () => <NoData size={computedOptions.size}></NoData>
 	}
 	return (
-		<div class={`ad-table-warp ${isFullscreen ? 'ad-table-warp-maximize' : ''}`}>
+		<div class={`le-table-warp ${isFullscreen ? 'le-table-warp-maximize' : ''}`}>
 			<div class="tableBody">
 				<div class="toolBarWrap">
 					<div class="toolLeft">
@@ -280,7 +280,7 @@ const columnSlots = (column, $slots) => {
 }*/
 
 const TableComponent = defineComponent({
-	name: 'AdTable',
+	name: 'LeTable',
 	props: tableProps,
 	emits: [ 'update:searchParams', 'sortChange', 'refreshHandler', ],
 	components: {
@@ -410,11 +410,11 @@ const TableComponent = defineComponent({
 				// order: order && order === 'ascending' ? 1 : -1,
 				// order: order && order === 'ascending' ? 'ASC' : 'DESC',
 			}
-			this.$emit('update:searchParams', {
+			emit('update:searchParams', {
 				...props.searchParams,
 				sortParams
 			})
-			this.$emit('sortChange', sortParams)
+			emit('sortChange', sortParams)
 		}
 		// table 相关配置
 		const computedOptions = computed(() => ({
@@ -465,9 +465,8 @@ const TableComponent = defineComponent({
 
 		// const
     return () => {
-			// todo 比对 table index....
       // @ts-ignore
-      const { list, column, align, total, searchParams } = props;
+      const { list, total, searchParams } = props;
 			// todo test...
       /*const renderColumn = (columnDict: Record<string, any>, index: number) => {
         const { render, slotName, headerSlot, children, ...restAtts } =
@@ -509,9 +508,9 @@ const TableComponent = defineComponent({
           />
         )
       }*/
-      // const columnsSlots = column.map(renderColumn)
+      // const columnsSlots = localColumns.value.map(renderColumn)
       return (
-        <div class={`ad-table-warp ${unref(isFullscreen) ? 'ad-table-warp-maximize' : ''}`}>
+        <div class={`le-table-warp ${unref(isFullscreen) ? 'le-table-warp-maximize' : ''}`}>
 					<div class="tableBody">
 						{/* 工具栏 */}
 						<div class="toolBarWrap">
@@ -523,13 +522,13 @@ const TableComponent = defineComponent({
 								{/* 工具栏右边插槽 */}
 								{slots.toolRight?.()}
 								{/* 刷新 */}
-								<el-tooltip placement="top" content={t('adb.refresh')}>
+								<el-tooltip placement="top" content={t('le.refresh')}>
 									<el-button class="icon-button button-refresh" onClick={refreshHandler}>
 										<Icon iconClass="le-refresh" />
 									</el-button>
 								</el-tooltip>
 								{/* 全屏 */}
-								<el-tooltip placement="top" content={t(isFullscreen.value ? 'adb.exitFullscreen' : 'adb.fullscreen')}>
+								<el-tooltip placement="top" content={t(isFullscreen.value ? 'le.exitFullscreen' : 'le.fullscreen')}>
 									<el-button class="icon-button button-screen" onClick={toggleFullscreen}>
 										<Icon iconClass={isFullscreen.value ? 'le-suoxiao' : 'le-fangda'}/>
 									</el-button>
@@ -551,7 +550,7 @@ const TableComponent = defineComponent({
 						{/* ElTable组件 */}
 						<div class="tableParentEl">
 							<el-table
-								class="ad-table"
+								class="le-table"
 								ref={tableRef}
 								v-loading={unref(computedOptions).loading}
 								border

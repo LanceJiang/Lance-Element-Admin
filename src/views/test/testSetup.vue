@@ -17,11 +17,12 @@
 			</el-form-item>
 		</el-form>
 		<Child/>
+		{{modeltest}}
 	</div>
 </template>
 
 <script setup lang="ts" name="testSetup">
-import { onMounted, reactive, ref, toRefs } from 'vue'
+import { onMounted, reactive, ref, toRefs, unref } from 'vue'
 import { ElForm, ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Plus, Refresh, Delete } from '@element-plus/icons-vue'
 const queryFormRef = ref() // 属性名必须和元素的ref属性值一致
@@ -56,7 +57,22 @@ const state = reactive({
 		]
 	}
 })
-
+const modeltest = ref({
+	a: 1,
+	b: 2,
+	c: 3
+})
+window.modeltest = modeltest
+console.error(modeltest.value, 'modeltest')
+setTimeout(() => {
+	Object.assign(unref(modeltest), {
+	// Object.assign(modeltest, {
+		b: 'next_b',
+		d: 'new D',
+		e: 'eeeeee'
+	})
+	console.error(modeltest.value, 'modeltest')
+}, 1500)
 const { loading, multiple, queryParams, brandList, total, dialog, formData, rules } = toRefs(state)
 function handleQuery() {
 	state.loading = true

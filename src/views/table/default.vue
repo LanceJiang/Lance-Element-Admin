@@ -1,6 +1,6 @@
 <template>
 	<div class="flex-column-page-wrap pageWrap">
-		<AdTable
+		<LeTable
 			v-model:search-params="searchParams"
 			v-model:checked-options="tabs_checkedColumns"
 			class="local_table tabs_content-wrap"
@@ -11,11 +11,34 @@
 			:columns-config="tabs_columnsConfig"
 			@sortChange="testSortChange"
 		>
-<!--			@update:checkedOptions="tabs_updateCheckedColumns"-->
+			<!--			@update:checkedOptions="tabs_updateCheckedColumns"-->
 			<template #toolLeft>
-				toolLeft
-				<!--        <AdSearchGroup/>-->
-				<!--				<ad-search-group
+				<div class="buttons">
+					<template v-if="true">
+						<el-tooltip placement="top" content="CreateBatchTip">
+							<el-button type="primary" :class="{ 'is-disabled_test': true }">
+								{{ $t('le.btn.add') }}
+							</el-button>
+						</el-tooltip>
+						<el-button style="margin-right: 10px">
+							{{ $t('le.btn.deleteView') }}
+						</el-button>
+					</template>
+					<!--          :disabled="!selectList.length"-->
+					<el-dropdown>
+						<el-button>
+							{{ $t('le.btn.confirm') }}
+							<i class="el-icon-arrow-down el-icon--right"></i>
+						</el-button>
+						<el-dropdown-menu slot="dropdown">
+							<el-dropdown-item v-for="v of dropdownList" :key="v" :command="v">
+								{{ $t(`le.btn.${v}`) }}
+							</el-dropdown-item>
+						</el-dropdown-menu>
+					</el-dropdown>
+				</div>
+				<!--        <LeSearchGroup/>-->
+				<!--				<le-search-group
 					class="local_search-group-wrap"
 					:forms="tabs_filterForms"
 					v-model="tabs_filterParams"
@@ -25,7 +48,7 @@
 					:deleteTag="deleteTag">
 					<template #prepend>
 						<el-input
-							class="ad-input-search"
+							class="le-input-search"
 							v-model="tabs_filterParams.pattern"
 							size="medium"
 							:placeholder="$t('outboundOrder.filter.pattern.placeholder')"
@@ -38,13 +61,13 @@
 					<template #adSelectSlot="{option, label}">
 						<div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
 					</template>
-				</ad-search-group>-->
+				</le-search-group>-->
 			</template>
-			<template #top>
+			<template #top2222>
 				<!-- 按钮集合 -->
-				<div class="ad-button-wrap">
+				<div class="le-button-wrap">
 					<template v-if="true">
-						<el-tooltip placement="top" :content="$t('outboundOrder.btn.CreateBatchTip')">
+						<el-tooltip placement="top" content="CreateBatchTip">
 							<el-button type="primary" :class="{ 'is-disabled_test': true }">
 								{{ $t('outboundOrder.btn.CreateBatch') }}
 							</el-button>
@@ -78,18 +101,18 @@
 			<!-- 操作 -->
 			<template #action="{ row }">
 				<el-tooltip placement="top" :content="$t('example.table.user')">
-					<el-button class="ad-icon-button">
-						<AdIcon icon-class="ad-view"></AdIcon>
+					<el-button class="le-icon-button">
+						<LeIcon icon-class="le-view"></LeIcon>
 					</el-button>
 				</el-tooltip>
-				<el-button class="ad-icon-button">
-					<AdIcon icon-class="ad-hide_column"></AdIcon>
+				<el-button class="le-icon-button">
+					<LeIcon icon-class="le-hide_column"></LeIcon>
 				</el-button>
-				<el-button class="ad-icon-button" disabled>
-					<AdIcon icon-class="ad-hide_column"></AdIcon>
+				<el-button class="le-icon-button" disabled>
+					<LeIcon icon-class="le-hide_column"></LeIcon>
 				</el-button>
 			</template>
-		</AdTable>
+		</LeTable>
 	</div>
 </template>
 <script lang="jsx">
@@ -97,9 +120,11 @@ import {
 	// columns,
 	tableBaseMixin
 } from './default_config'
+
 const prefix = 'example.forms.'
 // import { ref } from 'vue'
 import i18n from '@/lang/index'
+
 export default {
 	name: 'TableDefault',
 	mixins: [tableBaseMixin],
@@ -120,6 +145,7 @@ export default {
 	overflow: auto;
 	background-color: #f5f6f7;
 }
+
 // 其他样式
 .local_table {
 	//padding: 0 12px;
@@ -132,20 +158,26 @@ export default {
 		border-top: 0;
 		border-radius: 0;
 	}
+
 	// 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整1 eg:
 	/*&::v-deep {
-		.ad-column-wrap {
+		.le-column-wrap {
 			display: none;
 		}
 	}*/
 }
+
 .local_search-group-wrap ::v-deep {
 	// 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整2 eg:
 	/*.tags-wrap {
 		margin-right: 48px;
 	}
-	.ad-search-group-tags .tags-action {
+	.le-search-group-tags .tags-action {
 		right: -48px;
 	}*/
+}
+
+.le-button-wrap {
+	padding-bottom: 12px;
 }
 </style>

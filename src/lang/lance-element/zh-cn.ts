@@ -1,5 +1,5 @@
 export default {
-	adb: {
+	le: {
 		confirm: {
 			title: '提示',
 			// 后期确认是否通过变量处理

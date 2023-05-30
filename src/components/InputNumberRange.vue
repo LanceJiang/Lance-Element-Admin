@@ -1,11 +1,11 @@
 <script lang="jsx">
-// import { t } from '@adber/adber-ui/src/locale'
+// import { t } from 'lance-element-vue/src/locale'
 import {defineComponent, unref} from 'vue'
 import { useI18n } from 'vue-i18n'
 import InputNumber from './InputNumber.vue'
 import {useFormSize} from "element-plus";
 export default defineComponent({
-	name: 'AdInputNumberRange',
+	name: 'LeInputNumberRange',
 	emits: ['update:modelValue', 'blur', 'change'],
 	components: {
 		InputNumber
@@ -37,12 +37,12 @@ export default defineComponent({
 		// 最小值多语言
 		placeholderStart: {
 			type: String,
-			default: 'adb.el.input.min'
+			default: 'le.el.input.min'
 		},
 		// 最大值多语言
 		placeholderEnd: {
 			type: String,
-			default: 'adb.el.input.max'
+			default: 'le.el.input.max'
 		},
 		// 自定义样式(最大值/最小值)
 		itemStyle: {
@@ -75,13 +75,13 @@ export default defineComponent({
 		const { prepend: slot_prepend, append: slot_append, ...childSlots } = this.$slots
 		const inputNumberSize = size || unref(useFormSize())
 
-		const _prepend = prepend ? <span class="ad-input-number-range_addon prepend">{prepend}</span> : ''
-		const _append = append ? <span class="ad-input-number-range_addon append">{append}</span> : ''
+		const _prepend = prepend ? <span class="le-input-number-range_addon prepend">{prepend}</span> : ''
+		const _append = append ? <span class="le-input-number-range_addon append">{append}</span> : ''
 		return (
-			<div class={`ad-input-number-range ad-input-number-range--${inputNumberSize}`}>
+			<div class={`le-input-number-range le-input-number-range--${inputNumberSize}`}>
 				{slot_prepend ? slot_prepend() : _prepend}
 				<InputNumber
-					class="ad-input-number-range_start"
+					class="le-input-number-range_start"
 					size={inputNumberSize}
 					{...props}
 					min={min}
@@ -96,9 +96,9 @@ export default defineComponent({
 					onBlur={event => this.$emit('blur', event, local_propStart)}
 					v-slots={childSlots}
 				/>
-				<span class="ad-input-number-range_line">-</span>
+				<span class="le-input-number-range_line">-</span>
 				<InputNumber
-					class="ad-input-number-range_end"
+					class="le-input-number-range_end"
 					size={inputNumberSize}
 					{...props}
 					min={modelValue[local_propStart] ?? min}

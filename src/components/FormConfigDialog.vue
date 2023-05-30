@@ -9,7 +9,7 @@ const render = function() {
 		{...this.$attrs}
 		closeOnClickModal={false}
 		width={width}
-		class="ad-dialog ad-form-config-dialog"
+		class="le-dialog le-form-config-dialog"
 		// on={on}
 		onClose={changeVisible}
 		onUpdate:modelValue={changeVisible}
@@ -28,7 +28,7 @@ const render = function() {
 }
 
 export default {
-	name: 'AdFormConfigDialog',
+	name: 'LeFormConfigDialog',
 	components: {
 		FormConfig
 	},

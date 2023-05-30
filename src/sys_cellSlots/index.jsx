@@ -19,8 +19,8 @@ export function formatNumber(num, minimumFractionDigits = 0) {
  * 命名方式： {prefix: 'vxe_' || ''}cellSlot_{todo}
  *
  * 由于vxe-table 和 el(ad)-table(admin 自定义slot)的渲染申明有差异 在使用不同的 table类型需要做以区别
- * yourSlot  Table(ad-table) 只用 row, column 两个参数 可兼容 vxe-table 方式
- * vxe_yourSlot VxeTable(ad-vxe-table)专用
+ * yourSlot  Table(le-table) 只用 row, column 两个参数 可兼容 vxe-table 方式
+ * vxe_yourSlot VxeTable(le-vxe-table)专用
  */
 
 // 金额美化渲染
@@ -30,10 +30,10 @@ export const cellSlot_price =
 		const price = row[field_value || column.property]
 		let fragment = ''
 		if (!price && price !== 0) {
-			fragment = <span class="ad-cell-label">-</span>
+			fragment = <span class="le-cell-label">-</span>
 		} else {
 			fragment = (
-				<div class="ad-cell_price">
+				<div class="le-cell_price">
 					{formatNumber(price, 2)}
 					<span class="price_label">{row[field_currency] || 'USD'}</span>
 				</div>
