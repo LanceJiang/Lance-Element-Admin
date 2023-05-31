@@ -12,13 +12,58 @@ export const getOrders = input => {
 			// 模拟数据
 			const res = {
 				data: Array.from({ length }).map((_, i) => {
-					return { priceValue: 10000 + i, currency: 'USD or CNY', orderNo: `orderNo_${i}`, local_user: `local_user_${i}`, test_2: `test_2_${i}` }
+					return {
+						priceValue: 10000 + i,
+						currency: 'USD or CNY',
+						orderNo: `orderNo_${i}`,
+						local_user: `local_user_${i}`,
+						test_2: `test_2_${i}`,
+						testDeep: {
+							deep2: {
+								deep3: 'testDeep>2>3后的' + i
+							}
+						}
+					}
 				})
 			}
 			resolve(res.data)
 		}, 1000 * Math.random())
 	})
 }
+
+export const get_mutipleHeaderList = input => {
+	// 模拟参数
+	const { page, size } = input
+	const total = 500
+	return new Promise(resolve => {
+		let length = size
+		if (page * size > total) {
+			length = total - (page - 1) * size
+		}
+		setTimeout(() => {
+			// 模拟数据
+			const res = {
+				data: {
+					list: Array.from({ length }).map((_, i) => {
+						const caseTotal = Math.floor(Math.random() * 200)
+						const invalidNum = Math.floor(Math.random() * caseTotal)
+						const validNum = caseTotal - invalidNum
+						return {
+							projectName: `项目` + i,
+							areaName: `所在区域 ${i - 1}`,
+							caseTotal,
+							invalidNum,
+							validNum
+						}
+					}),
+					total
+				}
+			}
+			resolve(res.data)
+		}, 1000 * Math.random())
+	})
+}
+
 // 列表count 总数
 export const getOrdersCount = input => {
 	return new Promise(resolve => {

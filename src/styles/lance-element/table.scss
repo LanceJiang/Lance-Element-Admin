@@ -199,6 +199,11 @@
           justify-content: end;
         }
       }
+      &.is-center {
+        .cell {
+          justify-content: center;
+        }
+      }
       .cell {
         //font-size: 13px;
         font-weight: normal;

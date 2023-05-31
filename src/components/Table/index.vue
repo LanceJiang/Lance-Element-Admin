@@ -2,14 +2,16 @@
 import { defineComponent, PropType, computed, unref, onMounted, ref } from 'vue'
 
 import type { Table } from 'element-plus/lib/components/table'
-import {LeSlots, LeTableColumnProps, LeTableProps, SearchParams} from './index.d'
+import { LeColumnProps, LeSlots, LeTableColumnProps, LeTableProps, SearchParams } from './index.d'
 import { getPropValue, $log } from '@/utils'
-import NoData from "@/components/NoData.vue";
-import Icon from "@/components/Icon.vue";
+import NoData from '@/components/NoData.vue'
+import Icon from '@/components/Icon.vue'
+// import ColumnItem from './ColumnItem.vue'
+
 import { useI18n } from 'vue-i18n'
 
 const TableColumnsPopover = {
-	setup(ctx, {attrs}) {
+	setup(ctx, { attrs }) {
 		return () => {
 			return <span title="TableColumnsPopover todo...">{attrs.visible}</span>
 		}
@@ -113,7 +115,7 @@ const slotHeaderDefault = function (titleHelp = {}, props) {
 		// @ts-ignore
 		TitleHelp = (
 			<el-tooltip placement="top" raw-content content={message}>
-				<i class={['le-iconfont', icon || 'le-question']}/>
+				<i class={['le-iconfont', icon || 'le-question']} />
 			</el-tooltip>
 		)
 	}
@@ -284,17 +286,17 @@ const columnSlots = (column, $slots) => {
 const TableComponent = defineComponent({
 	name: 'LeTable',
 	props: tableProps,
-	emits: [ 'update:searchParams', 'sortChange', 'refreshHandler', ],
+	emits: ['update:searchParams', 'sortChange', 'refreshHandler'],
 	components: {
 		TableColumnsPopover,
 		NoData,
 		Icon
+		// ColumnItem
 	},
 	// render,
 	data() {
 		return {
-			storageArr: [], // 临时存储的数组
-			updatedColumns: true
+			storageArr: [] // 临时存储的数组
 		}
 	},
 	watch: {
@@ -350,16 +352,6 @@ const TableComponent = defineComponent({
 			deep: true
 			// immediate: true
 		}*/
-		//  columns 动态支持 todo
-		// columns: {
-		//   handler: function(newList, oldList) {
-		//     this.updatedColumns = false
-		//     setTimeout(() => {
-		//       this.updatedColumns = true
-		//     }, 10)
-		//   },
-		//   deep: true
-		// }
 	},
 	setup(props, { attrs, slots, emit }) {
 		const { t } = useI18n()
@@ -368,7 +360,7 @@ const TableComponent = defineComponent({
 		const isFullscreen = ref(false)
 		// 切换全屏
 		const toggleFullscreen = () => {
-				isFullscreen.value = !isFullscreen.value
+			isFullscreen.value = !isFullscreen.value
 		}
 
 		// 获取列表的 index
@@ -395,7 +387,7 @@ const TableComponent = defineComponent({
 			emit('refreshHandler')
 		}
 		// 切换每页显示的数量
-		const handleSizeChange = (size) => {
+		const handleSizeChange = size => {
 			// console.error(' handleSizeChange size', size)
 			emit('update:searchParams', {
 				...props.searchParams,
@@ -427,38 +419,43 @@ const TableComponent = defineComponent({
 		const localColumns = computed(() => {
 			const _columns = []
 			// 序号
-			unref(computedOptions).showIndex && _columns.push({
-				prop: 'leTable_index',
-				type: 'index',
-				label: unref(computedOptions).indexLabel,
-				showOverflowTooltip: true,
-				resizable: true,
-				index: generateIndex,
-				width: '50px',
-				fixed: 'left'
-			})
+			unref(computedOptions).showIndex &&
+				_columns.push({
+					prop: 'leTable_index',
+					type: 'index',
+					label: unref(computedOptions).indexLabel,
+					showOverflowTooltip: true,
+					resizable: true,
+					index: generateIndex,
+					width: '50px',
+					fixed: 'left'
+				})
 			// 多选
-			unref(computedOptions).multipleSelect && _columns.push({
-				prop: 'leTable_selection',
-				type: 'selection',
-				showOverflowTooltip: false,
-				resizable: false,
-				// align: 'center',
-				width: '40px',
-				fixed: 'left'
-			})
+			unref(computedOptions).multipleSelect &&
+				_columns.push({
+					prop: 'leTable_selection',
+					type: 'selection',
+					showOverflowTooltip: false,
+					resizable: false,
+					// align: 'center',
+					width: '40px',
+					fixed: 'left'
+				})
 			// 常规Columns列表
-			const realColumns = props.columns.filter(Boolean).map(column => {
+			const getColumn = column => {
 				return {
 					...column,
+					le_children: (column.children || []).filter(Boolean).map(getColumn),
 					le_slots: columnSlots(column, slots)
 				}
-			})
+			}
+			const realColumns = props.columns.filter(Boolean).map(getColumn)
 			// 空白填充
 			let fillSpaceColumns = [{ minWidth: 0, prop: 'leTable_fillSpace' }]
 			if (realColumns.some(v => !v.fixed)) {
 				fillSpaceColumns = []
 			}
+			console.error('触发 columns computed', realColumns)
 			return _columns.concat(realColumns, fillSpaceColumns)
 		})
 		const table_slots = {
@@ -466,53 +463,39 @@ const TableComponent = defineComponent({
 		}
 
 		// const
-    return () => {
-      // @ts-ignore
-      const { list, total, searchParams } = props;
-			// todo test...
-      /*const renderColumn = (columnDict: Record<string, any>, index: number) => {
-        const { render, slotName, headerSlot, children, ...restAtts } =
-          columnDict;
-        const vSlots: {
-          default?: (scope: Record<string, any>) => any;
-          header?: (scope: Record<string, any>) => any;
-        } = {};
-        if (typeof render === 'function') {
-          vSlots.default = (scope) => {
-            if (restAtts.prop) {
-              return render(scope.row[restAtts.prop], scope);
-            }
-            return render(scope);
-          };
-        }
-
-        if (slotName && typeof slots[slotName] === 'function') {
-          vSlots.default = (scope) =>
-            (slots[slotName] as (scope: any) => {})(scope)
-        }
-
-        if (headerSlot && slots[headerSlot]) {
-          vSlots.header = (scope) =>
-            (slots[headerSlot] as (scope: any) => {})(scope)
-        }
-				// children 处理 todo...
-        if (children?.length > 0) {
-          vSlots.default = (scope) => {
-            return children.map(renderColumn)
-          }
-        }
-        return (
-          <el-table-column
-            key={index}
-            align={align}
-            {...restAtts}
-            v-slots={vSlots}
-          />
-        )
-      }*/
-      // const columnsSlots = localColumns.value.map(renderColumn)
-      return (
-        <div class={`le-table-warp ${unref(isFullscreen) ? 'le-table-warp-maximize' : ''}`}>
+		return () => {
+			// @ts-ignore
+			const { list, total, searchParams } = props
+			const renderColumn = (column: LeColumnProps, index: number) => {
+				const { label, t_label, align, resizable, showOverflowTooltip, slots, le_slots, children, le_children, ...opts } = column
+				const label_ = t_label ? t(t_label) : label
+				let local_slots = le_slots
+				// le_children 处理
+				if (le_children?.length > 0) {
+					local_slots = {
+						...le_slots,
+						default: scope => {
+							return le_children.map(renderColumn)
+						}
+					}
+					/*le_slots.default = (scope) => {
+            return le_children.map(renderColumn)
+          }*/
+				}
+				return (
+					<el-table-column
+						{...opts}
+						key={column.prop ?? index}
+						label={label_}
+						v-slots={local_slots}
+						align={align ?? unref(computedOptions).align}
+						resizable={resizable ?? unref(computedOptions).resizable}
+						showOverflowTooltip={showOverflowTooltip ?? unref(computedOptions).showOverflowTooltip}
+					/>
+				)
+			}
+			return (
+				<div class={`le-table-warp ${unref(isFullscreen) ? 'le-table-warp-maximize' : ''}`}>
 					<div class="tableBody">
 						{/* 工具栏 */}
 						<div class="toolBarWrap">
@@ -532,7 +515,7 @@ const TableComponent = defineComponent({
 								{/* 全屏 */}
 								<el-tooltip placement="top" content={t(isFullscreen.value ? 'le.exitFullscreen' : 'le.fullscreen')}>
 									<el-button class="icon-button button-screen" onClick={toggleFullscreen}>
-										<Icon iconClass={isFullscreen.value ? 'le-suoxiao' : 'le-fangda'}/>
+										<Icon iconClass={isFullscreen.value ? 'le-suoxiao' : 'le-fangda'} />
 									</el-button>
 								</el-tooltip>
 								{/* columns过滤 */}
@@ -542,8 +525,7 @@ const TableComponent = defineComponent({
 									/*value={checkedOptions}
 									onInput={this.checkedOptionsChange}
 									props={columnsConfig}*/
-									<TableColumnsPopover
-									/>
+									<TableColumnsPopover />
 								}
 							</div>
 						</div>
@@ -566,21 +548,7 @@ const TableComponent = defineComponent({
 								// onSelectionChange={this.handleSelectionChange}
 								v-slots={table_slots}
 							>
-								{localColumns.value.map((column, index) => {
-									const { label, t_label, align, resizable, showOverflowTooltip, slots, le_slots, ...opts } = column
-									const label_ = t_label ? t(t_label) : label
-									return (
-										<el-table-column
-											{...opts}
-											key={column.prop+index}
-											label={label_}
-											v-slots={le_slots}
-											align={align ?? unref(computedOptions).align}
-											resizable={resizable ?? unref(computedOptions).resizable}
-											showOverflowTooltip={showOverflowTooltip ?? unref(computedOptions).showOverflowTooltip}
-										/>
-									)
-								})}
+								{localColumns.value.map(renderColumn)}
 							</el-table>
 						</div>
 					</div>
@@ -597,31 +565,20 @@ const TableComponent = defineComponent({
 							onCurrentChange={handleIndexChange}
 						/>
 					)}
-					{/*<el-table
-            data={list}
-            ref={tableRef}
-            {...attrs}
-            v-slots={{
-              append: slots.append,
-              empty: slots.empty,
-            }}
-          >
-            {columnsSlots}
-          </el-table>*/}
-        </div>
-      )
-    }
-  },
+				</div>
+			)
+		}
+	},
 	mounted() {
 		// @ts-ignore
 		// this.injectTableMethods()
 	},
 	methods: {
 		// 设置自定义列 todo
-		setColumnsHandler() {
+		/*setColumnsHandler() {
 			this.$message.warning('自定义列设置,敬请期待~')
 			// ElMessage.warning('自定义列设置,敬请期待~')
-		},
+		}*/
 		// injectTableMethods() {
 		//   const _self = this as any
 		//   const tableRef = _self.$refs['tableRef']

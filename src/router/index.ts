@@ -62,6 +62,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 	{
 		path: '/form',
 		component: Layout,
+		meta: { title: 'Form', icon: 'guide' },
 		redirect: '/default',
 		children: [
 			{
@@ -76,12 +77,19 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 		path: '/table',
 		component: Layout,
 		redirect: '/default',
+		meta: { title: 'table', icon: 'table' },
 		children: [
 			{
 				path: 'default',
 				component: () => import('@/views/table/default.vue'),
 				name: 'TableDefault',
 				meta: { title: 'Table', icon: 'table' }
+			},
+			{
+				path: 'mutipleHeader',
+				component: () => import('@/views/table/mutipleHeader.vue'),
+				name: 'mutipleHeader',
+				meta: { title: 'mutipleHeader', icon: 'table' }
 			}
 		]
 	},

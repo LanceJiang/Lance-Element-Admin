@@ -1,10 +1,13 @@
-import type { ElTable, ElTableColumn } from 'element-plus/lib/components/table'
+import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/lib/components/table'
+
 export type LeSlots = {
 	default?: (scope: Record<string, any>) => any | string
 	header?: (scope: Record<string, any>) => any | string
 }
 export type LeColumnProps = {
+	// 插槽
 	slots?: LeSlots
+	// 多级表头
 	children?: LeTableColumnProps[]
 }
 /* Column */
@@ -46,4 +49,11 @@ export type SearchParams = {
 	page: number
 	size: number
 	[any]: any
+}
+
+export type RenderScope<T> = {
+	row: T
+	$index: number
+	column: TableColumnCtx<T>
+	[key: string]: any
 }

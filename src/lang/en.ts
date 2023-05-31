@@ -8,7 +8,9 @@ export default {
 		contentManage: 'contentManage',
 		content_email: 'Email manage',
 		系统管理: 'System Management',
-		document: 'Document'
+		document: 'Document',
+		table: 'Table',
+		mutipleHeader: 'MutipleHeader'
 	},
 	// 登录页面国际化
 	login: {

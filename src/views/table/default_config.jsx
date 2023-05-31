@@ -56,7 +56,8 @@ export const columns = [
 	{
 		t_label: `${tPrefix}orderNo`,
 		// title: `${tPrefix}orderNo`,
-		prop: 'orderNo',
+		// prop: 'orderNo',
+		prop: 'testDeep.deep2.deep3',
 		// field: 'orderNo',
 		minWidth: '220px',
 		// 用户提示配置
@@ -70,7 +71,7 @@ export const columns = [
 			 *  leTable slots.default: ({row, column, (index...)}, h){ return [<element>] || <element> } 为方便 le(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
 			 *  leVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}, h){ return [<element>]}
 			 */
-			default: ''
+			// default: ''
 		},
 		sortable: true,
 		showOverflow: 'tooltip',
@@ -81,8 +82,9 @@ export const columns = [
 			 *  leVxeTable formatter: ( {row, column, cellValue, rowIndex} ){}
 			 */
 			// console.error(maybeRow, 'maybeRow ', others, 'others')
-			const row = maybeRow.row || maybeRow
-			return 'orderNo: formatter: ' + row.orderNo
+			// const row = maybeRow.row || maybeRow
+			// return <span style="background: #f00;">{'orderNo: formatter: ' + row.orderNo}</span>
+			return others[1]// cellValue
 		}
 	},
 	{
