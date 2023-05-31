@@ -415,85 +415,88 @@ const TableComponent = defineComponent({
 			...default_tableConfig,
 			...props.options
 		}))
+
+		const getColumn = column => {
+			return {
+				...column,
+				le_children: (column.children || []).filter(Boolean).map(getColumn),
+				le_slots: columnSlots(column, slots)
+			}
+		}
+		// 用户真实columns配置列表
+		const realColumns = computed(() => {
+			return props.columns.filter(Boolean).map(getColumn)
+		})
 		// 本地渲染列
 		const localColumns = computed(() => {
 			const _columns = []
 			// 序号
 			unref(computedOptions).showIndex &&
-				_columns.push({
-					prop: 'leTable_index',
-					type: 'index',
-					label: unref(computedOptions).indexLabel,
-					showOverflowTooltip: true,
-					resizable: true,
-					index: generateIndex,
-					width: '50px',
-					fixed: 'left'
-				})
+			_columns.push({
+				prop: 'leTable_index',
+				type: 'index',
+				label: unref(computedOptions).indexLabel,
+				showOverflowTooltip: true,
+				resizable: true,
+				index: generateIndex,
+				width: '50px',
+				fixed: 'left'
+			})
 			// 多选
 			unref(computedOptions).multipleSelect &&
-				_columns.push({
-					prop: 'leTable_selection',
-					type: 'selection',
-					showOverflowTooltip: false,
-					resizable: false,
-					// align: 'center',
-					width: '40px',
-					fixed: 'left'
-				})
-			// 常规Columns列表
-			const getColumn = column => {
-				return {
-					...column,
-					le_children: (column.children || []).filter(Boolean).map(getColumn),
-					le_slots: columnSlots(column, slots)
-				}
-			}
-			const realColumns = props.columns.filter(Boolean).map(getColumn)
+			_columns.push({
+				prop: 'leTable_selection',
+				type: 'selection',
+				showOverflowTooltip: false,
+				resizable: false,
+				// align: 'center',
+				width: '40px',
+				fixed: 'left'
+			})
+			// 常规Columns列表(用户设置)
+			const _realColumns = realColumns.value
 			// 空白填充
 			let fillSpaceColumns = [{ minWidth: 0, prop: 'leTable_fillSpace' }]
-			if (realColumns.some(v => !v.fixed)) {
+			if (_realColumns.some(v => !v.fixed)) {
 				fillSpaceColumns = []
 			}
-			console.error('触发 columns computed', realColumns)
-			return _columns.concat(realColumns, fillSpaceColumns)
+			return _columns.concat(_realColumns, fillSpaceColumns)
 		})
 		const table_slots = {
 			empty: () => <NoData size={unref(computedOptions).size}></NoData>
 		}
-
+		const renderColumn = (column: LeColumnProps, index: number) => {
+			const { label, t_label, align, resizable, showOverflowTooltip, slots, le_slots, children, le_children, ...opts } = column
+			const label_ = t_label ? t(t_label) : label
+			let local_slots = le_slots
+			// le_children 处理
+			if (le_children?.length > 0) {
+				local_slots = {
+					...le_slots,
+					default: scope => {
+						return le_children.map(renderColumn)
+					}
+				}
+				/*le_slots.default = (scope) => {
+					return le_children.map(renderColumn)
+				}*/
+			}
+			return (
+				<el-table-column
+					{...opts}
+					key={column.prop ?? index}
+					label={label_}
+					v-slots={local_slots}
+					align={align ?? unref(computedOptions).align}
+					resizable={resizable ?? unref(computedOptions).resizable}
+					showOverflowTooltip={showOverflowTooltip ?? unref(computedOptions).showOverflowTooltip}
+				/>
+			)
+		}
 		// const
 		return () => {
 			// @ts-ignore
 			const { list, total, searchParams } = props
-			const renderColumn = (column: LeColumnProps, index: number) => {
-				const { label, t_label, align, resizable, showOverflowTooltip, slots, le_slots, children, le_children, ...opts } = column
-				const label_ = t_label ? t(t_label) : label
-				let local_slots = le_slots
-				// le_children 处理
-				if (le_children?.length > 0) {
-					local_slots = {
-						...le_slots,
-						default: scope => {
-							return le_children.map(renderColumn)
-						}
-					}
-					/*le_slots.default = (scope) => {
-            return le_children.map(renderColumn)
-          }*/
-				}
-				return (
-					<el-table-column
-						{...opts}
-						key={column.prop ?? index}
-						label={label_}
-						v-slots={local_slots}
-						align={align ?? unref(computedOptions).align}
-						resizable={resizable ?? unref(computedOptions).resizable}
-						showOverflowTooltip={showOverflowTooltip ?? unref(computedOptions).showOverflowTooltip}
-					/>
-				)
-			}
 			return (
 				<div class={`le-table-warp ${unref(isFullscreen) ? 'le-table-warp-maximize' : ''}`}>
 					<div class="tableBody">
