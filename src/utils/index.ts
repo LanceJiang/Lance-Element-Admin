@@ -2,6 +2,18 @@
 import { ElMessage } from 'element-plus'
 // vue Storage 使用
 export { ls } from './vueStorage'
+import { get, set } from 'lodash-unified'
+export type Arrayable<T> = T | T[]
+export const getPropValue = <T = any>(obj: Record<string, any>, path: Arrayable<string>, defaultValue?: any): { value: T } => {
+	return {
+		get value() {
+			return get(obj, path, defaultValue)
+		},
+		set value(val: any) {
+			set(obj, path, val)
+		}
+	}
+}
 
 /**
  * 提取深层数据的值 (防止中间项 不存在导致的报错)

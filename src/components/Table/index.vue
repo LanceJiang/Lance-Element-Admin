@@ -1,8 +1,9 @@
 <script lang="tsx">
 import { defineComponent, PropType, computed, unref, onMounted, ref } from 'vue'
+
 import type { Table } from 'element-plus/lib/components/table'
-import { LeTableColumnProps, LeTableProps, SearchParams } from './index.d'
-import { getDeepValue, $log } from '@/utils'
+import {LeSlots, LeTableColumnProps, LeTableProps, SearchParams} from './index.d'
+import { getPropValue, $log } from '@/utils'
 import NoData from "@/components/NoData.vue";
 import Icon from "@/components/Icon.vue";
 import { useI18n } from 'vue-i18n'
@@ -129,11 +130,16 @@ const slotHeaderDefault = function (titleHelp = {}, props) {
 }
 /**针对默认的数据内容 default 展示添加slot*/
 // const slotDefault = (originalColumn) => ({ row, column }) => {
-const slotDefault = ({ row, column }) => {
+const slotDefault = ({ row, column, $index }) => {
 	// if (Object.keys(column).length) console.error(row, column, '     row, column, slotDefault')
-	const val = row[column.property]
+	const val = getPropValue(row, column.property).value
+	// 重载 formatter
+	if (column && column.formatter) {
+		return column.formatter(row, column, val, $index)
+	}
+	// const val = row[column.property]
 	/*// 如果有多行省略号处理
-  const ellipsis_line = getDeepValue(originalColumn, ['params', 'ellipsis_line'])
+  const ellipsis_line = getPropValue(originalColumn, ['params', 'ellipsis_line']).value
   if (ellipsis_line) {
     console.log(ellipsis_line, 'ellipsis_line')
     return <el-tooltip placement='top' v-slots={{content: <div v-html={val}/>}}>
@@ -160,13 +166,9 @@ const setSlotFn = (() => {
 		  }
 })()
 const columnSlots = (column, $slots) => {
-	let local_slots: any = {}
-	// 针对未设置 formatter 的添加默认 slotDefault
-	if (!column.formatter) {
-		local_slots = {
-			// default: slotDefault(column)
-			default: slotDefault
-		}
+	let local_slots: LeSlots = {
+		// default: slotDefault(column)
+		default: slotDefault
 	}
 	// 新增默认header 超出隐藏&提示(?&问号提示)
 	local_slots.header = slotHeaderDefault.bind(null, column.titleHelp)
