@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import useStore from '@/store'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
@@ -32,6 +32,10 @@ function handleSetLanguage(lang: string) {
 		ElMessage.success('切换语言成功！')
 	}
 }
+onMounted(() => {
+	locale.value = language.value
+	app.setLanguage(language.value)
+})
 </script>
 
 <style lang="scss" scoped>
