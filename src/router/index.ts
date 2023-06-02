@@ -83,13 +83,19 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 				path: 'default',
 				component: () => import('@/views/table/default.vue'),
 				name: 'TableDefault',
-				meta: { title: 'Table', icon: 'table' }
+				meta: { title: 'Table' /*, icon: 'table'*/ }
 			},
 			{
 				path: 'mutipleHeader',
 				component: () => import('@/views/table/mutipleHeader.vue'),
 				name: 'mutipleHeader',
-				meta: { title: 'mutipleHeader', icon: 'table' }
+				meta: { title: 'mutipleHeader' }
+			},
+			{
+				path: 'treeTable',
+				component: () => import('@/views/table/treeTable.vue'),
+				name: 'treeTable',
+				meta: { title: 'treeTable' }
 			}
 		]
 	},
