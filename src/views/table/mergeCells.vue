@@ -9,43 +9,62 @@
 			:columns="localColumns"
 		>
 			<template #toolLeft>
-				<h3 style="line-height: 36px">树形表格示例</h3>
+				<h3 style="line-height: 36px">合并单元格表格示例</h3>
 			</template>
 		</LeTable>
 	</div>
 </template>
-<script setup lang="tsx" name="treeTable">
+<script setup lang="tsx" name="mergeCells">
 import { ref, toRefs, reactive, computed, watch, onMounted } from 'vue'
-import { get_treeList } from '@/views/table/queryApi.js'
+import { get_priceList } from '@/views/table/queryApi.js'
+import { formatNumber } from '@/utils'
 const total = ref(0)
 const list = ref([])
-const selectionChange = e => {
-	// console.error('click 测试', e)
-	console.log(e, 'selectionChange')
-}
-const load = (row, treeNode: unknown, resolve: (data: any[]) => void) => {
-	loadChildrenApi(row).then(res => {
-		resolve(res.data)
-	})
+const spanMethod = ({ row, column, rowIndex, columnIndex }) => {
+	// 返回对象形式
+	if (columnIndex === 1) {
+		if (rowIndex % 2 === 0) {
+			return {
+				rowspan: 2,
+				colspan: 1
+			}
+		} else {
+			return {
+				rowspan: 0,
+				colspan: 0
+			}
+		}
+	}
+	// 返回数组形式
+	if (rowIndex % 2 === 0) {
+		if (columnIndex === 2) {
+			// [rowspan, colspan]
+			return [1, 2]
+		} else if (columnIndex === 3) {
+			return [0, 0]
+		}
+	}
 }
 const options = ref({
 	// rowKey: 'value',
 	loading: false,
 	size: 'small',
-	// showIndex: true,
-	multipleSelect: true,
-	lazy: true,
-	load: load,
-	treeProps: { children: 'children', hasChildren: 'hasChildren' },
-	onSelectionChange: selectionChange
+	spanMethod
 })
 const searchParams = ref({
 	page: 1,
 	size: 20
 })
-
+const commonFormatter = (row, column, cellValue) => {
+	return formatNumber(cellValue, 2)
+}
 const localColumns = computed(() => {
 	return [
+		{
+			prop: 'id',
+			label: 'ID值'
+			// minWidth: '200px'
+		},
 		{
 			prop: 'name',
 			label: '名称'
@@ -57,24 +76,27 @@ const localColumns = computed(() => {
 			// minWidth: '200px'
 		},
 		{
-			label: '地址',
-			prop: 'address'
-		}
-		/*{
-			label: '详情',
-			prop: 'details',
-			width: '120px',
-			type: 'expand',
-			slots: {
-				default: ({row, column, $index}) => {
-					// console.error($index, '$index')
-					return <div>
-						<span style="padding: 0 12px;color: red;">{JSON.stringify(row)}</span><br/>
-						(slots.default: fn)
-					</div>
-				}
+			label: '金额1',
+			prop: 'amount1',
+			formatter: commonFormatter
+		},
+		{
+			label: '金额2',
+			prop: 'amount2',
+			formatter: commonFormatter
+		},
+		{
+			label: '金额3',
+			prop: 'amount3',
+			formatter: commonFormatter
+		},
+		{
+			label: '金额4(string)',
+			prop: 'amount4',
+			formatter: (row, column, cellValue) => {
+				return <div style="color: red;">{formatNumber(cellValue, 2)}</div>
 			}
-		}*/
+		}
 	]
 })
 
@@ -96,7 +118,7 @@ const queryList = () => {
 	options.value.loading = true
 	const input = getRequestParams()
 	console.warn('input', JSON.stringify(input))
-	get_treeList(input)
+	get_priceList(input)
 		.then(data => {
 			// console.log(data, 'data////')
 			list.value = data.list
@@ -105,29 +127,6 @@ const queryList = () => {
 		.finally(() => {
 			options.value.loading = false
 		})
-}
-
-const loadChildrenApi = row => {
-	console.error(row, 'test loadChildrenApi')
-	return new Promise(resolve => {
-		setTimeout(() => {
-			const total = 5
-			const id_base = +new Date()
-			const res = {
-				data: Array.from({ length: total }).map((_, i) => {
-					return {
-						id: `${id_base}_${i}`,
-						date: '2020-02-01',
-						name: `狼妖_${i}`,
-						address: `浪浪山 888_${i} 号`,
-						hasChildren: Math.random() > 0.5
-					}
-				}),
-				total: total
-			}
-			resolve(res)
-		}, 500)
-	})
 }
 
 watch(

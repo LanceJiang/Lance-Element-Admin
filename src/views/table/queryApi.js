@@ -30,8 +30,19 @@ export const getOrders = input => {
 		}, 1000 * Math.random())
 	})
 }
-
-export const get_mutipleHeaderList = input => {
+// 列表count 总数
+export const getOrdersCount = input => {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			// 模拟数据
+			const res = {
+				total: orderTotal
+			}
+			resolve(res.total)
+		}, 1000 * Math.random())
+	})
+}
+export const get_multipleHeaderList = input => {
 	// 模拟参数
 	const { page, size } = input
 	const total = 500
@@ -104,18 +115,40 @@ export const get_treeList = input => {
 		}, 1000 * Math.random())
 	})
 }
-// 列表count 总数
-export const getOrdersCount = input => {
+export const get_priceList = input => {
+	// 模拟参数
+	const { page, size } = input
+	const total = 500
 	return new Promise(resolve => {
+		let length = size
+		if (page * size > total) {
+			length = total - (page - 1) * size
+		}
+		// console.error('length', length)
 		setTimeout(() => {
 			// 模拟数据
 			const res = {
-				total: orderTotal
+				data: {
+					list: Array.from({ length }).map((_, i) => {
+						return {
+							id: i,
+							date: '2016-05-01',
+							name: `牛爷爷_${i}`,
+							address: `火焰山 189_${i} 号`,
+							amount1: 1111 + i,
+							amount2: 222 + i,
+							amount3: 333 + i,
+							amount4: `444${i}`
+						}
+					}),
+					total
+				}
 			}
-			resolve(res.total)
+			resolve(res.data)
 		}, 1000 * Math.random())
 	})
 }
+
 // 当前类型列表配置获取
 export const getTableConfig = (input = {}) => {
 	// 请求参数拟定

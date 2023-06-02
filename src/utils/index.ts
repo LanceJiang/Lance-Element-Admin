@@ -148,3 +148,14 @@ export function asyncHandlerLockWrap(syncFn: () => any) {
 	}
 	/* eslint-enable */
 }
+
+/**
+ * 转化成带逗号的number格式
+ * @param num
+ * @param minimumFractionDigits 保留小数位
+ * @returns {string}
+ */
+export function formatNumber(num: number | string, minimumFractionDigits = 0) {
+	// return xeUtils.commafy(+num, { digits: minimumFractionDigits }) || '-'
+	return (+num || 0).toLocaleString('zh', { minimumFractionDigits })
+}

@@ -10,8 +10,10 @@ export default {
 		系统管理: 'System Management',
 		document: 'Document',
 		table: 'Table',
-		mutipleHeader: 'MutipleHeader',
-		treeTable: 'TreeTable'
+		multipleHeader: 'Multiple Header',
+		treeTable: 'Tree Table',
+		mergeCells: 'Merge Cells',
+		footerSummary: 'Footer Summary'
 	},
 	// 登录页面国际化
 	login: {

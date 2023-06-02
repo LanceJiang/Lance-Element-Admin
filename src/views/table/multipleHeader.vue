@@ -19,11 +19,11 @@
 		</LeTable>
 	</div>
 </template>
-<script setup lang="tsx" name="mutipleHeader">
+<script setup lang="tsx" name="multipleHeader">
 import { ref, toRefs, reactive, computed, watch, onMounted } from 'vue'
 import i18n from '@/lang/index'
 import { ElMessage } from 'element-plus'
-import { get_mutipleHeaderList } from '@/views/table/queryApi.js'
+import { get_multipleHeaderList } from '@/views/table/queryApi.js'
 const total = ref(0)
 const list = ref([])
 const options = ref({
@@ -143,7 +143,7 @@ const queryList = () => {
 	options.value.loading = true
 	const input = getRequestParams()
 	console.warn('input', JSON.stringify(input))
-	get_mutipleHeaderList(input)
+	get_multipleHeaderList(input)
 		.then(data => {
 			// console.log(data, 'data////')
 			list.value = data.list
