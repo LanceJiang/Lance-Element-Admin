@@ -64,6 +64,46 @@ export const get_mutipleHeaderList = input => {
 	})
 }
 
+export const get_treeList = input => {
+	// 模拟参数
+	const { page, size } = input
+	const total = 500
+	return new Promise(resolve => {
+		let length = size
+		if (page * size > total) {
+			length = total - (page - 1) * size
+		}
+		setTimeout(() => {
+			// 模拟数据
+			const res = {
+				data: {
+					list: Array.from({ length }).map((_, i) => {
+						return {
+							id: i,
+							date: '2016-05-01',
+							name: `葫芦娃_${i}`,
+							address: `洛杉矶格罗夫街 189_${i} 号`,
+							children:
+								Math.random() > 0.5
+									? Array.from({ length: i + 1 }).map((_, _i) => {
+											return {
+												id: `${i}_${_i}`,
+												date: '2018-06-01',
+												name: `猪妖__${_i}`,
+												address: `浪浪山 666_${i} 号`,
+												hasChildren: Math.random() > 0.5
+											}
+									  })
+									: undefined
+						}
+					}),
+					total
+				}
+			}
+			resolve(res.data)
+		}, 1000 * Math.random())
+	})
+}
 // 列表count 总数
 export const getOrdersCount = input => {
 	return new Promise(resolve => {

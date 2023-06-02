@@ -10,7 +10,8 @@ export default {
 		系统管理: '系统管理',
 		document: '项目文档',
 		table: 'Table表格',
-		mutipleHeader: '多级表头'
+		mutipleHeader: '多级表头',
+		treeTable: '树形表格'
 	},
 	// 登录页面国际化
 	login: {

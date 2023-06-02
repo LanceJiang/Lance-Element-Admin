@@ -1,0 +1,190 @@
+<template>
+	<div class="flex-column-page-wrap pageWrap">
+		<LeTable
+			v-model:searchParams="searchParams"
+			class="local_table tabs_content-wrap"
+			:list="localList"
+			:total="total"
+			:options="options"
+			:columns="localColumns"
+		>
+			<template #toolLeft>
+				<h3 style="line-height: 36px">树形表格示例</h3>
+			</template>
+		</LeTable>
+	</div>
+</template>
+<script setup lang="tsx" name="mutipleHeader">
+import { ref, toRefs, reactive, computed, watch, onMounted } from 'vue'
+import { get_treeList } from '@/views/table/queryApi.js'
+const total = ref(0)
+const list = ref([])
+const selectionChange = e => {
+	// console.error('click 测试', e)
+	console.log(e, 'selectionChange')
+}
+const load = (row, treeNode: unknown, resolve: (data: any[]) => void) => {
+	loadChildrenApi(row).then(res => {
+		resolve(res.data)
+	})
+}
+const options = ref({
+	// rowKey: 'value',
+	loading: false,
+	size: 'small',
+	// showIndex: true,
+	multipleSelect: true,
+	lazy: true,
+	load: load,
+	treeProps: { children: 'children', hasChildren: 'hasChildren' },
+	onSelectionChange: selectionChange
+})
+const searchParams = ref({
+	page: 1,
+	size: 20
+})
+
+const localColumns = computed(() => {
+	return [
+		{
+			prop: 'name',
+			label: '名称'
+			// minWidth: '200px'
+		},
+		{
+			prop: 'date',
+			label: '日期'
+			// minWidth: '200px'
+		},
+		{
+			label: '地址',
+			prop: 'address'
+		}
+		/*{
+			label: '详情',
+			prop: 'details',
+			width: '120px',
+			type: 'expand',
+			slots: {
+				default: ({row, column, $index}) => {
+					// console.error($index, '$index')
+					return <div>
+						<span style="padding: 0 12px;color: red;">{JSON.stringify(row)}</span><br/>
+						(slots.default: fn)
+					</div>
+				}
+			}
+		}*/
+	]
+})
+
+// const { } = toRefs(state)
+const localList = computed(() => {
+	// 相关数据组装处理
+	return list.value
+})
+// 获取请求参数方法
+const getRequestParams = () => {
+	// console.error('getRequestParams', e)
+	return {
+		...searchParams.value
+		// ...this.tabs_filterParams
+	}
+}
+// 列表请求
+const queryList = () => {
+	options.value.loading = true
+	const input = getRequestParams()
+	console.warn('input', JSON.stringify(input))
+	get_treeList(input)
+		.then(data => {
+			// console.log(data, 'data////')
+			list.value = data.list
+			total.value = data.total
+		})
+		.finally(() => {
+			options.value.loading = false
+		})
+}
+
+const loadChildrenApi = row => {
+	console.error(row, 'test loadChildrenApi')
+	return new Promise(resolve => {
+		setTimeout(() => {
+			const total = 5
+			const id_base = +new Date()
+			const res = {
+				data: Array.from({ length: total }).map((_, i) => {
+					return {
+						id: `${id_base}_${i}`,
+						date: '2020-02-01',
+						name: `狼妖_${i}`,
+						address: `浪浪山 888_${i} 号`,
+						hasChildren: Math.random() > 0.5
+					}
+				}),
+				total: total
+			}
+			resolve(res)
+		}, 500)
+	})
+}
+
+watch(
+	() => searchParams.value,
+	() => {
+		queryList()
+	}
+)
+onMounted(() => {
+	// 尝试搜索
+	searchParams.value = {
+		...searchParams.value,
+		page: 1
+	}
+	// queryList()
+})
+</script>
+<style scoped lang="scss">
+.pageWrap {
+	//padding-top: 12px;
+	padding: 12px 12px 0 12px;
+	overflow: auto;
+	background-color: #f5f6f7;
+}
+
+// 其他样式
+.local_table {
+	//padding: 0 12px;
+	box-shadow: 0 0 6px 4px rgb(145 159 175 / 6%);
+	border-top: 1px solid #eaedf0;
+	border-radius: 6px 6px 0 0;
+	background-color: #fff;
+	//padding: 12px 12px 0 12px;
+	&.tabs_content-wrap {
+		border-top: 0;
+		border-radius: 0;
+	}
+
+	// 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整1 eg:
+	/*&::v-deep {
+		.le-column-wrap {
+			display: none;
+		}
+	}*/
+}
+
+.local_search-group-wrap ::v-deep {
+	// 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整2 eg:
+	/*.tags-wrap {
+		margin-right: 48px;
+	}
+	.le-search-group-tags .tags-action {
+		right: -48px;
+	}*/
+}
+
+.le-button-wrap {
+	padding-bottom: 12px;
+}
+</style>

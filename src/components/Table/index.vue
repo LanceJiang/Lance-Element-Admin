@@ -92,7 +92,7 @@ const default_tableConfig = {
 	loading: false, // 是否展示 tableLoading
 	multipleSelect: false, // 是否多选 table
 	rowKey: 'id', // 根据 该值 查找当前页面数据是否包含当前数据 添加 多选被选中的状态
-	// currentRowKey: 'id', // 根据 该值 查找当前页面数据是否包含当前数据 添加 高亮状态
+	// currentRowKey: 'id', // 根据 该值 查找当前页面数据是否包含当前数据 添加 高亮状态(不传 默认继承rowKey)
 	// align: 'center', // columnItem 对齐方式
 	resizable: true, // ColumnItem 是否允许拖动
 	showOverflowTooltip: true, // columnItem 超出内容 省略号 同时添加 tiptool
@@ -411,10 +411,15 @@ const TableComponent = defineComponent({
 			emit('sortChange', sortParams)
 		}
 		// table 相关配置
-		const computedOptions = computed(() => ({
-			...default_tableConfig,
-			...props.options
-		}))
+		const computedOptions = computed(() => {
+			const res = {
+				...default_tableConfig,
+				...props.options
+			}
+			// 高亮当前
+			res.currentRowKey = res.currentRowKey ?? res.rowKey
+			return res
+		})
 
 		const getColumn = column => {
 			return {
