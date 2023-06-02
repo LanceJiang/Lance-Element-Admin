@@ -1,17 +1,18 @@
 <template>
 	<div @click="$emit('click')" :class="['le-no-data', size, isFull ? 'le-no-data--full' : '']">
-		<img class="le-no-data__img" v-if="isShow" src="~@/assets/images/img_nodata.svg" />
-		<div class="message" v-html="message" />
+		<Icon iconClass="le-no_data" class="le-no-data__img" v-if="isShow" />
+		<div class="message" v-html="message || $t('le.noData')" />
 		<!-- 额外处理 -->
 		<slot name="extraContent" />
 	</div>
 </template>
 <script setup name="LeNoData" lang="ts">
 import { defineProps, defineEmits } from 'vue'
+import Icon from '@/components/Icon.vue'
 defineEmits(['click'])
 const props = defineProps({
 	message: {
-		default: '暂无数据'
+		default: ''
 	},
 	size: {
 		type: String, // [large, default, small]
