@@ -15,7 +15,13 @@ export type LeColumnProps = {
 /* Column */
 export type LeTableColumnProps = InstanceType<typeof ElTableColumn>['$props'] & LeColumnProps
 
-export type LeOptions = {
+// Options 配置
+export type Options = {
+	// el-table参数
+	height: string
+	maxHeight: string
+	size: string
+
 	// 表格分页器 pageSizes (默认:[10, 20, 50, 100])
 	pageSizes?: number[]
 	// 表格分页器 layout (默认:'total, sizes, prev, pager, next, jumper')
@@ -23,6 +29,7 @@ export type LeOptions = {
 	// 表格分页器 背景 (默认:true)
 	background?: boolean
 
+	// 额外table参数
 	// 表格loading (默认:false)
 	loading?: boolean
 	// 是否多选类型 (默认:false)
@@ -30,7 +37,7 @@ export type LeOptions = {
 	// 多选类型|(currentRowKey当前行选中key)选中标记唯一key (默认:'id') 【table $prop属性之一】
 	rowKey?: (row) => any | string
 	// 根据 该值 查找当前页面数据是否包含当前数据 添加 高亮状态 (默认:'id')
-	// currentRowKey?: string;
+	currentRowKey?: string
 	// table 默认 column 对齐方式 (默认:'center')
 	align?: string
 	// table 默认 column 是否允许拖动 (默认:true)
@@ -43,14 +50,41 @@ export type LeOptions = {
 	indexLabel?: string
 	// table 默认 column 是否允许拖动 (默认:true)
 	showPagination?: boolean
+
+	// 其他
+	[key: string]: any
 }
-/* Table */
-export type LeTableProps = InstanceType<typeof ElTable>['$props'] & LeOptions
+/* TableOptions */
+export type LeTableOptions = InstanceType<typeof ElTable>['$props'] & Options
+// TableProps
+export type LeTableProps = {
+	// 数据列表
+	list?: Record<string, any>[]
+	// columns列表
+	columns: LeTableColumnProps[]
+	// 选中column的配置参数
+	checkedOptions?: LeTableColumnProps[]
+	// 自定义列配置相关
+	columnsConfig?: {
+		defaultCheckedOptions?: LeTableColumnProps[]
+		columns?: LeTableColumnProps[]
+	}
+	// 搜索条件
+	searchParams?: SearchParams
+	// 数组总数
+	total?: number
+	// 表格的控制参数
+	options?: LeTableOptions
+}
+/* TableActions */
+export type LeTableActions = {
+	// reload: (opt?: FetchParams) => Promise<void>
+}
 
 export type SearchParams = {
 	page: number
 	size: number
-	[any]: any
+	[key: string]: any
 }
 
 export type RenderScope<T> = {

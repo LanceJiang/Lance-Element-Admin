@@ -1,12 +1,14 @@
 <script lang="tsx">
-import {defineComponent, PropType, computed, unref, watch, onMounted, ref, nextTick} from 'vue'
+import { defineComponent, PropType, computed, unref, watch, onMounted, ref, nextTick } from 'vue'
 
 import type { Table } from 'element-plus/lib/components/table'
-import { LeColumnProps, LeSlots, LeTableColumnProps, LeTableProps, SearchParams } from './index.d'
+import { LeColumnProps, LeSlots, LeTableColumnProps, LeTableOptions, SearchParams, LeTableProps } from './index.d'
 import { getPropValue, $log } from '@/utils'
 import NoData from '@/components/NoData.vue'
 import Icon from '@/components/Icon.vue'
 import TableColumnsPopover from './components/TableColumnsPopover.vue'
+import { createTableContext, useTableContext } from './hooks/useTableContext'
+import { useColumns, useColumnsOpts } from './hooks/useColumns'
 
 import { useI18n } from 'vue-i18n'
 
@@ -62,7 +64,7 @@ export const tableProps = {
 	 * 具体配置参考 computedOptions 默认参
 	 */
 	options: {
-		type: Object as PropType<LeTableProps>,
+		type: Object as PropType<LeTableOptions>,
 		default: () => {
 			return {}
 		}
@@ -95,98 +97,7 @@ const default_tableConfig = {
 	indexLabel: 'No.', // 自选的序号label标签
 	showPagination: true // 是否加载table 分页栏
 }
-/**针对 header 展示添加默认的slot*/
-const slotHeaderDefault = function (titleHelp = {}, props) {
-	// console.error(props, 'props.column...', titleHelp)
-	const { t } = useI18n()
-	const { t_label, label } = props.column || {}
-	const label_ = t_label ? t(t_label) : label
-	// const { titleHelp, label } = props.column
-	// 1.针对 column 配置有 titleHelp 对象的 进行默认提示处理
-	const { message, icon } = titleHelp || {}
-	let TitleHelp = ''
-	if (message) {
-		// @ts-ignore
-		TitleHelp = (
-			<el-tooltip placement="top" raw-content content={message}>
-				<i class={['le-iconfont', icon || 'le-question']} />
-			</el-tooltip>
-		)
-	}
-	// 2.若有自定义筛选配置
-	// todo...
-	return (
-		<div class="slot_title-wrap">
-			<el-tooltip placement="top" content={label_}>
-				<span class="label">{label_}</span>
-			</el-tooltip>
-			{TitleHelp}
-		</div>
-	)
-}
-/**针对默认的数据内容 default 展示添加slot*/
-// const slotDefault = (originalColumn) => ({ row, column }) => {
-const slotDefault = ({ row, column, $index }) => {
-	// if (Object.keys(column).length) console.error(row, column, '     row, column, slotDefault')
-	const val = getPropValue(row, column.property).value
-	// 重载 formatter
-	if (column && column.formatter) {
-		return column.formatter(row, column, val, $index)
-	}
-	// const val = row[column.property]
-	/*// 如果有多行省略号处理
-  const ellipsis_line = getPropValue(originalColumn, ['params', 'ellipsis_line']).value
-  if (ellipsis_line) {
-    console.log(ellipsis_line, 'ellipsis_line')
-    return <el-tooltip placement='top' v-slots={{content: <div v-html={val}/>}}>
-      <div class='text-overflow_ellipsis_line_2'
-           style={`width: fit-content;-webkit-line-clamp: ${ellipsis_line}`}>{val || '--'}</div>
-    </el-tooltip>
-  }*/
-	if (typeof val !== 'number') {
-		return val || '-'
-	}
-	return val
-}
-// console.error(import.meta.env, 'import.meta.env')
-const setSlotFn = (() => {
-	return import.meta.env.DEV
-		? (le_slots: object, type: string, fn: Function | any, _slotName: string) => {
-				if (!fn) {
-					$log(`当前定义的 slots:${type} [${_slotName}] 没有设置`, 'warning', 'orange')
-				}
-				le_slots[type] = fn || null
-		  }
-		: (le_slots: object, type: string, fn: Function | any, _slotName: string) => {
-				le_slots[type] = fn || null
-		  }
-})()
-const columnSlots = (column, $slots) => {
-	let local_slots: LeSlots = {
-		// default: slotDefault(column)
-		default: slotDefault
-	}
-	// 新增默认header 超出隐藏&提示(?&问号提示)
-	local_slots.header = slotHeaderDefault.bind(null, column.titleHelp)
-	const slots_key = Object.keys(column.slots || {})
-	if (slots_key.length) {
-		slots_key.map(type => {
-			let slotName = column.slots[type]
-			switch (typeof slotName) {
-				case 'string':
-					{
-						setSlotFn(local_slots, type, $slots[slotName], slotName)
-					}
-					break
-				case 'function': {
-					local_slots[type] = slotName
-				}
-			}
-		})
-	}
 
-	return local_slots
-}
 /*const render = function () {
 	const { computedOptions, list, total, searchParams, isFullscreen } = this
 	const table_slots = {
@@ -282,12 +193,12 @@ const TableComponent = defineComponent({
 	props: tableProps,
 	// 更新搜索条件, 更新列配置, table Sort 排序, table 刷新
 	emits: ['update:searchParams', 'update:checkedOptions', 'sortChange', 'refresh'],
-	components: {
+	/*components: {
 		TableColumnsPopover,
 		NoData,
 		Icon
 		// ColumnItem
-	},
+	},*/
 	// render,
 	data() {
 		return {
@@ -359,14 +270,14 @@ const TableComponent = defineComponent({
 		}
 
 		// 获取列表的 index
-		const generateIndex = (index: number) => {
+		/*const generateIndex = (index: number) => {
 			const { size, page } = props.searchParams
 			let _index = ++index
 			if (size) {
 				_index = size * (page - 1) + _index
 			}
 			return _index
-		}
+		}*/
 		// 切换页码
 		const handleIndexChange = (page: number) => {
 			// console.error(' handleIndexChange index', index)
@@ -412,29 +323,33 @@ const TableComponent = defineComponent({
 			const res = {
 				...default_tableConfig,
 				...props.options
-			}
+			} as LeTableOptions
 			// 高亮当前
 			res.currentRowKey = res.currentRowKey ?? res.rowKey
 			return res
 		})
-
-		const getColumn = column => {
+		/*const getProps = computed(() => {
+			return {
+				...props,
+			} as LeTableProps
+		})*/
+		/*		const getColumn = column => {
 			return {
 				...column,
 				le_children: (column.children || []).filter(Boolean).map(getColumn),
 				le_slots: columnSlots(column, slots)
 			}
-		}
+		}*/
 		// 更新选中列配置
-		const checkedOptionsChange = (checkedOptions) => {
+		const checkedOptionsChange = checkedOptions => {
 			// console.error(checkedOptions, 'checkedOptions checkedOptionsChange')
 			emit('update:checkedOptions', checkedOptions)
 		}
-		// 用户真实columns配置列表
+		/*// 用户真实columns配置列表
 		const realColumns = computed(() => {
 			return props.columns.filter(Boolean).map(getColumn)
-		})
-		const sortColumnChildren = (localColumn, targetColumn, localField = 'prop', targetField = 'prop') => {
+		})*/
+		/*	const sortColumnChildren = (localColumn, targetColumn, localField = 'prop', targetField = 'prop') => {
 			const cur_children = localColumn.children
 			if (Array.isArray(cur_children) && Array.isArray(targetColumn.children)) {
 				// console.error(JSON.stringify(cur_children), 'cur_children   targetColumn_children', JSON.stringify(targetColumn.children))
@@ -477,34 +392,34 @@ const TableComponent = defineComponent({
 					}catch (e){}
 				}
 			})
-		})
+		})*/
 
-		// 本地渲染列
+		/*// 本地渲染列
 		const localColumns = computed(() => {
 			const _columns = []
 			// 序号
 			unref(computedOptions).showIndex &&
-			_columns.push({
-				prop: 'leTable_index',
-				type: 'index',
-				label: unref(computedOptions).indexLabel,
-				showOverflowTooltip: true,
-				resizable: true,
-				index: generateIndex,
-				width: '50px',
-				fixed: 'left'
-			})
+				_columns.push({
+					prop: 'leTable_index',
+					type: 'index',
+					label: unref(computedOptions).indexLabel,
+					showOverflowTooltip: true,
+					resizable: true,
+					index: generateIndex,
+					width: '50px',
+					fixed: 'left'
+				})
 			// 多选
 			unref(computedOptions).multipleSelect &&
-			_columns.push({
-				prop: 'leTable_selection',
-				type: 'selection',
-				showOverflowTooltip: false,
-				resizable: false,
-				// align: 'center',
-				width: '40px',
-				fixed: 'left'
-			})
+				_columns.push({
+					prop: 'leTable_selection',
+					type: 'selection',
+					showOverflowTooltip: false,
+					resizable: false,
+					// align: 'center',
+					width: '40px',
+					fixed: 'left'
+				})
 			// 常规Columns列表(用户设置)
 			const _realColumns = realColumns.value
 			// 空白填充
@@ -513,11 +428,11 @@ const TableComponent = defineComponent({
 				fillSpaceColumns = []
 			}
 			return _columns.concat(_realColumns, fillSpaceColumns)
-		})
+		})*/
 		const table_slots = {
 			empty: () => <NoData size={unref(computedOptions).size}></NoData>
 		}
-		const renderColumn = (column: LeColumnProps, index: number) => {
+		/*const renderColumn = (column: LeColumnProps, index: number) => {
 			const { label, t_label, align, resizable, showOverflowTooltip, slots, le_slots, children, le_children, ...opts } = column
 			const label_ = t_label ? t(t_label) : label
 			let local_slots = le_slots
@@ -529,9 +444,6 @@ const TableComponent = defineComponent({
 						return le_children.map(renderColumn)
 					}
 				}
-				/*le_slots.default = (scope) => {
-					return le_children.map(renderColumn)
-				}*/
 			}
 			return (
 				<el-table-column
@@ -544,13 +456,19 @@ const TableComponent = defineComponent({
 					showOverflowTooltip={showOverflowTooltip ?? unref(computedOptions).showOverflowTooltip}
 				/>
 			)
-		}
+		}*/
+		createTableContext({ tableRef })
+		// const columnsRef = ref(props.columns)
+		const { localColumns, renderColumn } = useColumns({
+			propsRef: props,
+			computedOptions,
+			slots,
+			tableRef
+		} as useColumnsOpts)
 		expose({
 			tableRef
 		})
-		// const
 		return () => {
-			// @ts-ignore
 			const { list, total, searchParams, columnsConfig, checkedOptions } = props
 			return (
 				<div class={`le-table-warp ${unref(isFullscreen) ? 'le-table-warp-maximize' : ''}`}>
@@ -577,13 +495,11 @@ const TableComponent = defineComponent({
 									</el-button>
 								</el-tooltip>
 								{/* columns过滤 */}
-								{
-									columnsConfig?.columns?.length ? <TableColumnsPopover
-										value={checkedOptions}
-										onChange={checkedOptionsChange}
-										{...columnsConfig}
-									/> : ''
-								}
+								{columnsConfig?.columns?.length ? (
+									<TableColumnsPopover value={checkedOptions} onChange={checkedOptionsChange} {...columnsConfig} />
+								) : (
+									''
+								)}
 							</div>
 						</div>
 						{/* 顶部插槽 */}
