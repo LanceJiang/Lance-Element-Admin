@@ -5,6 +5,8 @@ export type LeSlots = {
 	header?: (scope: Record<string, any>) => any | string
 }
 export type LeColumnProps = {
+	// 多语言label转义字符
+	t_label: string
 	// 插槽
 	slots?: LeSlots
 	// 多级表头

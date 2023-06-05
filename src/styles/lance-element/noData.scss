@@ -3,13 +3,14 @@
 .#{$prefix}no-data {
   &.small {
 		.#{$prefix}no-data__img {
-			width: 108px;
+			//width: 108px;
 		}
   }
   &.large {
     .#{$prefix}no-data__img {
       //font-size: 120px;
-			width: 162px;
+			//width: 162px;
+			font-size: 120px;
     }
   }
   display: flex;
@@ -24,7 +25,7 @@
   padding: 20px 0;
 
   &__img {
-    //font-size: 80px;
+    font-size: 80px;
     pointer-events: none;
   }
 

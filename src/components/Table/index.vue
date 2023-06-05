@@ -1,22 +1,15 @@
 <script lang="tsx">
-import { defineComponent, PropType, computed, unref, onMounted, ref } from 'vue'
+import {defineComponent, PropType, computed, unref, watch, onMounted, ref, nextTick} from 'vue'
 
 import type { Table } from 'element-plus/lib/components/table'
 import { LeColumnProps, LeSlots, LeTableColumnProps, LeTableProps, SearchParams } from './index.d'
 import { getPropValue, $log } from '@/utils'
 import NoData from '@/components/NoData.vue'
 import Icon from '@/components/Icon.vue'
-// import ColumnItem from './ColumnItem.vue'
+import TableColumnsPopover from './components/TableColumnsPopover.vue'
 
 import { useI18n } from 'vue-i18n'
 
-const TableColumnsPopover = {
-	setup(ctx, { attrs }) {
-		return () => {
-			return <span title="TableColumnsPopover todo...">{attrs.visible}</span>
-		}
-	}
-}
 export const tableProps = {
 	// 数据列表
 	list: {
@@ -44,6 +37,7 @@ export const tableProps = {
 		type: Array,
 		default: () => []
 	},
+	// 自定义列配置相关
 	columnsConfig: {
 		type: Object,
 		default: () => ({
@@ -286,7 +280,8 @@ const columnSlots = (column, $slots) => {
 const TableComponent = defineComponent({
 	name: 'LeTable',
 	props: tableProps,
-	emits: ['update:searchParams', 'sortChange', 'refreshHandler'],
+	// 更新搜索条件, 更新列配置, table Sort 排序, table 刷新
+	emits: ['update:searchParams', 'update:checkedOptions', 'sortChange', 'refresh'],
 	components: {
 		TableColumnsPopover,
 		NoData,
@@ -353,7 +348,7 @@ const TableComponent = defineComponent({
 			// immediate: true
 		}*/
 	},
-	setup(props, { attrs, slots, emit }) {
+	setup(props, { attrs, slots, emit, expose }) {
 		const { t } = useI18n()
 		// const tableRef = ref<Table>(/*tableRef*/)
 		const tableRef = ref(/*tableRef*/)
@@ -373,18 +368,20 @@ const TableComponent = defineComponent({
 			return _index
 		}
 		// 切换页码
-		const handleIndexChange = (index: number) => {
+		const handleIndexChange = (page: number) => {
 			// console.error(' handleIndexChange index', index)
 			emit('update:searchParams', {
 				...props.searchParams,
-				page: index
+				page
 			})
 		}
 		// 刷新列表
 		const refreshHandler = () => {
-			handleIndexChange(1)
+			// const index = props.searchParams.page
+			// handleIndexChange(1)
+			handleIndexChange(props.searchParams.page)
 			// 额外相关操作
-			emit('refreshHandler')
+			emit('refresh')
 		}
 		// 切换每页显示的数量
 		const handleSizeChange = size => {
@@ -428,10 +425,60 @@ const TableComponent = defineComponent({
 				le_slots: columnSlots(column, slots)
 			}
 		}
+		// 更新选中列配置
+		const checkedOptionsChange = (checkedOptions) => {
+			// console.error(checkedOptions, 'checkedOptions checkedOptionsChange')
+			emit('update:checkedOptions', checkedOptions)
+		}
 		// 用户真实columns配置列表
 		const realColumns = computed(() => {
 			return props.columns.filter(Boolean).map(getColumn)
 		})
+		const sortColumnChildren = (localColumn, targetColumn, localField = 'prop', targetField = 'prop') => {
+			const cur_children = localColumn.children
+			if (Array.isArray(cur_children) && Array.isArray(targetColumn.children)) {
+				// console.error(JSON.stringify(cur_children), 'cur_children   targetColumn_children', JSON.stringify(targetColumn.children))
+				// children 排序
+				localColumn.children = targetColumn.children.map(_column => {
+					const findColumn = cur_children.find(l_column => l_column[localField] === _column[targetField])
+					if (findColumn) {
+						if (Array.isArray(findColumn.children)) {
+							return sortColumnChildren(findColumn, _column, localField, targetField)
+						}
+						return findColumn
+					}
+					return false
+				})
+				.filter(Boolean)
+			}
+			return localColumn
+		}
+		watch(realColumns, () => {
+			nextTick(() => {
+				// console.error('尝试 对columns 重新排序')
+				const ELTable: any = tableRef.value
+				if(ELTable) {
+					// 修复 element-plus columns仅调换顺序不更新问题 store
+					try {
+						const table_states = ELTable.store.states
+						const lastColumns = table_states._columns.value
+						const newColumns = localColumns.value.map(v => {
+							// 深度克隆
+							const cur = lastColumns.find(column => column.property === v.prop)
+							if (cur) {
+								// children 内嵌处理
+								return sortColumnChildren(cur, v, 'property')
+							}
+							return false
+						}).filter(Boolean)
+						table_states._columns.value = newColumns
+						ELTable.store.updateColumns()
+						ELTable.doLayout?.()
+					}catch (e){}
+				}
+			})
+		})
+
 		// 本地渲染列
 		const localColumns = computed(() => {
 			const _columns = []
@@ -498,10 +545,13 @@ const TableComponent = defineComponent({
 				/>
 			)
 		}
+		expose({
+			tableRef
+		})
 		// const
 		return () => {
 			// @ts-ignore
-			const { list, total, searchParams } = props
+			const { list, total, searchParams, columnsConfig, checkedOptions } = props
 			return (
 				<div class={`le-table-warp ${unref(isFullscreen) ? 'le-table-warp-maximize' : ''}`}>
 					<div class="tableBody">
@@ -528,12 +578,11 @@ const TableComponent = defineComponent({
 								</el-tooltip>
 								{/* columns过滤 */}
 								{
-									// todo...
-									// columnsConfig?.columns?.length ? <TableColumnsPopover
-									/*value={checkedOptions}
-									onInput={this.checkedOptionsChange}
-									props={columnsConfig}*/
-									<TableColumnsPopover />
+									columnsConfig?.columns?.length ? <TableColumnsPopover
+										value={checkedOptions}
+										onChange={checkedOptionsChange}
+										{...columnsConfig}
+									/> : ''
 								}
 							</div>
 						</div>

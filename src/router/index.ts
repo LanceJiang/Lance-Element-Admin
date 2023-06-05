@@ -83,7 +83,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 				path: 'default',
 				component: () => import('@/views/table/default.vue'),
 				name: 'TableDefault',
-				meta: { title: 'Table' /*, icon: 'table'*/ }
+				meta: { title: 'table' /*, icon: 'table'*/ }
 			},
 			{
 				path: 'multipleHeader',

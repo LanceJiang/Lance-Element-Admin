@@ -159,3 +159,36 @@ export function formatNumber(num: number | string, minimumFractionDigits = 0) {
 	// return xeUtils.commafy(+num, { digits: minimumFractionDigits }) || '-'
 	return (+num || 0).toLocaleString('zh', { minimumFractionDigits })
 }
+/*
+const sortColumnChildren = (localColumn: LeTableColumnProps[], targetColumn: LeTableColumnProps[], localField = 'prop', targetField = 'prop') => {
+	const cur_children = localColumn.children
+	if (Array.isArray(cur_children) && Array.isArray(targetColumn.children)) {
+		// console.error(JSON.stringify(cur_children), 'cur_children   targetColumn_children', JSON.stringify(targetColumn.children))
+		// children 排序
+		localColumn.children = targetColumn.children
+			.map(_column => {
+				const findColumn = cur_children.find(l_column => l_column[localField] === _column[targetField])
+				if (findColumn) {
+					if (Array.isArray(findColumn.children)) {
+						return sortColumnChildren(findColumn, _column, localField)
+					}
+					return findColumn
+				}
+				return false
+			})
+			.filter(Boolean)
+	}
+	return localColumn
+}
+export function updateNewColumns(localColumns: LeTableColumnProps[], targetColumn: LeTableColumnProps[], localField = 'prop', targetField = 'prop') {
+	return localColumns
+		.map(v => {
+			const cur = targetColumn.find((column) => column[localField] === v[targetField])
+			if (cur) {
+				// children 内嵌处理
+				return sortColumnChildren(cur, v)
+			}
+		})
+		.filter(Boolean)
+}
+*/

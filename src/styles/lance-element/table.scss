@@ -59,6 +59,11 @@
     display: flex;
     justify-content: space-between;
     padding: 12px;
+		.el-button {
+			padding: 9px 15px;
+			font-size: 14px;
+			height: 32px;
+		}
   }
 }
 // table 样式

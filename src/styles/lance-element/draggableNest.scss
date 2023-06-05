@@ -1,0 +1,93 @@
+@import "../variables.scss";
+.#{$prefix}draggable-nest {
+  .flip-list {
+    transition: all 0.3s ease-in-out;
+  }
+  .flip-list-move {
+    transition: transform 0.3s;
+  }
+  //.no-move {
+  //  transition: transform 0s;
+  //}
+  // 拖动时候的样式
+  .ghost {
+    //opacity: 0.5;
+    //background: rgba(87, 129, 244, .2);
+    //box-shadow: 1px 1px 5px 2px rgb(0 0 0 / 15%);
+    //cursor: move;
+    //box-shadow: #007bfc 0 0 6px -2px inset;
+    //background: #f00;
+    box-shadow: 1px 1px 5px 2px rgba(0,0,0,.15);
+    cursor: move;
+    transition: .18s ease;
+  }
+  .chosen {
+    box-shadow: 1px 1px 5px 2px rgba(0,0,0,.15);
+  }
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+  &-item {
+    padding-left: 12px;
+    &:hover {
+      background: $le-hover-color_1;
+    }
+    .itemWrap {
+      display: flex;
+      align-items: center;
+      line-height: 34px;
+      padding-right: 4px;
+      color: #333;
+      font-size: 14px;
+      cursor: pointer;
+      //transition: .18s ease;
+      width: 100%;
+      // 不能拖动 不能删除
+      &.disabled {
+        color: rgba(0, 0, 0, 0.25);
+        cursor: not-allowed;
+        &.ghost {
+          background: unset;
+        }
+        & > .dragEl {
+          cursor: not-allowed;
+        }
+        opacity: unset;
+        box-shadow: none;
+        .disabled_fixed {
+          width: 28px;
+          margin-left: auto;
+          cursor: pointer;
+          color: #007bfc;
+        }
+      }
+      .dragEl {
+        font-size: 16px;
+        cursor: move;
+        margin-right: 8px;
+      }
+      .label_txt{
+        display: inline-block;
+        padding-left: 10px;
+        flex: 1;
+        //width: 80%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      & > .delEl {
+        display: none;
+        margin-left: auto;
+      }
+      &:not(.disabled):hover {
+        color: #007bfc;
+        & > .delEl {
+          display: inline-block;
+        }
+      }
+    }
+    .checkbox-hide {
+      visibility: hidden;
+    }
+  }
+}

@@ -5,8 +5,8 @@
     <div class="content">
       <el-button @click="switchLang" size="small">
         lang: 切换
-<!--        <LeIcon iconClass="le-frozen"/>
-        <LeIcon iconClass="le-warning"/>-->
+        <LeIcon iconClass="le-frozen"/>
+        <LeIcon iconClass="le-warning"/>
         {{$i18n.locale}}
       </el-button>
       <div>local文字: {{$t('route.dashboard')}}</div>
@@ -356,7 +356,7 @@
 
 <script lang="jsx">
 import useStore from "@/store/index";
-
+import i18n from '@/lang'
 const iconOptions = [
   { label: 'le-insurance_grey', value: 2, icon: 'le-insurance', color: '#C6CDD5' },
   { label: 'le-sign_grey', value: 4, icon: 'le-sign', color: '#C6CDD5' },
@@ -902,14 +902,16 @@ export default {
     },
     switchLang() {
       let lang = this.$i18n.locale
+      // let lang = i18n.global.locale.value
       if (lang === 'en') {
-        lang = 'zh'
+        lang = 'zh-cn'
       } else {
         lang = 'en'
       }
 			// const { app } = useStore()
 			// app.setLanguage(lang)
       this.$i18n.locale = lang
+      // i18n.global.setLocaleMessage(lang)
       // this.$i18n.fallbackLocale = lang
     },
     onMove({ relatedContext, draggedContext }) {
