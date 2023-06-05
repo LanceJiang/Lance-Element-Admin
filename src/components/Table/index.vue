@@ -1,9 +1,6 @@
 <script lang="tsx">
 import { defineComponent, PropType, computed, unref, watch, onMounted, ref, nextTick } from 'vue'
-
-import type { Table } from 'element-plus/lib/components/table'
-import { LeColumnProps, LeSlots, LeTableColumnProps, LeTableOptions, SearchParams, LeTableProps } from './index.d'
-import { getPropValue, $log } from '@/utils'
+import { LeTableColumnProps, LeTableOptions, SearchParams, LeTableProps } from './index.d'
 import NoData from '@/components/NoData.vue'
 import Icon from '@/components/Icon.vue'
 import TableColumnsPopover from './components/TableColumnsPopover.vue'
@@ -269,15 +266,6 @@ const TableComponent = defineComponent({
 			isFullscreen.value = !isFullscreen.value
 		}
 
-		// 获取列表的 index
-		/*const generateIndex = (index: number) => {
-			const { size, page } = props.searchParams
-			let _index = ++index
-			if (size) {
-				_index = size * (page - 1) + _index
-			}
-			return _index
-		}*/
 		// 切换页码
 		const handleIndexChange = (page: number) => {
 			// console.error(' handleIndexChange index', index)
@@ -333,132 +321,16 @@ const TableComponent = defineComponent({
 				...props,
 			} as LeTableProps
 		})*/
-		/*		const getColumn = column => {
-			return {
-				...column,
-				le_children: (column.children || []).filter(Boolean).map(getColumn),
-				le_slots: columnSlots(column, slots)
-			}
-		}*/
 		// 更新选中列配置
 		const checkedOptionsChange = checkedOptions => {
 			// console.error(checkedOptions, 'checkedOptions checkedOptionsChange')
 			emit('update:checkedOptions', checkedOptions)
 		}
-		/*// 用户真实columns配置列表
-		const realColumns = computed(() => {
-			return props.columns.filter(Boolean).map(getColumn)
-		})*/
-		/*	const sortColumnChildren = (localColumn, targetColumn, localField = 'prop', targetField = 'prop') => {
-			const cur_children = localColumn.children
-			if (Array.isArray(cur_children) && Array.isArray(targetColumn.children)) {
-				// console.error(JSON.stringify(cur_children), 'cur_children   targetColumn_children', JSON.stringify(targetColumn.children))
-				// children 排序
-				localColumn.children = targetColumn.children.map(_column => {
-					const findColumn = cur_children.find(l_column => l_column[localField] === _column[targetField])
-					if (findColumn) {
-						if (Array.isArray(findColumn.children)) {
-							return sortColumnChildren(findColumn, _column, localField, targetField)
-						}
-						return findColumn
-					}
-					return false
-				})
-				.filter(Boolean)
-			}
-			return localColumn
-		}
-		watch(realColumns, () => {
-			nextTick(() => {
-				// console.error('尝试 对columns 重新排序')
-				const ELTable: any = tableRef.value
-				if(ELTable) {
-					// 修复 element-plus columns仅调换顺序不更新问题 store
-					try {
-						const table_states = ELTable.store.states
-						const lastColumns = table_states._columns.value
-						const newColumns = localColumns.value.map(v => {
-							// 深度克隆
-							const cur = lastColumns.find(column => column.property === v.prop)
-							if (cur) {
-								// children 内嵌处理
-								return sortColumnChildren(cur, v, 'property')
-							}
-							return false
-						}).filter(Boolean)
-						table_states._columns.value = newColumns
-						ELTable.store.updateColumns()
-						ELTable.doLayout?.()
-					}catch (e){}
-				}
-			})
-		})*/
 
-		/*// 本地渲染列
-		const localColumns = computed(() => {
-			const _columns = []
-			// 序号
-			unref(computedOptions).showIndex &&
-				_columns.push({
-					prop: 'leTable_index',
-					type: 'index',
-					label: unref(computedOptions).indexLabel,
-					showOverflowTooltip: true,
-					resizable: true,
-					index: generateIndex,
-					width: '50px',
-					fixed: 'left'
-				})
-			// 多选
-			unref(computedOptions).multipleSelect &&
-				_columns.push({
-					prop: 'leTable_selection',
-					type: 'selection',
-					showOverflowTooltip: false,
-					resizable: false,
-					// align: 'center',
-					width: '40px',
-					fixed: 'left'
-				})
-			// 常规Columns列表(用户设置)
-			const _realColumns = realColumns.value
-			// 空白填充
-			let fillSpaceColumns = [{ minWidth: 0, prop: 'leTable_fillSpace' }]
-			if (_realColumns.some(v => !v.fixed)) {
-				fillSpaceColumns = []
-			}
-			return _columns.concat(_realColumns, fillSpaceColumns)
-		})*/
 		const table_slots = {
 			empty: () => <NoData size={unref(computedOptions).size}></NoData>
 		}
-		/*const renderColumn = (column: LeColumnProps, index: number) => {
-			const { label, t_label, align, resizable, showOverflowTooltip, slots, le_slots, children, le_children, ...opts } = column
-			const label_ = t_label ? t(t_label) : label
-			let local_slots = le_slots
-			// le_children 处理
-			if (le_children?.length > 0) {
-				local_slots = {
-					...le_slots,
-					default: scope => {
-						return le_children.map(renderColumn)
-					}
-				}
-			}
-			return (
-				<el-table-column
-					{...opts}
-					key={column.prop ?? index}
-					label={label_}
-					v-slots={local_slots}
-					align={align ?? unref(computedOptions).align}
-					resizable={resizable ?? unref(computedOptions).resizable}
-					showOverflowTooltip={showOverflowTooltip ?? unref(computedOptions).showOverflowTooltip}
-				/>
-			)
-		}*/
 		createTableContext({ tableRef })
-		// const columnsRef = ref(props.columns)
 		const { localColumns, renderColumn } = useColumns({
 			propsRef: props,
 			computedOptions,
