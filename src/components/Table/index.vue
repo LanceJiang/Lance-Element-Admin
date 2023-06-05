@@ -4,9 +4,8 @@ import { LeTableColumnProps, LeTableOptions, SearchParams, LeTableProps } from '
 import NoData from '@/components/NoData.vue'
 import Icon from '@/components/Icon.vue'
 import TableColumnsPopover from './components/TableColumnsPopover.vue'
-import { createTableContext, useTableContext } from './hooks/useTableContext'
+import { createTableContext } from './hooks/useTableContext'
 import { useColumns, useColumnsOpts } from './hooks/useColumns'
-
 import { useI18n } from 'vue-i18n'
 
 export const tableProps = {
@@ -95,167 +94,11 @@ const default_tableConfig = {
 	showPagination: true // 是否加载table 分页栏
 }
 
-/*const render = function () {
-	const { computedOptions, list, total, searchParams, isFullscreen } = this
-	const table_slots = {
-		empty: () => <NoData size={computedOptions.size}></NoData>
-	}
-	return (
-		<div class={`le-table-warp ${isFullscreen ? 'le-table-warp-maximize' : ''}`}>
-			<div class="tableBody">
-				<div class="toolBarWrap">
-					<div class="toolLeft">
-						{/!* 请添加 slot:toolLeft *!/}
-						{this.$slots?.toolLeft?.()}
-					</div>
-					<div class="toolRight">
-						<el-tooltip content="刷新">
-							<el-icon class="icon-button" onClick={this.refreshHandler}>
-								<Refresh />
-							</el-icon>
-						</el-tooltip>
-						<el-tooltip content={isFullscreen ? '还原' : '全屏'}>
-							<SvgIcon
-								class="icon-button icon-screen"
-								icon-class={isFullscreen ? 'exit-fullscreen' : 'fullscreen'}
-								onClick={this.toggleFullscreen}
-							></SvgIcon>
-						</el-tooltip>
-					</div>
-				</div>
-				<div class="tableParentEl">
-					<el-table
-						v-loading={computedOptions.loading}
-						ref="tableRef"
-						border
-						element-loading-text="加载中..."
-						element-loading-background="rgba(0, 0, 0, 0.1)"
-						{...computedOptions}
-						data={list}
-						{...{
-							// 事件
-							onSortChange: this.tableSortChange,
-							// onRowClick: this.handleCurrentChange
-						}}
-						v-slots={table_slots}
-					>
-						{computedOptions.multipleSelect && <el-table-column type="selection" width="55px" fixed="left" />}
-						{computedOptions.showIndex && (
-							<el-table-column
-								resizable={false}
-								label={computedOptions.indexLabel}
-								index={this.generateIndex}
-								type="index"
-								width="56"
-								align="center"
-								fixed="left"
-							/>
-						)}
-						{this.localColumns.map((column, index) => {
-							const { align, resizable, showOverflowTooltip, slots, ad_slots, ...opts } = column
-							return (
-								<el-table-column
-									key={index}
-									{...opts}
-									v-slots={le_slots}
-									align={align ?? computedOptions.align}
-									resizable={resizable ?? computedOptions.resizable}
-									showOverflowTooltip={showOverflowTooltip ?? computedOptions.showOverflowTooltip}
-								/>
-							)
-						})}
-						<template slot="empty">EMPTY....</template>
-					</el-table>
-				</div>
-			</div>
-			{/!*--分页--*!/}
-			{total > 0 && computedOptions.showPagination && (
-				<el-pagination
-					total={total}
-					currentPage={searchParams.page}
-					pageSize={searchParams.size}
-					pageSizes={computedOptions.pageSizes}
-					layout={computedOptions.layout}
-					background={computedOptions.background}
-					onSizeChange={this.handleSizeChange}
-					onCurrentChange={this.handleIndexChange}
-				/>
-			)}
-		</div>
-	)
-}*/
-
 const TableComponent = defineComponent({
 	name: 'LeTable',
 	props: tableProps,
 	// 更新搜索条件, 更新列配置, table Sort 排序, table 刷新
 	emits: ['update:searchParams', 'update:checkedOptions', 'sortChange', 'refresh'],
-	/*components: {
-		TableColumnsPopover,
-		NoData,
-		Icon
-		// ColumnItem
-	},*/
-	// render,
-	data() {
-		return {
-			storageArr: [] // 临时存储的数组
-		}
-	},
-	watch: {
-		// todo
-		/*list: {
-			// 监听 list发生变化  （用于 多选时 切换页面做触发...）
-			handler: function (newList, oldList) {
-				// console.log(newList, oldList);
-				// 判断是否为多选
-				const { multipleSelect, rowKey = 'id', currentRowKey = 'id' } = this.computedOptions
-				if (multipleSelect) {
-					// 判断是否为多选
-					const {
-						selected_list = [] // 获取是 原来被选中的值... (通过x_y 防止 fix xY --> x-y 通过$attr 无法读取)
-					} = this.$attrs
-					let indexs = [],
-						storageArr = []
-					selected_list.map(item => {
-						var _index = newList.findIndex(_item => {
-							return _item[rowKey] === item[rowKey]
-						})
-						if (_index !== -1) {
-							indexs.push(_index)
-						} else {
-							// 当前页没有的 数据 作为临时存储 在更新数据之前  合并当前页被选中的数据 提交给父级组件
-							storageArr.push(item)
-						}
-					})
-					this.storageArr = storageArr
-					this.$nextTick(() => {
-						indexs.forEach(index => {
-							// console.warn(this.list[index], 'this.list[index]')
-							this.$refs.tableRef.toggleRowSelection(this.list[index], true) // 遍历被选中的 多选
-						})
-					})
-				}
-				const {
-					cur_row = {} // 获取 想要被高亮的数据...
-				} = this.$attrs
-				// 高亮数据判断
-				if (Object.keys(cur_row).length) {
-          // 目前情况可以直接使用 rowKey
-					let curRowIndex = -1
-					curRowIndex = newList.findIndex(_item => {
-						// return _item[currentRowKey] === cur_row[currentRowKey]
-						return _item[rowKey] === cur_row[rowKey]
-					})
-					this.$nextTick(() => {
-						curRowIndex > -1 && this.$refs.tableRef.setCurrentRow(this.list[curRowIndex]) // 高亮原本被选中的数据
-					})
-				}
-			},
-			deep: true
-			// immediate: true
-		}*/
-	},
 	setup(props, { attrs, slots, emit, expose }) {
 		const { t } = useI18n()
 		// const tableRef = ref<Table>(/*tableRef*/)
@@ -413,35 +256,6 @@ const TableComponent = defineComponent({
 				</div>
 			)
 		}
-	},
-	mounted() {
-		// @ts-ignore
-		// this.injectTableMethods()
-	},
-	methods: {
-		// 设置自定义列 todo
-		/*setColumnsHandler() {
-			this.$message.warning('自定义列设置,敬请期待~')
-			// ElMessage.warning('自定义列设置,敬请期待~')
-		}*/
-		// injectTableMethods() {
-		//   const _self = this as any
-		//   const tableRef = _self.$refs['tableRef']
-		//   const tableMethodNameList = [
-		//     'clearSelection',
-		//     'toggleRowSelection',
-		//     'toggleAllSelection',
-		//     'toggleRowExpansion',
-		//     'setCurrentRow',
-		//     'clearSort',
-		//     'clearFilter',
-		//     'doLayout',
-		//     'sort',
-		//   ]
-		//   for (const methodName of tableMethodNameList) {
-		//       _self[methodName] = tableRef?.[methodName]
-		//   }
-		// }
 	}
 })
 export default TableComponent
