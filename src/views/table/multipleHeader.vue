@@ -200,7 +200,7 @@ const tabs_columnsConfig = {
 	// 默认展示配置
 	defaultCheckedOptions: [columns[0]]
 }
-const tabs_checkedColumns = ref([columns[0]])
+const tabs_checkedColumns = ref([columns[0], columns[3]])
 const localColumns = computed(() => {
 	const checkedColumns = tabs_checkedColumns.value as any[]
 	if (!checkedColumns.length) return columns
@@ -237,7 +237,7 @@ const localColumns = computed(() => {
 const localTable = ref(/*localTable*/)
 watch(() => localColumns.value, () => {
 	const ELTable = localTable.value?.tableRef
-	console.log(ELTable, 'ELTable')
+	console.log(ELTable, '获取 ELTable 测试')
 	/*if(ELTable) {
 		console.error('测试')
 		/!*
@@ -281,7 +281,7 @@ watch(() => localColumns.value, () => {
 const testClick = (e) => {
 	// console.error('click 测试', e)
 	options.value.showIndex = !options.value.showIndex
-	console.error(options.value, 'options.value')
+	// console.error(options.value, 'options.value')
 	ElMessage.warning('this is a testClick.')
 }
 // const { } = toRefs(state)
