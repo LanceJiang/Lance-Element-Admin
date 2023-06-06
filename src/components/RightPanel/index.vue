@@ -3,8 +3,8 @@
 		<div class="rightPanel-background" />
 		<div class="rightPanel">
 			<div class="handle-button" :style="{ top: buttonTop + 'px', 'background-color': theme }" @click="show = !show">
-				<Close style="width: 18px; height: 18px; vertical-align: middle" v-show="show" />
-				<Setting style="width: 18px; height: 18px; vertical-align: middle" v-show="!show" />
+				<Close class="icon" v-show="show" />
+				<Setting class="icon" v-show="!show" />
 			</div>
 			<div class="rightPanel-items">
 				<slot />
@@ -131,6 +131,9 @@ onBeforeUnmount(() => {
 	position: absolute;
 	left: -32px;
 	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	//font-size: 24px;
 	border-radius: 6px 0 0 6px !important;
 	z-index: 0;
@@ -139,9 +142,11 @@ onBeforeUnmount(() => {
 	color: #fff;
 	line-height: 32px;
 
-	i {
-		font-size: 24px;
-		line-height: 32px;
+	.icon {
+		//font-size: 24px;
+		//line-height: 32px;
+		width: 18px;
+		height: 18px;
 	}
 }
 </style>
