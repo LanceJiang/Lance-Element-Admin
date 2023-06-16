@@ -182,13 +182,34 @@ const columns = [
 			},
 
 			{
-				prop: 'validNum',
-				label: '有效问题数（宗）',
-				sortable: true,
+				prop: 'validNum_group',
+				// label: '有效问题数（宗）',
+				label: '有效问题group',
+				// sortable: true,
 				minWidth: 300,
-				slots: {
-					default: 'validNum'
-				}
+				children: [
+					{
+						prop: 'validNum',
+						label: '有效问题数（宗）',
+						sortable: true,
+						// minWidth: 300,
+						slots: {
+							default: 'validNum'
+						}
+					},
+					{
+						prop: 'validNum2',
+						label: '有效问题数2',
+						sortable: true
+						// minWidth: 300,
+						// slots: {
+						// 	default: 'validNum'
+						// }
+					}
+				]
+				// slots: {
+				// 	default: 'validNum'
+				// }
 			}
 		]
 	}

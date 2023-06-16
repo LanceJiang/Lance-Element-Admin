@@ -1,5 +1,9 @@
 <template>
 	<div class="app-container">
+		<el-button size="small" @click="switchLang">
+			lang: 切换
+			{{ locale }}
+		</el-button>
 		<!-- 搜索表单 -->
 		<el-form ref="queryFormRef" :model="queryParams" :inline="true">
 			<el-form-item>
@@ -16,15 +20,18 @@
 				<el-button :icon="Refresh" @click="resetQuery">重置</el-button>
 			</el-form-item>
 		</el-form>
-		<Child/>
-		{{modeltest}}
+		<Child />
+		<el-input v-model="modeltest.a" placeholder="品牌名称" />
+		{{ modeltest }}
 	</div>
 </template>
 
 <script setup lang="ts" name="testSetup">
-import { onMounted, reactive, ref, toRefs, unref } from 'vue'
+import { onMounted, reactive, ref, toRefs, watch, unref } from 'vue'
 import { ElForm, ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Plus, Refresh, Delete } from '@element-plus/icons-vue'
+import useStore from '@/store/index'
+import { useI18n } from 'vue-i18n'
 const queryFormRef = ref() // 属性名必须和元素的ref属性值一致
 import Child from './setupComponent.vue'
 const state = reactive({
@@ -57,22 +64,41 @@ const state = reactive({
 		]
 	}
 })
-const modeltest = ref({
+const modeltest = reactive({
 	a: 1,
 	b: 2,
 	c: 3
 })
 window.modeltest = modeltest
-console.error(modeltest.value, 'modeltest')
-setTimeout(() => {
+console.error(modeltest, 'modeltest')
+watch(
+	() => modeltest.a,
+	(val, lastVal) => {
+		console.log(val, lastVal, 'val, lastVal')
+	}
+)
+/*setTimeout(() => {
 	Object.assign(unref(modeltest), {
-	// Object.assign(modeltest, {
+		// Object.assign(modeltest, {
 		b: 'next_b',
 		d: 'new D',
 		e: 'eeeeee'
 	})
 	console.error(modeltest.value, 'modeltest')
-}, 1500)
+}, 1500)*/
+const { locale } = useI18n()
+const { app } = useStore()
+const switchLang = () => {
+	let lang = locale.value
+	debugger
+	if (lang === 'en') {
+		lang = 'zh-cn'
+	} else {
+		lang = 'en'
+	}
+	// locale.value = lang
+	app.setLanguage(lang)
+}
 const { loading, multiple, queryParams, brandList, total, dialog, formData, rules } = toRefs(state)
 function handleQuery() {
 	state.loading = true
