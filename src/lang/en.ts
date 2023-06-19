@@ -14,7 +14,8 @@ export default {
 		treeTable: 'Tree Table',
 		mergeCells: 'Merge Cells',
 		footerSummary: 'Footer Summary',
-		expandTable: 'Expand Table'
+		expandTable: 'Expand Table',
+		resizeParentHeightTable: 'ResizeParentHeight Table'
 	},
 	// 登录页面国际化
 	login: {

@@ -14,7 +14,8 @@ export default {
 		treeTable: '树形表格',
 		mergeCells: '合并单元格',
 		footerSummary: '底部统计',
-		expandTable: '展开行表格'
+		expandTable: '展开行表格',
+		resizeParentHeightTable: '继承父元素高度'
 	},
 	// 登录页面国际化
 	login: {

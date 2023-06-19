@@ -114,6 +114,12 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 				component: () => import('@/views/table/expandTable.vue'),
 				name: 'expandTable',
 				meta: { title: 'expandTable' }
+			},
+			{
+				path: 'resizeParentHeightTable',
+				component: () => import('@/views/table/resizeParentHeightTable.vue'),
+				name: 'resizeParentHeightTable',
+				meta: { title: 'resizeParentHeightTable' }
 			}
 		]
 	},
