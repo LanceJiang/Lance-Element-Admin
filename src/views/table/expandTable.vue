@@ -11,45 +11,64 @@
 			v-model:checkedOptions="tabs_checkedColumns"
 		>
 			<template #toolLeft>
-				<h3 style="line-height: 36px">树形表格示例</h3>
+				<h3 style="line-height: 36px">展开行表格示例</h3>
+			</template>
+			<template #expand="{ row }">
+				<p style="background: #00f;">名称: {{ row.name }}</p>
+				<p>日期: {{ row.date }}</p>
+				<p>金额1: {{ row.amount1 }}</p>
+				<p>金额2: {{ row.amount2 }}</p>
 			</template>
 		</LeTable>
 	</div>
 </template>
-<script setup lang="tsx" name="treeTable">
+<script setup lang="tsx" name="footerSummary">
 import { ref, toRefs, reactive, computed, watch, onMounted } from 'vue'
-import { get_treeList } from '@/views/table/queryApi.js'
+import { get_priceList } from '@/views/table/queryApi.js'
+import { formatNumber } from '@/utils'
 const total = ref(0)
 const list = ref([])
-const selectionChange = e => {
-	// console.error('click 测试', e)
-	console.log(e, 'selectionChange')
-}
-const load = (row, treeNode: unknown, resolve: (data: any[]) => void) => {
-	loadChildrenApi(row).then(res => {
-		resolve(res.data)
-	})
-}
 const options = ref({
 	// rowKey: 'value',
-	loading: false,
-	size: 'small',
-	// showIndex: true,
-	multipleSelect: true,
-	lazy: true,
-	load: load,
-	treeProps: { children: 'children', hasChildren: 'hasChildren' },
-	onSelectionChange: selectionChange
+	// loading: false,
+	// size: 'small',
 })
 const searchParams = ref({
 	page: 1,
 	size: 20
 })
-
+const commonFormatter = (row, column, cellValue) => {
+	return formatNumber(cellValue, 2)
+}
 const columns = [
 	{
+		// 展开行处理
+		prop: 'expand',
+		label: '展开行',
+		type: 'expand',
+		slots: {
+			header: () => {
+				return <div style="color: #f00;">展开行</div>
+			},
+			// 两种渲染方式
+			default: 'expand',
+			/*default: ({row, column}) => {
+				return <><p style="background: #f00;">名称: { row.name }</p>
+					<p>日期: { row.date }</p>
+					<p>金额1: { row.amount1 }</p>
+					<p>金额2: { row.amount2 }</p></>
+			}*/
+		},
+		width: '70px'
+	},
+	{
+		prop: 'id',
+		label: 'ID值'
+		// minWidth: '200px'
+	},
+	{
 		prop: 'name',
-		label: '名称'
+		label: '名称',
 		// minWidth: '200px'
 	},
 	{
@@ -58,34 +77,24 @@ const columns = [
 		// minWidth: '200px'
 	},
 	{
-		label: '地址',
-		prop: 'address'
+		label: '金额1',
+		prop: 'amount1',
+		formatter: commonFormatter
+	},
+	{
+		label: '金额2',
+		prop: 'amount2',
+		formatter: commonFormatter
 	}
-	/*{
-		label: '详情',
-		prop: 'details',
-		width: '120px',
-		type: 'expand',
-		slots: {
-			default: ({row, column, $index}) => {
-				// console.error($index, '$index')
-				return <div>
-					<span style="padding: 0 12px;color: red;">{JSON.stringify(row)}</span><br/>
-					(slots.default: fn)
-				</div>
-			}
-		}
-	}*/
 ]
-
-// 列配置对象
 const tabs_columnsConfig = {
 	// 所有的 columns 配置
 	columns,
 	// 默认展示配置
-	defaultCheckedOptions: [columns[0]]
+	// defaultCheckedOptions: [columns[0]]
 }
-const tabs_checkedColumns = ref([columns[0]])
+const tabs_checkedColumns = ref([...columns])
+
 const localColumns = computed(() => {
 	const checkedColumns = tabs_checkedColumns.value as any[]
 	if (!checkedColumns.length) return columns
@@ -122,7 +131,7 @@ const queryList = () => {
 	options.value.loading = true
 	const input = getRequestParams()
 	console.warn('input', JSON.stringify(input))
-	get_treeList(input)
+	get_priceList(input)
 		.then(data => {
 			// console.log(data, 'data////')
 			list.value = data.list
@@ -131,29 +140,6 @@ const queryList = () => {
 		.finally(() => {
 			options.value.loading = false
 		})
-}
-
-const loadChildrenApi = row => {
-	console.error(row, 'test loadChildrenApi')
-	return new Promise(resolve => {
-		setTimeout(() => {
-			const total = 5
-			const id_base = +new Date()
-			const res = {
-				data: Array.from({ length: total }).map((_, i) => {
-					return {
-						id: `${id_base}_${i}`,
-						date: '2020-02-01',
-						name: `狼妖_${i}`,
-						address: `浪浪山 888_${i} 号`,
-						hasChildren: Math.random() > 0.5
-					}
-				}),
-				total: total
-			}
-			resolve(res)
-		}, 500)
-	})
 }
 
 watch(

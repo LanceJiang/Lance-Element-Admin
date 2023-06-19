@@ -13,7 +13,8 @@ export default {
 		multipleHeader: 'Multiple Header',
 		treeTable: 'Tree Table',
 		mergeCells: 'Merge Cells',
-		footerSummary: 'Footer Summary'
+		footerSummary: 'Footer Summary',
+		expandTable: 'Expand Table'
 	},
 	// 登录页面国际化
 	login: {

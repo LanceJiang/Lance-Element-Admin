@@ -108,6 +108,12 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 				component: () => import('@/views/table/footerSummary.vue'),
 				name: 'footerSummary',
 				meta: { title: 'footerSummary' }
+			},
+			{
+				path: 'expandTable',
+				component: () => import('@/views/table/expandTable.vue'),
+				name: 'expandTable',
+				meta: { title: 'expandTable' }
 			}
 		]
 	},

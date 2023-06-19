@@ -15,9 +15,9 @@ const slot_user = (scope, h) => {
 	// if (scope.$rowIndex === 0 || scope.$index === 0) console.error(scope, 'slot_user scope 第一条数据') // todo
 	const { row, column } = scope
 	return [
-		<div style={'background: #f0f;'}>
+		<div style={'background: #0ff;'}>
 			slot:default <br />
-			<el-button>row[column.property]: {row[column.property]}</el-button>{' '}
+			<div style={'color: #00f'}>{row[column.property]}</div>
 		</div>
 	]
 }
