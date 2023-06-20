@@ -229,6 +229,48 @@
 
     <div class="common_title">LeSelect 使用</div>
     <div class="content">
+
+			<ElSelect v-model="testValue" filterable multiple isPopover>
+<!--				<template #prefix>
+					<LeIcon icon-class="icon-logo"/>
+				</template>-->
+				<el-option
+					v-for="item in options"
+					:key="item.value"
+					:label="item.label"
+					:value="item.value">
+				</el-option>
+			</ElSelect>
+			<el-select-v2
+				v-model="testValue"
+				:options="options"
+				style="width: 200px;"
+				filterable multiple isPopover>
+				<!--				todo...-->
+				<!--				<template #prefix>
+									<LeIcon icon-class="icon-logo"/>
+								</template>-->
+			</el-select-v2>
+<!--			-->
+			<LeSelect
+				v-model="testValue"
+				:options="options"
+				style="width: 200px;"
+				filterable multiple isPopover>
+<!--				todo...-->
+<!--				<template #prefix>
+					<LeIcon icon-class="icon-logo"/>
+				</template>-->
+			</LeSelect>
+<!--			<div>-&#45;&#45;&#45;&#45;&#45;&#45;LeSelect 无弹窗(isPopover  false)&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</div>
+			<LeSelect v-model="testValue2" filterable multiple :isPopover="false">
+				<el-option
+					v-for="item in options"
+					:key="item.value"
+					:label="item.label"
+					:value="item.value">
+				</el-option>
+			</LeSelect>-->
 <!--      <LeSelect v-model="testValue" filterable multiple isPopover>
         <el-option
           v-for="item in options"
@@ -267,29 +309,30 @@
         <template slot="append"><span class="le-input-number-range_addon local_append" style="background: #f00">append</span></template>
       </LeInputNumberRange>
     </div>
-<!--    <div class="common_title">iconfont && LeIcon</div>
+    <div class="common_title">iconfont && LeIcon</div>
     <div class="content">
-      &lt;!&ndash;  单色样式类  &ndash;&gt;
-      <span class="le-iconfont le-Review"></span>
-      <LeIcon iconClass="le-checkbox_checked"></LeIcon>
-      <span class="le-iconfont le-checkbox_checked"></span>
-      <LeIcon iconClass="le-checkbox"></LeIcon>
-      <span class="le-iconfont le-checkbox"></span>
-&lt;!&ndash;      <LeIcon iconClass="le-checkbox"></LeIcon>&ndash;&gt;
-&lt;!&ndash;      <span class="le-iconfont le-radio_checked_disable"></span>&ndash;&gt;
+      <!--  单色样式类  -->
+			<!--也可拼接 对应icon文件夹注入的icon 文件-->
+			<SvgIcon icon-class="logo" />
+			<LeIcon icon-class="icon-logo"/>
+			<span class="le-iconfont le-review"></span>
+			<LeIcon iconClass="le-checkbox_checked"></LeIcon>
+			<span class="le-iconfont le-checkbox_checked"></span>
+			<LeIcon iconClass="le-checkbox"></LeIcon>
+			<span class="le-iconfont le-checkbox"></span>
       <LeIcon iconClass="le-radio_checked"></LeIcon>
       <span class="le-iconfont le-radio_checked"></span>
       <LeIcon iconClass="le-radio"></LeIcon>
       <span class="le-iconfont le-radio"></span>
-      &lt;!&ndash;  svg  &ndash;&gt;
+      <!--  svg  -->
       <LeIcon iconClass="le-frozen" @click="test"></LeIcon>
-      &lt;!&ndash;Table 操作 用： Icon按钮&ndash;&gt;
+      <!--Table 操作 用： Icon按钮-->
       <el-tooltip placement="top" :content="$t('outboundOrder.btn.view')">
         <el-button class="le-icon-button" @click="test('row')">
           <LeIcon iconClass="le-view"></LeIcon>
         </el-button>
       </el-tooltip>
-    </div>-->
+    </div>
 
 <!--    <div class="common_title">下拉Dropdown LeDropdown</div>
     <div class="content">

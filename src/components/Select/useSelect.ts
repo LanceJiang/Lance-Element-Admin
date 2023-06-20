@@ -160,6 +160,76 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		)
 	})
 
+	const indeterminateClass = ref('')
+	// 是否全选
+	const isCheckAll = computed(() => {
+		// const { options, computedOptions, value } = this
+		// const { options, filteredOptions, modelValue } = TheCtx
+		const showVals = filteredOptions.value.map(v => v.value)
+		indeterminateClass.value = ''
+		const modelValue = props.modelValue
+		if (!Array.isArray(modelValue)) return false
+		if (props.options.length > 0 && modelValue.length > 0) {
+			if (showVals.some(v => modelValue.includes(v))) indeterminateClass.value = 'indeterminate'
+			return showVals.every(v => modelValue.includes(v))
+		}
+	})
+	// le-select 新增
+	// 全选与反选
+	const checkAllHandler = () => {
+		if (props.multiple) {
+			const localOptions = filteredOptions.value
+			const valueKey = props.valueKey
+			const localValues = localOptions.map(v => v[valueKey])
+			const selectedOptions = props.modelValue as any[]
+			let value = []
+			if (isCheckAll.value) {
+				// 取消全选
+				value = selectedOptions.filter(v => !localValues.includes(v))
+				localValues.forEach(optionValue => {
+					const itemIndex = states.cachedOptions.findIndex(option => getValueKey(option) === optionValue)
+					if (itemIndex > -1) {
+						states.cachedOptions.splice(itemIndex, 1)
+					}
+				})
+			} else {
+				// 全选
+				/*value = [...new Set((selectedOptions || []).concat(localValues))]
+				localOptions.forEach(v => {
+					const i = getValueIndex(selectedOptions, getValueKey(v))
+					if (i === -1) {
+						states.cachedOptions.push(v)
+					}
+				})*/
+				localOptions.forEach(v => {
+					const l_value = getValueKey(v)
+					const i = getValueIndex(selectedOptions, l_value)
+					if (i === -1) {
+						states.cachedOptions.push(v)
+						value.push(l_value)
+					}
+				})
+				value = selectedOptions.concat(value)
+			}
+			update(value)
+			if (states.displayInputValue.length > 0) {
+				onUpdateInputValue('')
+			}
+			resetInputHeight()
+			setSoftFocus()
+			/*states.query = ''
+			handleQueryChange('')
+			if (props.filterable && !props.reserveKeyword) {
+				inputRef.value.focus?.()
+				onUpdateInputValue('')
+			}
+			debugger
+			if (props.filterable) {
+				states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
+			}*/
+		}
+	}
+
 	const optionsAllDisabled = computed(() => filteredOptions.value.every(option => option.disabled))
 
 	const selectSize = useFormSize()
@@ -193,7 +263,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		// when filterable flag is true, which means we have input box on the screen
 		return props.filterable ? states.displayInputValue.length === 0 : true
 	})
-
 	const currentPlaceholder = computed(() => {
 		const _placeholder = props.placeholder || t('el.select.placeholder')
 		return props.multiple || isNil(props.modelValue) ? _placeholder : states.selectedLabel
@@ -255,24 +324,24 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		if (props.filterable && states.inputValue !== states.selectedLabel) {
 			states.query = states.selectedLabel
 		}
-		// handleQueryChange(states.inputValue)
-		// return nextTick(() => {
-		// 	createNewOption(states.inputValue)
-		// })
+		handleQueryChange(states.inputValue)
+		return nextTick(() => {
+			createNewOption(states.inputValue)
+		})
 	}
 
 	const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
 
 	const handleQueryChange = (val: string) => {
-		// if (states.previousQuery === val) {
-		// 	return
-		// }
-		// states.previousQuery = val
-		// if (props.filterable && isFunction(props.filterMethod)) {
-		// 	props.filterMethod(val)
-		// } else if (props.filterable && props.remote && isFunction(props.remoteMethod)) {
-		// 	props.remoteMethod(val)
-		// }
+		if (states.previousQuery === val) {
+			return
+		}
+		states.previousQuery = val
+		if (props.filterable && isFunction(props.filterMethod)) {
+			props.filterMethod(val)
+		} else if (props.filterable && props.remote && isFunction(props.remoteMethod)) {
+			props.remoteMethod(val)
+		}
 	}
 
 	const emitChange = (val: any | any[]) => {
@@ -282,6 +351,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 	}
 
 	const update = (val: any) => {
+		// console.error(states.cachedOptions, 'states.cachedOptions, new modelValue', val)
 		emit(UPDATE_MODEL_EVENT, val)
 		emitChange(val)
 		states.previousValue = val?.toString()
@@ -292,6 +362,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 			return arr.indexOf(value)
 		}
 		const valueKey = props.valueKey
+		debugger
 		let index = -1
 		arr.some((item, i) => {
 			if (get(item, valueKey) === get(value, valueKey)) {
@@ -561,14 +632,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 	}
 
 	const handleMenuEnter = () => {
-		console.error('handleMenuEnter')
-		// states.inputValue = states.displayInputValue
-		// return nextTick(() => {
-		// 	if (~indexRef.value) {
-		// 		updateHoveringIndex(indexRef.value)
-		// 		scrollToItem(states.hoveringIndex)
-		// 	}
-		// })
+		states.inputValue = states.displayInputValue
+		return nextTick(() => {
+			if (~indexRef.value) {
+				updateHoveringIndex(indexRef.value)
+				scrollToItem(states.hoveringIndex)
+			}
+		})
 	}
 
 	const scrollToItem = (index: number) => {
@@ -704,6 +774,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		tagMaxWidth,
 		nsSelectV2,
 		nsInput,
+		isCheckAll,
+		indeterminateClass,
 
 		// refs items exports
 		calculatorRef,
@@ -722,6 +794,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		collapseTagList,
 
 		// methods exports
+		t,
+		checkAllHandler,
 		debouncedOnInputChange,
 		deleteTag,
 		getLabel,

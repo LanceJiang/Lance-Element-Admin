@@ -25,7 +25,8 @@ export default defineComponent({
 			required: true
 		},
 		hoveringIndex: Number,
-		width: Number
+		width: Number,
+		multiple: Boolean
 	},
 	setup(props, { slots, expose }) {
 		const select = inject(selectV2InjectionKey)!

@@ -27,7 +27,10 @@ export const SelectProps = {
 		type: String as PropType<'light' | 'dark' | string>,
 		default: 'light'
 	},
-	collapseTags: Boolean,
+	collapseTags: {
+		type: Boolean,
+		default: true
+	},
 	collapseTagsTooltip: {
 		type: Boolean,
 		default: false
@@ -113,6 +116,12 @@ export const SelectProps = {
 		type: definePropType<Placement>(String),
 		values: placements,
 		default: 'bottom-start'
+	},
+	// le-select 新增
+	isPopover: {
+		type: Boolean,
+		default: false
+		// default: true
 	}
 }
 

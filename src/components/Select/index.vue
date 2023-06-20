@@ -2,16 +2,17 @@
 	<div
 		ref="selectRef"
 		v-click-outside:[popperRef]="handleClickOutside"
-		:class="[nsSelectV2.b(), nsSelectV2.m(selectSize)]"
+		:class="[nsSelectV2.b(), nsSelectV2.m(selectSize), 'le-select']"
 		@click.stop="toggleMenu"
 		@mouseenter="states.comboBoxHovering = true"
 		@mouseleave="states.comboBoxHovering = false"
 	>
+		<!--	todo 是否弹窗...	-->
 		<el-tooltip
 			ref="popper"
 			:visible="dropdownMenuVisible"
 			:teleported="teleported"
-			:popper-class="[nsSelectV2.e('popper'), popperClass]"
+			:popper-class="[nsSelectV2.e('popper'), popperClass, 'le-select__popper']"
 			:gpu-acceleration="false"
 			:stop-popper-mouse-event="false"
 			:popper-options="popperOptions"
@@ -233,6 +234,14 @@
 				</div>
 			</template>
 			<template #content>
+				<div
+					v-if="multiple"
+					v-show="filteredOptions.length"
+					:class="['el-select-dropdown__item checkAll', isCheckAll ? 'selected' : indeterminateClass]"
+					@click="checkAllHandler"
+				>
+					{{ $t('le.selectAll') }}
+				</div>
 				<el-select-menu
 					ref="menuRef"
 					:data="filteredOptions"
@@ -245,9 +254,10 @@
 					</template>
 					<template #empty>
 						<slot name="empty">
-							<p :class="nsSelectV2.e('empty')">
+							<NoData :message="emptyText" />
+							<!--							<p :class="nsSelectV2.e('empty')">
 								{{ emptyText ? emptyText : '' }}
-							</p>
+							</p>-->
 						</slot>
 					</template>
 				</el-select-menu>
@@ -268,6 +278,7 @@ import { ClickOutside } from 'element-plus/es/directives/index.mjs'
 // import ElTag from 'element-plus/es/components/tag'
 // import ElIcon from 'element-plus/es/components/icon'
 // import ElIcon from '@element-plus/components/icon'
+import NoData from '@/components/NoData'
 // import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from 'element-plus/es/constants/index.mjs'
 import ElSelectMenu from './select-dropdown'
@@ -275,12 +286,12 @@ import useSelect from './useSelect'
 import { selectV2InjectionKey } from './token'
 import { SelectProps } from './defaults'
 // const isArray = Array.isArray
-// const useSelect = function () {}
 export default defineComponent({
 	// name: 'ElSelectV2',
 	name: 'LeSelect',
 	components: {
-		ElSelectMenu
+		ElSelectMenu,
+		NoData
 		// ElTag,
 		// ElTooltip,
 		// ElIcon

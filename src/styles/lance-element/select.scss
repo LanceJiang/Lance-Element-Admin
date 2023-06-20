@@ -1,0 +1,193 @@
+@import "../variables.scss";
+// LeSelect 样式
+.#{$prefix}select,
+.#{$prefix}select__popper {
+  // 非弹窗类型专用样式
+  &--view {
+    display: block;
+    margin-bottom: -5px;
+    .el-select-dropdown {
+      border: 0;
+      box-shadow: none;
+      position: unset;
+    }
+    .el-select-dropdown .el-select-dropdown__option-item {
+      padding-left: 20px;
+      padding-right: 0;
+      height: unset;
+      min-height: 34px;
+    }
+    .el-select-dropdown.is-multiple .el-select-dropdown__option-item {
+    }
+    .el-select__tags {
+      top: 2px;
+      left: 3px;
+      transform: translateY(0);
+      //.tags-wrap {
+      //  display: none;
+      //}
+      .el-select__tags-text.limit-weight {
+        max-width: 46px;
+      }
+    }
+  }
+  .el-select-dropdown__list {
+    //padding-top: 0;
+    padding: 0;
+  }
+  .el-select-dropdown {
+    width: 100%;
+  }
+
+  .el-select__tags {
+    //left: 2px;
+    //top: unset;
+    //transform: translateY(2px);
+    flex-wrap: unset;
+    overflow-x: hidden;
+  }
+	/*.el-select-dropdown__option-item {
+		font-size: var(--el-select-font-size);
+		padding: 0 32px 0 20px;
+		position: relative;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		color: var(--el-text-color-regular);
+		height: 34px;
+		line-height: 34px;
+		box-sizing: border-box;
+		cursor: pointer;
+	}
+	.el-select-dropdown__item {
+		font-size: var(--el-font-size-base);
+		padding: 0 32px 0 20px;
+		position: relative;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		color: var(--el-text-color-regular);
+		height: 34px;
+		line-height: 34px;
+		box-sizing: border-box;
+		cursor: pointer;
+	}
+	*/
+
+	.el-select-dropdown__item,.el-select-dropdown__option-item {
+		// 全选
+		&.checkAll {
+			//width: 100%;
+			// 半选中
+			&.indeterminate {
+				&::before {
+					content: "\e80a";
+					//color: $le-color-primary;
+					color: var(--el-color-primary);
+				}
+			}
+		}
+		padding-left: 28px;
+		padding-right: 12px;
+		&::before {
+			position: absolute;
+			top: 50%;
+			//left: 20px;
+			left: 8px;
+			transform: translateY(-50%);
+			font-family: "le-iconfont";
+			//content: "\e80d";
+			content: "\e809";
+			font-size: 14px;
+			font-weight: normal;
+			display: inline-block;
+			//position: relative;
+			box-sizing: border-box;
+			width: 14px;
+			height: 14px;
+			line-height: 14px;
+			background-color: #FFFFFF;
+			color: $le-border-color_1;
+			z-index: 1;
+			transition: background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);
+			//border: 1px solid $le-border-color_1;
+			border-radius: 50%;
+		}
+		&.is-selected,
+		&.selected {
+			font-weight: normal;
+			&::before {
+				//color: $le-color-primary;
+				color: var(--el-color-primary);
+				//content: "\e80c";
+				content: "\e76b";
+				//border: 0;
+			}
+		}
+	}
+  /*.el-select-dropdown .el-select-dropdown__item {
+    //padding-left: 40px;
+    //padding-right: 20px;
+    padding-left: 28px;
+    padding-right: 12px;
+    //// 全选
+    !*&.checkAll {
+      //width: 100%;
+      // 半选中
+      &.indeterminate {
+        &::before {
+          content: "\e80a";
+          color: $le-color-primary;
+        }
+      }
+    }*!
+    &::before {
+      position: absolute;
+      top: 50%;
+      //left: 20px;
+      left: 8px;
+      transform: translateY(-50%);
+      font-family: "le-iconfont";
+      content: "\e80d";
+      font-size: 14px;
+      font-weight: normal;
+      display: inline-block;
+      //position: relative;
+      box-sizing: border-box;
+      width: 14px;
+      height: 14px;
+      line-height: 14px;
+      background-color: #FFFFFF;
+      color: $le-border-color_1;
+      z-index: 1;
+      transition: background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);
+      //border: 1px solid $le-border-color_1;
+      border-radius: 50%;
+    }
+    !*&.selected {
+      font-weight: normal;
+      &::before {
+        color: $le-color-primary;
+        content: "\e80c";
+        //border: 0;
+      }
+    }*!
+  }*/
+  .el-select-dropdown.is-multiple .el-select-dropdown__item,
+  .el-select-dropdown.is-multiple .el-select-dropdown__option-item {
+    &::before {
+      content: "\e809";
+      //border-radius: 2px;
+    }
+    &.is-selected::before,
+    &.selected::before {
+      content: "\e76b";
+      //content: "\e809";
+      //border: 0;
+    }
+  }
+  .el-select-dropdown.is-multiple .el-select-dropdown__item.selected::after,
+  .el-select-dropdown.is-multiple .el-select-dropdown__option-item.is-selected::after {
+    display: none;
+  }
+}
