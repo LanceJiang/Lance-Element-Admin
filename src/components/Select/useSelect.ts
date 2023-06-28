@@ -205,8 +205,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 	const checkAllHandler = () => {
 		if (props.multiple) {
 			const localOptions = filteredOptions.value
-			const valueKey = props.valueKey
-			const localValues = localOptions.map(v => v[valueKey])
+			const localValues = localOptions.map(v => getValueKey(v))
 			const selectedOptions = props.modelValue as any[]
 			let value = []
 			if (isCheckAll.value) {
