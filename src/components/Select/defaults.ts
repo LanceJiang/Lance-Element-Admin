@@ -18,7 +18,10 @@ export const SelectProps = {
 		default: 'none'
 	},
 	automaticDropdown: Boolean,
-	clearable: Boolean,
+	clearable: {
+		type: Boolean,
+		default: true
+	},
 	clearIcon: {
 		type: [String, Object] as PropType<string | Component>,
 		default: CircleClose
@@ -31,6 +34,7 @@ export const SelectProps = {
 		type: Boolean,
 		default: true
 	},
+	// 折叠的标签是否toolTip提示
 	collapseTagsTooltip: {
 		type: Boolean,
 		default: false
@@ -99,6 +103,15 @@ export const SelectProps = {
 	size: {
 		type: String as PropType<ComponentSize>,
 		validator: isValidComponentSize
+	},
+	// option 是否多语言切换
+	i18n: {
+		type: Boolean,
+		default: false
+	},
+	labelKey: {
+		type: String,
+		default: 'label'
 	},
 	valueKey: {
 		type: String,

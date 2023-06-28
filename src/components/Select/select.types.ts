@@ -5,6 +5,8 @@ export type OptionCommon = {
 export type Option<T = any> = OptionCommon & {
 	created?: boolean
 	value: T
+	// 本地le label 存储(结合多语言转换) 将会更新至options
+	le_label: string
 	// reserve for option
 	[prop: string]: any
 }

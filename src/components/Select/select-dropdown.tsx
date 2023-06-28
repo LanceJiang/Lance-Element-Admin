@@ -148,7 +148,7 @@ export default defineComponent({
 					onHover={onHover}
 				>
 					{{
-						default: (props: OptionItemProps) => slots.default?.(props) || <span>{item.label}</span>
+						default: (props: OptionItemProps) => slots.default?.(props) || <span>{props.item.le_label}</span>
 					}}
 				</OptionItem>
 			)

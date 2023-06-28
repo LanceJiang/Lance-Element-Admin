@@ -42,6 +42,7 @@
 					</div>
 					<div v-if="multiple" :class="nsSelectV2.e('selection')">
 						<template v-if="collapseTags && modelValue.length > 0">
+							<!-- 折叠类型>展示标签 -->
 							<div v-for="item in showTagList" :key="getValueKey(item)" :class="nsSelectV2.e('selected-item')">
 								<el-tag
 									:closable="!selectDisabled && !item?.disable"
@@ -55,10 +56,11 @@
 										:style="{
 											maxWidth: `${tagMaxWidth}px`
 										}"
-										>{{ item?.label }}</span
+										>{{ /*getLabel(item)*/ item?.le_label }}</span
 									>
 								</el-tag>
 							</div>
+							<!-- 折叠类型>(被折叠的)更多标签 -->
 							<div :class="nsSelectV2.e('selected-item')">
 								<el-tag v-if="modelValue.length > maxCollapseTags" :closable="false" :size="collapseTagSize" type="info" disable-transitions>
 									<el-tooltip
@@ -94,7 +96,7 @@
 															:style="{
 																maxWidth: `${tagMaxWidth}px`
 															}"
-															>{{ getLabel(selected) }}</span
+															>{{ /*getLabel(selected)*/selected?.le_label }}</span
 														>
 													</el-tag>
 												</div>
@@ -127,7 +129,7 @@
 										:style="{
 											maxWidth: `${tagMaxWidth}px`
 										}"
-										>{{ getLabel(selected) }}</span
+										>{{ /*getLabel(selected)*/selected?.le_label }}</span
 									>
 								</el-tag>
 							</div>
@@ -250,7 +252,9 @@
 					:scrollbar-always-on="scrollbarAlwaysOn"
 				>
 					<template #default="scope">
-						<slot v-bind="scope" />
+						<slot v-bind="scope">
+							{{scope.item.le_label}}
+						</slot>
 					</template>
 					<template #empty>
 						<slot name="empty">

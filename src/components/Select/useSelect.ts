@@ -22,6 +22,7 @@ import type ElTooltip from '@element-plus/components/tooltip'
 import type { SelectProps } from './defaults'
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { Option, OptionType } from './select.types'
+// import { useI18n } from 'vue-i18n'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
@@ -34,6 +35,7 @@ const TAG_BASE_WIDTH = {
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 	// inject
 	const { t } = useLocale()
+	// const { t } = useI18n()
 	const nsSelectV2 = useNamespace('select-v2')
 	const nsInput = useNamespace('input')
 	const { form: elForm, formItem: elFormItem } = useFormItem()
@@ -124,6 +126,29 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		return null
 	})
 
+	const getValueKey = (item: unknown) => {
+		return isObject(item) ? get(item, props.valueKey) : item
+	}
+
+	// if the selected item is item then we get label via indexing
+	// otherwise it should be string we simply return the item itself.
+	const getLabel = (item: unknown) => {
+		if (isObject(item)) {
+			const label = get(item, props.labelKey)
+			return props.i18n ? t(label) : label
+		}
+		return item
+	}
+
+	const local_options = computed(() => {
+		const options = props.options
+		props.options?.flat(Number.MAX_SAFE_INTEGER).map(v => {
+		// props.options?.map(v => {
+			v.le_label = getLabel(v)
+		})
+		return options
+	})
+
 	const filteredOptions = computed(() => {
 		// return []
 		const isValidOption = (o: Option): boolean => {
@@ -131,14 +156,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 			const query = states.inputValue
 			// when query was given, we should test on the label see whether the label contains the given query
 			const regexp = new RegExp(escapeStringRegexp(query), 'i')
-			const containsQueryString = query ? regexp.test(o.label || '') : true
+			// const containsQueryString = query ? regexp.test(getLabel(o)) : true
+			const containsQueryString = query ? regexp.test(o.le_label) : true
 			return containsQueryString
 		}
 		if (props.loading) {
 			return []
 		}
 		return flattenOptions(
-			(props.options as OptionType[])
+			(local_options.value as OptionType[])
 				.concat(states.createdOptions)
 				.map(v => {
 					if (isArray(v.options)) {
@@ -165,7 +191,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 	const isCheckAll = computed(() => {
 		// const { options, computedOptions, value } = this
 		// const { options, filteredOptions, modelValue } = TheCtx
-		const showVals = filteredOptions.value.map(v => v.value)
+		const showVals = filteredOptions.value.map(v => getValueKey(v))
 		indeterminateClass.value = ''
 		const modelValue = props.modelValue
 		if (!Array.isArray(modelValue)) return false
@@ -372,16 +398,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 			return false
 		})
 		return index
-	}
-
-	const getValueKey = (item: unknown) => {
-		return isObject(item) ? get(item, props.valueKey) : item
-	}
-
-	// if the selected item is item then we get label via indexing
-	// otherwise it should be string we simply return the item itself.
-	const getLabel = (item: unknown) => {
-		return isObject(item) ? item.label : item
 	}
 
 	const resetInputHeight = () => {
