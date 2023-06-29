@@ -143,13 +143,26 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		return item
 	}
 
+	const getLocalOption = (option) => {
+		return { ...option, le_label: getLabel(option)  }
+	}
 	const local_options = computed(() => {
-		const options = props.options
-		props.options?.flat(Number.MAX_SAFE_INTEGER).map(v => {
+		const options = props.options || []
+		/*props.options?.flat(Number.MAX_SAFE_INTEGER).map(v => {
 		// props.options?.map(v => {
 			v.le_label = getLabel(v)
 		})
-		return options
+		return options*/
+		return options.map((v, i) => {
+			if (isArray(v.options)) {
+				return {
+					...v,
+					options: v.options.map(getLocalOption)
+				}
+			}
+			return getLocalOption(v)
+		})
+
 	})
 
 	const filteredOptions = computed(() => {

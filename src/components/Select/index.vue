@@ -56,7 +56,7 @@
 										:style="{
 											maxWidth: `${tagMaxWidth}px`
 										}"
-										>{{ /*getLabel(item)*/ item?.le_label }}</span
+										>{{ i18n ? getLabel(item) : item?.le_label }}</span
 									>
 								</el-tag>
 							</div>
@@ -96,7 +96,7 @@
 															:style="{
 																maxWidth: `${tagMaxWidth}px`
 															}"
-															>{{ /*getLabel(selected)*/selected?.le_label }}</span
+															>{{ i18n ? getLabel(selected) : selected?.le_label }}</span
 														>
 													</el-tag>
 												</div>
