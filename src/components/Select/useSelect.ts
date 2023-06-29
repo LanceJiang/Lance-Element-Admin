@@ -12,7 +12,7 @@ import { ValidateComponentsMap, debugWarn, escapeStringRegexp } from 'element-pl
 // import { useFormItem, useFormSize } from '@element-plus/components/form'
 import { useFormItem, useFormSize } from 'element-plus/es/components/form/index.mjs'
 
-import { ArrowUp } from '@element-plus/icons-vue'
+import { ArrowUp, Search } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
 
 import { flattenOptions } from './util'
@@ -27,9 +27,12 @@ import type { Option, OptionType } from './select.types'
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
 const TAG_BASE_WIDTH = {
-	larget: 51,
-	default: 42,
-	small: 33
+	// larget: 51,
+	// default: 42,
+	// small: 33
+	larget: 61,
+	default: 52,
+	small: 43
 }
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
@@ -100,9 +103,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		return criteria
 	})
 
-	const iconComponent = computed(() => (props.remote && props.filterable ? '' : ArrowUp))
+	const iconComponent = computed(() => (props.remote && props.filterable ? '' : (props.isPopover ? ArrowUp : Search)))
 
-	const iconReverse = computed(() => iconComponent.value && nsSelectV2.is('reverse', expanded.value))
+	const iconReverse = computed(() => iconComponent.value && nsSelectV2.is('reverse', props.isPopover ? expanded.value : true))
 
 	const validateState = computed(() => elFormItem?.validateState || '')
 	const validateIcon = computed(() => ValidateComponentsMap[validateState.value])
@@ -262,11 +265,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 	const collapseTagSize = computed(() => ('small' === selectSize.value ? 'small' : 'default'))
 
 	const tagMaxWidth = computed(() => {
-		const select = selectionRef.value
+		// const select = selectionRef.value
 		const size = collapseTagSize.value || 'default'
-		const paddingLeft = select ? Number.parseInt(getComputedStyle(select).paddingLeft) : 0
-		const paddingRight = select ? Number.parseInt(getComputedStyle(select).paddingRight) : 0
-		return states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]
+		// const paddingLeft = select ? Number.parseInt(getComputedStyle(select).paddingLeft) : 0
+		// const paddingRight = select ? Number.parseInt(getComputedStyle(select).paddingRight) : 0
+		// return states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]
+		return TAG_BASE_WIDTH[size]
 	})
 
 	const calculatePopperSize = () => {

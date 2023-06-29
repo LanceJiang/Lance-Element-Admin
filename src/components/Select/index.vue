@@ -7,8 +7,8 @@
 		@mouseenter="states.comboBoxHovering = true"
 		@mouseleave="states.comboBoxHovering = false"
 	>
-		<!--	todo 是否弹窗...	-->
-		<el-tooltip
+		<component
+			:is="isPopover ? 'ElTooltip' : 'EmptyComponent'"
 			ref="popper"
 			:visible="dropdownMenuVisible"
 			:teleported="teleported"
@@ -266,11 +266,11 @@
 					</template>
 				</el-select-menu>
 			</template>
-		</el-tooltip>
+		</component>
 	</div>
 </template>
 
-<script lang="ts">
+<script lang="tsx">
 import { computed, defineComponent, provide, reactive, toRefs, vModelText } from 'vue'
 // import { isArray } from '@element-plus/utils'
 import { isArray } from 'element-plus/es/utils/index.mjs'
@@ -290,12 +290,26 @@ import useSelect from './useSelect'
 import { selectV2InjectionKey } from './token'
 import { SelectProps } from './defaults'
 // const isArray = Array.isArray
+const EmptyComponent = defineComponent({
+	name: 'EmptyComponent',
+	setup(props, {slots}) {
+		return () => {
+			return <div>
+				{slots.default?.()}
+				<div class="le-empty-popper">
+					{slots.content?.()}
+				</div>
+			</div>
+		}
+	}
+})
 export default defineComponent({
 	// name: 'ElSelectV2',
 	name: 'LeSelect',
 	components: {
 		ElSelectMenu,
-		NoData
+		NoData,
+		EmptyComponent
 		// ElTag,
 		// ElTooltip,
 		// ElIcon
