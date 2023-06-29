@@ -2,18 +2,24 @@
 import { createI18n } from 'vue-i18n'
 import { ls } from '@/utils'
 
+// 导入 Element Plus 语言包
+import ElementCnLocale from 'element-plus/es/locale/lang/zh-cn'
+import ElementEnLocale from 'element-plus/es/locale/lang/en'
+
 // 本地语言包
 import enLocale from './en'
 import zhCnLocale from './zh-cn'
-import EnLeLocale from '@/lang/lance-element/en'
-import CNLeLocale from '@/lang/lance-element/zh-cn'
-const messages = {
+import LeEnLocale from '@/lang/lance-element/en'
+import LeCNLocale from '@/lang/lance-element/zh-cn'
+export const messages = {
 	'zh-cn': {
-		...CNLeLocale,
+		...ElementCnLocale,
+		...LeCNLocale,
 		...zhCnLocale
 	},
 	en: {
-		...EnLeLocale,
+		...ElementEnLocale,
+		...LeEnLocale,
 		...enLocale
 	}
 }

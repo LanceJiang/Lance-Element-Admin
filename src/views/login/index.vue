@@ -207,7 +207,7 @@ $bg: #283443;
 $light_gray: #fff;
 $cursor: #fff;
 
-/* reset element-ui css */
+/* reset element-plus css */
 .login-container {
 	.title-container {
 		position: relative;

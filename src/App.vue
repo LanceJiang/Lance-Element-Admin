@@ -11,9 +11,7 @@ import { ls } from '@/utils'
 import useAppStore from '@/store/modules/app'
 
 // 导入 Element Plus 语言包
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import en from 'element-plus/es/locale/lang/en'
-
+import { messages } from '@/lang'
 const app = useAppStore()
 
 const language = computed(() => app.language)
@@ -31,7 +29,7 @@ nextTick(() => {
 watch(
 	language,
 	value => {
-		locale.value = value == 'en' ? en : zhCn
+		locale.value = value == 'en' ? messages.en : messages['zh-cn']
 	},
 	{
 		// 初始化立即执行
