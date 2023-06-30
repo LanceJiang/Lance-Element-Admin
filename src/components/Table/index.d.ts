@@ -1,4 +1,5 @@
 import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/lib/components/table'
+// import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/es/components/table'
 
 export type LeSlots = {
 	default?: (scope: Record<string, any>) => any | string

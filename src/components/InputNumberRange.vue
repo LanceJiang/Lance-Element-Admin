@@ -69,9 +69,8 @@ export default defineComponent({
 	render() {
 		const { t } = useI18n()
 		const { prepend, append, controlsPosition, min, max, size, ...props } = this.$attrs
-		console.log(this, 'this....')
 		const { modelValue, placeholderStart, placeholderEnd, precision, local_propStart, local_propEnd, localStyle } = this
-		const _controlsPosition = controlsPosition || 'right'
+		const _controlsPosition = controlsPosition ?? 'right'
 		const { prepend: slot_prepend, append: slot_append, ...childSlots } = this.$slots
 		const inputNumberSize = size || unref(useFormSize())
 
@@ -162,6 +161,7 @@ export default defineComponent({
 		},
 		onChangeStart(value, oldValue) {
 			const { modelValue, local_propStart } = this
+			// console.error(local_propStart, 'local_propStart')
 			// value = this.getValidValue(value, true)
 			// this.$set(modelValue, local_propStart, value)
 			// modelValue[local_propStart] = value
@@ -170,6 +170,7 @@ export default defineComponent({
 		},
 		onChangeEnd(value, oldValue) {
 			const { modelValue, local_propEnd } = this
+			console.error(local_propEnd, 'local_propEnd')
 			// value = this.getValidValue(value, false)
 			// this.$set(modelValue, local_propEnd, value)
 			// modelValue[local_propEnd] = value
