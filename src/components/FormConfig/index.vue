@@ -3,78 +3,30 @@ import {defineComponent, watch, computed, ref, reactive, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // import { t } from 'lance-element-vue/src/locale'
 // import InputNumber from 'lance-element-vue/packages/InputNumber'
-import InputNumber from './InputNumber'
+import InputNumber from '../InputNumber'
 // import InputNumberRange from 'lance-element-vue/packages/InputNumberRange'
-import InputNumberRange from './InputNumberRange'
+import InputNumberRange from '../InputNumberRange'
 // import CustomRender from 'lance-element-vue/packages/CustomRender'
-import CustomRender from './CustomRender'
+import CustomRender from '../CustomRender'
 // import LeSelect from 'lance-element-vue/packages/Select' // todo...
-/**
- * select Option 自定义 渲染
- * @param slots
- * @param slotOption
- * @param option
- * @param label
- * @returns {*}
- */
-export const renderSelectOption = function(slots, slotOption, option, label) {
-	if (slotOption) {
-		let scopedSlots_option = slotOption
-		if (typeof slotOption === 'string') {
-			scopedSlots_option = slots[slotOption]
-		}
-		if (typeof scopedSlots_option === 'function') {
-			const args = [{
-				option,
-				label
-			}]
-			// scopedSlots
-			return scopedSlots_option(...args)
-		}
-	}
-	return label
-}
-const cascaderSlot = (slots, slotOption) => {
-	let scopedSlots_option = slotOption
-	if (typeof slotOption === 'string') {
-		scopedSlots_option = slots[slotOption]
-	}
-	if (typeof scopedSlots_option === 'function') {
-		return scopedSlots_option
-	}
-}
+import LeSelect from '../Select' // todo...
+import { renderSelectOption, optionSlot } from './utils.ts'
+import {PropType} from "vue/dist/vue";
+import {LeFormItem, ObjectOpts, FormConfigOpts} from "./formConfig.types";
 const formConfigProps = {
 	forms: {
-		type: Array,
+		type: Array as PropType<LeFormItem[]>,
 		required: true
-		// [{
-		//   t_label: String, // 多语言转义
-		//   label: String,
-		//   slotLabel: [String[定义的slotLabel插槽名称], function[slotLabel插槽jsx渲染函数]], // slotLabel: ({label}) => DOM
-		//   t_placeholder: String, // 多语言转义
-		//   placeholder: String,
-		//   prop: String,
-		//   props: Array, // 当前Item额外数据
-		//   itemType: String,
-		//   size: String,
-		//   options: Array,
-		//   slotOption: [String[定义的options Item 渲染插槽名称], function[options Item 插槽jsx渲染函数]], // slotOption: ({option, label}) => DOM, !cascader 类型返回数据(且不可使用默认i18n) slotOption: ({data, node}) => DOM
-		//   valueKey: String,
-		//   labelKey: String,
-		//   formValueFormat: Function, // 提交前的数据修改
-		//   rules: Array
-		//   render?: function(h, { form, params }) { JSX || createElement } // itemType === 'render' 专用
-		//   i18n: Boolean (option label展示)多语言转义
-		// }]
 	},
 	formData: {
 		// 后台传递的初始值 对象 【后期拿操作的表单数据  请使用 submit 的params】
-		type: Object,
+		type: Object as PropType<ObjectOpts>,
 		default: () => ({})
 	}, // 后台传递过来的 数据
 	// form的配置项对象 参考 default_formConfig
 	formConfig: {
-		type: Object,
+		// type: Object,
+		type: Object as PropType<FormConfigOpts>,
 		default: () => ({})
 	},
 	// 是否可以编辑
@@ -84,7 +36,7 @@ const formConfigProps = {
 	}
 }
 const formConfigEmits = ['cancel', 'submit']
-const default_formConfig = {
+const default_formConfig: FormConfigOpts = {
 	/**自定义Config*/
 	// 默认的formItem内容宽度(eg: input/select/radio...)
 	itemWidth: undefined,
@@ -123,7 +75,7 @@ const FormConfig = defineComponent({
 		CustomRender,
 		InputNumber,
 		InputNumberRange,
-		// LeSelect
+		LeSelect
 	},
 	emits: formConfigEmits,
 	props: formConfigProps,
@@ -141,7 +93,7 @@ const FormConfig = defineComponent({
 					const propStart = form.propStart || `${prop}Start`
 					const propEnd = form.propEnd || `${prop}End`
 					return [propStart, propEnd]
-				case 'adSelect':
+				case 'leSelect':
 				case 'select':
 				case 'radio':
 				case 'datePicker':
@@ -332,7 +284,7 @@ const FormConfig = defineComponent({
 				}
 				// 优化后的 change事件
 				const formatterChange = async () => {
-					console.log(params[prop], 'params[prop]', _options)
+					// console.log(params[prop], `value, params.${prop}, options`, _options)
 					if (change) {
 						// onChange={() => change && change(params[prop], _options, params)}
 						return change(params[prop], _options, params)
@@ -361,20 +313,25 @@ const FormConfig = defineComponent({
 				}
 				switch (itemType) {
 					/* 自定义 le 自定义Select */
-					/*case 'adSelect' :
+					case 'leSelect' : // todo
+						// 由于leSelect 基于 element-plus el-select-v2 仅支持 option: 为对象{[labelKey: 'label'], [valueKey: 'value']}
+						const slots_leSelect = {
+							default: optionSlot(ctx.slots, form.slotOption)
+						}
 						return <LeSelect
 							class={itemClass}
-							v-model={params[prop]}
 							{...formOthers}
+							options={_options}
+							v-model={params[prop]}
 							isPopover={formOthers.isPopover ?? true}
-							popperAppendToBody={formOthers.popperAppendToBody ?? true}
+							// 通过teleport插入到body (popper-append-to-body popperAppendToBody已弃用)
+							teleported={formOthers.teleported ?? true}
 							onChange={formatterChange}
 							size={_size ?? size}
 							placeholder={_placeholder}
 							style={_itemStyle}
-						>
-							{render_selectOptions()}
-						</LeSelect>*/
+							v-slots={slots_leSelect}
+						/>
 					/* 自定义 render */
 					case 'render' :
 						return <CustomRender
@@ -433,8 +390,8 @@ const FormConfig = defineComponent({
 						)
 					/* 级联 */
 					case 'cascader':
-						const slots = {
-							default: cascaderSlot(ctx.slots, form.slotOption)
+						const slots_cascader = {
+							default: optionSlot(ctx.slots, form.slotOption)
 						}
 						return (
 							<el-cascader
@@ -449,7 +406,7 @@ const FormConfig = defineComponent({
 								filterable={form.filterable ?? true}
 								options={_options}
 								placeholder={_placeholder}
-								v-slots={slots}
+								v-slots={slots_cascader}
 							/>
 						)
 					/* 数字 */
@@ -530,7 +487,6 @@ const FormConfig = defineComponent({
 							<el-input
 								class={itemClass}
 								{...formOthers}
-								maxlength={formOthers.maxlength}
 								v-model={params[prop]}
 								size={_size ?? size}
 								onChange={formatterChange}
@@ -601,7 +557,7 @@ const FormConfig = defineComponent({
 export default FormConfig
 
 /**
- * eg:  示例  实例参考 TestForm.vue
+ * eg:  示例  实例参考 views/form/default.vue
  */
 /* <FormConfig
         ref="configForm"
@@ -619,7 +575,6 @@ export default FormConfig
                 label: '邮件标题',
                 itemType: 'input',
                 // span: 11,
-                // xs: {span: 20}
             },
             { // 选人
                 prop: '传阅人员',
