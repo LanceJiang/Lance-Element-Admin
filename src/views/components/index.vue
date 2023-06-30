@@ -231,12 +231,12 @@
 		<div class="content">
 			<div style="color: #f00">testValue:{{ testValue }}</div>
 			el-select
-			<ElSelect v-model="testValue" filterable multiple collapseTags isPopover>
-				<!--				<template #prefix>
+<!--			<ElSelect v-model="testValue" filterable multiple collapseTags isPopover>
+				&lt;!&ndash;				<template #prefix>
 					<LeIcon icon-class="icon-logo"/>
-				</template>-->
+				</template>&ndash;&gt;
 				<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
-			</ElSelect>
+			</ElSelect>-->
 			el-select-v2
 			<el-select-v2 v-model="testValue" :options="options" style="width: 200px" filterable multiple isPopover collapseTags>
 				<!--				<template #prefix>
@@ -263,7 +263,14 @@
 			</LeSelect>
 			LeSelect单选(value)
 <!--		options2	-->
-			<LeSelect v-model="testValue" :options="options" style="width: 200px" filterable isPopover>
+			<LeSelect
+				v-model="testValue"
+				:options="options"
+				labelKey="cust_label"
+				valueKey5555="value"
+				multiple2
+				i18n
+				style="width: 200px" filterable isPopover>
 				<template #default="{ item, index, disabled }"> <LeIcon icon-class="icon-logo" /> {{ item.le_label }} </template>
 			</LeSelect>
 			valueKey(obj.value)
@@ -913,7 +920,9 @@ export default defineComponent({
 				}
 			}),
 
-			testValue: undefined,
+			// testValue: undefined,
+			testValue: 'value_1',
+			// testValue: ['value_1', 'value_2'],
 			testValue2: ['选项0', '选项1', '选项2'],
 			dropdownValue: undefined,
 			dropdownOptions: [
