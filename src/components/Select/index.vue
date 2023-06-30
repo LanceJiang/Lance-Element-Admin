@@ -316,7 +316,7 @@ export default defineComponent({
 	},
 	directives: { ClickOutside, ModelText: vModelText },
 	props: SelectProps,
-	emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur'],
+	emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur', 'update:selected_label'],
 
 	setup(props, { emit }) {
 		const modelValue = computed(() => {

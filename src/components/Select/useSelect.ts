@@ -65,6 +65,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		previousValue: undefined,
 		query: '',
 		selectedLabel: '',
+		selectedItem: null,
 		softFocus: false,
 		tagInMultiLine: false
 	})
@@ -307,7 +308,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 	})
 	const currentPlaceholder = computed(() => {
 		const _placeholder = props.placeholder || t('el.select.placeholder')
-		return props.multiple || isNil(props.modelValue) ? _placeholder : states.selectedLabel
+		return props.multiple || isNil(props.modelValue) ? _placeholder : (props.i18n ? getLabel(states.selectedItem) : states.selectedItem?.le_label)
+		// return props.multiple || isNil(props.modelValue) ? _placeholder : states.selectedLabel
 	})
 
 	// this obtains the actual popper DOM element.
@@ -476,7 +478,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 			setSoftFocus()
 		} else {
 			selectedIndex.value = idx
-			states.selectedLabel = option.label
+			states.selectedItem = option
+			// states.selectedLabel = option.le_label
 			update(getValueKey(option))
 			expanded.value = false
 			states.isComposing = false
@@ -568,7 +571,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		if (props.multiple) {
 			states.cachedOptions = []
 		} else {
-			states.selectedLabel = ''
+			states.selectedItem = null
+			// states.selectedLabel = ''
 		}
 		expanded.value = false
 		update(emptyValue)
@@ -704,13 +708,16 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 				const options = filteredOptions.value
 				const selectedItemIndex = options.findIndex(option => getValueKey(option) === getValueKey(props.modelValue))
 				if (~selectedItemIndex) {
-					states.selectedLabel = options[selectedItemIndex].label
+					states.selectedItem = options[selectedItemIndex]
+					// states.selectedLabel = options[selectedItemIndex].le_label
 					updateHoveringIndex(selectedItemIndex)
 				} else {
-					states.selectedLabel = `${props.modelValue}`
+					states.selectedItem = { le_label: props.modelValue, [props.labelKey]: props.modelValue }
+					// states.selectedLabel = `${props.modelValue}`
 				}
 			} else {
-				states.selectedLabel = ''
+				states.selectedItem = null
+				// states.selectedLabel = ''
 				states.previousValue = undefined
 			}
 		}
@@ -746,8 +753,28 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		},
 		{
 			deep: true
+			// immediate: true
 		}
 	)
+
+	if(props.multiple) {
+		watch(() => states.cachedOptions,() => {
+			const labels = props.i18n ? states.cachedOptions.map(getLabel) : states.cachedOptions.map(v => v.le_label)
+			emit('update:selected_label', labels)
+		}, {
+			immediate: true
+		})
+	} else {
+		watch(() => states.selectedItem,() => {
+			const label = props.i18n ? getLabel(states.selectedItem) : states.selectedItem?.le_label
+			states.selectedLabel = label
+			emit('update:selected_label', label)
+		}, {
+			immediate: true,
+			deep: true
+		})
+	}
+
 
 	watch(
 		() => props.options,
