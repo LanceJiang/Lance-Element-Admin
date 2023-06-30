@@ -1,5 +1,5 @@
 <script lang="jsx">
-import FormConfig from './FormConfig'
+import FormConfig from './FormConfig/index.vue'
 
 const render = function() {
 	const { title, modelValue, width, changeVisible, formOptions, formData } = this
