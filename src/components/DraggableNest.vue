@@ -94,7 +94,7 @@ const draggableProps = {
 }
 export type DraggableProps = ExtractPropTypes<typeof draggableProps>
 const draggableEmits = {
-	['update:modelValue']: (value: LeTableColumnProps[]) => void 0,
+	['update:modelValue']: ((value: LeTableColumnProps[]) => value),
 	// start: (value: any) => void 0,
 	// end: (value: any) => void 0
 }
@@ -153,7 +153,7 @@ const DraggableNest = defineComponent({
 					class="le-draggable-nest"
 					{...dragOptions.value}
 					list={props.list}
-					v-model={props.modelValue}
+					modelValue={props.modelValue}
 					onUpdate:modelValue={emitter}
 					move={props.move}
 					v-slots={slots_item}
