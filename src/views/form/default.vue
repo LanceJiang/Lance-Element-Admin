@@ -4,7 +4,10 @@
 		<div class="common_title">le-form-config</div>
 		<div class="content">
 			<LeFormConfig ref="local_form" class="local_formConfig" :formData="formData" :forms="forms" :form-config="formConfig" @submit="formSubmit">
-				<template #leSelectSlot="{ option, label }">
+				<template #leSelectSlot="{ item }">
+					<div style="background: #a0aab7">{{ item.le_label }} {{item}}</div>
+				</template>
+				<template #selectSlot="{ option, label }">
 					<div style="background: #a0aab7">{{ label }} + {{ option.value_1 }}</div>
 				</template>
 				<template #leSelect_label>
@@ -13,6 +16,10 @@
 					>
 				</template>
 			</LeFormConfig>
+			<div>
+				<el-button type="primary" size="small" @click="getDataHandler">校验并获取</el-button>
+				<el-button type="primary" size="small" @click="resetDataHandler">重置</el-button>
+			</div>
 		</div>
 
 		<div class="common_title">le-form-config 表单 嵌入 dialog</div>
@@ -97,32 +104,36 @@ export default {
 				inputNumberRangeEnd: 2
 			},
 			forms: [
-				// todo
-				/*// select
 				{
 					prop: 'leSelect', // 提交的 params 的字段
-					// label: 'adSelect', // label 标签
-					itemType: 'adSelect', // form-item 类型
-					labelKey: 'label_1',
-					valueKey: 'value_1',
+					// label: 'leSelect', // label 标签
+					itemType: 'leSelect', // form-item 类型
+					// labelKey: 'label_1',
+					// valueKey: 'value_1',
 					// isPopover: false,
 					options: Array.from({ length: 20 }).map((_, i) => {
 						return {
-							value_1: '选项' + i,
-							label_1: '黄金糕' + i
+							// value_1: '选项' + i,
+							// label_1: '黄金糕' + i
+							value: '选项' + i,
+							label: '黄金糕' + i
 						}
 					}),
-					// template 支持
-					// slotLabel: 'adSelect_label',
-					// render 支持
-					slotLabel(h) {
+					// label template 支持
+					// slotLabel: 'leSelect_label',
+					// label render 支持
+					slotLabel() {
 						return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ 'custom: fn' }</span></span>
 					},
-					slotOption: 'adSelectSlot',
-					popperAppendToBody: true
+					// slotOption: 'leSelectSlot',
+					// slotOption({ option, label }) { // select 类型处理
+					slotOption({ item }){ // leSelect (基于el-select-v2 二开)
+						const style = `color: #fff; background: #00f`
+						return <div style={style}>{item.le_label} ttt</div>
+					},
+					// teleported: true
 					// change: _this.serviceChange
 				},
-				*/
 				// render { render:function 必传 }
 				{
 					prop: 'render',
@@ -143,7 +154,7 @@ export default {
 					onInput: e => {
 						console.error('onInput....', e)
 					},
-					render: (h, extendsParams) => {
+					render: (extendsParams) => {
 						const { form, params } = extendsParams
 						console.error(form, params, '///////////')
 						return <el-input onChange={form.onChange} v-model={params[form.prop]} placeholder="placeholder test... 666" />
@@ -154,16 +165,16 @@ export default {
 					prop: 'test1_select',
 					label: 'test1_select',
 					// t_label: `${prefix}test1_select`,
-					// slotLabel: 'adSelect_label',
+					slotLabel: 'leSelect_label',
 					// // render fn 支持
-					slotLabel({ label }) {
+					/*slotLabel({ label }) {
 						// console.log(label, '//// args slotLabel 带 {label} 参数')
 						return (
 							<span style="background: #f00;display: flex">
 								label custom: fn<span style="margin-left: auto; background: #0f0">{'custom: fn'}</span>
 							</span>
 						)
-					},
+					},*/
 					itemType: 'select',
 					disabled: false,
 					// valueKey: 'value', // 默认
@@ -177,12 +188,12 @@ export default {
 						label: `test1_LABEL_${i}`,
 						value: `test1_${i}`
 					})),
-					/*slotOption({ option, label }) {
+					slotOption({ option, label }) {
 						// console.error(option, label, 'option, label')
 						const style = `color: red`
 						return <div style={style}>{label}</div>
-					},*/
-					slotOption: 'adSelectSlot',
+					},
+					// slotOption: 'selectSlot',
 					rules: [
 						{
 							required: true,
@@ -372,6 +383,25 @@ export default {
 		window.form = this
 	},
 	methods: {
+		getDataHandler() {
+			const _form = this.$refs['local_form']
+			console.error(_form, '_form')
+			// @ts-ignore
+			_form.getParams((error: any, params: any) => {
+				if (!error) {
+					console.warn(params, ' form 参数获取 测试')
+					// this.formData = params
+					// this.queryList()
+				} else {
+					console.log('error filterHandler', error)
+				}
+			})
+		},
+		resetDataHandler() {
+			// @ts-ignore
+			// window.local_form = this.$refs['local_form']
+			this.$refs['local_form']!.resetHandler()
+		},
 		serviceChange(value, options, params) {
 			console.error(value, options, params, 'value, options, params')
 			// 重置账号

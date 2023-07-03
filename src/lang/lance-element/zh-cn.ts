@@ -12,6 +12,7 @@ export default {
 			save: '保存',
 			cancel: '取消',
 			reset: '重置',
+			search: '查询',
 			deleteView: '删除页签',
 			thinkAgain: '再想想'
 			// clear: '清空'

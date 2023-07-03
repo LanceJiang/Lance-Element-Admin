@@ -12,6 +12,7 @@ export default {
 			save: 'Save',
 			cancel: 'Cancel',
 			reset: 'Reset',
+			search: 'Search',
 			deleteView: 'Delete View',
 			thinkAgain: 'Think Again'
 			// clear: 'Clear'

@@ -680,7 +680,7 @@ export default defineComponent({
             //   const { form, params } = extendsParams
             //   return <a-input v-model={params[form.prop]} placeholder="placeholder test... 666"/>
             // } // todo....
-            render: (h, extendsParams) => {
+            render: (extendsParams) => {
               // const { form, params } = extendsParams
               return <div class="icon-button-box">
                 <a-tooltip>

@@ -49,7 +49,10 @@ export const SelectProps = {
 		type: Number,
 		default: undefined
 	},
-	filterable: Boolean,
+	filterable: {
+		type: Boolean,
+		default: true
+	},
 	filterMethod: Function,
 	height: {
 		type: Number,
@@ -133,8 +136,7 @@ export const SelectProps = {
 	// le-select 新增
 	isPopover: {
 		type: Boolean,
-		default: false
-		// default: true
+		default: true
 	}
 }
 

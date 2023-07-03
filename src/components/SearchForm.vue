@@ -1,28 +1,49 @@
 <script lang="tsx">
-const emits = ['update:searchParams']
 import {
 	defineComponent,
 	watch,
-	ref
+	ref,
+	PropType
 } from 'vue'
+import {LeFormItem, ObjectOpts, FormConfigOpts} from "@/components/FormConfig/formConfig.types";
+import InputNumber from './InputNumber'
+import InputNumberRange from './InputNumberRange'
+import CustomRender from './CustomRender'
 import { useI18n } from 'vue-i18n'
+import {optionSlot, get_formSlotLabel} from "@/components/FormConfig/utils.ts";
+
+const emits = ['update:searchParams']
 const props = {
 	forms: {
-		type: Array,
+		type: Array as PropType<LeFormItem[]>,
 		required: true
 	},
 	// 后台传递的初始值 以及 双向绑定 对象
 	searchParams: {
 		required: true,
-		type: Object
+		type: Object as PropType<ObjectOpts>
 	},
+	// item 修改后 自动触发搜索
+	triggerSearchAuto: {
+		type: Boolean,
+		default: false
+		// default: true
+	},
+	// 自动触发 Automatic trigger
 	// formModal的配置项对象
 	formConfig: {
-		type: Object,
-		default: () => ({})
+		type: Object as PropType<FormConfigOpts>,
+		default: () => ({
+			// labelSuffix: ':',
+			// labelWidth: '130px'
+		})
+	},
+	loading: {
+		type: Boolean,
+		default: false
 	},
 	reset: {
-		type: Function
+		type: Function as PropType<((initSearchParams: Record<string, any>) => any)>,
 	}
 }
 export const SearchForm = defineComponent({
@@ -72,34 +93,74 @@ export const SearchForm = defineComponent({
 		})
 		// render渲染
 		return () => {
-			const { forms, searchParams, formConfig = {} } = props
-			let warpClass = 'search-form-container'
-			const itemRender = form => {
-				const { prop, itemType, itemWidth, options, change, itemStyle = '', ...formOthers } = form
+			const { forms, searchParams, formConfig = {}, triggerSearchAuto } = props
+			let warpClass = 'le-search-form-container labelStyle'
+			const getItemStyle = (itemStyle, defaultWidth) => {
+				return itemStyle + ((/width\:/g).test(itemStyle) ? '' : `;width:${defaultWidth}`)
+			}
+			const itemRender = (form, _label) => {
+				const { prop, itemType, itemWidth, options, change, itemStyle = '', placeholder,
+					t_placeholder, ...formOthers } = form
 				const _options = options || []
-
+				const _itemStyle = itemStyle + (itemWidth ? `;width: ${itemWidth}` : '')
 				let disabled = form.disabled
 				if (disabled === undefined) {
 					disabled = false
 				}
+				const _placeholder = (t_placeholder ? t(t_placeholder) : placeholder) || _label
 				// 优化后的 change事件
-				const formatterChange = async () => {
+				let formatterChange = async () => {
 					if (typeof change === 'function') {
 						return change(searchParams, _options)
 					}
 				}
+				let bindInputEvents = {}
+				let changeAndSearch = formatterChange
+				if(triggerSearchAuto) {
+					changeAndSearch = () => formatterChange().then(searchHandler)
+					bindInputEvents = {
+						onBlur: searchHandler,
+						// 回车触发搜索
+						onKeydown: (e: KeyboardEvent) => {
+							// console.error(e, 'onKeyDown', e.key)
+							if(e.key === 'Enter') {
+								searchHandler()
+							}
+						}
+					}
+				}
 				switch (itemType) {
+					case 'leSelect' :
+						// 由于leSelect 基于 element-plus el-select-v2 仅支持 option: 为对象{[labelKey: 'label'], [valueKey: 'value']}
+						// optionSlot
+						return <LeSelect
+							v-model={searchParams[prop]}
+							options={_options}
+							{...formOthers}
+							// '@update:selected_label' todo
+							onChange={changeAndSearch}
+							disabled={disabled}
+							placeholder={_placeholder}
+							style={getItemStyle(_itemStyle, '200px')}
+						/>
+
+					// 自定义render
+					case 'render' :
+						return <CustomRender
+							form={form}
+							params={searchParams}
+						/>
 					// 下拉框
 					case 'select':
 						return (
 							<el-select
 								{...formOthers}
 								v-model={searchParams[prop]}
-								onChange={formatterChange}
-								style={`${itemStyle} width:${itemWidth || '160px'};`}
+								onChange={changeAndSearch}
+								style={getItemStyle(_itemStyle, '200px')}
 								disabled={disabled}
 								clearable={form.clearable ?? true}
-								placeholder={form.placeholder || `请选择${form.label}`}
+								placeholder={_placeholder}
 							>
 								{_options.map((option, optionIndex) => {
 									const value = typeof option === 'object' ? option[form.valueKey || 'value'] : option
@@ -112,107 +173,149 @@ export const SearchForm = defineComponent({
 					case 'radio':
 						return (
 							<el-radio-group
-								v-model={searchParams[prop]}
 								{...formOthers}
+								v-model={searchParams[prop]}
 								disabled={disabled}
-								onChange={formatterChange}
-								style={`${itemStyle} width:${itemWidth || 'auto'};`}
+								onChange={changeAndSearch}
+								style={getItemStyle(_itemStyle, 'auto')}
 							>
 								{_options.map((option, optionIndex) => {
 									const value = typeof option === 'object' ? option[form.valueKey || 'value'] : option
 									const label = typeof option === 'object' ? option[form.labelKey || 'label'] : option
 									return (
-										<el-radio key={optionIndex + '_local'} label={value}>
+										<el-radio-button key={optionIndex + '_local'} label={value}>
 											{label}
-										</el-radio>
+										</el-radio-button>
 									)
 								})}
 							</el-radio-group>
 						)
 					// 级联
 					case 'cascader':
+						const slots_cascader = {
+							default: optionSlot(ctx.slots, form.slotOption)
+						}
 						return (
 							<el-cascader
 								{...formOthers}
 								v-model={searchParams[prop]}
-								onChange={formatterChange}
-								style={`${itemStyle} ${itemWidth && 'width: ' + itemWidth};`}
+								onChange={changeAndSearch}
+								style={getItemStyle(_itemStyle, '200px')}
 								disabled={disabled}
 								clearable={form.clearable ?? true}
 								filterable={form.filterable ?? true}
 								options={_options}
-								placeholder={form.placeholder || `请选择${form.label}`}
+								placeholder={_placeholder}
+								v-slots={slots_cascader}
 							/>
 						)
 					// 数字
 					case 'inputNumber':
 						return (
-							<el-input-number
+							// <el-input-number
+							<InputNumber
 								class="rate100"
+								{...bindInputEvents}
 								{...formOthers}
 								v-model={searchParams[prop]}
 								onChange={formatterChange}
-								style={`${itemStyle} width:${itemWidth || '130px'};`}
+								style={getItemStyle(_itemStyle, '130px')}
 								disabled={disabled}
-								placeholder={form.placeholder || `${form.label || ''}`}
+								placeholder={_placeholder}
 								precision={form.precision || 0}
 							/>
 						)
-
-					// 日期选择
-					case 'date':
+					// 数字区间
+					case 'inputNumberRange':
+						const numberChange = (e, propKey) => {
+							change && change(params, _options, params, propKey)
+						}
 						return (
-							<el-date-picker
+							<InputNumberRange
+								{...bindInputEvents}
+								prop={prop}
 								{...formOthers}
-								v-model={searchParams[prop]}
-								onChange={formatterChange}
-								style={`${itemStyle} width:${itemWidth || '160px'};`}
+								modelValue={searchParams}
+								onChange={numberChange}
+								style={getItemStyle(_itemStyle, '230px')}
 								disabled={disabled}
-								placeholder={form.placeholder || `请选择${form.label}`}
-								value-format={form.valueFormat || 'YYYY-MM-DD'}
+								placeholder={_placeholder}
+								precision={form.precision || 0}
 							/>
 						)
-					// 日期区间
-					case 'dateRange':
+					// 日期选择 (单日期 || 日期区间 ...) year/month/date/datetime/ week/datetimerange/daterange
+					case 'datePicker':
+						let dateWidthDefault = '160px'
+						let dateOpts: any = {}
+						dateOpts.valueFormat = form.valueFormat || 'MM/DD/YYYY'
+						dateOpts.format = form.format || dateOpts.valueFormat
+						// 区间类型
+						if (/range$/.test(form.type || '')) {
+							dateWidthDefault = '220px'
+							const startPlaceholder = form.t_startPlaceholder ? t(form.t_startPlaceholder) : form.startPlaceholder
+							const endPlaceholder = form.t_endPlaceholder ? t(form.t_endPlaceholder) : form.endPlaceholder
+							dateOpts = Object.assign(dateOpts, {
+								startPlaceholder: startPlaceholder ?? t('le.filter.startDate'),
+								endPlaceholder: endPlaceholder ?? t('le.filter.endDate'),
+								unlinkPanels: form.unlinkPanels ?? true // 解除联动
+							})
+						} else {
+							dateOpts.placeholder = _placeholder || t('le.filter.selectDate')
+						}
 						return (
 							<el-date-picker
-								type="daterange"
 								{...formOthers}
+								{...dateOpts}
 								v-model={searchParams[prop]}
-								onChange={formatterChange}
-								startPlaceholder={form.startPlaceholder ?? '开始日期'}
-								endPlaceholder={form.startPlaceholder ?? '结束日期'}
-								style={`${itemStyle} width:${itemWidth || '200px'};`}
+								onChange={changeAndSearch}
+								style={getItemStyle(_itemStyle, dateWidthDefault)}
 								disabled={disabled}
-								value-format={form.valueFormat || 'YYYY-MM-DD'}
 							/>
 						)
 					// switch
 					case 'switch':
-						return <el-switch {...formOthers} v-model={searchParams[prop]} onChange={formatterChange} disabled={disabled} />
+						return <el-switch
+							{...formOthers}
+							v-model={searchParams[prop]}
+							onChange={changeAndSearch}
+							style={_itemStyle}
+							disabled={disabled}
+						/>
 					case 'input':
 					default:
 						return (
 							<el-input
+								{...bindInputEvents}
 								{...formOthers}
 								v-model={searchParams[prop]}
 								onChange={formatterChange}
 								disabled={disabled}
-								placeholder={form.placeholder || `请输入${form.label}`}
-								style={`${itemStyle} width:${itemWidth || '160px'};`}
+								placeholder={_placeholder}
+								style={getItemStyle(_itemStyle, '160px')}
 							/>
 						)
 				}
 			}
 			return (
 				<div class={warpClass}>
-					<div class="search-form-flex">
-						<el-form ref={formRef} inline={true} size="default" class="search-form-flex-wrap" model={searchParams} {...formConfig}>
+					<div class="le-search-form-flex">
+						<el-form ref={formRef} inline={true} size="default" class="le-search-form-flex-wrap" model={searchParams} {...formConfig}>
 							{forms.map((form, idx) => {
 								// 通过 form.visible 控制 是否展示
+								const _label = form.t_label ? t(form.t_label) : form.label
+								const slots = {
+									label: get_formSlotLabel(ctx.slots, form.slotLabel)
+								}
 								return (
-									<el-form-item v-show={form.visible !== false} key={idx} {...form}>
-										{itemRender(form)}
+									<el-form-item
+										class={form.showLabel === false ? 'hideLabel' : ''}
+										v-show={form.visible !== false}
+										key={idx}
+										{...form}
+										label={_label}
+										v-slots={slots}
+									>
+										{itemRender(form, _label)}
 									</el-form-item>
 								)
 							})}
@@ -222,13 +325,13 @@ export const SearchForm = defineComponent({
 								<el-icon>
 									<Refresh />
 								</el-icon>
-								重置
+								{ t('le.btn.reset') }
 							</el-button>
-							<el-button size="default" type="primary" onClick={searchHandler}>
+							<el-button size="default" type="primary" loading={props.loading} onClick={searchHandler}>
 								<el-icon>
 									<Search />
 								</el-icon>
-								查询
+								{ t('le.btn.search') }
 							</el-button>
 						</div>
 					</div>
@@ -238,51 +341,119 @@ export const SearchForm = defineComponent({
 	}
 })
 export default SearchForm
-/**
- SearchForm的 组件配置
- // 表单配置
- forms > form.itemType:(包含类型)
- // ...
-
- forms = [
- // {
- //        label: '展示的label',
- //        // showLabel: true, // 默认不展示 (仅在有label 且 未配置 isMore=true showLabel 才进行展示)
- //        // visible: false, // 是否展示当前 form 判断
- //        prop: '提交的model prop',
- //        itemType: 'input', // 渲染类型 (见 form.itemType)
- //        itemWidth: 100, // (Number, String) 宽度设置
- //        itemStyle: 'background: #f00;color:#00f;', // 自定义设置样式
- //        placeholder: '', // 大部分情况下可以使用 label 替代 如有特殊请设置
- //        // 以上为默认公用配置
- //        // otherProps: ... 涉及到其他的配置相关 请参考对应的类型配置
- //    },
- ]
- */
-/*
-<SearchForm
-    v-model:searchParams="searchParams"
-    :reset="resetHandler" reset重置 // (initParams) => { you want to do }
-/>
-*/
 </script>
 
-<style scoped lang="scss">
-.search-form {
+<style lang="scss">
+.#{$prefix}search-form {
 	&-container {
 		background-color: #fff;
 		margin-bottom: 12px;
 		padding: 10px 12px;
+		padding-top: 0;
+		&.labelStyle {
+			.#{$prefix}search-form-flex-wrap {
+				.el-form-item {
+					//margin: 10px 8px 0 0;
+					&:not(.hideLabel) {
+						.el-form-item__label {
+							border: 1px solid var(--el-input-border-color,var(--el-border-color));
+							border-right: 0;
+							/* box-shadow: 0 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset; */
+							border-radius: var(--el-input-border-radius,var(--el-border-radius-base)) 0 0 var(--el-input-border-radius,var(--el-border-radius-base));
+							/* border-right: 0; */
+							padding-left: 10px;
+							//background: #fafafa;
+							background: #fcfcfc;
+						}
+						.el-input__wrapper {
+							border-radius: 0 var(--el-input-border-radius,var(--el-border-radius-base)) var(--el-input-border-radius,var(--el-border-radius-base)) 0;
+						}
+						// 修复 InputNumber 于labelStyle 样式问题
+						.le-input-number--prefix {
+							.le-input-number__prefix {
+								border-top-left-radius: 0;
+								border-bottom-left-radius: 0;
+							}
+							/*.el-input-number {
+								.el-input__wrapper {
+									border-top-left-radius: 0;
+									border-bottom-left-radius: 0;
+									//border: 1px solid $le-border-color_1;
+									//border-left-width: 0;
+								}
+							}*/
+						}
+						.le-input-number--suffix {
+							.el-input-number .el-input__wrapper {
+								border-top-right-radius: 0;
+								border-bottom-right-radius: 0;
+							}
+						}
+						//修复 InputNumberRange 于labelStyle 样式问题
+						.le-input-number-range {
+							/*.le-input-number-range_line {
+								box-shadow: 0px 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;
+								margin: 0 -1px 0 -1px;
+							}
+							.le-input-number-range_start {
+								.el-input__wrapper {
+									border-top-right-radius: 0;
+									border-bottom-right-radius: 0;
+								}
+							}*/
+							.le-input-number-range_end {}
+						}
+						// radio
+						.el-radio-button:first-child .el-radio-button__inner {
+							//border-radius: var(--el-border-radius-base) 0 0 var(--el-border-radius-base);
+							border-radius: 0;
+						}
+						// switch
+						.el-switch {
+							padding: 0 12px;
+							box-shadow: 0 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;
+							border-radius: 0 var(--el-input-border-radius,var(--el-border-radius-base)) var(--el-input-border-radius,var(--el-border-radius-base)) 0;
+						}
+					}
+				}
+			}
+		}
 	}
 	&-flex {
 		display: flex;
 		.action-wrap {
-			padding-left: 12px;
+			//padding-left: 12px;
+			margin-top: 10px;
+			/*display: inline-flex;
+			//margin-top: 10px;
+			vertical-align: middle;*/
 		}
 	}
 	&-flex-wrap {
 		flex: 1;
 		flex-wrap: wrap;
+		// 新增label border 包裹
+		.el-form-item {
+			margin: 10px 8px 0 0;
+			/* 隐藏formItem label */
+			&.hideLabel {
+				.el-form-item__label {
+					display: none;
+				}
+			}
+			.le-input-number-range {
+				.le-input-number-range_line {
+					box-shadow: 0px 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;
+					margin: 0 -1px 0 -1px;
+				}
+				.le-input-number-range_start {
+					.el-input__wrapper {
+						border-top-right-radius: 0;
+						border-bottom-right-radius: 0;
+					}
+				}
+			}
+		}
 	}
 }
 </style>

@@ -87,6 +87,7 @@
       padding: 0 20px 0 8px;
     }
     .el-input__inner {
+			--el-input-inner-height: calc(var(--el-input-height, 32px));
       text-align: left;
     }
   }
