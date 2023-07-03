@@ -1,10 +1,11 @@
 <template>
 	<div class="column-page-wrap">
 		<!-- 公用搜索组件 -->
-		<LeSearchForm v-model:searchParams="searchParams" :forms="forms" :loading="options.loading" />
+		<LeSearchForm v-model:searchParams="searchParams" :forms="searchForms" :loading="options.loading" />
+		<!-- 公用Table组件 -->
 		<LeTable v-model:searchParams="searchParams" :list="list" :total="total" :options="options" :columns="columns">
 			<template #toolLeft>
-				<el-button type="primary" size="default" @click="testDialog">
+				<el-button type="primary" size="default" @click="addItem">
 					新增<el-icon><Plus/></el-icon>
 				</el-button>
 			</template>
@@ -29,67 +30,40 @@
 				<el-button size="small" @click="changeItem(row)"> 修改</el-button>
 			</template>
 		</LeTable>
+		<!-- 编辑表单弹窗 -->
+		<LeFormConfigDialog
+			ref="dialgRef"
+			v-if="dialog.visible"
+			v-model="dialog.visible"
+			v-bind="dialog"
+			:formData="activeData"
+			:title="`${dialog.isCreate ? '新增' : '编辑'}管理员`"
+			@submit="submitHandler"
+		/>
 	</div>
 </template>
-<script setup lang="ts">
-import { onBeforeMount, ref, reactive, watch, toRefs } from 'vue'
-// import type { FormInstance, FormRules } from 'element-plus'
+<script setup lang="ts" name="adminManage">
+import { ref, reactive, watch, toRefs } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-// import md5 from 'js-md5'
-import { getAdminList } from '@/api/demo'
-const testDialog = () => {
-	console.error('testDialog 新增')
-}
+import { getAdminList, queryEdit } from '@/api/demo'
+import { forms, search_forms, columns as _columns } from './config.data.ts'
+// todo ... 尝试调整 state 编写 合适的 Hooks 进行替换
+// 搜索配置
+const searchForms = ref(search_forms)
+// 搜索数据
+const searchParams = ref({
+	page: 1,
+	size: 20,
+	search_word: '',
+	search_google_key: '',
+	search_status: '',
+	dateRange: undefined
+})
 const state: any = reactive({
-	// 搜索配置
-	forms: [
-		{
-			prop: 'search_word',
-			label: '查询用户名/手机号/邮箱',
-			itemType: 'input',
-			itemWidth: '230px'
-		},
-		{
-			prop: 'search_google_key',
-			label: '是否绑定谷歌验证器',
-			itemType: 'select',
-			itemWidth: '230px',
-			options: [
-				{ value: 1, label: '已绑定' },
-				{ value: 0, label: '未绑定' }
-			]
-		},
-		{
-			prop: 'dateRange',
-			label: '时间区间',
-			itemType: 'datePicker',
-			type: 'daterange',
-			format: 'YYYY/MM/DD',
-			disabled: false
-		},
-		{
-			prop: 'search_status',
-			label: '账号状态',
-			itemType: 'select',
-			options: [
-				{ value: 0, label: '禁用' },
-				{ value: 2, label: '锁定' },
-				{ value: 1, label: '正常' }
-			]
-		}
-	],
-	list: [],
-	total: 0,
-	searchParams: {
-		page: 1,
-		size: 20,
-		search_word: '',
-		search_google_key: '',
-		search_status: '',
-		dateRange: undefined
-	},
 	// 查询请求参数
 	query: {},
+	list: [],
+	total: 0,
 	// table 的参数
 	options: {
 		showOverflowTooltip: false,
@@ -98,61 +72,22 @@ const state: any = reactive({
 		size: 'small'
 	},
 	// 需要展示的列
-	columns: [
-		{
-			prop: 'username',
-			label: '用户名',
-			minWidth: 120
-		},
-		{
-			prop: 'phone',
-			label: '手机号',
-			minWidth: 140
-		},
-		{
-			prop: 'email',
-			label: '邮箱',
-			minWidth: 200
-		},
-		{
-			prop: 'google_key',
-			label: '谷歌验证状态',
-			width: 120,
-			slots: {
-				default: '谷歌验证状态'
-			}
-		},
-		{
-			prop: 'status',
-			label: '账号状态',
-			width: 100,
-			slots: {
-				default: '账号状态'
-			}
-		},
-		{
-			prop: 'roles',
-			label: '角色',
-			minWidth: 180,
-			slots: {
-				default: '角色'
-			}
-		},
-		{
-			prop: 'add_time',
-			label: '创建时间',
-			minWidth: 180
-		},
-		{
-			prop: 'operation',
-			label: '操作',
-			fixed: 'right',
-			minWidth: 140,
-			slots: {
-				default: '操作'
-			}
+	columns: _columns,
+	activeData: {},
+	// 弹窗配置
+	dialog: {
+		visible: false,
+		isCreate: true,
+		formOptions: {
+			forms,
+			formConfig: {
+				labelWidth: 140,
+				itemWidth: '100%',
+				submitLoading: false
+			},
+			// isEdit: false
 		}
-	]
+	}
 })
 
 //获取管理员列表
@@ -160,7 +95,7 @@ const queryList = (params: any) => {
 	state.options.loading = true
 	console.error(JSON.stringify(params), '请求参数')
 	getAdminList(params)
-		.then(data => {
+		.then((data: any) => {
 			console.error(data, 'data...')
 			state.list = data.data
 			state.total = data.total
@@ -170,7 +105,7 @@ const queryList = (params: any) => {
 		})
 }
 const updateParams = () => {
-	const { dateRange, ...opts } = state.searchParams
+	const { dateRange, ...opts } = searchParams.value
 	// 时间区间
 	if (Array.isArray(dateRange) && dateRange.length) {
 		opts.search_begin_date = `${dateRange[0]} 00:00:00`
@@ -186,7 +121,7 @@ const updateParams = () => {
 }
 // 边听searchParams变化 更新query
 watch(
-	() => state.searchParams,
+	() => searchParams.value,
 	() => {
 		updateParams()
 	},
@@ -205,14 +140,36 @@ watch(
 	}
 )
 
-const { list, total, forms, searchParams, columns, options } = toRefs(state)
+const { list, total, columns, options, dialog, activeData } = toRefs(state)
+const submitHandler = params => {
+	dialog.value.formOptions.formConfig.submitLoading = true
+	if(!dialog.value.isCreate) {
+		// 编辑
+		params.id = activeData.value.id
+	}
+	queryEdit(params).then(data => {
+		ElMessage.success(`${dialog.value.isCreate ? '新增' : '修改'}成功~`)
+		dialog.value.visible = false
+		updateParams()
+	})
+		.finally(() => {
+			dialog.value.formOptions.formConfig.submitLoading = false
+		})
+}
+const dialgRef = ref()
+const addItem = () => {
+	activeData.value = {}
+	dialog.value.isCreate = true
+	dialog.value.visible = true
+	// window.dialgRef = dialgRef // 测试ref
+}
 
 const changeItem = (value: any) => {
-	console.log('修改')
-	ElMessage({
-		message: '修改',
-		type: 'warning'
-	})
+	console.log('修改', value)
+	const info = { ...value, roles: (value.roles || []).map(v => v.id)}
+	activeData.value = info
+	dialog.value.isCreate = false
+	dialog.value.visible = true
 }
 const changGooGleKey = (_id: any, key?: any) => {
 	if (key === 0) {

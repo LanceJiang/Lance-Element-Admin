@@ -13,7 +13,7 @@ import LeSelect from '../Select' // todo...
 import {renderSelectOption, optionSlot, get_formSlotLabel} from './utils.ts'
 import {PropType} from "vue/dist/vue";
 import {LeFormItem, ObjectOpts, FormConfigOpts} from "./formConfig.types";
-const formConfigProps = {
+export const FormConfigProps = {
 	forms: {
 		type: Array as PropType<LeFormItem[]>,
 		required: true
@@ -78,7 +78,7 @@ const FormConfig = defineComponent({
 		LeSelect
 	},
 	emits: formConfigEmits,
-	props: formConfigProps,
+	props: FormConfigProps,
 	setup(props, ctx) {
 		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
