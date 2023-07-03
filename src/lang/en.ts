@@ -2,12 +2,10 @@ export default {
 	// 路由国际化
 	route: {
 		dashboard: 'Dashboard',
-		personManage: 'Person Manage',
+		demo: 'Demo',
 		person_role: 'Role Manage',
-		person_adminManage: 'Admin Manage',
-		contentManage: 'contentManage',
-		content_email: 'Email manage',
-		系统管理: 'System Management',
+		demo_adminManage: 'Admin Manage',
+		demo_pageConfig: 'Table Page Config',
 		document: 'Document',
 		table: 'Table',
 		multipleHeader: 'Multiple Header',

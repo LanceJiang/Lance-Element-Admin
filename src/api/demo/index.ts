@@ -22,6 +22,9 @@ export function getAdminList(data: any): AxiosPromise {
 					username: `username_${i}`,
 					add_time: '2020-09-09 05:20:50',
 					describe: `describe_${i}`,
+					status: [0, 1, 2][i % 3],
+					phone: [15012341203, 18958586868, ''][i % 3],
+					email: `https://demo${i}.com.cn`,
 					roles: [{
 						id: `roles_${i}_1`,
 						name: `roleName_${i}_1`

@@ -1,7 +1,7 @@
 <template>
 	<div class="testTable column-page-wrap">
 		<!-- 公用搜索组件 -->
-		<SearchForm
+		<LeSearchForm
 			ref="searchForm"
 			v-model:searchParams="tableOpts.searchParams"
 			:forms="forms"
@@ -12,7 +12,7 @@
 					label custom: string<span style="margin-left: auto; background: #00f">{{label}}</span>
 				</div>
 			</template>
-		</SearchForm>
+		</LeSearchForm>
 		<!--  LeTable 组件使用 示例：  -->
 		<LeTable
 			v-model:searchParams="tableOpts.searchParams"
@@ -74,10 +74,9 @@
 	</div>
 </template>
 
-<script name="testTable" lang="tsx" setup>
-import SearchForm from '@/components/SearchForm'
-import { defineComponent, nextTick, ref, reactive, watch } from 'vue'
-import { getAdminList } from '@/api/personManage'
+<script name="pageConfig" lang="tsx" setup>
+import { nextTick, ref, reactive, watch } from 'vue'
+import { getAdminList } from '@/api/demo'
 import { ElMessage } from 'element-plus'
 import i18n from '@/lang'
 
@@ -387,7 +386,7 @@ const tableOpts = reactive({
 				header: 'testHeader'
 				// default: 'testDefault'
 			},
-			minWidth: 10
+			minWidth: 100
 			// formatter: (row, column) => {
 			//   console.log(row, column, 'row, column   角色');
 			//   return row.name || '- 66666 -'

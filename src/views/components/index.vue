@@ -733,7 +733,8 @@ export default defineComponent({
             // isMore: true, // 只要不为true 就是 默认展示
             prop: 'dateRange', // 默认走bondCode 对应的  bondCodeStart, bondCodeEnd 两个字段取值 若有不同 请 使用 propStart, propEnd 作定义
             label: 'rangePicker(对应a-range-picker2)',
-            itemType: 'rangePicker'
+            itemType: 'datePicker',
+            type: 'daterange',
           },
           {
             prop: 'datePicker', // 默认走bondCode 对应的  bondCodeStart, bondCodeEnd 两个字段取值 若有不同 请 使用 propStart, propEnd 作定义

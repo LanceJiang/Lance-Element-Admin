@@ -12,8 +12,8 @@ const useAppStore = defineStore({
 			withoutAnimation: false
 		},
 		language: getLanguage(),
-		size: 'small'
-		// size: ls.get('size') || 'small'
+		size: 'default'
+		// size: 'small'
 	}),
 	actions: {
 		toggleSidebar() {

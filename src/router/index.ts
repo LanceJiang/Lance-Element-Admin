@@ -129,14 +129,8 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 		component: Layout,
 		// meta: {hidden: true, title: 'test', icon: 'system'},
 		meta: { title: 'test', icon: 'system' },
-		redirect: '/test/testTable',
+		redirect: '/test/testSetup',
 		children: [
-			{
-				path: 'testTable',
-				component: () => import('@/views/test/testTable.vue'),
-				name: 'testTable',
-				meta: { title: 'testTable', icon: 'homepage' }
-			},
 			{
 				path: 'testSetup',
 				component: () => import('@/views/test/testSetup.vue'),
@@ -181,22 +175,26 @@ export const noFoundRouters = [
  */
 export const devAllRouters: Array<AppRouteRecordRaw> = [
 	{
-		// 人员管理
-		// "value": 1,
-		path: '/personManage',
+		// demo演示
+		path: '/demo',
 		component: 'Layout',
-		redirect: '/personManage/adminManage',
-		meta: { title: 'personManage', icon: 'peoples' },
+		redirect: '/demo/adminManage',
+		meta: { title: 'demo', icon: 'peoples' },
 		children: [
 			{
+				path: 'pageConfig',
+				// component: () => import('@/views/demo/pageConfig/index'),
+				component: 'demo/pageConfig/index',
+				name: 'pageConfig',
+				meta: { title: 'demo_pageConfig' }
+			},
+			{
 				// 管理员管理
-				// value: 2,
 				path: 'adminManage',
 				name: 'adminManage',
-				component: 'personManage/adminManage/index',
-				meta: { title: 'person_adminManage' },
-				children: []
-			}
+				component: 'demo/adminManage/index',
+				meta: { title: 'demo_adminManage' }
+			},
 		]
 	}
 

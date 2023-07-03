@@ -2,12 +2,10 @@ export default {
 	// 路由国际化
 	route: {
 		dashboard: '首页',
-		personManage: '人员管理',
+		demo: 'Demo演示',
 		person_role: '角色管理',
-		person_adminManage: '管理员管理',
-		contentManage: '内容管理',
-		content_email: '官方邮件推送',
-		系统管理: '系统管理',
+		demo_adminManage: '管理员管理',
+		demo_pageConfig: '列表页全配置示例',
 		document: '项目文档',
 		table: 'Table表格',
 		multipleHeader: '多级表头',

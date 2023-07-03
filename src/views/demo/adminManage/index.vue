@@ -1,20 +1,20 @@
 <template>
-	<div class="column-page-wrap app-container">
+	<div class="column-page-wrap">
 		<!-- 公用搜索组件 -->
-		<LeSearchForm v-model:searchParams="searchParams" :forms="forms" />
+		<LeSearchForm v-model:searchParams="searchParams" :forms="forms" :loading="options.loading" />
 		<LeTable v-model:searchParams="searchParams" :list="list" :total="total" :options="options" :columns="columns">
 			<template #toolLeft>
-				<el-button type="primary" @click="testDialog">
-					新增<el-icon class="btn-icon"><Plus /></el-icon>
+				<el-button type="primary" size="default" @click="testDialog">
+					新增<el-icon><Plus/></el-icon>
 				</el-button>
 			</template>
 			<template #谷歌验证状态="{ row }">
-				<el-tag @click="changGooGleKey(row.id, row.google_key)">
+				<el-tag :type="['info', 'success'][row.google_key]" @click="changGooGleKey(row.id, row.google_key)">
 					{{ { 0: '未绑定', 1: '已绑定' }[row.google_key] }}
 				</el-tag>
 			</template>
 			<template #账号状态="{ row }">
-				<el-tag @click="changUserStatus(row.id)">
+				<el-tag :type="['success', 'info', 'warning'][row.status]">
 					{{ { 0: '禁用', 1: '正常', 2: '锁定' }[row.status] || '-' }}
 				</el-tag>
 			</template>
@@ -22,11 +22,11 @@
 				<template v-if="row.roles.length">
 					<span v-for="item in row.roles" :key="item.id" style="margin-left: 5px">{{ item.name }}</span>
 				</template>
-				<template>--</template>
+				<template>-</template>
 			</template>
 			<template #操作="{ row }">
-				<el-button @click.prevent="changGooGleKey(row.id)"> 删除</el-button>
-				<el-button @click.prevent="changeUser(row)"> 修改</el-button>
+				<el-button size="small" type="danger" @click.prevent="changGooGleKey(row.id)"> 删除</el-button>
+				<el-button size="small" @click="changeItem(row)"> 修改</el-button>
 			</template>
 		</LeTable>
 	</div>
@@ -36,7 +36,7 @@ import { onBeforeMount, ref, reactive, watch, toRefs } from 'vue'
 // import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 // import md5 from 'js-md5'
-import { getAdminList } from '@/api/personManage'
+import { getAdminList } from '@/api/demo'
 const testDialog = () => {
 	console.error('testDialog 新增')
 }
@@ -62,7 +62,8 @@ const state: any = reactive({
 		{
 			prop: 'dateRange',
 			label: '时间区间',
-			itemType: 'dateRange',
+			itemType: 'datePicker',
+			type: 'daterange',
 			format: 'YYYY/MM/DD',
 			disabled: false
 		},
@@ -89,13 +90,12 @@ const state: any = reactive({
 	},
 	// 查询请求参数
 	query: {},
-	userList: [],
-	changeUserList: [],
 	// table 的参数
 	options: {
 		showOverflowTooltip: false,
 		loading: false,
-		showIndex: true
+		showIndex: true,
+		size: 'small'
 	},
 	// 需要展示的列
 	columns: [
@@ -112,12 +112,12 @@ const state: any = reactive({
 		{
 			prop: 'email',
 			label: '邮箱',
-			minWidth: 160
+			minWidth: 200
 		},
 		{
 			prop: 'google_key',
 			label: '谷歌验证状态',
-			// width: 100
+			width: 120,
 			slots: {
 				default: '谷歌验证状态'
 			}
@@ -125,7 +125,7 @@ const state: any = reactive({
 		{
 			prop: 'status',
 			label: '账号状态',
-			// width: 100
+			width: 100,
 			slots: {
 				default: '账号状态'
 			}
@@ -141,13 +141,13 @@ const state: any = reactive({
 		{
 			prop: 'add_time',
 			label: '创建时间',
-			minWidth: 140
+			minWidth: 180
 		},
 		{
 			prop: 'operation',
 			label: '操作',
 			fixed: 'right',
-			width: 100,
+			minWidth: 140,
 			slots: {
 				default: '操作'
 			}
@@ -155,80 +155,13 @@ const state: any = reactive({
 	]
 })
 
-let changeUserVisible = ref(false)
-
-onBeforeMount(() => {
-})
-// 修改用户账号状态
-let changeStatusVisible = ref(false)
-let userId: any = null
-const changUserStatus = (id: number) => {
-	changeStatusVisible.value = true
-	userId = id
-}
-
-let gooGleKeyId = ref('')
-let event = ref('')
-const changGooGleKey = (_id: any, key?: any) => {
-	if (key || key == 0) {
-		if (key == 0) {
-			ElMessage({
-				showClose: true,
-				message: '该用户未绑定谷歌验证,请该用户绑定后,在进行此操作!',
-				type: 'error'
-			})
-			return
-		} else {
-			gooGleKeyId.value = _id
-			event.value = key
-			ElMessageBox.confirm('是否解除该账号谷歌验证绑定？', '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'info',
-				buttonSize: 'default'
-			})
-				.then(() => {
-					console.log('成功....')
-					// changgooGlekey.value = true
-				})
-				.catch(() => {
-					ElMessage({
-						showClose: true,
-						message: '您取消了解绑此用户谷歌状态!',
-						type: 'info'
-					})
-				})
-			// setGoogleKey(data)
-		}
-	} else {
-		event.value = ''
-		gooGleKeyId.value = _id
-		ElMessageBox.confirm('是否删除该用户？', '提示', {
-			confirmButtonText: '确认',
-			cancelButtonText: '取消',
-			type: 'info',
-			buttonSize: 'default'
-		})
-			.then(() => {
-				console.log('成功....')
-				// changgooGlekey.value = true
-			})
-			.catch(() => {
-				ElMessage({
-					showClose: true,
-					message: '您取消了删除此用户!',
-					type: 'info'
-				})
-			})
-	}
-}
-
-// const datepicker = ref(null)
 //获取管理员列表
 const queryList = (params: any) => {
 	state.options.loading = true
+	console.error(JSON.stringify(params), '请求参数')
 	getAdminList(params)
 		.then(data => {
+			console.error(data, 'data...')
 			state.list = data.data
 			state.total = data.total
 		})
@@ -274,37 +207,52 @@ watch(
 
 const { list, total, forms, searchParams, columns, options } = toRefs(state)
 
-//修改用户
-let changUserRuleForm = reactive({
-	name: '',
-	phone: '',
-	email: '',
-	pass: '',
-	checkPass: '',
-	id: ''
-})
-let changeUserValue: any = ref([])
-let User_arr: any = ref([])
-const changeUser = (value: any) => {
-	changUserRuleForm.name = value.username
-	changUserRuleForm.phone = value.phone
-	changUserRuleForm.email = value.email
-	changUserRuleForm.id = value.id
-	changeUserVisible.value = true
-	for (let i of value.roles) {
-		changeUserValue.value.push(i.name)
-		User_arr.value.push(i)
+const changeItem = (value: any) => {
+	console.log('修改')
+	ElMessage({
+		message: '修改',
+		type: 'warning'
+	})
+}
+const changGooGleKey = (_id: any, key?: any) => {
+	if (key === 0) {
+		return ElMessage({
+			message: '该用户未绑定谷歌验证,请该用户绑定后,在进行此操作!',
+			type: 'error'
+		})
+	}
+	if (key) {
+		ElMessageBox.confirm('是否解除该账号谷歌验证绑定？', '提示', {
+			confirmButtonText: '确认',
+			cancelButtonText: '取消',
+			// type: 'info',
+			buttonSize: 'default'
+		})
+			.then(() => {
+				ElMessage({
+					message: '解绑成功!',
+					type: 'success'
+				})
+			})
+	} else {
+		ElMessageBox.confirm('是否删除该用户？', '提示', {
+			confirmButtonText: '确认',
+			cancelButtonText: '取消',
+			type: 'info',
+			buttonSize: 'default'
+		})
+			.then(() => {
+				ElMessage({
+					message: '删除成功!',
+					type: 'success'
+				})
+				updateParams()
+			}).catch(() => {
+			console.log('取消')
+		})
 	}
 }
-//提交修改用户信息
-let key: any = ref([])
 </script>
 
 <style lang="scss" scoped>
-.button {
-	height: 40px;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-}
 </style>
