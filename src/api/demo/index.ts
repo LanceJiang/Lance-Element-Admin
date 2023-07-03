@@ -12,6 +12,16 @@ export function getAdminList(data: any): AxiosPromise {
 	if (page * size > orderTotal) {
 		length = orderTotal - (page - 1) * size
 	}
+	const roles = [{
+		name: '超级管理员',
+		id: 0,
+	}, {
+		name: '管理员',
+		id: 1,
+	}, {
+		name: '成员',
+		id: 2,
+	}]
 	return new Promise(resolve => {
 		const res = {
 			total: orderTotal,
@@ -24,11 +34,9 @@ export function getAdminList(data: any): AxiosPromise {
 					describe: `describe_${i}`,
 					status: [0, 1, 2][i % 3],
 					phone: [15012341203, 18958586868, ''][i % 3],
-					email: `https://demo${i}.com.cn`,
-					roles: [{
-						id: `roles_${i}_1`,
-						name: `roleName_${i}_1`
-					}]
+					email: `demo${i}@com.cn`,
+					// roles: [[1, 2], [0, 1, 2], [2]][i % 3],
+					roles: [[roles[1], roles[2]], [roles[0], roles[1], roles[2]], [roles[2]]][i % 3],
 				}
 			})
 		}
@@ -41,4 +49,12 @@ export function getAdminList(data: any): AxiosPromise {
 	// 	method: 'get',
 	// 	params: data
 	// })
+}
+export function queryEdit(data: any) {
+	return new Promise(resolve => {
+		// console.warn(data, 'data')
+		setTimeout(() => {
+			resolve({ data: true, code: 200 })
+		}, 1000)
+	})
 }
