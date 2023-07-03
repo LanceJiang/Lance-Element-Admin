@@ -10,7 +10,7 @@ import InputNumberRange from '../InputNumberRange'
 import CustomRender from '../CustomRender'
 // import LeSelect from 'lance-element-vue/packages/Select' // todo...
 import LeSelect from '../Select' // todo...
-import { renderSelectOption, optionSlot } from './utils.ts'
+import {renderSelectOption, optionSlot, get_formSlotLabel} from './utils.ts'
 import {PropType} from "vue/dist/vue";
 import {LeFormItem, ObjectOpts, FormConfigOpts} from "./formConfig.types";
 const formConfigProps = {
@@ -115,22 +115,11 @@ const FormConfig = defineComponent({
 				bindProps = []
 			forms.forEach((v, i) => {
 				const _prop = v.prop,
-					propType = typeof _prop,
+					// propType = typeof _prop,
 					props = v.props // 绑定的其他数据
 					queryItemTypeKeys(v).map(prop => {
 						params[prop] = setItemData(formData[prop]) // 数据初始化
 					})
-					// todo...
-					/* if (v.itemType === 'dateRange') {
-            const propStart = v.propStart || `${_prop}Start`
-            const propEnd = v.propEnd || `${_prop}End`
-            const hasDate = formData[propStart] && formData[propEnd]
-            // 仅当 初始日期 和 结束日期 都有的情况下 才赋值 prop值
-            // （只有一个值时，存在 rangeDate不展示对应数据，点选日期 也被置回1970年 的问题）
-            params[_prop] = hasDate
-              ? [formData[propStart], formData[propEnd]]
-              : formData[_prop] || undefined
-          } else */
 					// 若该formItem  包含forms列表中未定义的prop 需要从formData取值
 					if (Array.isArray(props)) {
 						bindProps.push(...props)
@@ -145,14 +134,6 @@ const FormConfig = defineComponent({
 			} else {
 				state.params = params
 			}
-		}
-		const get_formSlotLabel = (slotOption) => {
-			if (!slotOption) return
-			if (typeof slotOption === 'string') {
-				return ctx.slots[slotOption]
-			}
-			// fn
-			return slotOption
 		}
 		const cancelHandler = () => {
 			ctx.emit('cancel')
@@ -178,16 +159,7 @@ const FormConfig = defineComponent({
 					const key = form.prop
 					if (key) {
 						// 对应的form 内部设置有 formValueFormats 函数的值做提交前的最后操作 fn(value, key)
-						/* if (form.itemType === 'dateRange' && form.propStart) {
-							// 含有propStart 表示拆分出来
-							const { propStart } = form // || key + 'Start'
-							const { propEnd } = form // || key + 'End'
-							const [startDate, endDate] = params[key] || []
-							formattedForm[propStart] = startDate
-							formattedForm[propEnd] = endDate
-						} else { */
 						formattedForm[key] = formValueFormats[key] ? formValueFormats[key](params, key) : params[key]
-						// }
 					}
 					// 对含有 其他prop的数据 赋值
 					if (Array.isArray(form.props)) {
@@ -276,7 +248,7 @@ const FormConfig = defineComponent({
 				const { prop, itemType, itemWidth, options, change, itemStyle: form_itemStyle = '', itemClass, size: _size, placeholder,
 					t_placeholder, ...formOthers } = form
 				const _options = options || []
-				const _itemStyle = unref(itemStyle) + form_itemStyle + (itemWidth ? `width: ${itemWidth};` : '')
+				const _itemStyle = unref(itemStyle) + form_itemStyle + (itemWidth ? `;width: ${itemWidth}` : '')
 				const _placeholder = t_placeholder ? t(t_placeholder) : placeholder
 				let disabled = form.disabled
 				if (disabled === undefined) {
@@ -318,6 +290,7 @@ const FormConfig = defineComponent({
 						const slots_leSelect = {
 							default: optionSlot(ctx.slots, form.slotOption)
 						}
+						let leStyle = _itemStyle + ((/width\:/g).test(_itemStyle) ? '' : ';width: 200px')
 						return <LeSelect
 							class={itemClass}
 							{...formOthers}
@@ -329,7 +302,7 @@ const FormConfig = defineComponent({
 							onChange={formatterChange}
 							size={_size ?? size}
 							placeholder={_placeholder}
-							style={_itemStyle}
+							style={leStyle}
 							v-slots={slots_leSelect}
 						/>
 					/* 自定义 render */
@@ -478,6 +451,7 @@ const FormConfig = defineComponent({
 								v-model={params[prop]}
 								size={_size ?? size}
 								onChange={formatterChange}
+								style={_itemStyle}
 								disabled={disabled}
 							/>
 						)
@@ -529,10 +503,10 @@ const FormConfig = defineComponent({
 					<el-row class={`form_wrap ${showLabel === false && 'hideLabel'}`} gutter={gutter}>
 						{forms.map((form, idx) => {
 							const { span: _span, t_label, label, ...others } = form
-							const slot_label = get_formSlotLabel(form.slotLabel)
-							const formItemSlots: any = {}
-							if(slot_label) formItemSlots.label = slot_label
 							const _label = t_label ? t(t_label) : label
+							const formItemSlots = {
+								label: get_formSlotLabel(ctx.slots, form.slotLabel)
+							}
 							return (
 								<el-col key={idx} span={_span ?? span}>
 									<el-form-item
@@ -559,34 +533,4 @@ export default FormConfig
 /**
  * eg:  示例  实例参考 views/form/default.vue
  */
-/* <FormConfig
-        ref="configForm"
-        :forms="formOptions.forms" // 遍历formItem 的数组
-        :formData="formOptions.formData" // 初始化 form数据
-        @submit="submit" // form 表单提交使用： 会传递 form 对应的值
-        @cancel="close" // 取消按钮点击操作
-        :isEdit="formOptions.isEdit"
-        />
-
-        var formOptions = {
-            forms: [
-            {
-                prop: '邮件标题',
-                label: '邮件标题',
-                itemType: 'input',
-                // span: 11,
-            },
-            { // 选人
-                prop: '传阅人员',
-                label: '传阅人员',
-                itemType: 'select',
-                options: [
-                    // '小三', '请选择传阅人员'
-                    {value: '', label: '请选择传阅人员'},
-                    {value: 0, label: '小三'},
-                    {value: 1, label: '小四'}
-                ]
-            }
-        ]
-    } */
 </script>

@@ -4,6 +4,8 @@ import { OptionItemProps } from '@/components/Select/select.types.ts'
 // 组件类型
 export type FormConfigOpts = Partial<FormInstance['props']> & {
 	itemWidth?: string // 默认的formItem类型宽度(eg: input/select/radio...)
+	itemStyle?: string // 额外的的formItem类型样式[注:width 会被 itemWidth 覆盖](eg: input/select/radio...)
+	itemClass?: string // 额外的的formItem类型样式类(eg: input/select/radio...)
 	span?: number // 默认的formItem 对应的 col 外壳 span 配置
 	showLabel?: boolean // 默认的formItem 对应的 label 是否展示
 	showFooter: boolean // 是否展示 底部操作集
