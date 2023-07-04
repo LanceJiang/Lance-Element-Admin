@@ -19,8 +19,11 @@
 			:list="tableOpts.list"
 			:total="tableOpts.total"
 			:options="tableOpts.options"
-			:columns="tableOpts.columns"
+			:columns_="tableOpts.columns"
 			:check-selected-key="tableOpts.checkSelectedKey"
+			:columns="localColumns"
+			v-model:checked-options="checkedColumns"
+			:columnsConfig="tableOpts.columnsConfig"
 		>
 			<template #toolLeft>
 				<el-button @click="toggleForm">toggle searchForms（项目类型）测试</el-button>
@@ -75,7 +78,7 @@
 </template>
 
 <script name="pageConfig" lang="tsx" setup>
-import { nextTick, ref, reactive, watch } from 'vue'
+import { nextTick, ref, reactive, watch, computed, unref } from 'vue'
 import { getAdminList } from '@/api/demo'
 import { ElMessage } from 'element-plus'
 import i18n from '@/lang'
@@ -99,7 +102,7 @@ const _forms = [
 	{
 		prop: 'leSelect多选',
 		label: 'leSelect多选',
-		itemStyle: 'background: #f00; width: 500px',
+		// itemStyle: 'background: #f00; width: 500px',
 		// itemWidth: '300px',
 		itemType: 'leSelect',
 		multiple: true,
@@ -126,7 +129,7 @@ const _forms = [
 		},
 		render: (extendsParams) => {
 			const { form, params } = extendsParams
-			console.error(extendsParams, 'extendsParams')
+			// console.error(extendsParams, 'extendsParams')
 			return <el-input v-model={params[form.prop]} placeholder="placeholder test... 666" />
 			// return <el-input onChange={form.onInput} v-model={params[form.prop]} placeholder="placeholder test... 666" />
 			// return <el-input onChange={form.onChange} v-model={params[form.prop]} placeholder="placeholder test... 666" />
@@ -342,7 +345,10 @@ const formOptions = ref({
 	forms: _forms,
 	labelWidth,
 	span,
-	showResetBtn
+	showResetBtn,
+	formConfig: {
+		submitLoading: false
+	}
 })
 const formData = ref({
 	// bondCode: ['2020-09-10', '2020-10-10'],
@@ -354,6 +360,66 @@ const formData = ref({
 	size: 10
 })*/
 // table 参数
+const columns = [
+	{
+		// prop: 'name',
+		prop: 'username',
+		label: '角色',
+		// resizable:false,
+		slots: {
+			header: 'testHeader'
+			// default: 'testDefault'
+		},
+		minWidth: 100
+		// formatter: (row, column) => {
+		//   console.log(row, column, 'row, column   角色');
+		//   return row.name || '- 66666 -'
+		// },
+		/*params: {
+			ellipsis_line: '3'
+		}*/
+	},
+	{
+		// slots.default > formatter
+		prop: 'add_time',
+		label: '创建日期',
+		sortable: true,
+		minWidth: 100,
+		titleHelp: {
+			message: 'todo:我是问号提示测试'
+		},
+		slots: {
+			// header: 'testDefault',
+			// default: 'testDefault'
+		},
+		formatter: (row: any, column: any) => {
+			// console.log(row, column, 'row, column');
+			/** 若在内部用到jsx写法 需要在 script 新增 lang 为 jsx || tsx */
+			return <div style="background: #f0f;">${row.name || '- 66666 -'}</div>
+			// return row.name || '- 66666 -'
+		}
+	},
+	{
+		prop: 'describe',
+		label: '备注信息',
+		width: 100,
+		slots: {
+			header: '备注信息header'
+			// default: '备注信息default',
+			// default: ({ column, row, $index }) => {
+			//   return `value: ${row[column.property]} index: ${$index} default function 自定义`
+			//   // console.warn(...args, 'test....')
+			// },
+			// default: 'testDefault'
+		}
+	},
+	{
+		prop: 'action',
+		label: '操作',
+		width: 100,
+		fixed: 'right'
+	}
+]
 const tableOpts = reactive({
 	searchParams: {
 		page: 1,
@@ -376,65 +442,30 @@ const tableOpts = reactive({
 		multipleSelectIndexKey: 'id' // test 根据 id 查找对应的 index
 	},
 	// 需要展示的列
-	columns: [
-		{
-			// prop: 'name',
-			prop: 'username',
-			label: '角色',
-			// resizable:false,
-			slots: {
-				header: 'testHeader'
-				// default: 'testDefault'
-			},
-			minWidth: 100
-			// formatter: (row, column) => {
-			//   console.log(row, column, 'row, column   角色');
-			//   return row.name || '- 66666 -'
-			// },
-			/*params: {
-				ellipsis_line: '3'
-			}*/
-		},
-		{
-			// slots.default > formatter
-			prop: 'add_time',
-			label: '创建日期',
-			sortable: true,
-			minWidth: 100,
-			titleHelp: {
-				message: 'todo:我是问号提示测试'
-			},
-			slots: {
-				// header: 'testDefault',
-				// default: 'testDefault'
-			},
-			formatter: (row: any, column: any) => {
-				// console.log(row, column, 'row, column');
-				/** 若在内部用到jsx写法 需要在 script 新增 lang 为 jsx || tsx */
-				return <div style="background: #f0f;">${row.name || '- 66666 -'}</div>
-				// return row.name || '- 66666 -'
+	columns,
+	// 控制列配置
+	columnsConfig: {
+		columns,
+		defaultCheckedOptions: columns.slice(0, 2)
+	}
+})
+// 选中的columns
+// const checkedColumns = ref(JSON.parse(JSON.stringify(columns.slice(0, 2))))
+const checkedColumns = ref(columns.slice(0, 2))
+// 活跃的columns
+const localColumns = computed(() => {
+	const _checkedColumns = unref(checkedColumns)
+	if(!_checkedColumns.length) return columns
+	return _checkedColumns.map(v => {
+		const cur = columns.find(column => column.prop === v.prop)
+		if (cur) {
+			const fixedFlag = cur.fixed
+			if (fixedFlag) {
+				v.fixed = fixedFlag
 			}
-		},
-		{
-			prop: 'describe',
-			label: '备注信息',
-			width: 100,
-			slots: {
-				header: '备注信息header'
-				// default: '备注信息default',
-				// default: ({ column, row, $index }) => {
-				//   return `value: ${row[column.property]} index: ${$index} default function 自定义`
-				//   // console.warn(...args, 'test....')
-				// },
-				// default: 'testDefault'
-			}
-		},
-		{
-			prop: 'describe',
-			label: '操作',
-			width: 100
+			return cur
 		}
-	]
+	}).filter(Boolean)
 })
 // watch(() => tableOpts.searchParams.custName, (v, oldv) => {
 // watch(tableOpts.searchParams, (v, oldv) => {
@@ -446,6 +477,7 @@ watch(
 )
 
 setTimeout(() => {
+	// 模拟特殊情况初始化搜索数据
 	tableOpts.searchParams = {
 		page: 1,
 		size: 10,
@@ -502,7 +534,7 @@ const toggleForm = () => {
 	}
 }
 const submitHandler = params => {
-	formOptions.value.loading = true
+	formOptions.value.formConfig.submitLoading = true
 	// const submitParams = {
 	//   ...params
 	// }
@@ -524,7 +556,7 @@ const submitHandler = params => {
 			}
 		})
 		.finally(() => {
-			formOptions.value.loading = false
+			formOptions.value.formConfig.submitLoading = false
 		})
 }
 </script>

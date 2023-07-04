@@ -2,6 +2,8 @@ export default {
 	// 路由国际化
 	route: {
 		dashboard: '首页',
+		comps: 'Comps示例',
+		form: '表单',
 		demo: 'Demo演示',
 		person_role: '角色管理',
 		demo_adminManage: '管理员管理',

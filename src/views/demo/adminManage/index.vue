@@ -81,7 +81,7 @@ const state: any = reactive({
 		formOptions: {
 			forms,
 			formConfig: {
-				labelWidth: 140,
+				labelWidth: 80,
 				itemWidth: '100%',
 				submitLoading: false
 			},

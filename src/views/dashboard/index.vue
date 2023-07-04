@@ -25,7 +25,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script setup name="dashboard" lang="ts">
 // 组件引用
 import BarChart from './components/Chart/BarChart.vue'
 import LeChart from '@/components/Chart.vue'

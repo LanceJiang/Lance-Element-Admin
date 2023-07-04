@@ -41,7 +41,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 			{
 				path: 'dashboard',
 				component: () => import('@/views/dashboard/index.vue'),
-				name: 'Dashboard',
+				name: 'dashboard',
 				meta: { title: 'dashboard', icon: 'homepage', affix: true }
 			}
 		]
@@ -54,22 +54,22 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 			{
 				path: 'index',
 				component: () => import('@/views/components/index.vue'),
-				name: 'Comps',
-				meta: { title: 'Comps', icon: 'excel' }
+				name: 'comps',
+				meta: { title: 'comps', icon: 'excel' }
 			}
 		]
 	},
 	{
 		path: '/form',
 		component: Layout,
-		meta: { title: 'Form', icon: 'guide' },
+		// meta: { title: 'Form', icon: 'guide' },
 		redirect: '/default',
 		children: [
 			{
 				path: 'default',
 				component: () => import('@/views/form/default.vue'),
 				name: 'FormDefault',
-				meta: { title: 'Form', icon: 'guide' }
+				meta: { title: 'form', icon: 'guide' }
 			}
 		]
 	},

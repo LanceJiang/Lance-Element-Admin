@@ -2,6 +2,8 @@ export default {
 	// 路由国际化
 	route: {
 		dashboard: 'Dashboard',
+		comps: 'Comps',
+		form: 'Form',
 		demo: 'Demo',
 		person_role: 'Role Manage',
 		demo_adminManage: 'Admin Manage',
