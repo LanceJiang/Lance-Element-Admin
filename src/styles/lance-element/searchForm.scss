@@ -1,0 +1,114 @@
+@import "../variables.scss";
+// SearchForm 样式
+.#{$prefix}search-form {
+	&-container {
+		background-color: #fff;
+		margin-bottom: 12px;
+		padding: 10px 12px;
+		padding-top: 0;
+		&.labelStyle {
+			.#{$prefix}search-form-flex-wrap {
+				.el-form-item {
+					//margin: 10px 8px 0 0;
+					&:not(.hideLabel) {
+						.el-form-item__label {
+							border: 1px solid var(--el-input-border-color,var(--el-border-color));
+							border-right: 0;
+							/* box-shadow: 0 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset; */
+							border-radius: var(--el-input-border-radius,var(--el-border-radius-base)) 0 0 var(--el-input-border-radius,var(--el-border-radius-base));
+							/* border-right: 0; */
+							padding-left: 10px;
+							//background: #fafafa;
+							background: #fcfcfc;
+						}
+						.el-input__wrapper {
+							border-radius: 0 var(--el-input-border-radius,var(--el-border-radius-base)) var(--el-input-border-radius,var(--el-border-radius-base)) 0;
+						}
+						// 修复 InputNumber 于labelStyle 样式问题
+						.le-input-number--prefix {
+							.le-input-number__prefix {
+								border-top-left-radius: 0;
+								border-bottom-left-radius: 0;
+							}
+							/*.el-input-number {
+								.el-input__wrapper {
+									border-top-left-radius: 0;
+									border-bottom-left-radius: 0;
+									//border: 1px solid $le-border-color_1;
+									//border-left-width: 0;
+								}
+							}*/
+						}
+						.le-input-number--suffix {
+							.el-input-number .el-input__wrapper {
+								border-top-right-radius: 0;
+								border-bottom-right-radius: 0;
+							}
+						}
+						//修复 InputNumberRange 于labelStyle 样式问题
+						.le-input-number-range {
+							/*.le-input-number-range_line {
+								box-shadow: 0px 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;
+								margin: 0 -1px 0 -1px;
+							}
+							.le-input-number-range_start {
+								.el-input__wrapper {
+									border-top-right-radius: 0;
+									border-bottom-right-radius: 0;
+								}
+							}*/
+							.le-input-number-range_end {}
+						}
+						// radio
+						.el-radio-button:first-child .el-radio-button__inner {
+							//border-radius: var(--el-border-radius-base) 0 0 var(--el-border-radius-base);
+							border-radius: 0;
+						}
+						// switch
+						.el-switch {
+							padding: 0 12px;
+							box-shadow: 0 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;
+							border-radius: 0 var(--el-input-border-radius,var(--el-border-radius-base)) var(--el-input-border-radius,var(--el-border-radius-base)) 0;
+						}
+					}
+				}
+			}
+		}
+	}
+	&-flex {
+		display: flex;
+		.action-wrap {
+			//padding-left: 12px;
+			margin-top: 10px;
+			/*display: inline-flex;
+			//margin-top: 10px;
+			vertical-align: middle;*/
+		}
+	}
+	&-flex-wrap {
+		flex: 1;
+		flex-wrap: wrap;
+		// 新增label border 包裹
+		.el-form-item {
+			margin: 10px 8px 0 0;
+			/* 隐藏formItem label */
+			&.hideLabel {
+				.el-form-item__label {
+					display: none;
+				}
+			}
+			.le-input-number-range {
+				.le-input-number-range_line {
+					box-shadow: 0px 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;
+					margin: 0 -1px 0 -1px;
+				}
+				.le-input-number-range_start {
+					.el-input__wrapper {
+						border-top-right-radius: 0;
+						border-bottom-right-radius: 0;
+					}
+				}
+			}
+		}
+	}
+}

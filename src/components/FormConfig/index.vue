@@ -376,7 +376,6 @@ const FormConfig = defineComponent({
 					/* 数字 */
 					case 'inputNumber':
 						return (
-							// <el-input-number
 							<InputNumber
 								class={`rate100 ${itemClass}`}
 								{...formOthers}

@@ -10,12 +10,14 @@ import InputNumber from './InputNumber'
 import InputNumberRange from './InputNumberRange'
 import CustomRender from './CustomRender'
 import { useI18n } from 'vue-i18n'
-import {optionSlot, get_formSlotLabel} from "@/components/FormConfig/utils.ts";
+import { optionSlot, get_formSlotLabel, getOptions, renderOption } from "@/components/FormConfig/utils.ts";
+import { OptionItemProps } from '@/components/Select/select.types.ts';
 
 const emits = ['update:searchParams']
-const props = {
+export const SearchFormProps = {
 	forms: {
-		type: Array as PropType<LeFormItem[]>,
+		// SearchForm: 与FormConfig不同的是 change的第一个参数的params, 去掉了原来的value 选项
+		type: Array as PropType<LeFormItem<(params: ObjectOpts, options: any[], propKey?: string) => any>[]>,
 		required: true
 	},
 	// 后台传递的初始值 以及 双向绑定 对象
@@ -34,8 +36,6 @@ const props = {
 	formConfig: {
 		type: Object as PropType<FormConfigOpts>,
 		default: () => ({
-			// labelSuffix: ':',
-			// labelWidth: '130px'
 		})
 	},
 	loading: {
@@ -49,7 +49,7 @@ const props = {
 export const SearchForm = defineComponent({
 	name: 'LeSearchForm',
 	emits,
-	props,
+	props: SearchFormProps,
 	setup(props, ctx) {
 		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
@@ -104,10 +104,7 @@ export const SearchForm = defineComponent({
 				const _options = options || []
 				const _itemStyle = itemStyle + (itemWidth ? `;width: ${itemWidth}` : '')
 				let disabled = form.disabled
-				if (disabled === undefined) {
-					disabled = false
-				}
-				const _placeholder = (t_placeholder ? t(t_placeholder) : placeholder) || _label
+				const _placeholder: string = (t_placeholder ? t(t_placeholder) : placeholder) || _label
 				// 优化后的 change事件
 				let formatterChange = async () => {
 					if (typeof change === 'function') {
@@ -131,17 +128,22 @@ export const SearchForm = defineComponent({
 				}
 				switch (itemType) {
 					case 'leSelect' :
-						// 由于leSelect 基于 element-plus el-select-v2 仅支持 option: 为对象{[labelKey: 'label'], [valueKey: 'value']}
-						// optionSlot
+						// leSelect: 基于 element-plus el-select-v2扩展
+						const slots_leSelect = {
+							default: optionSlot<OptionItemProps>(ctx.slots, form.slotOption)
+						}
 						return <LeSelect
-							v-model={searchParams[prop]}
-							options={_options}
 							{...formOthers}
+							options={_options}
+							v-model={searchParams[prop]}
+							// 通过teleport插入到body (popper-append-to-body popperAppendToBody已弃用)
+							teleported={formOthers.teleported ?? true}
 							// '@update:selected_label' todo
 							onChange={changeAndSearch}
 							disabled={disabled}
 							placeholder={_placeholder}
 							style={getItemStyle(_itemStyle, '200px')}
+							v-slots={slots_leSelect}
 						/>
 
 					// 自定义render
@@ -162,10 +164,13 @@ export const SearchForm = defineComponent({
 								clearable={form.clearable ?? true}
 								placeholder={_placeholder}
 							>
-								{_options.map((option, optionIndex) => {
-									const value = typeof option === 'object' ? option[form.valueKey || 'value'] : option
-									const label = typeof option === 'object' ? option[form.labelKey || 'label'] : option
-									return <el-option key={value} label={label} value={value} />
+								{getOptions(_options, form).map((option, i) => {
+									const { label, value, disabled } = option
+									return (
+										<el-option key={`${value}_${i}`} value={value} label={label} disabled={disabled} title={label}>
+											{renderOption(ctx.slots, form.slotOption, option)}
+										</el-option>
+									)
 								})}
 							</el-select>
 						)
@@ -179,12 +184,11 @@ export const SearchForm = defineComponent({
 								onChange={changeAndSearch}
 								style={getItemStyle(_itemStyle, 'auto')}
 							>
-								{_options.map((option, optionIndex) => {
-									const value = typeof option === 'object' ? option[form.valueKey || 'value'] : option
-									const label = typeof option === 'object' ? option[form.labelKey || 'label'] : option
+								{getOptions(_options, form).map((option, i) => {
+									const { label, value, disabled } = option
 									return (
-										<el-radio-button key={optionIndex + '_local'} label={value}>
-											{label}
+										<el-radio-button key={`${value}_${i}`} label={value} disabled={disabled} title={label}>
+											{renderOption(ctx.slots, form.slotOption, option)}
 										</el-radio-button>
 									)
 								})}
@@ -193,7 +197,7 @@ export const SearchForm = defineComponent({
 					// 级联
 					case 'cascader':
 						const slots_cascader = {
-							default: optionSlot(ctx.slots, form.slotOption)
+							default: optionSlot<{ data: any; node: any }>(ctx.slots, form.slotOption)
 						}
 						return (
 							<el-cascader
@@ -212,7 +216,6 @@ export const SearchForm = defineComponent({
 					// 数字
 					case 'inputNumber':
 						return (
-							// <el-input-number
 							<InputNumber
 								class="rate100"
 								{...bindInputEvents}
@@ -228,7 +231,7 @@ export const SearchForm = defineComponent({
 					// 数字区间
 					case 'inputNumberRange':
 						const numberChange = (e, propKey) => {
-							change && change(params, _options, params, propKey)
+							change && change(searchParams, _options, propKey)
 						}
 						return (
 							<InputNumberRange
@@ -342,118 +345,3 @@ export const SearchForm = defineComponent({
 })
 export default SearchForm
 </script>
-
-<style lang="scss">
-.#{$prefix}search-form {
-	&-container {
-		background-color: #fff;
-		margin-bottom: 12px;
-		padding: 10px 12px;
-		padding-top: 0;
-		&.labelStyle {
-			.#{$prefix}search-form-flex-wrap {
-				.el-form-item {
-					//margin: 10px 8px 0 0;
-					&:not(.hideLabel) {
-						.el-form-item__label {
-							border: 1px solid var(--el-input-border-color,var(--el-border-color));
-							border-right: 0;
-							/* box-shadow: 0 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset; */
-							border-radius: var(--el-input-border-radius,var(--el-border-radius-base)) 0 0 var(--el-input-border-radius,var(--el-border-radius-base));
-							/* border-right: 0; */
-							padding-left: 10px;
-							//background: #fafafa;
-							background: #fcfcfc;
-						}
-						.el-input__wrapper {
-							border-radius: 0 var(--el-input-border-radius,var(--el-border-radius-base)) var(--el-input-border-radius,var(--el-border-radius-base)) 0;
-						}
-						// 修复 InputNumber 于labelStyle 样式问题
-						.le-input-number--prefix {
-							.le-input-number__prefix {
-								border-top-left-radius: 0;
-								border-bottom-left-radius: 0;
-							}
-							/*.el-input-number {
-								.el-input__wrapper {
-									border-top-left-radius: 0;
-									border-bottom-left-radius: 0;
-									//border: 1px solid $le-border-color_1;
-									//border-left-width: 0;
-								}
-							}*/
-						}
-						.le-input-number--suffix {
-							.el-input-number .el-input__wrapper {
-								border-top-right-radius: 0;
-								border-bottom-right-radius: 0;
-							}
-						}
-						//修复 InputNumberRange 于labelStyle 样式问题
-						.le-input-number-range {
-							/*.le-input-number-range_line {
-								box-shadow: 0px 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;
-								margin: 0 -1px 0 -1px;
-							}
-							.le-input-number-range_start {
-								.el-input__wrapper {
-									border-top-right-radius: 0;
-									border-bottom-right-radius: 0;
-								}
-							}*/
-							.le-input-number-range_end {}
-						}
-						// radio
-						.el-radio-button:first-child .el-radio-button__inner {
-							//border-radius: var(--el-border-radius-base) 0 0 var(--el-border-radius-base);
-							border-radius: 0;
-						}
-						// switch
-						.el-switch {
-							padding: 0 12px;
-							box-shadow: 0 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;
-							border-radius: 0 var(--el-input-border-radius,var(--el-border-radius-base)) var(--el-input-border-radius,var(--el-border-radius-base)) 0;
-						}
-					}
-				}
-			}
-		}
-	}
-	&-flex {
-		display: flex;
-		.action-wrap {
-			//padding-left: 12px;
-			margin-top: 10px;
-			/*display: inline-flex;
-			//margin-top: 10px;
-			vertical-align: middle;*/
-		}
-	}
-	&-flex-wrap {
-		flex: 1;
-		flex-wrap: wrap;
-		// 新增label border 包裹
-		.el-form-item {
-			margin: 10px 8px 0 0;
-			/* 隐藏formItem label */
-			&.hideLabel {
-				.el-form-item__label {
-					display: none;
-				}
-			}
-			.le-input-number-range {
-				.le-input-number-range_line {
-					box-shadow: 0px 0 0 1px var(--el-input-border-color,var(--el-border-color)) inset;
-					margin: 0 -1px 0 -1px;
-				}
-				.le-input-number-range_start {
-					.el-input__wrapper {
-						border-top-right-radius: 0;
-						border-bottom-right-radius: 0;
-					}
-				}
-			}
-		}
-	}
-}
-</style>
