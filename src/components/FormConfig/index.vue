@@ -1,5 +1,5 @@
 <script lang="tsx">
-import {defineComponent, watch, computed, ref, reactive, unref } from 'vue'
+import { defineComponent, watch, computed, ref, reactive, unref, PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 // import { t } from 'lance-element-vue/src/locale'
 // import InputNumber from 'lance-element-vue/packages/InputNumber'
@@ -8,11 +8,11 @@ import InputNumber from '../InputNumber'
 import InputNumberRange from '../InputNumberRange'
 // import CustomRender from 'lance-element-vue/packages/CustomRender'
 import CustomRender from '../CustomRender'
-// import LeSelect from 'lance-element-vue/packages/Select' // todo...
-import LeSelect from '../Select' // todo...
-import {renderSelectOption, optionSlot, get_formSlotLabel} from './utils.ts'
-import {PropType} from "vue/dist/vue";
-import {LeFormItem, ObjectOpts, FormConfigOpts} from "./formConfig.types";
+// import LeSelect from 'lance-element-vue/packages/Select'
+import LeSelect from '../Select'
+import { renderOption, optionSlot, get_formSlotLabel, getOptions } from './utils.ts'
+import { LeFormItem, ObjectOpts, FormConfigOpts } from './formConfig.types'
+import { OptionItemProps } from '@/components/Select/select.types.ts'
 export const FormConfigProps = {
 	forms: {
 		type: Array as PropType<LeFormItem[]>,
@@ -82,17 +82,17 @@ const FormConfig = defineComponent({
 	setup(props, ctx) {
 		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
-		const queryItemTypeKeys = (form) => {
+		const queryItemTypeKeys = form => {
 			const { prop, itemType } = form
 			switch (itemType) {
-				case 'render':
-					/** !!! 暂不对render类型 进行更多标签处理 */
-					return []
 				// 对Number区间进行特殊处理
 				case 'inputNumberRange':
 					const propStart = form.propStart || `${prop}Start`
 					const propEnd = form.propEnd || `${prop}End`
 					return [propStart, propEnd]
+				case 'render':
+					// /** !!! 暂不对render类型 进行更多标签处理 */
+					// return []
 				case 'leSelect':
 				case 'select':
 				case 'radio':
@@ -111,19 +111,25 @@ const FormConfig = defineComponent({
 		}
 		const changeFormData = (formData, isInit?) => {
 			const { forms } = props,
-				params = {},
+				params = reactive({}),
 				bindProps = []
 			forms.forEach((v, i) => {
 				const _prop = v.prop,
-					// propType = typeof _prop,
 					props = v.props // 绑定的其他数据
-					queryItemTypeKeys(v).map(prop => {
-						params[prop] = setItemData(formData[prop]) // 数据初始化
+				const itemProps = queryItemTypeKeys(v)
+				itemProps.map(prop => {
+					params[prop] = setItemData(formData[prop]) // 数据初始化
+				})
+				/**inputNumberRange 若要执行rules 校验 必须添加prop标识key*/
+				if(v.itemType === 'inputNumberRange' && v.rules && _prop) {
+					params[_prop] = computed(() => {
+						return itemProps.map(key => params[key])
 					})
-					// 若该formItem  包含forms列表中未定义的prop 需要从formData取值
-					if (Array.isArray(props)) {
-						bindProps.push(...props)
-					}
+				}
+				// 若该formItem  包含forms列表中未定义的prop 需要从formData取值
+				if (Array.isArray(props)) {
+					bindProps.push(...props)
+				}
 			})
 			// 赋值其他被绑的的值
 			bindProps.map(prop => {
@@ -141,7 +147,6 @@ const FormConfig = defineComponent({
 		const submitHandler = submitCallback => {
 			getParams((error, params) => {
 				if (!error) {
-					// debugger;
 					// 若在父级组件使用 自定义的操作按钮， 可调用callback函数 作为提交操作
 					if (typeof submitCallback === 'function') {
 						return submitCallback(params)
@@ -156,11 +161,14 @@ const FormConfig = defineComponent({
 				const { params, formValueFormats } = state
 				const formattedForm = {} // 最后提交后台使用的params对象
 				forms.forEach(form => {
-					const key = form.prop
+					/*const key = form.prop
 					if (key) {
 						// 对应的form 内部设置有 formValueFormats 函数的值做提交前的最后操作 fn(value, key)
 						formattedForm[key] = formValueFormats[key] ? formValueFormats[key](params, key) : params[key]
-					}
+					}*/
+					queryItemTypeKeys(form).map(prop => {
+						formattedForm[prop] = params[prop]
+					})
 					// 对含有 其他prop的数据 赋值
 					if (Array.isArray(form.props)) {
 						form.props.map(_key => {
@@ -195,14 +203,14 @@ const FormConfig = defineComponent({
 		// 本地数据
 		const state = reactive({
 			params: changeFormData(props.formData, true),
-			formValueFormats: props.forms.reduce((res, v) => {
+			/*formValueFormats: props.forms.reduce((res, v) => {
 				const { prop, formValueFormat } = v
 				if (formValueFormat) {
 					// 遍历 集成formValueFormat对象
 					res[prop] = formValueFormat
 				}
 				return res
-			}, {})
+			}, {})*/
 		})
 		const local_formConfig = computed(() => {
 			return {
@@ -222,7 +230,7 @@ const FormConfig = defineComponent({
 			getParams,
 			resetHandler,
 			submitHandler,
-			cancelHandler,
+			cancelHandler
 		})
 		// render
 		return () => {
@@ -245,8 +253,19 @@ const FormConfig = defineComponent({
 
 			const itemRender = form => {
 				// const propKey = form.prop
-				const { prop, itemType, itemWidth, options, change, itemStyle: form_itemStyle = '', itemClass, size: _size, placeholder,
-					t_placeholder, ...formOthers } = form
+				const {
+					prop,
+					itemType,
+					itemWidth,
+					options,
+					change,
+					itemStyle: form_itemStyle = '',
+					itemClass,
+					size: _size,
+					placeholder,
+					t_placeholder,
+					...formOthers
+				} = form
 				const _options = options || []
 				const _itemStyle = unref(itemStyle) + form_itemStyle + (itemWidth ? `;width: ${itemWidth}` : '')
 				const _placeholder = t_placeholder ? t(t_placeholder) : placeholder
@@ -258,59 +277,36 @@ const FormConfig = defineComponent({
 				const formatterChange = async () => {
 					// console.log(params[prop], `value, params.${prop}, options`, _options)
 					if (change) {
-						// onChange={() => change && change(params[prop], _options, params)}
 						return change(params[prop], _options, params)
 					}
 				}
-				const render_selectOptions = () => {
-					return _options.map((option) => {
-						let value = option
-						let label = option
-						let disabled = false
-						if (typeof option === 'object') {
-							value = option[form.valueKey || 'value']
-							label = option[form.labelKey || 'label']
-							if (form.i18n) label = t(label)
-							disabled = option.disabled
-						}
-						return <el-option
-							key={value}
-							value={value}
-							label={label}
-							disabled={disabled}
-							title={label}>
-							{renderSelectOption.call(null, ctx.slots, form.slotOption, option, label)}
-						</el-option>
-					})
-				}
 				switch (itemType) {
 					/* 自定义 le 自定义Select */
-					case 'leSelect' : // todo
-						// 由于leSelect 基于 element-plus el-select-v2 仅支持 option: 为对象{[labelKey: 'label'], [valueKey: 'value']}
+					case 'leSelect':
+						// leSelect: 基于 element-plus el-select-v2扩展
 						const slots_leSelect = {
-							default: optionSlot(ctx.slots, form.slotOption)
+							default: optionSlot<OptionItemProps>(ctx.slots, form.slotOption)
 						}
-						let leStyle = _itemStyle + ((/width\:/g).test(_itemStyle) ? '' : ';width: 200px')
-						return <LeSelect
-							class={itemClass}
-							{...formOthers}
-							options={_options}
-							v-model={params[prop]}
-							isPopover={formOthers.isPopover ?? true}
-							// 通过teleport插入到body (popper-append-to-body popperAppendToBody已弃用)
-							teleported={formOthers.teleported ?? true}
-							onChange={formatterChange}
-							size={_size ?? size}
-							placeholder={_placeholder}
-							style={leStyle}
-							v-slots={slots_leSelect}
-						/>
+						let leStyle = _itemStyle + (/width\:/g.test(_itemStyle) ? '' : ';width: 200px')
+						return (
+							<LeSelect
+								class={itemClass}
+								{...formOthers}
+								options={_options}
+								v-model={params[prop]}
+								isPopover={formOthers.isPopover ?? true}
+								// 通过teleport插入到body (popper-append-to-body popperAppendToBody已弃用)
+								teleported={formOthers.teleported ?? true}
+								onChange={formatterChange}
+								size={_size ?? size}
+								placeholder={_placeholder}
+								style={leStyle}
+								v-slots={slots_leSelect}
+							/>
+						)
 					/* 自定义 render */
-					case 'render' :
-						return <CustomRender
-							form={form}
-							params={params}
-						/>
+					case 'render':
+						return <CustomRender form={form} params={params} />
 					/* 下拉框 */
 					case 'select':
 						return (
@@ -324,7 +320,14 @@ const FormConfig = defineComponent({
 								size={_size ?? size}
 								placeholder={_placeholder}
 							>
-								{render_selectOptions()}
+								{getOptions(_options, form).map((option, i) => {
+									const { label, value, disabled } = option
+									return (
+										<el-option key={`${value}_${i}`} value={value} label={label} disabled={disabled} title={label}>
+											{renderOption(ctx.slots, form.slotOption, option)}
+										</el-option>
+									)
+								})}
 							</el-select>
 						)
 					/* 单选框 */
@@ -339,23 +342,11 @@ const FormConfig = defineComponent({
 								onChange={formatterChange}
 								style={_itemStyle}
 							>
-								{_options.map((option, optionIndex) => {
-									let value = option
-									let label = option
-									let disabled = false
-									if (typeof option === 'object') {
-										value = option[form.valueKey || 'value']
-										label = option[form.labelKey || 'label']
-										if (form.i18n) label = t(label)
-										disabled = option.disabled
-									}
+								{getOptions(_options, form).map((option, i) => {
+									const { label, value, disabled } = option
 									return (
-										<el-radio
-											key={`${optionIndex}_local`}
-											label={value}
-											disabled={disabled}
-											title={label}>
-											{label}
+										<el-radio key={`${value}_${i}`} label={value} disabled={disabled} title={label}>
+											{renderOption(ctx.slots, form.slotOption, option)}
 										</el-radio>
 									)
 								})}
@@ -364,7 +355,7 @@ const FormConfig = defineComponent({
 					/* 级联 */
 					case 'cascader':
 						const slots_cascader = {
-							default: optionSlot(ctx.slots, form.slotOption)
+							default: optionSlot<{ data: any; node: any }>(ctx.slots, form.slotOption)
 						}
 						return (
 							<el-cascader
@@ -398,24 +389,25 @@ const FormConfig = defineComponent({
 								precision={form.precision || 0}
 							/>
 						)
-					 /* 数字区间 todo */
-					/*case 'inputNumberRange':
+					/* 数字区间 */
+					case 'inputNumberRange':
 						const numberChange = (e, propKey) => {
 							change && change(params, _options, params, propKey)
 						}
 						return (
 							<InputNumberRange
 								class={itemClass}
+								prop={prop}
 								{...formOthers}
 								modelValue={params}
-								// onChange={numberChange}
+								onChange={numberChange}
 								style={_itemStyle}
 								disabled={disabled}
 								placeholder={_placeholder}
 								size={_size ?? size}
 								precision={form.precision || 0}
 							/>
-						)*/
+						)
 					/* 日期选择(单日期 || 日期区间) */
 					case 'datePicker':
 						let dateOpts: any = {}
@@ -496,7 +488,7 @@ const FormConfig = defineComponent({
 				<el-form
 					ref={formRef}
 					class={`le-form-config le-form-config--${size}`}
-					{ ...form_config }
+					{...form_config}
 					size={size}
 					model={params}
 				>
@@ -509,11 +501,7 @@ const FormConfig = defineComponent({
 							}
 							return (
 								<el-col key={idx} span={_span ?? span}>
-									<el-form-item
-										{...others}
-										label={_label}
-										v-slots={formItemSlots}
-									>
+									<el-form-item {...others} label={_label} v-slots={formItemSlots}>
 										{itemRender(form)}
 									</el-form-item>
 								</el-col>
