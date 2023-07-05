@@ -28,8 +28,10 @@ export type ComponentType =
 	| 'datePicker'
 	| 'switch'
 	| 'input'
+export type SlotOption<T = any> = ((T) => HTMLElement | string) | string | undefined
 // formItem 配置
-export type LeFormItem = Partial<FormItemInstance['props']> & {
+// T额外申明 // FormConfig: inputNumberRange 类型的item change 会加上propKey 标注是前|后触发的change   options: 是 有options Item类型时会有具体的数组数据
+export type LeFormItem<Change = (value: any, options: any[], params: ObjectOpts, propKey?: string) => any> = Partial<FormItemInstance['props']> & {
 	t_label?: string // 多语言转义 (() => Promise<unknown>)
 	t_placeholder?: string // 多语言转义
 	// 当前Item渲染额外数据字段集
@@ -38,7 +40,11 @@ export type LeFormItem = Partial<FormItemInstance['props']> & {
 	// label 自定义插槽
 	slotLabel?: string | (({ label: string }) => HTMLDivElement) // [[定义的slotLabel插槽名称], function[slotLabel插槽jsx渲染函数]] // slotLabel: ({label}) => DOM
 	/*** select || radio || cascader 使用 Start*/
-	slotOption?: string | ((opts: { option: ObjectOpts, label: string } | OptionItemProps) => HTMLDivElement) // [String[定义的options Item 渲染插槽名称], function[options Item 插槽jsx渲染函数]], // slotOption: ({option, label}) => DOM, !cascader 类型返回数据(且不可使用默认i18n) slotOption: ({data, node}) => DOM
+	slotOption?: SlotOption
+	/*slotOption?: string | ((option: ObjectOpts | OptionItemProps) => HTMLDivElement)
+	 // [String[options Item 渲染插槽名称] || function[options Item 插槽jsx渲染函数]],
+	 //  cascader 类型返回数据(且不可使用i18n进行转义) slotOption: ({data, node}) => HTMLDivElement
+	 */
 	valueKey?: string
 	labelKey?: string
 	i18n?: boolean // (option label展示)是否进行多语言转义
@@ -47,7 +53,8 @@ export type LeFormItem = Partial<FormItemInstance['props']> & {
 	/*** render 使用 Start*/
 	render?: ({ form: LeFormItem, params: ObjectOpts }) => HTMLDivElement
 	/*** render 使用 End*/
-	formValueFormat?: (params: any, key: string) => any // 数据提交前 转换
+	// formValueFormat?: (params: any, key: string) => any // 数据提交前 转换
+	change?: Change
 }
 
 export type ObjectOpts = {
