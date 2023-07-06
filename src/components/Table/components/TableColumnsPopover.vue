@@ -4,6 +4,7 @@ import Icon from '@/components/Icon'
 import NoData from '@/components/NoData'
 import DraggableNest from '@/components/DraggableNest'
 import { useI18n } from 'vue-i18n'
+import { LeTableColumnProps } from '@/components/Table'
 
 const TableColumnsPopover = defineComponent(
 	(props, { emit, slots }) => {
@@ -164,7 +165,7 @@ const TableColumnsPopover = defineComponent(
 		const vSlots = {
 			reference: () => <span>
 				<el-tooltip placement="top" content={t('le.column')}>
-				<el-button type="default" class="icon-button column">
+				<el-button type="default" class="icon-button button-column">
 					<Icon icon-class="le-hide_column"/>
 				</el-button>
 			</el-tooltip>
@@ -188,7 +189,6 @@ const TableColumnsPopover = defineComponent(
 					<el-scrollbar>
 						<ul class="el-scrollbar__view el-select-dropdown__list">
 							{/*暂时没有嵌套的需求 若有 后续再做调整优化 todo...*/}
-							{/**/}
 							<DraggableNest v-model={state.checkedOptions} class="draggableWrap" move={onMove} remove={deleteCheckedOptions} />
 							<NoData v-show={!state.checkedOptions.length}/>
 						</ul>
@@ -233,7 +233,7 @@ const TableColumnsPopover = defineComponent(
 		props: {
 			columns: {
 				// required: true, // 即 tableColumns的 配置
-				type: Array,
+				type: Array as PropType<LeTableColumnProps[]>,
 				default: () => []
 			},
 			/* // 选中的 columns
@@ -245,7 +245,7 @@ const TableColumnsPopover = defineComponent(
      *!/
     checkedOptions */
 			value: {
-				type: Array,
+				type: Array as PropType<LeTableColumnProps[]>,
 				default: () => []
 				// todo dynamic: 标记column是否根据本地的column进行label替换【Boolean】
 				/* type Options = { t_label: string; label: string; prop: string; fixed: boolean|string }[]
@@ -254,14 +254,13 @@ const TableColumnsPopover = defineComponent(
 			// 默认的展示列配置
 			defaultCheckedOptions: {
 				// 同value 配置
-				type: Array,
+				type: Array as PropType<LeTableColumnProps[]>,
 				default: null
 			},
 		},
-		emits: ['change']
-		// emits: {
-		// 	change: (checkedOptions: any) => true // checkedOptions
-		// }
+		emits: {
+			change: ((checkedOptions: LeTableColumnProps[]) => true)
+		}
 	}
 )
 export default TableColumnsPopover

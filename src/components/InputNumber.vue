@@ -67,7 +67,7 @@ const Component = defineComponent({
 				<el-input-number
 					max={max}
 					{...props}
-					size_todo={inputNumberSize}
+					size={inputNumberSize}
 					controlsPosition={controlsPosition || 'right'}
 					placeholder={placeholder || t('le.el.input.placeholder')}
 					// value={this.localValue}

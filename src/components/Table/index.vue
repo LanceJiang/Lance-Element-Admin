@@ -32,14 +32,14 @@ export const tableProps = {
 	},
 	// 选中column的配置参数
 	checkedOptions: {
-		type: Array,
+		type: Array as PropType<LeTableColumnProps[]>,
 		default: () => []
 	},
 	// 自定义列配置相关
 	columnsConfig: {
-		type: Object,
+		type: Object as PropType<Pick<LeTableProps, 'columnsConfig'>>,
 		default: () => ({
-			// defaultCheckedOptions: [], // [{t_label, prop, selected}]// Array 没有存储数据时 系统给予的默认配置
+			// defaultCheckedOptions: [], // { t_label: string; label: string; prop: string; fixed: boolean|string }[]// Array 没有存储数据时 系统给予的默认配置
 			columns: []
 		})
 	},
