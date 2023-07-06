@@ -82,7 +82,7 @@ const FormConfig = defineComponent({
 	setup(props, ctx) {
 		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
-		const queryItemTypeKeys = form => {
+		/*const queryItemTypeKeys = form => {
 			const { prop, itemType } = form
 			switch (itemType) {
 				// 对Number区间进行特殊处理
@@ -91,7 +91,7 @@ const FormConfig = defineComponent({
 					const propEnd = form.propEnd || `${prop}End`
 					return [propStart, propEnd]
 				case 'render':
-					// /** !!! 暂不对render类型 进行更多标签处理 */
+					// /!** !!! 暂不对render类型 进行更多标签处理 *!/
 					// return []
 				case 'leSelect':
 				case 'select':
@@ -102,7 +102,7 @@ const FormConfig = defineComponent({
 				default:
 					return [prop]
 			}
-		}
+		}*/
 		const setItemData = (value, defaultValue?) => {
 			if (typeof value !== 'boolean' && typeof value !== 'number') {
 				return value || defaultValue
@@ -111,21 +111,33 @@ const FormConfig = defineComponent({
 		}
 		const changeFormData = (formData, isInit?) => {
 			const { forms } = props,
-				params = reactive({}),
+				// params = reactive({}),
+				params = {},
 				bindProps = []
 			forms.forEach((v, i) => {
 				const _prop = v.prop,
 					props = v.props // 绑定的其他数据
-				const itemProps = queryItemTypeKeys(v)
+				let defaultValue: any
+				if(v.itemType === 'inputNumberRange') defaultValue = []
+				params[_prop] = setItemData(formData[_prop], defaultValue) // 数据初始化
+				/*const itemProps = queryItemTypeKeys(v)
 				itemProps.map(prop => {
 					params[prop] = setItemData(formData[prop]) // 数据初始化
-				})
-				/**inputNumberRange 若要执行rules 校验 必须添加prop标识key*/
-				if(v.itemType === 'inputNumberRange' && v.rules && _prop) {
-					params[_prop] = computed(() => {
-						return itemProps.map(key => params[key])
+				})*/
+				/**fix 自定义inputNumberRange*/
+				/*if(v.itemType === 'inputNumberRange') {
+					params[_prop] = computed({
+						get() {
+							return itemProps.map(key => params[key])
+						},
+						set(values) {
+							itemProps.map((key, i) => {
+								params[key] = values[i]
+							})
+							console.error(values, 'values')
+						}
 					})
-				}
+				}*/
 				// 若该formItem  包含forms列表中未定义的prop 需要从formData取值
 				if (Array.isArray(props)) {
 					bindProps.push(...props)
@@ -136,9 +148,13 @@ const FormConfig = defineComponent({
 				params[prop] = formData[prop] // 被绑定的其他数据初始化
 			})
 			if (isInit) {
-				return params
+				return {
+					params,
+					bindProps
+				}
 			} else {
 				state.params = params
+				state.bindProps = bindProps
 			}
 		}
 		const cancelHandler = () => {
@@ -161,14 +177,15 @@ const FormConfig = defineComponent({
 				const { params, formValueFormats } = state
 				const formattedForm = {} // 最后提交后台使用的params对象
 				forms.forEach(form => {
-					/*const key = form.prop
-					if (key) {
-						// 对应的form 内部设置有 formValueFormats 函数的值做提交前的最后操作 fn(value, key)
-						formattedForm[key] = formValueFormats[key] ? formValueFormats[key](params, key) : params[key]
-					}*/
-					queryItemTypeKeys(form).map(prop => {
+					const prop = form.prop
+					if (prop) {
 						formattedForm[prop] = params[prop]
-					})
+						// // 对应的form 内部设置有 formValueFormats 函数的值做提交前的最后操作 fn(value, prop)
+						// formattedForm[prop] = formValueFormats[prop] ? formValueFormats[prop](params, prop) : params[prop]
+					}
+					/*queryItemTypeKeys(form).map(prop => {
+						formattedForm[prop] = params[prop]
+					})*/
 					// 对含有 其他prop的数据 赋值
 					if (Array.isArray(form.props)) {
 						form.props.map(_key => {
@@ -187,13 +204,18 @@ const FormConfig = defineComponent({
 				}
 			})
 		}
-		const resetHandler = isAsync => {
+		const resetHandler = (isAsync = false) => {
 			// 是否异步 传入的 formData 重置
 			if (isAsync) {
 				// 由于 formData 从父级传入后 内部并没有直接使用 固可用做 重置功能
 				changeFormData(props.formData)
 			} else {
 				formRef.value.resetFields()
+				const formData = props.formData || {}
+				// 额外 props 通过formData 数据进行重置
+				state.bindProps.map(prop => {
+					state.params[prop] = formData[prop]
+				})
 			}
 		}
 		watch(() => props.formData, (newData, oldData) => {
@@ -202,7 +224,11 @@ const FormConfig = defineComponent({
 		})
 		// 本地数据
 		const state = reactive({
-			params: changeFormData(props.formData, true),
+			// { params, bindProps }
+			...changeFormData(props.formData, true),
+			/*params,
+			// 额外props 集合
+			bindProps: []*/
 			/*formValueFormats: props.forms.reduce((res, v) => {
 				const { prop, formValueFormat } = v
 				if (formValueFormat) {
@@ -235,7 +261,7 @@ const FormConfig = defineComponent({
 		// render
 		return () => {
 			const { params } = state
-			const { isEdit, formData, forms } = props
+			const { isEdit, forms } = props
 			const {
 				showLabel,
 				size,
@@ -391,14 +417,15 @@ const FormConfig = defineComponent({
 					/* 数字区间 */
 					case 'inputNumberRange':
 						const numberChange = (e, propKey) => {
-							change && change(params, _options, params, propKey)
+							change && change(params[prop], _options, params, propKey)
 						}
 						return (
 							<InputNumberRange
 								class={itemClass}
 								prop={prop}
 								{...formOthers}
-								modelValue={params}
+								v-model={params[prop]}
+								isValueArray
 								onChange={numberChange}
 								style={_itemStyle}
 								disabled={disabled}
