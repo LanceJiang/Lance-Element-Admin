@@ -167,26 +167,6 @@ onMounted(() => {
 		border-top: 0;
 		border-radius: 0;
 	}
-
-	// 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整1 eg:
-	/*&::v-deep {
-		.le-column-wrap {
-			display: none;
-		}
-	}*/
 }
 
-.local_search-group-wrap ::v-deep {
-	// 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整2 eg:
-	/*.tags-wrap {
-		margin-right: 48px;
-	}
-	.le-search-group-tags .tags-action {
-		right: -48px;
-	}*/
-}
-
-.le-button-wrap {
-	padding-bottom: 12px;
-}
 </style>
