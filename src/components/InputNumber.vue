@@ -17,6 +17,10 @@ const Props = {
 const Component = defineComponent({
 	name: 'LeInputNumber',
 	props: Props,
+	emits: [
+		'change',
+		// "update:modelValue"
+	],
 	setup(props, ctx) {
 		const { t } = useI18n()
 		return () => {
@@ -26,6 +30,9 @@ const Component = defineComponent({
 			const _suffix = suffixIcon ? <span class="le-addon le-input-number__suffix">{suffixIcon}</span> : ''
 			const _placeholder = (t_placeholder ? t(t_placeholder) : placeholder) ?? t('le.el.input.placeholder')
 			const slots = Object.keys(ctx.slots).length ? ctx.slots : local_props.slots || {}
+			const onChange = (...v) => {
+				ctx.emit('change', ...v)
+			}
 			return (
 				<div
 					class={`le-input-number le-input-number--${inputNumberSize} el-input el-input-group
@@ -37,6 +44,7 @@ const Component = defineComponent({
 					<el-input-number
 						max={max}
 						{...local_props}
+						onChange={onChange}
 						size={inputNumberSize}
 						controlsPosition={controlsPosition ?? 'right'}
 						placeholder={_placeholder}
