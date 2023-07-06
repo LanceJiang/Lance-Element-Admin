@@ -12,8 +12,13 @@ export default defineComponent({
 	},
 	props: {
 		modelValue: {
-			type: Object,
+			type: [Object, Array],
 			required: true
+		},
+		// 是否为 数组类型
+		isValueArray: {
+			type: Boolean,
+			default: false
 		},
 		// 数值精度
 		precision: {
@@ -116,14 +121,13 @@ export default defineComponent({
 			</div>
 		)
 	},
-	data() {
-		return {}
-	},
 	computed: {
 		local_propStart() {
+			if(this.isValueArray) return 0
 			return this.propStart || `${this.prop}Start`
 		},
 		local_propEnd() {
+			if(this.isValueArray) return 1
 			return this.propEnd || `${this.prop}End`
 		},
 		localStyle() {
