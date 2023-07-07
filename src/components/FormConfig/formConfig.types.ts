@@ -28,7 +28,26 @@ export type ComponentType =
 	| 'datePicker'
 	| 'switch'
 	| 'input'
-export type SlotOption<T = any> = ((T) => HTMLElement | string) | string | undefined
+export type SlotOption<T = (ObjectOpts | OptionItemProps | {data: any, node: any})> = ((T) => HTMLDivElement | string) | string | undefined
+export type FormItemSlots = {
+	// label 自定义插槽
+	label?: (({ label: string }) => HTMLDivElement) | string
+	/***
+	 * [option] 用于 adSelect|select|radio|cascader 类型的 下拉option 自定义扩展
+	 * adSelect: (OptionItemProps) => HTMLDivElement
+	 * select|radio: ({ label, value, disabled }) => HTMLDivElement
+	 * cascader: ({data, node}) => HTMLDivElement   !!!!不可使用i18n进行转义
+	 */
+	option?: SlotOption
+
+	// 由于inputNumber && inputNumberRange定义的slots 很少用到 目前只给出 render方法进行slot处理
+	/**inputNumber && inputNumberRange*/
+	prefix?: ((scope: Record<string, any>) => any)// | string
+	suffix?: ((scope: Record<string, any>) => any)// | string
+	/**inputNumberRange*/
+	prepend?: ((scope: Record<string, any>) => any)// | string
+	append?: ((scope: Record<string, any>) => any)// | string
+}
 // formItem 配置
 // T额外申明 // FormConfig: inputNumberRange 类型的item change 会加上propKey 标注是前|后触发的change   options: 是 有options Item类型时会有具体的数组数据
 export type LeFormItem<Change = (value: any, options: any[], params: ObjectOpts, propKey?: string) => any> = Partial<FormItemInstance['props']> & {
@@ -37,14 +56,12 @@ export type LeFormItem<Change = (value: any, options: any[], params: ObjectOpts,
 	// 当前Item渲染额外数据字段集
 	props?: string[]
 	itemType: ComponentType
-	// label 自定义插槽
-	slotLabel?: string | (({ label: string }) => HTMLDivElement) // [[定义的slotLabel插槽名称], function[slotLabel插槽jsx渲染函数]] // slotLabel: ({label}) => DOM
+	// 插槽
+	slots?: FormItemSlots
+	// // label 自定义插槽
+	// slotLabel?: string | (({ label: string }) => HTMLDivElement) // [[定义的slotLabel插槽名称], function[slotLabel插槽jsx渲染函数]] // slotLabel: ({label}) => DOM
+	// slotOption?: SlotOption
 	/*** select || radio || cascader 使用 Start*/
-	slotOption?: SlotOption
-	/*slotOption?: string | ((option: ObjectOpts | OptionItemProps) => HTMLDivElement)
-	 // [String[options Item 渲染插槽名称] || function[options Item 插槽jsx渲染函数]],
-	 //  cascader 类型返回数据(且不可使用i18n进行转义) slotOption: ({data, node}) => HTMLDivElement
-	 */
 	valueKey?: string
 	labelKey?: string
 	i18n?: boolean // (option label展示)是否进行多语言转义

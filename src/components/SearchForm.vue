@@ -131,7 +131,7 @@ export const SearchForm = defineComponent({
 					case 'leSelect' :
 						// leSelect: 基于 element-plus el-select-v2扩展
 						const slots_leSelect = {
-							default: optionSlot<OptionItemProps>(ctx.slots, form.slotOption)
+							default: optionSlot<OptionItemProps>(ctx.slots, form.slots?.option)
 						}
 						return <LeSelect
 							{...formOthers}
@@ -169,7 +169,7 @@ export const SearchForm = defineComponent({
 									const { label, value, disabled } = option
 									return (
 										<el-option key={`${value}_${i}`} value={value} label={label} disabled={disabled} title={label}>
-											{renderOption(ctx.slots, form.slotOption, option)}
+											{renderOption(ctx.slots, form.slots?.option, option)}
 										</el-option>
 									)
 								})}
@@ -189,7 +189,7 @@ export const SearchForm = defineComponent({
 									const { label, value, disabled } = option
 									return (
 										<el-radio-button key={`${value}_${i}`} label={value} disabled={disabled} title={label}>
-											{renderOption(ctx.slots, form.slotOption, option)}
+											{renderOption(ctx.slots, form.slots?.option, option)}
 										</el-radio-button>
 									)
 								})}
@@ -198,7 +198,7 @@ export const SearchForm = defineComponent({
 					// 级联
 					case 'cascader':
 						const slots_cascader = {
-							default: optionSlot<{ data: any; node: any }>(ctx.slots, form.slotOption)
+							default: optionSlot<{ data: any; node: any }>(ctx.slots, form.slots?.option)
 						}
 						return (
 							<el-cascader
@@ -308,7 +308,7 @@ export const SearchForm = defineComponent({
 								// 通过 form.visible 控制 是否展示
 								const _label = form.t_label ? t(form.t_label) : form.label
 								const slots = {
-									label: get_formSlotLabel(ctx.slots, form.slotLabel)
+									label: get_formSlotLabel(ctx.slots, form.slots?.label)
 								}
 								return (
 									<el-form-item

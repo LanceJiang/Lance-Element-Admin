@@ -50,11 +50,11 @@ export const optionSlot = <T>(slots: Slots, slotOption: SlotOption<T>) => {
 	}
 }
 // 获取formItem label
-export const get_formSlotLabel = (slots: Slots, slotOption: SlotOption<{ label: string }>) => {
-	if (!slotOption) return
-	let scopedSlots_option = slotOption
-	if (typeof slotOption === 'string') {
-		scopedSlots_option = slots[slotOption]
+export const get_formSlotLabel = (slots: Slots, slotLabel: SlotOption<{ label: string }>) => {
+	if (!slotLabel) return
+	let scopedSlots_option = slotLabel
+	if (typeof slotLabel === 'string') {
+		scopedSlots_option = slots[slotLabel]
 	}
 	if (typeof scopedSlots_option === 'function') {
 		return scopedSlots_option

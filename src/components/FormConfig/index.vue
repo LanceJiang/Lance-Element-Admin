@@ -313,7 +313,7 @@ const FormConfig = defineComponent({
 					case 'leSelect':
 						// leSelect: 基于 element-plus el-select-v2扩展
 						const slots_leSelect = {
-							default: optionSlot<OptionItemProps>(ctx.slots, form.slotOption)
+							default: optionSlot<OptionItemProps>(ctx.slots, form.slots?.option)
 						}
 						let leStyle = _itemStyle + (/width\:/g.test(_itemStyle) ? '' : ';width: 200px')
 						return (
@@ -352,7 +352,7 @@ const FormConfig = defineComponent({
 									const { label, value, disabled } = option
 									return (
 										<el-option key={`${value}_${i}`} value={value} label={label} disabled={disabled} title={label}>
-											{renderOption(ctx.slots, form.slotOption, option)}
+											{renderOption(ctx.slots, form.slots?.option, option)}
 										</el-option>
 									)
 								})}
@@ -374,7 +374,7 @@ const FormConfig = defineComponent({
 									const { label, value, disabled } = option
 									return (
 										<el-radio key={`${value}_${i}`} label={value} disabled={disabled} title={label}>
-											{renderOption(ctx.slots, form.slotOption, option)}
+											{renderOption(ctx.slots, form.slots?.option, option)}
 										</el-radio>
 									)
 								})}
@@ -383,7 +383,7 @@ const FormConfig = defineComponent({
 					/* 级联 */
 					case 'cascader':
 						const slots_cascader = {
-							default: optionSlot<{ data: any; node: any }>(ctx.slots, form.slotOption)
+							default: optionSlot<{ data: any; node: any }>(ctx.slots, form.slots?.option)
 						}
 						return (
 							<el-cascader
@@ -434,6 +434,7 @@ const FormConfig = defineComponent({
 								placeholder={_placeholder}
 								size={_size ?? size}
 								precision={form.precision || 0}
+								v-slots={formOthers?.slots}
 							/>
 						)
 					/* 日期选择(单日期 || 日期区间) */
@@ -525,7 +526,7 @@ const FormConfig = defineComponent({
 							const { span: _span, t_label, label, ...others } = form
 							const _label = t_label ? t(t_label) : label
 							const formItemSlots = {
-								label: get_formSlotLabel(ctx.slots, form.slotLabel)
+								label: get_formSlotLabel(ctx.slots, form.slots?.label)
 							}
 							return (
 								<el-col key={idx} span={_span ?? span}>

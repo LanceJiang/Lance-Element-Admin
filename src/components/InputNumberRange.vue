@@ -1,4 +1,4 @@
-<script lang="jsx">
+<script lang="tsx">
 // import { t } from 'lance-element-vue/src/locale'
 import {defineComponent, unref} from 'vue'
 import { useI18n } from 'vue-i18n'
