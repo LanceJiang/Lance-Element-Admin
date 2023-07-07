@@ -99,7 +99,8 @@ export const SearchForm = defineComponent({
 				return itemStyle + ((/width\:/g).test(itemStyle) ? '' : `;width:${defaultWidth}`)
 			}
 			const itemRender = (form, _label) => {
-				const { prop, itemType, itemWidth, options, change, itemStyle = '', placeholder,
+				// 申明: onChange 会导致(类input) change后触发两次(组件定义一次,原生change一次) 对组件定义进行过滤,仅留原生触发,组件触发onChange 用change 替代
+				const { prop, itemType, itemWidth, options, change, onChange, itemStyle = '', placeholder,
 					t_placeholder, ...formOthers } = form
 				const _options = options || []
 				const _itemStyle = itemStyle + (itemWidth ? `;width: ${itemWidth}` : '')

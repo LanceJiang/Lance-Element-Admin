@@ -9,7 +9,7 @@
 		</div>
 		<div class="common_title">le-form-config</div>
 		<div class="content">
-			<LeFormConfig ref="formRef" class="local_formConfig" :formData="formData" :forms="forms" :form-config="formConfig" @submit="formSubmit">
+			<LeFormConfig :isEdit="isEdit" ref="formRef" class="local_formConfig" :formData="formData" :forms="forms" :form-config="formConfig" @submit="formSubmit">
 				<template #leSelectSlot="{ item }">
 					<div style="background: #a0aab7">{{ item.le_label }} {{item}}</div>
 				</template>
@@ -96,13 +96,14 @@ export default defineComponent({
 			inputNumber: 22222222,
 			inputNumberRangeStart: 1,
 			inputNumberRangeEnd: 2,
+			inputNumberRange: [5, 30],
 			render: 'render',
 			others: 'others'
 		}
 		const forms = [
 			{
 				prop: 'leSelect', // 提交的 params 的字段
-				// label: 'leSelect', // label 标签
+				label: 'leSelect', // label 标签
 				itemType: 'leSelect', // form-item 类型
 				// labelKey: 'label_1',
 				// valueKey: 'value_1',
@@ -127,6 +128,13 @@ export default defineComponent({
 					const style = `color: #fff; background: #00f`
 					return <div style={style}>{item.le_label} ttt</div>
 				},
+				change(...args) {
+					console.warn(...args, 'leSelect.chang args')
+				},
+				// 原生方法 不建议使用
+				onChange(...args) {
+					console.log(args, '[原生方法 不建议使用]leSelect.onChange args')
+				},
 				// teleported: true
 				// change: methods.serviceChange
 			},
@@ -148,12 +156,12 @@ export default defineComponent({
 						trigger: 'blur'
 					}
 				],
-				onInput: e => {
-					console.error('onInput....', e)
+				onChange: e => {
+					console.error('自定义render 配置定义了onChange 会触发....', e)
 				},
 				render: (extendsParams) => {
 					const { form, params } = extendsParams
-					console.error(form, params, '///////////')
+					// console.error(form, params, '///////////')
 					return <div style="background: #f0f; display: flex; width: 100%;">
 						<el-input modelValue={params[form.prop]} onInput={e => (params[form.prop] = e)} placeholder="placeholder render" />
 						<span style="min-width: 130px;padding: 0 10px; text-align: center;"> -render, others -</span>
@@ -203,7 +211,14 @@ export default defineComponent({
 						// message: 'validate.validateEmptyTips',
 						trigger: ['change', 'blur']
 					}
-				]
+				],
+				change(...args) {
+					console.warn(...args, 'select.chang args')
+				},
+				// 原生方法 不建议使用
+				onChange(...args) {
+					console.log(args, '[原生方法 不建议使用]select.onChange args')
+				},
 				// change: methods.serviceChange
 			},
 			// radio
@@ -231,9 +246,16 @@ export default defineComponent({
 					{
 						required: true,
 						// message: 'validate.validateEmptyTips',
-						trigger: 'blur'
+						trigger: 'change'
 					}
-				]
+				],
+				change(...args) {
+					console.warn(...args, 'radio.chang args')
+				},
+				// 原生方法 不建议使用
+				onChange(...args) {
+					console.log(args, '[原生方法 不建议使用]radio.onChange args')
+				},
 			},
 			// cascader
 			{
@@ -280,6 +302,13 @@ export default defineComponent({
 				slotOption: ({node, data}) => {
 					return <div style="color: #f0f;"><le-icon iconClass="icon-logo"/>{data.label}</div>
 				},
+				change(...args) {
+					console.warn(...args, 'cascader.chang args')
+				},
+				// 原生方法 不建议使用
+				onChange(...args) {
+					console.log(args, '[原生方法 不建议使用]cascader.onChange args')
+				},
 				/*rules: [
 					{
 						required: true,
@@ -305,12 +334,29 @@ export default defineComponent({
 				prefixIcon: 'Http',
 				suffixIcon: '.com',
 				itemType: 'inputNumber',
+				// 原生方法 不建议使用
+				onChange(...args) {
+					console.log(args, '[原生方法 不建议使用]inputNumber.onChange args')
+				},
 				change(...args) {
-					console.error(...args, 'change...inputNumberinputNumberinputNumberinputNumberinputNumber')
+					// eg: formConfig: (value: number|null|undefined, options = [], params = {})
+					if(args.length === 3) {
+						const str = ['value', 'options', 'params'].map((k, i) => {
+							return `${k}: ${JSON.stringify(args[i])}`
+						}).join('\n\n')
+						return console.warn(str, '\n\nformConfig > inputNumber.change')
+					}
+					// eg: searchForm: (params = {}, options = [])
+					const str = ['params', 'options'].map((k, i) => {
+						return `${k}: ${JSON.stringify(args[i])}`
+					}).join('\n\n')
+					return console.warn(str, '\n\nsearchForm > inputNumber.change')
 				}
 			},
-			// inputNumberRange // todo 是否添加
+			// inputNumberRange
 			{
+				// leFormConfig 必传 prop且不读取 propStart 和 propEnd 传入[min, max]数组 eg: range: []
+				// leSearchFormConfig 默认通过 propStart 和 propEnd 两个字段拆分平放于params eg: params: {[inputNumberRange.propStart]:min, [inputNumberRange.propEnd]:max}
 				prop: 'inputNumberRange',
 				label: 'inputNumberRange',
 				/*inputNumberRangeStart: 1,
@@ -321,10 +367,24 @@ export default defineComponent({
 				// prefixIcon: 'Http://',
 				// suffixIcon: '.com',
 				itemType: 'inputNumberRange',
-				change(...args) {
-					console.error(...args, 'change...inputNumberinputNumberinputNumberinputNumberinputNumber')
+				// 原生方法 不建议使用
+				onChange(...args) {
+					console.log(args, '[原生方法 不建议使用]args.... inputNumberRange.onChange ')
 				},
-				// inputNumberRange 仅支持 validator 自定义
+				change(...args) {
+					// eg: formConfig: (value: [min, max], options = [], params = {}, propKey: 0|1)
+					if(args.length === 4) {
+						const str = ['value', 'options', 'params', 'propKey'].map((k, i) => {
+							return `${k}: ${JSON.stringify(args[i])}`
+						}).join('\n\n')
+						return console.warn(str, '\n\nformConfig > inputNumberRange.change')
+					}
+					// eg: searchForm: (params = {}, options = [], propKey: string)
+					const str = ['params', 'options', 'propKey'].map((k, i) => {
+						return `${k}: ${JSON.stringify(args[i])}`
+					}).join('\n\n')
+					return console.warn(str, '\n\nsearchForm > inputNumberRange.change')
+				},
 				rules: [
 					// validator value为[numberStart, numberEnd]
 					{
@@ -333,7 +393,7 @@ export default defineComponent({
 							if(start < 5 || !end) return callback('start 必须大于 5, end 必须有值')
 							callback()
 						},
-						trigger: 'blur'
+						trigger: ['blur', 'change']
 					}
 				]
 			},
@@ -345,7 +405,14 @@ export default defineComponent({
 				itemType: 'datePicker',
 				placeholder: '请输入date',
 				valueFormat: 'YYYY-MM-DD',
-				format: 'MM/DD/YYYY'
+				format: 'MM/DD/YYYY',
+				change(...args) {
+					console.warn(...args, 'datePicker[date].chang args')
+				},
+				// 原生方法 不建议使用
+				onChange(...args) {
+					console.log(args, '[原生方法 不建议使用]datePicker[date].onChange args')
+				},
 			},
 			// dateRange
 			{
@@ -357,12 +424,26 @@ export default defineComponent({
 				itemType: 'datePicker',
 				type: 'daterange',
 				valueFormat: 'YYYY-MM-DD',
-				format: 'MM/DD/YYYY'
+				format: 'MM/DD/YYYY',
+				change(...args) {
+					console.warn(...args, 'datePicker[daterange].chang args')
+				},
+				// 原生方法 不建议使用
+				onChange(...args) {
+					console.log(args, '[原生方法 不建议使用]datePicker[daterange].onChange args')
+				},
 			},
 			{
 				prop: 'switch',
 				label: 'switch',
-				itemType: 'switch'
+				itemType: 'switch',
+				change(...args) {
+					console.warn(...args, 'switch.chang args')
+				},
+				// 原生方法 不建议使用
+				onChange(...args) {
+					console.log(args, '[原生方法 不建议使用]switch.onChange args')
+				},
 				// checkedChildren: '开',
 				// unCheckedChildren: '关'
 			},
@@ -370,13 +451,26 @@ export default defineComponent({
 				prop: 'input',
 				label: 'input',
 				itemType: 'input',
-				// 都会被加载
-				onChange: e => {
-					console.error(e, 'onChange  onChange')
+				change(...args) {
+					// eg: formConfig: (value: string|undefined, options = [], params = {})
+					if(args.length === 3) {
+						const str = ['value', 'options', 'params'].map((k, i) => {
+							return `${k}: ${JSON.stringify(args[i])}`
+						}).join('\n\n')
+						return console.warn(str, '\n\nformConfig > input.change')
+					}
+					// eg: searchForm: (params = {}, options = [])
+					const str = ['params', 'options'].map((k, i) => {
+						return `${k}: ${JSON.stringify(args[i])}`
+					}).join('\n\n')
+					return console.warn(str, '\n\nsearchForm > input.change')
+
 				},
-				change(value, options, params) {
-					console.warn(value, options, params, 'value, options, params')
-				}
+				// 原生方法 不建议使用
+				onChange(...args) {
+					console.log(args, '[原生方法 不建议使用]input.onChange  args')
+				},
+
 				// onFocus: e => {
 				// 	console.error(e, 'onFocus  onFocus')
 				// },
@@ -386,6 +480,7 @@ export default defineComponent({
 			}
 		]
 		const state = reactive({
+			isEdit: true,
 			numberRangeForm: {
 				prop: 'inputNumberRange',
 				label: 'inputNumberRange',
@@ -466,6 +561,8 @@ export default defineComponent({
 				})
 			},
 			resetDataHandler() {
+				// state.isEdit = !state.isEdit
+				// window.test_formRef = formRef
 				formRef.value!.resetHandler()
 			},
 			serviceChange(value, options, params) {

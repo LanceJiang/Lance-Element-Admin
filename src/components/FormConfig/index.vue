@@ -285,6 +285,8 @@ const FormConfig = defineComponent({
 					itemWidth,
 					options,
 					change,
+					// 申明: onChange 会导致(类input) change后触发两次(组件定义一次,原生change一次) 对组件定义进行过滤,仅留原生触发,组件触发onChange 用change 替代
+					onChange,
 					itemStyle: form_itemStyle = '',
 					itemClass,
 					size: _size,
