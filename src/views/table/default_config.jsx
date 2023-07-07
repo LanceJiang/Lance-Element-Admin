@@ -7,10 +7,11 @@ const tPrefix = 'example.table.'
 
 /**
  *  不同组件下配置的区别
- *  leTable slots.default: ({row, column, (index...)}, h){ return <element> } 为方便 le(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
- *  leVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}, h){ return [<element>]}
+ *  leTable slots.default: ({row, column, (index...)}){ return <element> } 为方便 le(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
+ *  leVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}){ return [<element>]}
  */
-const slot_user = (scope, h) => {
+const slot_user = (scope) => {
+	console.error('slot_user', scope)
 	// $rowIndex 指 vxeTable Cell  $index 指 elTable Cell
 	// if (scope.$rowIndex === 0 || scope.$index === 0) console.error(scope, 'slot_user scope 第一条数据') // todo
 	const { row, column } = scope
@@ -68,8 +69,8 @@ export const columns = [
 		slots: {
 			/**
 			 *  不同组件下配置的区别
-			 *  leTable slots.default: ({row, column, (index...)}, h){ return [<element>] || <element> } 为方便 le(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
-			 *  leVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}, h){ return [<element>]}
+			 *  leTable slots.default: ({row, column, (index...)}){ return [<element>] || <element> } 为方便 le(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
+			 *  leVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}){ return [<element>]}
 			 */
 			// default: ''
 		},
@@ -141,16 +142,16 @@ export const tabs_filterParams = {
 	// others: '',
 	// pattern: 'input 搜索',
 	// input: 'testInput',
-	// adSelect: '选项1',
-	// adSelectMore: '选项2',
-	// adSelectMultiple: ['选项3'],
-	// adSelectMultipleMore: ['选项4'],
+	// leSelect: '选项1',
+	// leSelectMore: '选项2',
+	// leSelectMultiple: ['选项3'],
+	// leSelectMultipleMore: ['选项4'],
 	// radio: 0,
 	// inputMore: 'inputMore_init',
 	// dateRange: ['11/10/2022', '11/25/2022'],
 	// dateRangeMore: [],
 	// datePickerMore: '11/25/2022',
-	// adSelect_icon: 3
+	// leSelect_icon: 3
 	// // datePickerMore: '2022-11-25'
 	// // inputNumber: undefined
 }
@@ -179,20 +180,20 @@ export const get_tabs_filterForms = () => [
 	{
 		// visible: true, // 只要不为false 就是 展示
 		// isMore: true, // 只要不为true 就是 默认展示
-		prop: 'adSelect_icon', // 提交的 params 的字段
-		label: 'adSelect_icon', // label 标签
-		itemType: 'adSelect', // form-item 类型
+		prop: 'leSelect_icon', // 提交的 params 的字段
+		label: 'leSelect_icon', // label 标签
+		itemType: 'leSelect', // form-item 类型
 		options: iconOptions,
-		slotOption(h, { option, label }) {
+		slotOption({ option, label }) {
 			// console.error(option, label, 'option, label')
 			const style = `color: ${option.color}`
 			return <le-icon icon-class={option.icon} style={style}></le-icon>
 		},
 		// 渲染选中的特殊展示
-		tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
+		tagRender({ searchParams, transLabel, deleteFn, isMore }) {
 			// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
 			// 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
-			const iconValue = searchParams['adSelect_icon']
+			const iconValue = searchParams['leSelect_icon']
 			let showValue = ''
 			let tag = ''
 			if (iconValue) {
@@ -226,68 +227,68 @@ export const get_tabs_filterForms = () => [
 	{
 		// visible: true, // 只要不为false 就是 展示
 		// isMore: true, // 只要不为true 就是 默认展示
-		prop: 'adSelect', // 提交的 params 的字段
-		label: 'adSelect', // label 标签
-		itemType: 'adSelect', // form-item 类型
+		prop: 'leSelect', // 提交的 params 的字段
+		label: 'leSelect', // label 标签
+		itemType: 'leSelect', // form-item 类型
 		labelKey: 'label_1',
 		valueKey: 'value_1',
 		options: Array.from({ length: 20 }).map((_, i) => {
 			return {
 				value_1: '选项' + i,
-				label_1: 'adSelect单选' + i
+				label_1: 'leSelect单选' + i
 			}
 		}),
 		// slot template（$scopedSlots）  方式1
-		slotOption: 'adSelectSlot'
+		slotOption: 'leSelectSlot'
 		// slot function 方式2
-		// slotOption(h, { option, label }) {
+		// slotOption({ option, label }) {
 		//   return label + '_____'
 		// }
 	},
 	{
 		// visible: true, // 只要不为false 就是 展示
 		isMore: true, // 只要不为true 就是 默认展示
-		prop: 'adSelectMore', // 提交的 params 的字段
-		label: 'adSelectMore', // label 标签
-		itemType: 'adSelect', // form-item 类型
+		prop: 'leSelectMore', // 提交的 params 的字段
+		label: 'leSelectMore', // label 标签
+		itemType: 'leSelect', // form-item 类型
 		labelKey: 'label_1',
 		valueKey: 'value_1',
 		options: Array.from({ length: 20 }).map((_, i) => {
 			return {
 				value_1: '选项' + i,
-				label_1: 'adSelectMore单选' + i
+				label_1: 'leSelectMore单选' + i
 			}
 		})
 	},
 	{
 		// visible: true, // 只要不为false 就是 展示
 		// isMore: true, // 只要不为true 就是 默认展示
-		prop: 'adSelectMultiple', // 提交的 params 的字段
-		label: 'adSelectMultiple', // label 标签
-		itemType: 'adSelect', // form-item 类型
+		prop: 'leSelectMultiple', // 提交的 params 的字段
+		label: 'leSelectMultiple', // label 标签
+		itemType: 'leSelect', // form-item 类型
 		multiple: true,
 		labelKey: 'label_1',
 		valueKey: 'value_1',
 		options: Array.from({ length: 20 }).map((_, i) => {
 			return {
 				value_1: '选项' + i,
-				label_1: 'adSelect多选' + i
+				label_1: 'leSelect多选' + i
 			}
 		})
 	},
 	{
 		// visible: true, // 只要不为false 就是 展示
 		isMore: true, // 只要不为true 就是 默认展示
-		prop: 'adSelectMultipleMore', // 提交的 params 的字段
-		label: 'adSelectMultipleMore', // label 标签
-		itemType: 'adSelect', // form-item 类型
+		prop: 'leSelectMultipleMore', // 提交的 params 的字段
+		label: 'leSelectMultipleMore', // label 标签
+		itemType: 'leSelect', // form-item 类型
 		multiple: true,
 		labelKey: 'label_1',
 		valueKey: 'value_1',
 		options: Array.from({ length: 20 }).map((_, i) => {
 			return {
 				value_1: '选项' + i,
-				label_1: 'adSelectMore多选' + i
+				label_1: 'leSelectMore多选' + i
 			}
 		})
 	},
@@ -337,8 +338,8 @@ export const get_tabs_filterForms = () => [
 		prop: 'inputNumber', // 提交的 params 的字段
 		label: 'inputNumber', // label 标签
 		itemType: 'inputNumber', // form-item 类型
-		prefix: '展示前缀',
-		suffix: '展示后缀',
+		prefixIcon: '展示前缀',
+		suffixIcon: '展示后缀',
 		change: val => {
 			console.log('inputNumber   change.....', val)
 		}
@@ -365,7 +366,7 @@ export const get_tabs_filterForms = () => [
 		prop: 'radio',
 		label: 'radio',
 		itemType: 'radio',
-		// itemType: 'adSelect', // form-item 类型
+		// itemType: 'leSelect', // form-item 类型
 		// filterable: true,
 		// multiple: true,
 		options: [
@@ -396,7 +397,8 @@ export const get_tabs_filterForms = () => [
 		prop: 'render',
 		label: '自定义Render',
 		itemType: 'render',
-		render: (h, extendsParams) => {
+		render: (extendsParams) => {
+			console.error(extendsParams, 'extendsParams')
 			const { form, params } = extendsParams
 			// console.error(params, 'params')
 			return (
@@ -406,7 +408,7 @@ export const get_tabs_filterForms = () => [
 				</div>
 			)
 		},
-		tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
+		tagRender({ searchParams, transLabel, deleteFn, isMore }) {
 			// 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
 			// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
 			const render = searchParams['render'] || ''
@@ -475,7 +477,7 @@ export const tableBaseMixin = {
 				// showIndex: true,
 				multipleSelect: true
 			},
-			dropdownList: ['save', 'cancel'],
+			dropdownList: ['save', 'others'],
 			// 列配置对象
 			tabs_columnsConfig: {
 				// 所有的 columns 配置
@@ -499,7 +501,7 @@ export const tableBaseMixin = {
 					],
 					is_hide: true
 				},
-				// 不需要 可以通过adSelect 进行 平替
+				// 不需要 可以通过leSelect 进行 平替
 				{
 					label: 'Checkbox',
 					key: 'Checkbox',

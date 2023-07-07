@@ -13,32 +13,9 @@
 		>
 			<!--			@update:checkedOptions="tabs_updateCheckedColumns"-->
 			<template #toolLeft>
-				<div class="buttons">
-					<template v-if="true">
-						<el-tooltip placement="top" content="CreateBatchTip">
-							<el-button type="primary" :class="{ 'is-disabled_test': true }">
-								{{ $t('le.btn.add') }}
-							</el-button>
-						</el-tooltip>
-						<el-button style="margin-right: 10px">
-							{{ $t('le.btn.deleteView') }}
-						</el-button>
-					</template>
-					<!--          :disabled="!selectList.length"-->
-					<el-dropdown>
-						<el-button>
-							{{ $t('le.btn.confirm') }}
-							<i class="el-icon-arrow-down el-icon--right"></i>
-						</el-button>
-						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item v-for="v of dropdownList" :key="v" :command="v">
-								{{ $t(`le.btn.${v}`) }}
-							</el-dropdown-item>
-						</el-dropdown-menu>
-					</el-dropdown>
-				</div>
+				<h3 style="line-height: 36px">Table表格示例</h3>
 				<!--        <LeSearchGroup/>-->
-				<!--				<le-search-group
+				<!--<le-search-group
 					class="local_search-group-wrap"
 					:forms="tabs_filterForms"
 					v-model="tabs_filterParams"
@@ -58,35 +35,36 @@
 							<i slot="suffix" class="el-input__icon el-icon-search" @click="updateParams"/>
 						</el-input>
 					</template>
-					<template #adSelectSlot="{option, label}">
+					<template #leSelectSlot="{option, label}">
 						<div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
 					</template>
 				</le-search-group>-->
 			</template>
-			<template #top2222>
+			<template #top>
 				<!-- 按钮集合 -->
 				<div class="le-button-wrap">
 					<template v-if="true">
 						<el-tooltip placement="top" content="CreateBatchTip">
 							<el-button type="primary" :class="{ 'is-disabled_test': true }">
-								{{ $t('outboundOrder.btn.CreateBatch') }}
+								{{ $t('example.btn.createBatch') }}
 							</el-button>
 						</el-tooltip>
 						<el-button style="margin-right: 10px">
-							{{ $t('outboundOrder.btn.BulkPicking') }}
+							{{ $t('example.btn.bulkPicking') }}
 						</el-button>
 					</template>
-					<!--          :disabled="!selectList.length"-->
+					<!-- :disabled="!selectList.length"-->
 					<el-dropdown>
 						<el-button>
-							{{ $t('outboundOrder.btn.Print') }}
-							<i class="el-icon-arrow-down el-icon--right"></i>
+							{{ $t('example.btn.print') }}
 						</el-button>
-						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item v-for="v of dropdownList" :key="v" :command="v">
-								{{ $t(`outboundOrder.btn.${v}`) }}
-							</el-dropdown-item>
-						</el-dropdown-menu>
+						<template #dropdown>
+							<el-dropdown-menu>
+								<el-dropdown-item v-for="v of dropdownList" :key="v" :command="v">
+									{{ $t(`example.btn.${v}`) }}
+								</el-dropdown-item>
+							</el-dropdown-menu>
+						</template>
 					</el-dropdown>
 				</div>
 			</template>
@@ -159,25 +137,19 @@ export default {
 		border-radius: 0;
 	}
 
-	// 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整1 eg:
-	/*&::v-deep {
-		.le-column-wrap {
-			display: none;
-		}
+	/*// 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整1 eg:
+	:deep(.icon-button.button-column) {
+		display: none;
 	}*/
 }
 
-.local_search-group-wrap ::v-deep {
+/*:deep(.local_search-group-wrap) {
 	// 若因调整 toolRight 导致宽度 不为96px 时 需要做调整 调整2 eg:
-	/*.tags-wrap {
+	.tags-wrap {
 		margin-right: 48px;
 	}
 	.le-search-group-tags .tags-action {
 		right: -48px;
-	}*/
-}
-
-.le-button-wrap {
-	padding-bottom: 12px;
-}
+	}
+}*/
 </style>

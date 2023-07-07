@@ -274,13 +274,13 @@ const formOptions = ref({
 			label: 'leSelect_icon', // label 标签
 			itemType: 'leSelect', // form-item 类型
 			options: iconOptions,
-			slotOption(h, { option, label }) {
+			slotOption({ option, label }) {
 				// console.error(option, label, 'option, label')
 				const style = `color: ${option.color}`
 				return <le-icon icon-class={option.icon} style={style}></le-icon>
 			},
 			// 渲染选中的特殊展示
-			tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
+			tagRender({ searchParams, transLabel, deleteFn, isMore }) {
 				// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
 				// 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
 				const iconValue = searchParams['leSelect_icon']
@@ -313,12 +313,12 @@ const formOptions = ref({
 			itemType: 'leSelect', // form-item 类型
 			multiple: true,
 			options: iconOptions,
-			slotOption(h, { option, label }) {
+			slotOption({ option, label }) {
 				const style = `color: ${option.color}`
 				return <le-icon icon-class={option.icon} style={style}></le-icon>
 			},
 			// 渲染选中的特殊展示
-			tagRender(h, { searchParams, transLabel, deleteFn, isMore }) {
+			tagRender({ searchParams, transLabel, deleteFn, isMore }) {
 				// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
 				// 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
 				const iconValue = searchParams['leSelectMultipleMore_icon']
@@ -415,7 +415,7 @@ const formOptions = ref({
 			// change(...args) {
 			//   console.error(...args, 'change...')
 			// },
-			// render: (h, extendsParams) => {
+			// render: (extendsParams) => {
 			//   const { form, params } = extendsParams
 			//   return <a-input v-model={params[form.prop]} placeholder="placeholder test... 666"/>
 			// } // todo....

@@ -43,6 +43,13 @@ export default {
 			store: '店铺',
 			action: '操作'
 		},
+		btn: {
+			createBatch: '创建批处理',
+			bulkPicking: '批量拣货',
+			print: '打印',
+			save: '保存',
+			others: '其他'
+		},
 		validate: {
 			validateEmptyTips: '{name}不能为空'
 		},

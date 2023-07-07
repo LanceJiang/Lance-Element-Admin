@@ -44,6 +44,13 @@ export default {
 			store: 'Store',
 			action: 'Action'
 		},
+		btn: {
+			createBatch: 'Create Batch',
+			bulkPicking: 'Bulk Picking',
+			print: 'Print',
+			save: 'Print And Save',
+			others: 'Others'
+		},
 		validate: {
 			validateEmptyTips: '{name} is required'
 		},

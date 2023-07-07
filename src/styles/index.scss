@@ -125,3 +125,7 @@ div:focus {
 .text-overflow_ellipsis_line_2 {
 	@include text-overflow_ellipsis_line;
 }
+// table下 按钮集合的外壳样式
+.#{$prefix}button-wrap {
+	padding-bottom: 12px;
+}
