@@ -116,18 +116,32 @@ export default defineComponent({
 						label: '黄金糕' + i
 					}
 				}),
-				// label template 支持
+				slots: {
+					// label template 支持
+					// label: 'leSelect_label',
+					// label render 支持
+					label({ label }) {
+						return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ label }</span></span>
+					},
+					// option: 'leSelectSlot',
+					// option({ value, label, disabled }) { // select 类型处理
+					option({ item, index, disabled }){ // leSelect (基于el-select-v2 二开)
+						const style = `color: #fff; background: #00f`
+						return <div style={style}>{item.le_label} ttt</div>
+					},
+				},
+				/*// label template 支持
 				// slotLabel: 'leSelect_label',
 				// label render 支持
 				slotLabel({ label }) {
 					return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ label }</span></span>
-				},
-				// slotOption: 'leSelectSlot',
+				},*/
+				/*// slotOption: 'leSelectSlot',
 				// slotOption({ value, label, disabled }) { // select 类型处理
 				slotOption({ item, index, disabled }){ // leSelect (基于el-select-v2 二开)
 					const style = `color: #fff; background: #00f`
 					return <div style={style}>{item.le_label} ttt</div>
-				},
+				},*/
 				change(...args) {
 					console.warn(...args, 'leSelect.chang args')
 				},
@@ -176,16 +190,24 @@ export default defineComponent({
 				// label: 'test1_select',
 				// 多语言自动切换
 				t_label: `${prefix}test1_select`,
-				slotLabel: 'leSelect_label',
-				// // render fn 支持
-				/*slotLabel({ label }) {
-					// console.log(label, '//// args slotLabel 带 {label} 参数')
-					return (
-						<span style="background: #f00;display: flex">
-							label custom: fn<span style="margin-left: auto; background: #0f0">{label}</span>
-						</span>
-					)
-				},*/
+				slots: {
+					label: 'leSelect_label',
+					// // render fn 支持
+					/*label({ label }) {
+						// console.log(label, '带 {label} 参数')
+						return (
+							<span style="background: #f00;display: flex">
+								label custom: fn<span style="margin-left: auto; background: #0f0">{label}</span>
+							</span>
+						)
+					},*/
+					option({ value, label, disabled }) {
+						// console.warn(value, label, 'value, label, disabled', disabled)
+						const style = `color: red`
+						return <div style={style}>{label}</div>
+					},
+					// option: 'selectSlot',
+				},
 				itemType: 'select',
 				disabled: false,
 				// valueKey: 'value', // 默认
@@ -199,12 +221,6 @@ export default defineComponent({
 					label: `test1_LABEL_${i}`,
 					value: `test1_${i}`
 				})),
-				slotOption({ value, label, disabled }) {
-					// console.warn(value, label, 'value, label, disabled', disabled)
-					const style = `color: red`
-					return <div style={style}>{label}</div>
-				},
-				// slotOption: 'selectSlot',
 				rules: [
 					{
 						required: true,
@@ -237,10 +253,12 @@ export default defineComponent({
 					{ valueX: 'Y', labelX: 'radio1' },
 					{ valueX: 'N', labelX: 'radio2' }
 				],
-				slotOption({ value, label, disabled }) {
-					// console.warn(value, label, 'value, label, disabled', disabled)
-					const style = `color: red`
-					return <div style={style}><le-icon iconClass="le-review"/>{label} <le-icon iconClass="icon-logo"/>	</div>
+				slots: {
+					option({ value, label, disabled }) {
+						// console.warn(value, label, 'value, label, disabled', disabled)
+						const style = `color: red`
+						return <div style={style}><le-icon iconClass="le-review"/>{label} <le-icon iconClass="icon-logo"/>	</div>
+					},
 				},
 				rules: [
 					{
@@ -298,9 +316,11 @@ export default defineComponent({
 						]
 					}
 				],
-				// // slotOption: 'cascaderSelectSlot',
-				slotOption: ({node, data}) => {
-					return <div style="color: #f0f;"><le-icon iconClass="icon-logo"/>{data.label}</div>
+				slots: {
+					// // option: 'cascaderSelectSlot',
+					option: ({node, data}) => {
+						return <div style="color: #f0f;"><le-icon iconClass="icon-logo"/>{data.label}</div>
+					},
 				},
 				change(...args) {
 					console.warn(...args, 'cascader.chang args')
@@ -326,10 +346,10 @@ export default defineComponent({
 				prop: 'inputNumber',
 				label: 'inputNumber',
 				itemStyle: 'min-width: 200px',
-				/* slots: {
+			  slots: {
 					prefix: () => <span class="le-addon le-input-number__prefix" style="background: #0f0;">prefix</span>,
-					suffix: () => <span class="le-addon le-input-number__suffix" style="background: #0f0; height: 45px;">suffix</span>
-				},*/
+					suffix: () => <span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">suffix</span>
+				},
 				// t_label: `${prefix}test5`,
 				prefixIcon: 'Http',
 				suffixIcon: '.com',
@@ -366,6 +386,12 @@ export default defineComponent({
 				// append: 'Append',
 				// prefixIcon: 'Http://',
 				// suffixIcon: '.com',
+				slots: {
+					prepend: () => <span class="le-addon le-input-number__prefix" style="background: yellow;">prepend</span>,
+					append: () => <span class="le-addon le-input-number__prefix" style="background: yellow;">append</span>,
+					prefix: () => <span class="le-addon le-input-number__prefix" style="background: #0f0;">prefix</span>,
+					suffix: () => <span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">suffix</span>
+				},
 				itemType: 'inputNumberRange',
 				// 原生方法 不建议使用
 				onChange(...args) {
@@ -481,19 +507,6 @@ export default defineComponent({
 		]
 		const state = reactive({
 			isEdit: true,
-			numberRangeForm: {
-				prop: 'inputNumberRange',
-				label: 'inputNumberRange',
-				// // t_label: `${prefix}test5`,
-				// prepend: 'Prepend',
-				// append: 'Append',
-				prefixIcon: 'Http://',
-				suffixIcon: '.com',
-				itemType: 'inputNumberRange',
-				change(...args) {
-					console.error(...args, 'change...inputNumberinputNumberinputNumberinputNumberinputNumber')
-				}
-			},
 			formData,
 			searchParams: JSON.parse(JSON.stringify(formData)),
 			forms,

@@ -14,8 +14,8 @@
 		<div>-------LeInputNumberRange--------</div>
 		{{ numberRangeParams }}<br />
 		<LeInputNumberRange v-model="numberRangeParams" v-bind="numberRangeForm" style="width: 500px">
-			<!--        <template slot="prepend"><span class="le-input-number-range_addon local_prepend" style="background: #0f0;">prepend</span></template>-->
-			<template slot="append"><span class="le-input-number-range_addon local_append" style="background: #f00">append</span></template>
+<!--			<template #prepend><span class="le-input-number-range_addon local_prepend" style="background: #0f0;">prepend</span></template>-->
+			<template #append><span class="le-input-number-range_addon local_append" style="background: #f00">append</span></template>
 		</LeInputNumberRange>
 	</div>
 </template>
