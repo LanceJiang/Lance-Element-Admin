@@ -10,8 +10,9 @@
 					class="local_chartWrap"
 					ref="chartRef"
 					:loading="chartLoading"
+					:showChart="showChart"
 					:option="chartOption"
-					height="600px"
+					:height="height"
 					label_topLeft="label_topLeft"
 					label_topRight="label_topRight"
 					label_bottomLeft="label_bottomLeft"
@@ -19,7 +20,7 @@
 				/>
 			</el-col>
 			<el-col :sm="24" :lg="8" class="card-panel__col">
-				<LeChart :loading="chartLoading2" :option="chartOption2" height="400px" />
+				<LeChart :loading="chartLoading2" isInitOption :option="chartOption2" height="400px" />
 			</el-col>
 		</el-row>
 	</div>
@@ -28,7 +29,7 @@
 <script setup name="dashboard" lang="ts">
 // 组件引用
 import BarChart from './components/Chart/BarChart.vue'
-import LeChart from '@/components/Chart.vue'
+// import LeChart from '@/components/Chart.vue'
 import { reactive, ref, toRefs } from 'vue'
 import * as echarts from 'echarts'
 
@@ -142,21 +143,78 @@ const getChartData = () => ({
 		}
 	]
 })
+const getChartData2 = () => ({
+	title: {
+		show: true,
+		text: '产品分类总览',
+		x: 'center',
+		padding: 15,
+		textStyle: {
+			fontSize: 18,
+			fontStyle: 'normal',
+			fontWeight: 'bold',
+			color: '#337ecc'
+		}
+	},
+	grid: {
+		left: '2%',
+		right: '2%',
+		bottom: '10%',
+		containLabel: true
+	},
+	legend: {
+		top: 'bottom'
+	},
+	series: [
+		{
+			name: 'Nightingale Chart',
+			type: 'pie',
+			radius: [50, 130],
+			center: ['50%', '50%'],
+			roseType: 'area',
+			itemStyle: {
+				borderRadius: 6,
+				normal: {
+					color: function (params: any) {
+						//自定义颜色
+						const colorList = ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C']
+						return colorList[params.dataIndex]
+					}
+				}
+			},
+			data: [
+				{ value: 26, name: '家用电器' },
+				{ value: 27, name: '户外运动' },
+				{ value: 24, name: '汽车用品' },
+				{ value: 23, name: '手机数码' }
+			]
+		}
+	]
+})
 const chartRef = ref()
+window.chartRef = chartRef
 const state = reactive({
 	chartLoading: false,
 	chartOption: {},
+	showChart: true,
+	width: '100%',
+	height: '600px',
 	chartLoading2: false,
-	chartOption2: {}
+	chartOption2: getChartData2(),
 	/*chartOption: getChartData()*/
 })
-const { chartLoading, chartOption, chartLoading2, chartOption2 } = toRefs(state)
+const { chartLoading, chartOption, width, height, showChart, chartLoading2, chartOption2 } = toRefs(state)
+window.test_showChart = () => (showChart.value = !showChart.value)
+window.test_localStyle = (width_ = '100%', height_ = '600px') => {
+	width.value = width_
+	height.value = height_
+}
 // lineChart
 new Promise(resolve => {
 	state.chartLoading = true
 	setTimeout(() => {
 		resolve(getChartData())
-	}, 500)
+	}, 1000)
 }).then((res: any) => {
 	console.error(res, 'res////////')
 	state.chartOption = res
@@ -165,58 +223,12 @@ new Promise(resolve => {
 	//   state.chartLoading = false
 	// }, 50)
 })
+
 // pieChart
 new Promise(resolve => {
 	state.chartLoading2 = true
 	setTimeout(() => {
-		resolve({
-			title: {
-				show: true,
-				text: '产品分类总览',
-				x: 'center',
-				padding: 15,
-				textStyle: {
-					fontSize: 18,
-					fontStyle: 'normal',
-					fontWeight: 'bold',
-					color: '#337ecc'
-				}
-			},
-			grid: {
-				left: '2%',
-				right: '2%',
-				bottom: '10%',
-				containLabel: true
-			},
-			legend: {
-				top: 'bottom'
-			},
-			series: [
-				{
-					name: 'Nightingale Chart',
-					type: 'pie',
-					radius: [50, 130],
-					center: ['50%', '50%'],
-					roseType: 'area',
-					itemStyle: {
-						borderRadius: 6,
-						normal: {
-							color: function (params: any) {
-								//自定义颜色
-								const colorList = ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C']
-								return colorList[params.dataIndex]
-							}
-						}
-					},
-					data: [
-						{ value: 26, name: '家用电器' },
-						{ value: 27, name: '户外运动' },
-						{ value: 24, name: '汽车用品' },
-						{ value: 23, name: '手机数码' }
-					]
-				}
-			]
-		})
+		resolve(getChartData2())
 	}, 500)
 }).then((res: any) => {
 	console.error(res, 'pieChart res////////')
