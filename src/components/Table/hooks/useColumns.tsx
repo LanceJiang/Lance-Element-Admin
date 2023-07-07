@@ -1,4 +1,4 @@
-import type { LeTableColumnProps, LeTableOptions, LeTableProps, LeSlots } from '../index.d'
+import type { LeTableColumnProps, LeTableOptions, LeTableProps, LeColumnSlots } from '../index.d'
 import { ComputedRef, Slots, computed, Ref, unref, watch, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getPropValue, $log } from '@/utils'
@@ -59,7 +59,7 @@ const slotDefault = ({ row, column, $index }: any) => {
 // console.error(import.meta.env, 'import.meta.env')
 const setSlotFn = (() => {
 	return import.meta.env.DEV
-		? (le_slots: LeSlots, type: string, fn: () => void | any, _slotName: string) => {
+		? (le_slots: LeColumnSlots, type: string, fn: () => void | any, _slotName: string) => {
 				if (!fn) {
 					$log(`当前定义的 slots:${type} [${_slotName}] 没有设置`, 'warning', 'orange')
 				}
@@ -70,7 +70,7 @@ const setSlotFn = (() => {
 		  }
 })()
 const columnSlots = (column: LeTableColumnProps & { titleHelp: any; slots: any }, $slots: Slots) => {
-	const local_slots: LeSlots = {
+	const local_slots: LeColumnSlots = {
 		// default: slotDefault(column)
 		default: slotDefault
 	}
@@ -95,7 +95,7 @@ const columnSlots = (column: LeTableColumnProps & { titleHelp: any; slots: any }
 
 	return local_slots
 }
-type local_columnProps = LeTableColumnProps & { le_children: any[]; le_slots: LeSlots }
+type local_columnProps = LeTableColumnProps & { le_children: any[]; le_slots: LeColumnSlots }
 export type useColumnsOpts = {
 	propsRef: ComputedRef<LeTableProps>
 	computedOptions: ComputedRef<LeTableOptions>

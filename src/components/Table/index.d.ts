@@ -1,15 +1,17 @@
 import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/lib/components/table'
 // import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/es/components/table'
 
-export type LeSlots = {
-	default?: (scope: Record<string, any>) => any | string
-	header?: (scope: Record<string, any>) => any | string
+export type LeColumnSlots = {
+	// default?: (scope: Record<string, any>) => any | string
+	// header?: (scope: Record<string, any>) => any | string
+	default?: (scope: { row, column, $index }) => any | string
+	header?: (scope: { column, $index }) => any | string
 }
 export type LeColumnProps = {
 	// 多语言label转义字符
 	t_label: string
 	// 插槽
-	slots?: LeSlots
+	slots?: LeColumnSlots
 	// 多级表头
 	children?: LeTableColumnProps[]
 }
