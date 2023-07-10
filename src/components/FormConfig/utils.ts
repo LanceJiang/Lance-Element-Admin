@@ -21,15 +21,15 @@ export const getOptions = (options: any[], form: LeFormItem) => options.map((opt
  *  自定义 Option 渲染
  */
 export const renderOption = function (
-	slots: Slots,
+	// slots: Slots,
 	slotOption: SlotOption<ObjectOpts>,
 	option: ObjectOpts
 ) {
 	if (slotOption) {
 		let scopedSlots_option = slotOption
-		if (typeof slotOption === 'string') {
-			scopedSlots_option = slots[slotOption]
-		}
+		// if (typeof slotOption === 'string') {
+		// 	scopedSlots_option = slots[slotOption]
+		// }
 		if (typeof scopedSlots_option === 'function') {
 			/*const args = [
 				option
@@ -59,4 +59,23 @@ export const get_formSlotLabel = (slots: Slots, slotLabel: SlotOption<{ label: s
 	if (typeof scopedSlots_option === 'function') {
 		return scopedSlots_option
 	}
+}
+// 获取formItem label
+export const get_formSlots = (vSlots: Slots, slotConfig: ObjectOpts) => {
+	const slots_key = Object.keys(slotConfig || {})
+	if (!slots_key.length) {
+		return {}
+	}
+	const getSlot = slot => {
+		switch (typeof slot) {
+			case 'string':
+				return vSlots[slot]
+			case 'function':
+				return slot
+		}
+	}
+	return slots_key.reduce((obj, key) => {
+		obj[key] = getSlot(slotConfig[key])
+		return obj
+	}, {})
 }
