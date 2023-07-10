@@ -1,12 +1,18 @@
 <script lang="tsx">
 // import { t } from 'lance-element-vue/src/locale'
-import {defineComponent, unref} from 'vue'
+import { defineComponent, unref, ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import InputNumber from './InputNumber.vue'
-import {useFormSize} from "element-plus";
+import { useFormSize } from 'element-plus'
+// import { getPropValue, /*$log*/ } from '@/utils'
+
 export default defineComponent({
 	name: 'LeInputNumberRange',
-	emits: ['update:modelValue', 'blur', 'change'],
+	emits: {
+		'update:modelValue': (value: [] | {[prop: string]: any}) => true,
+		'blur': (e: Event) => true,
+		'change': (value: number|null|undefined, local_propEnd: string) => true
+	},
 	components: {
 		InputNumber
 	},
@@ -59,127 +65,101 @@ export default defineComponent({
 			type: String,
 			default: '100px'
 		}
-		/*
-		// 前置展示
-		prependVisible: {
-			type: Boolean,
-			default: true
-		},
-		// 后置展示
-		appendVisible: {
-			type: Boolean,
-			default: true
-		} */
 	},
-	render() {
-		const { t } = useI18n()
-		const { prepend, append, controlsPosition, min, max, size, ...props } = this.$attrs
-		const { modelValue, placeholderStart, placeholderEnd, precision, local_propStart, local_propEnd, localStyle } = this
+	setup(props, { attrs, slots, emit }) {
+		const { t, te } = useI18n()
+		const { prepend, append, controlsPosition, min, max, size, ...others } = attrs
 		const _controlsPosition = controlsPosition ?? 'right'
-		const { prepend: slot_prepend, append: slot_append, ...childSlots } = this.$slots
+		const { prepend: slot_prepend, append: slot_append, ...childSlots } = slots
 		const inputNumberSize = size || unref(useFormSize())
+		const placeholderStart = te(props.placeholderStart) ? t(props.placeholderStart) : props.placeholderStart
+		const placeholderEnd = te(props.placeholderEnd) ? t(props.placeholderEnd) : props.placeholderEnd
 
 		const _prepend = prepend ? <span class="le-input-number-range_addon prepend">{prepend}</span> : ''
 		const _append = append ? <span class="le-input-number-range_addon append">{append}</span> : ''
-		return (
-			<div class={`le-input-number-range le-input-number-range--${inputNumberSize}`}>
+		const localStyle = computed(() => {
+			let _styles = props.itemStyle
+			if (props.itemWidth) _styles += `;width: ${props.itemWidth};`
+			return _styles
+		})
+		const propStart = computed(() => {
+			if (props.isValueArray) return 0
+			return props.propStart || `${props.prop}Start`
+		})
+		const propEnd = computed(() => {
+			if (props.isValueArray) return 1
+			return props.propEnd || `${props.prop}End`
+		})
+		const localModelValue = computed({
+			get() {
+				// console.error('localModelValue get', props.modelValue, props.prop, props.isValueArray)
+				if (props.isValueArray) {
+					if (Array.isArray(props.modelValue)) {
+						return props.modelValue
+					}
+					emit('update:modelValue', [])
+					return []
+				}
+				const val = props.modelValue
+				if(!val) {
+					emit('update:modelValue', {})
+					return {}
+				}
+				return props.modelValue || {}
+			},
+			set(val) {
+				console.error('localModelValue set', val)
+				emit('update:modelValue', val)
+			}
+		})
+		const onChangeStart = (value, oldValue) => {
+			emit('change', value, propStart.value)
+		}
+		const onChangeEnd = (value, oldValue) => {
+			emit('change', value, propEnd.value)
+		}
+
+		return () => {
+			const local_propStart = propStart.value as string
+			const local_propEnd = propEnd.value as string
+			return 	<div class={`le-input-number-range le-input-number-range--${inputNumberSize}`}>
 				{slot_prepend ? slot_prepend() : _prepend}
 				<InputNumber
 					class="le-input-number-range_start"
 					size={inputNumberSize}
-					{...props}
+					{...others}
 					min={min}
-					max={modelValue[local_propEnd] ?? max}
-					precision={precision}
+					max={localModelValue.value[local_propEnd] ?? max}
+					precision={props.precision}
 					controlsPosition={_controlsPosition}
-					placeholder={t(placeholderStart)}
+					placeholder={placeholderStart}
 					style={localStyle}
-					modelValue={modelValue[local_propStart]}
-					v-model={modelValue[local_propStart]}
-					onChange={this.onChangeStart}
-					onBlur={event => this.$emit('blur', event, local_propStart)}
+					modelValue={localModelValue.value[local_propStart]}
+					v-model={localModelValue.value[local_propStart]}
+					onChange={onChangeStart}
+					onBlur={event => emit('blur', event, local_propStart)}
 					v-slots={childSlots}
 				/>
 				<span class="le-input-number-range_line">-</span>
 				<InputNumber
 					class="le-input-number-range_end"
 					size={inputNumberSize}
-					{...props}
-					min={modelValue[local_propStart] ?? min}
+					{...others}
+					min={localModelValue.value[local_propStart] ?? min}
 					max={max}
-					precision={precision}
+					precision={props.precision}
 					controlsPosition={_controlsPosition}
-					placeholder={t(placeholderEnd)}
+					placeholder={placeholderEnd}
 					style={localStyle}
-					modelValue={modelValue[local_propEnd]}
-					v-model={modelValue[local_propEnd]}
-					onChange={this.onChangeEnd}
-					onBlur={event => this.$emit('blur', event, local_propEnd)}
+					modelValue={localModelValue.value[local_propEnd]}
+					v-model={localModelValue.value[local_propEnd]}
+					// v-model={getPropValue(localModelValue.value, local_propEnd)}
+					onChange={onChangeEnd}
+					onBlur={event => emit('blur', event, local_propEnd)}
 					v-slots={childSlots}
 				/>
 				{slot_append ? slot_append() : _append}
 			</div>
-		)
-	},
-	computed: {
-		local_propStart() {
-			if(this.isValueArray) return 0
-			return this.propStart || `${this.prop}Start`
-		},
-		local_propEnd() {
-			if(this.isValueArray) return 1
-			return this.propEnd || `${this.prop}End`
-		},
-		localStyle() {
-			let _styles = this.itemStyle
-			if (this.itemWidth) _styles += `;width: ${this.itemWidth};`
-			return _styles
-		}
-		/* has_prepend () {
-			// if (this.prepend || this.$scopedSlots.prepend) return true
-			if ((this.prepend || this.$scopedSlots.prepend) && this.prependVisible !== false) return true
-			return false
-		},
-		has_append () {
-			// if (this.append || this.$scopedSlots.append) return true
-			if ((this.append || this.$scopedSlots.append) && this.appendVisible !== false) return true
-			return false
-		}, */
-	},
-	methods: {
-		getValidValue(value, isStart) {
-			const { modelValue, local_propStart, local_propEnd } = this
-			if (isStart) {
-				// 校验 start （start > end 改为 end）
-				const endV = modelValue[local_propEnd]
-				if (isNaN(endV) || endV === null) return value
-				if (value > endV) return endV
-				return value
-			} else {
-				// 校验 end （end < start 改为 start）
-				const startV = modelValue[local_propStart]
-				if (isNaN(startV) || value === null) return value
-				if (value < startV) return startV
-				return value
-			}
-		},
-		onChangeStart(value, oldValue) {
-			const { modelValue, local_propStart } = this
-			// console.error(local_propStart, 'local_propStart')
-			// value = this.getValidValue(value, true)
-			// this.$set(modelValue, local_propStart, value)
-			// modelValue[local_propStart] = value
-			// this.$emit('update:modelValue', { ...modelValue, [local_propStart]: value })
-			this.$emit('change', value, local_propStart)
-		},
-		onChangeEnd(value, oldValue) {
-			const { modelValue, local_propEnd } = this
-			console.error(local_propEnd, 'local_propEnd')
-			// value = this.getValidValue(value, false)
-			// this.$set(modelValue, local_propEnd, value)
-			// modelValue[local_propEnd] = value
-			// this.$emit('update:modelValue', { ...modelValue, [local_propEnd]: value })
-			this.$emit('change', value, local_propEnd)
 		}
 	}
 })
