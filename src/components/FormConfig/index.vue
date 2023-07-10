@@ -10,8 +10,8 @@ import InputNumberRange from '../InputNumberRange'
 import CustomRender from '../CustomRender'
 // import LeSelect from 'lance-element-vue/packages/Select'
 import LeSelect from '../Select'
-import { renderOption, optionSlot, get_formSlotLabel, getOptions } from './utils.ts'
-import { LeFormItem, ObjectOpts, FormConfigOpts } from './formConfig.types'
+import { renderOption, optionSlot, get_formSlotLabel, getOptions, get_formSlots } from './utils.ts'
+import { LeFormItem, ObjectOpts, FormConfigOpts, FormItemSlots, SlotOption } from './formConfig.types'
 import { OptionItemProps } from '@/components/Select/select.types.ts'
 export const FormConfigProps = {
 	forms: {
@@ -258,10 +258,19 @@ const FormConfig = defineComponent({
 			submitHandler,
 			cancelHandler
 		})
+		const vSlots = ctx.slots
+		const realForms: (LeFormItem & { le_slots: FormItemSlots })[] = computed(() => {
+			return (props.forms || []).map((form) => {
+				return {
+					...form,
+					le_slots: get_formSlots(vSlots, form.slots)
+				}
+			})
+		})
 		// render
 		return () => {
 			const { params } = state
-			const { isEdit, forms } = props
+			const { isEdit } = props
 			const {
 				showLabel,
 				size,
@@ -292,6 +301,7 @@ const FormConfig = defineComponent({
 					size: _size,
 					placeholder,
 					t_placeholder,
+					le_slots,
 					...formOthers
 				} = form
 				const _options = options || []
@@ -313,7 +323,8 @@ const FormConfig = defineComponent({
 					case 'leSelect':
 						// leSelect: 基于 element-plus el-select-v2扩展
 						const slots_leSelect = {
-							default: optionSlot<OptionItemProps>(ctx.slots, form.slots?.option)
+							// default: optionSlot<OptionItemProps>(ctx.slots, form.slots?.option)
+							default: le_slots.option as SlotOption<OptionItemProps>
 						}
 						let leStyle = _itemStyle + (/width\:/g.test(_itemStyle) ? '' : ';width: 200px')
 						return (
@@ -352,7 +363,8 @@ const FormConfig = defineComponent({
 									const { label, value, disabled } = option
 									return (
 										<el-option key={`${value}_${i}`} value={value} label={label} disabled={disabled} title={label}>
-											{renderOption(ctx.slots, form.slots?.option, option)}
+											{/*renderOption(ctx.slots, form.slots?.option, option)*/}
+											{renderOption(le_slots.option, option)}
 										</el-option>
 									)
 								})}
@@ -374,7 +386,7 @@ const FormConfig = defineComponent({
 									const { label, value, disabled } = option
 									return (
 										<el-radio key={`${value}_${i}`} label={value} disabled={disabled} title={label}>
-											{renderOption(ctx.slots, form.slots?.option, option)}
+											{renderOption(le_slots.option, option)}
 										</el-radio>
 									)
 								})}
@@ -383,7 +395,8 @@ const FormConfig = defineComponent({
 					/* 级联 */
 					case 'cascader':
 						const slots_cascader = {
-							default: optionSlot<{ data: any; node: any }>(ctx.slots, form.slots?.option)
+							// default: optionSlot<{ data: any; node: any }>(ctx.slots, form.slots?.option)
+							default: le_slots.option as SlotOption<{ data: any; node: any }>
 						}
 						return (
 							<el-cascader
@@ -407,6 +420,7 @@ const FormConfig = defineComponent({
 							<InputNumber
 								class={`rate100 ${itemClass}`}
 								{...formOthers}
+								slots={le_slots}
 								v-model={params[prop]}
 								onChange={formatterChange}
 								style={_itemStyle}
@@ -414,6 +428,7 @@ const FormConfig = defineComponent({
 								placeholder={_placeholder}
 								size={_size ?? size}
 								precision={form.precision || 0}
+								v-slots={le_slots}
 							/>
 						)
 					/* 数字区间 */
@@ -522,11 +537,11 @@ const FormConfig = defineComponent({
 					model={params}
 				>
 					<el-row class={`form_wrap ${showLabel === false && 'hideLabel'}`} gutter={gutter}>
-						{forms.map((form, idx) => {
+						{realForms.value.map((form, idx) => {
 							const { span: _span, t_label, label, ...others } = form
 							const _label = t_label ? t(t_label) : label
 							const formItemSlots = {
-								label: get_formSlotLabel(ctx.slots, form.slots?.label)
+								label: form.le_slots.label // get_formSlotLabel(ctx.slots, form.slots?.label)
 							}
 							return (
 								<el-col key={idx} span={_span ?? span}>

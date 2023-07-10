@@ -3,21 +3,23 @@ import {
 	defineComponent,
 	watch,
 	ref,
+	computed,
 	PropType
 } from 'vue'
-import {LeFormItem, ObjectOpts, FormConfigOpts} from "@/components/FormConfig/formConfig.types";
+import {LeFormItem, ObjectOpts, FormConfigOpts, FormItemSlots, SlotOption} from "@/components/FormConfig/formConfig.types";
 import InputNumber from './InputNumber'
 import InputNumberRange from './InputNumberRange'
 import CustomRender from './CustomRender'
 import { useI18n } from 'vue-i18n'
-import { optionSlot, get_formSlotLabel, getOptions, renderOption } from "@/components/FormConfig/utils.ts";
+import { optionSlot, get_formSlotLabel, getOptions, renderOption, get_formSlots } from "@/components/FormConfig/utils.ts";
 import { OptionItemProps } from '@/components/Select/select.types.ts';
 
 const emits = ['update:searchParams']
+export type SearchFormItem = LeFormItem<(params: ObjectOpts, options: any[], propKey?: string) => any>[]
 export const SearchFormProps = {
 	forms: {
 		// SearchForm: 与FormConfig不同的是 change的第一个参数的params, 去掉了原来的value 选项
-		type: Array as PropType<LeFormItem<(params: ObjectOpts, options: any[], propKey?: string) => any>[]>,
+		type: Array as PropType<SearchFormItem[]>,
 		required: true
 	},
 	// 后台传递的初始值 以及 双向绑定 对象
@@ -91,9 +93,18 @@ export const SearchForm = defineComponent({
 			formRef,
 			forceUpdateInitParams
 		})
+		const vSlots = ctx.slots
+		const realForms: (SearchFormItem & { le_slots: FormItemSlots })[] = computed(() => {
+			return (props.forms || []).map((form) => {
+				return {
+					...form,
+					le_slots: get_formSlots(vSlots, form.slots)
+				}
+			})
+		})
 		// render渲染
 		return () => {
-			const { forms, searchParams, formConfig = {}, triggerSearchAuto } = props
+			const { searchParams, formConfig = {}, triggerSearchAuto } = props
 			let warpClass = 'le-search-form-container labelStyle'
 			const getItemStyle = (itemStyle, defaultWidth) => {
 				return itemStyle + ((/width\:/g).test(itemStyle) ? '' : `;width:${defaultWidth}`)
@@ -101,7 +112,7 @@ export const SearchForm = defineComponent({
 			const itemRender = (form, _label) => {
 				// 申明: onChange 会导致(类input) change后触发两次(组件定义一次,原生change一次) 对组件定义进行过滤,仅留原生触发,组件触发onChange 用change 替代
 				const { prop, itemType, itemWidth, options, change, onChange, itemStyle = '', placeholder,
-					t_placeholder, ...formOthers } = form
+					t_placeholder, le_slots, ...formOthers } = form
 				const _options = options || []
 				const _itemStyle = itemStyle + (itemWidth ? `;width: ${itemWidth}` : '')
 				let disabled = form.disabled
@@ -131,7 +142,8 @@ export const SearchForm = defineComponent({
 					case 'leSelect' :
 						// leSelect: 基于 element-plus el-select-v2扩展
 						const slots_leSelect = {
-							default: optionSlot<OptionItemProps>(ctx.slots, form.slots?.option)
+							// default: optionSlot<OptionItemProps>(ctx.slots, form.slots?.option)
+							default: le_slots.option as SlotOption<OptionItemProps>
 						}
 						return <LeSelect
 							{...formOthers}
@@ -169,7 +181,8 @@ export const SearchForm = defineComponent({
 									const { label, value, disabled } = option
 									return (
 										<el-option key={`${value}_${i}`} value={value} label={label} disabled={disabled} title={label}>
-											{renderOption(ctx.slots, form.slots?.option, option)}
+											{/*renderOption(ctx.slots, form.slots?.option, option)*/}
+											{renderOption(le_slots.option, option)}
 										</el-option>
 									)
 								})}
@@ -189,7 +202,8 @@ export const SearchForm = defineComponent({
 									const { label, value, disabled } = option
 									return (
 										<el-radio-button key={`${value}_${i}`} label={value} disabled={disabled} title={label}>
-											{renderOption(ctx.slots, form.slots?.option, option)}
+											{/*renderOption(ctx.slots, form.slots?.option, option)*/}
+											{renderOption(le_slots.option, option)}
 										</el-radio-button>
 									)
 								})}
@@ -198,7 +212,9 @@ export const SearchForm = defineComponent({
 					// 级联
 					case 'cascader':
 						const slots_cascader = {
-							default: optionSlot<{ data: any; node: any }>(ctx.slots, form.slots?.option)
+							// {renderOption(le_slots.option, option)}
+							//	default: optionSlot<{ data: any; node: any }>(ctx.slots, form.slots?.option)
+							default: le_slots.option as SlotOption<{ data: any; node: any }>
 						}
 						return (
 							<el-cascader
@@ -221,6 +237,7 @@ export const SearchForm = defineComponent({
 								class="rate100"
 								{...bindInputEvents}
 								{...formOthers}
+								slots={le_slots}
 								v-model={searchParams[prop]}
 								onChange={formatterChange}
 								style={getItemStyle(_itemStyle, '130px')}
@@ -245,6 +262,7 @@ export const SearchForm = defineComponent({
 								disabled={disabled}
 								placeholder={_placeholder}
 								precision={form.precision || 0}
+								v-slots={le_slots}
 							/>
 						)
 					// 日期选择 (单日期 || 日期区间 ...) year/month/date/datetime/ week/datetimerange/daterange
@@ -304,11 +322,12 @@ export const SearchForm = defineComponent({
 				<div class={warpClass}>
 					<div class="le-search-form-flex">
 						<el-form ref={formRef} inline={true} size="default" class="le-search-form-flex-wrap" model={searchParams} {...formConfig}>
-							{forms.map((form, idx) => {
+							{realForms.value.map((form, idx) => {
 								// 通过 form.visible 控制 是否展示
 								const _label = form.t_label ? t(form.t_label) : form.label
 								const slots = {
-									label: get_formSlotLabel(ctx.slots, form.slots?.label)
+									// label: get_formSlotLabel(ctx.slots, form.slots?.label)
+									label: form.le_slots.label
 								}
 								return (
 									<el-form-item
