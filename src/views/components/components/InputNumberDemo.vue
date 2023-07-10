@@ -28,11 +28,10 @@ const numberRangeParams = ref({
 })
 const numberRangeForm = {
 	prop: 'numberRange', // (numberRangeStart,  numberRangeEnd)
-	// propStart: 'numberRange__min',
-	// propEnd: 'numberRange__max'
-
+	// propStart: 'numberRange__min', // 仅仅于isValueArray: false 生效
+	// propEnd: 'numberRange__max', // 仅仅于isValueArray: false 生效
+	// isValueArray: true,
 	// todo...
-	// addonAfterVisible: true,
 	prefixIcon: '$',
 	suffixIcon: '￥',
 	prepend: 'Prepend',

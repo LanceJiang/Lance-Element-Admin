@@ -3,19 +3,19 @@
 		Home
 		<div class="common_title">多语言 使用</div>
 		<div class="content">
-			<el-button @click="switchLang" size="small">
+			<el-button size="small" @click="switchLang">
 				lang: 切换
-				<LeIcon iconClass="le-frozen" />
-				<LeIcon iconClass="le-warning" />
+				<LeIcon icon-class="le-frozen" />
+				<LeIcon icon-class="le-warning" />
 				{{ $i18n.locale }}
 			</el-button>
 			<div>local文字: {{ $t('route.dashboard') }}</div>
 			<div>src/locale 文字(携带 le前缀做区分): {{ $t('le.btn.add') }}</div>
 		</div>
-		<SearchGroup2Popover v-if="false"/>
-		<LeSelectDemo v-if="true"/>
-		<InputNumberDemo v-if="true"/>
-		<LeDraggableNestDemo v-if="true"/>
+		<SearchGroup2Popover v-if="false" />
+		<LeSelectDemo v-if="true" />
+		<InputNumberDemo v-if="true" />
+		<LeDraggableNestDemo v-if="true" />
 
 		<div class="common_title">iconfont && LeIcon</div>
 		<div class="content">
@@ -24,20 +24,20 @@
 			<SvgIcon icon-class="logo" />
 			<LeIcon icon-class="icon-logo" />
 			<span class="le-iconfont le-review"></span>
-			<LeIcon iconClass="le-checkbox_checked"></LeIcon>
+			<LeIcon icon-class="le-checkbox_checked"></LeIcon>
 			<span class="le-iconfont le-checkbox_checked"></span>
-			<LeIcon iconClass="le-checkbox"></LeIcon>
+			<LeIcon icon-class="le-checkbox"></LeIcon>
 			<span class="le-iconfont le-checkbox"></span>
-			<LeIcon iconClass="le-radio_checked"></LeIcon>
+			<LeIcon icon-class="le-radio_checked"></LeIcon>
 			<span class="le-iconfont le-radio_checked"></span>
-			<LeIcon iconClass="le-radio"></LeIcon>
+			<LeIcon icon-class="le-radio"></LeIcon>
 			<span class="le-iconfont le-radio"></span>
 			<!--  svg  -->
-			<LeIcon iconClass="le-frozen" @click="testHandler"></LeIcon>
+			<LeIcon icon-class="le-frozen" @click="testHandler"></LeIcon>
 			<!--Table 操作 用： Icon按钮-->
 			<el-tooltip placement="top" :content="$t('le.btn.search')">
 				<el-button class="le-icon-button" @click="testHandler('row')">
-					<LeIcon iconClass="le-view"></LeIcon>
+					<LeIcon icon-class="le-view"></LeIcon>
 				</el-button>
 			</el-tooltip>
 		</div>
@@ -75,8 +75,8 @@
     </div>-->
 		<div class="common_title">暂无数据 LeNoData</div>
 		<div class="content">
-			<LeNoData @click="$log('test....')" :message="`<div style='background: #f00;'>test: lang: ${$i18n.locale}</div>`">
-				<template v-slot:extraContent>no data</template>
+			<LeNoData :message="`<div style='background: #f00;'>test: lang: ${$i18n.locale}</div>`" @click="$log('test....')">
+				<template #extraContent>no data</template>
 			</LeNoData>
 		</div>
 
