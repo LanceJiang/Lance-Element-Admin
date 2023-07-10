@@ -10,9 +10,10 @@ import InputNumberRange from '../InputNumberRange'
 import CustomRender from '../CustomRender'
 // import LeSelect from 'lance-element-vue/packages/Select'
 import LeSelect from '../Select'
-import { renderOption, optionSlot, get_formSlotLabel, getOptions, get_formSlots } from './utils.ts'
+import { renderOption, getOptions, get_formSlots } from './utils.ts'
 import { LeFormItem, ObjectOpts, FormConfigOpts, FormItemSlots, SlotOption } from './formConfig.types'
 import { OptionItemProps } from '@/components/Select/select.types.ts'
+// import { useFormItems } from './hooks/useForm.tsx'
 export const FormConfigProps = {
 	forms: {
 		type: Array as PropType<LeFormItem[]>,
@@ -42,8 +43,6 @@ const default_formConfig: FormConfigOpts = {
 	itemWidth: undefined,
 	// 默认的formItem 对应的 col 外壳 span 配置
 	span: 24,
-	// 默认的formItem 对应的 label 是否展示
-	showLabel: true,
 	// 是否展示 底部操作集合
 	showFooter: true,
 	// footer下的 提交按钮 描述
@@ -251,6 +250,11 @@ const FormConfig = defineComponent({
 			}
 			return ''
 		})
+		/*const { renderForms } = useFormItems('FormConfig', {
+			props,
+			params: state.params,
+			slots: ctx.slots,
+		})*/
 		ctx.expose({
 			formRef,
 			getParams,
@@ -259,8 +263,8 @@ const FormConfig = defineComponent({
 			cancelHandler
 		})
 		const vSlots = ctx.slots
-		const realForms: (LeFormItem & { le_slots: FormItemSlots })[] = computed(() => {
-			return (props.forms || []).map((form) => {
+		const realForms = computed(() => {
+			return (props.forms || []).map((form: LeFormItem) => {
 				return {
 					...form,
 					le_slots: get_formSlots(vSlots, form.slots)
@@ -272,7 +276,6 @@ const FormConfig = defineComponent({
 			const { params } = state
 			const { isEdit } = props
 			const {
-				showLabel,
 				size,
 				gutter,
 				span,
@@ -297,7 +300,6 @@ const FormConfig = defineComponent({
 					// 申明: onChange 会导致(类input) change后触发两次(组件定义一次,原生change一次) 对组件定义进行过滤,仅留原生触发,组件触发onChange 用change 替代
 					onChange,
 					itemStyle: form_itemStyle = '',
-					itemClass,
 					size: _size,
 					placeholder,
 					t_placeholder,
@@ -323,13 +325,11 @@ const FormConfig = defineComponent({
 					case 'leSelect':
 						// leSelect: 基于 element-plus el-select-v2扩展
 						const slots_leSelect = {
-							// default: optionSlot<OptionItemProps>(ctx.slots, form.slots?.option)
 							default: le_slots.option as SlotOption<OptionItemProps>
 						}
 						let leStyle = _itemStyle + (/width\:/g.test(_itemStyle) ? '' : ';width: 200px')
 						return (
 							<LeSelect
-								class={itemClass}
 								{...formOthers}
 								options={_options}
 								v-model={params[prop]}
@@ -350,7 +350,6 @@ const FormConfig = defineComponent({
 					case 'select':
 						return (
 							<el-select
-								class={itemClass}
 								{...formOthers}
 								v-model={params[prop]}
 								onChange={formatterChange}
@@ -374,7 +373,6 @@ const FormConfig = defineComponent({
 					case 'radio':
 						return (
 							<el-radio-group
-								class={itemClass}
 								{...formOthers}
 								v-model={params[prop]}
 								disabled={disabled}
@@ -395,12 +393,10 @@ const FormConfig = defineComponent({
 					/* 级联 */
 					case 'cascader':
 						const slots_cascader = {
-							// default: optionSlot<{ data: any; node: any }>(ctx.slots, form.slots?.option)
 							default: le_slots.option as SlotOption<{ data: any; node: any }>
 						}
 						return (
 							<el-cascader
-								class={itemClass}
 								{...formOthers}
 								v-model={params[prop]}
 								onChange={formatterChange}
@@ -418,7 +414,7 @@ const FormConfig = defineComponent({
 					case 'inputNumber':
 						return (
 							<InputNumber
-								class={`rate100 ${itemClass}`}
+								class="rate100"
 								{...formOthers}
 								slots={le_slots}
 								v-model={params[prop]}
@@ -438,7 +434,6 @@ const FormConfig = defineComponent({
 						}
 						return (
 							<InputNumberRange
-								class={itemClass}
 								prop={prop}
 								{...formOthers}
 								v-model={params[prop]}
@@ -469,7 +464,6 @@ const FormConfig = defineComponent({
 						}
 						return (
 							<el-date-picker
-								class={itemClass}
 								{...formOthers}
 								{...dateOpts}
 								v-model={params[prop]}
@@ -495,7 +489,6 @@ const FormConfig = defineComponent({
 					default:
 						return (
 							<el-input
-								class={itemClass}
 								{...formOthers}
 								v-model={params[prop]}
 								size={_size ?? size}
@@ -536,16 +529,22 @@ const FormConfig = defineComponent({
 					size={size}
 					model={params}
 				>
-					<el-row class={`form_wrap ${showLabel === false && 'hideLabel'}`} gutter={gutter}>
+					<el-row class='form_wrap' gutter={gutter}>
+						{/*renderForms({forms: realForms.value, gutter, span})*/}
 						{realForms.value.map((form, idx) => {
 							const { span: _span, t_label, label, ...others } = form
 							const _label = t_label ? t(t_label) : label
 							const formItemSlots = {
-								label: form.le_slots.label // get_formSlotLabel(ctx.slots, form.slots?.label)
+								label: form.le_slots.label
 							}
 							return (
-								<el-col key={idx} span={_span ?? span}>
-									<el-form-item {...others} label={_label} v-slots={formItemSlots}>
+								<el-col v-show={form.visible !== false} key={idx} span={_span ?? span}>
+									<el-form-item
+										class={form.showLabel === false ? 'hideLabel' : ''}
+										{...others}
+										label={_label}
+										v-slots={formItemSlots}
+									>
 										{itemRender(form)}
 									</el-form-item>
 								</el-col>

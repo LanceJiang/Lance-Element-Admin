@@ -90,7 +90,8 @@
 		flex-wrap: wrap;
 		// 新增label border 包裹
 		.el-form-item {
-			margin: 10px 8px 0 0;
+			//margin: 10px 8px 0 0;
+			margin: 10px 0 0 0;
 			/* 隐藏formItem label */
 			&.hideLabel {
 				.el-form-item__label {

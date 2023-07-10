@@ -5,9 +5,7 @@ import { OptionItemProps } from '@/components/Select/select.types.ts'
 export type FormConfigOpts = Partial<FormInstance['props']> & {
 	itemWidth?: string // 默认的formItem类型宽度(eg: input/select/radio...)
 	itemStyle?: string // 额外的的formItem类型样式[注:width 会被 itemWidth 覆盖](eg: input/select/radio...)
-	itemClass?: string // 额外的的formItem类型样式类(eg: input/select/radio...)
 	span?: number // 默认的formItem 对应的 col 外壳 span 配置
-	showLabel?: boolean // 默认的formItem 对应的 label 是否展示
 	showFooter: boolean // 是否展示 底部操作集
 	submitBtnText: string // footer下的 提交按钮 text
 	submitLoading: boolean // footer下的 提交按钮 loading
@@ -47,15 +45,24 @@ export type FormItemSlots = {
 	/**inputNumberRange*/
 	prepend?: ((scope: Record<string, any>) => any)// | string
 	append?: ((scope: Record<string, any>) => any)// | string
+
+	[prop: string]: any
 }
 // formItem 配置
 // T额外申明 // FormConfig: inputNumberRange 类型的item change 会加上propKey 标注是前|后触发的change   options: 是 有options Item类型时会有具体的数组数据
-export type LeFormItem<Change = (value: any, options: any[], params: ObjectOpts, propKey?: string) => any> = Partial<FormItemInstance['props']> & {
+// export type LeFormItem<Change = (value: any, options: any[], params: ObjectOpts, propKey?: string) => any> = Partial<FormItemInstance['props']> & {
+export type LeFormItem = Partial<FormItemInstance['props']> & {
 	t_label?: string // 多语言转义 (() => Promise<unknown>)
 	t_placeholder?: string // 多语言转义
 	// 当前Item渲染额外数据字段集
 	props?: string[]
 	itemType: ComponentType
+	itemWidth?: string // 默认的formItem类型宽度(eg: input/select/radio...)
+	itemStyle?: string // 额外的的formItem类型样式[注:width 会被 itemWidth 覆盖](eg: input/select/radio...)
+	class?: string // 额外的的formItem类型样式类(eg: input/select/radio...)
+	span?: number // 默认的formItem 对应的 col 外壳 span 配置
+	showLabel?: boolean // 默认的formItem 对应的 label 是否展示
+	visible?: boolean // 默认的formItem 是否显示
 	// 插槽
 	slots?: FormItemSlots
 	// // label 自定义插槽
@@ -71,7 +78,8 @@ export type LeFormItem<Change = (value: any, options: any[], params: ObjectOpts,
 	render?: ({ form: LeFormItem, params: ObjectOpts }) => HTMLDivElement
 	/*** render 使用 End*/
 	// formValueFormat?: (params: any, key: string) => any // 数据提交前 转换
-	change?: Change
+	change?: (value: any, options: any[], params: ObjectOpts, propKey?: string) => any
+	[prop: string]: any
 }
 
 export type ObjectOpts = {

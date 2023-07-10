@@ -94,8 +94,8 @@ export default defineComponent({
 			test1_select: 'test1_2',
 			input: 'ssssssss',
 			inputNumber: 22222222,
-			inputNumberRangeStart: 1,
-			inputNumberRangeEnd: 2,
+			/*inputNumberRangeStart: 1,
+			inputNumberRangeEnd: 2,*/
 			inputNumberRange: [5, 30],
 			render: 'render',
 			others: 'others'
@@ -157,6 +157,8 @@ export default defineComponent({
 				prop: 'render',
 				props: ['others'],
 				label: '自定义Render',
+				// showLabel: false,
+				// visible: false,
 				// t_label: `${prefix}test2`,
 				itemType: 'render',
 				// span: 12,
@@ -187,6 +189,7 @@ export default defineComponent({
 			// select
 			{
 				prop: 'test1_select',
+				class: 'test_test',
 				// label: 'test1_select',
 				// 多语言自动切换
 				t_label: `${prefix}test1_select`,
@@ -241,7 +244,7 @@ export default defineComponent({
 			{
 				prop: 'radio',
 				label: 'radio',
-				itemClass: 'test_radio',
+				class: 'test_radio dddddddddddddddddddddd',
 				// t_label: `${prefix}test3`,
 				itemType: 'radio',
 				// span: 12,
@@ -346,9 +349,11 @@ export default defineComponent({
 				prop: 'inputNumber',
 				label: 'inputNumber',
 				itemStyle: 'min-width: 200px',
+				class: 'inputNumber_class_class',
 			  slots: {
 					prefix: () => <span class="le-addon le-input-number__prefix" style="background: #0f0;">prefix</span>,
 					suffix: () => <span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">suffix</span>
+					// onlyTest: () => <span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">onlyTest</span>
 				},
 				// t_label: `${prefix}test5`,
 				prefixIcon: 'Http',
@@ -379,7 +384,7 @@ export default defineComponent({
 				// leSearchFormConfig 默认通过 propStart 和 propEnd 两个字段拆分平放于params eg: params: {[inputNumberRange.propStart]:min, [inputNumberRange.propEnd]:max}
 				prop: 'inputNumberRange',
 				label: 'inputNumberRange',
-				itemWidth: '900px',
+				itemWidth: '600px',
 				/*inputNumberRangeStart: 1,
 				inputNumberRangeEnd: 2*/
 				// // t_label: `${prefix}test5`,
@@ -534,6 +539,64 @@ export default defineComponent({
 			dialogVisible: false,
 			dialogVisible2: false
 		})
+		window.test_formChange = () => {
+			const idx = state.forms.findIndex(v => v.prop === 'leSelect')
+			if (idx >= 0) {
+				state.forms.splice(idx, 1)
+			} else {
+				state.forms.unshift(			{
+					prop: 'leSelect', // 提交的 params 的字段
+					label: 'leSelect', // label 标签
+					itemType: 'leSelect', // form-item 类型
+					// labelKey: 'label_1',
+					// valueKey: 'value_1',
+					// isPopover: false,
+					options: Array.from({ length: 20 }).map((_, i) => {
+						return {
+							// value_1: '选项' + i,
+							// label_1: '黄金糕' + i
+							value: '选项' + i,
+							label: '黄金糕' + i
+						}
+					}),
+					slots: {
+						// label template 支持
+						// label: 'leSelect_label',
+						// label render 支持
+						label({ label }) {
+							return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ label }</span></span>
+						},
+						// option: 'leSelectSlot',
+						// option({ value, label, disabled }) { // select 类型处理
+						option({ item, index, disabled }){ // leSelect (基于el-select-v2 二开)
+							const style = `color: #fff; background: #00f`
+							return <div style={style}>{item.le_label} ttt</div>
+						},
+					},
+					/*// label template 支持
+					// slotLabel: 'leSelect_label',
+					// label render 支持
+					slotLabel({ label }) {
+						return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ label }</span></span>
+					},*/
+					/*// slotOption: 'leSelectSlot',
+					// slotOption({ value, label, disabled }) { // select 类型处理
+					slotOption({ item, index, disabled }){ // leSelect (基于el-select-v2 二开)
+						const style = `color: #fff; background: #00f`
+						return <div style={style}>{item.le_label} ttt</div>
+					},*/
+					change(...args) {
+						console.warn(...args, 'leSelect.chang args')
+					},
+					// 原生方法 不建议使用
+					onChange(...args) {
+						console.log(args, '[原生方法 不建议使用]leSelect.onChange args')
+					},
+					// teleported: true
+					// change: methods.serviceChange
+				},)
+			}
+		}
 		/*window.change_formData = (opts = {
 			test1_select: 'test1_2',
 			input: 'ssssssss',

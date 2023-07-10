@@ -7,14 +7,15 @@
     //overflow-y: auto;
     margin-bottom: 8px;
   }
-  /* 隐藏formItem label */
-  .hideLabel {
-    .el-form-item__label {
-      display: none;
-    }
-  }
+
   .el-form-item {
     margin-bottom: 16px;
+		/* 隐藏formItem label */
+		&.hideLabel {
+			.el-form-item__label {
+				display: none;
+			}
+		}
   }
   .footer {
     display: flex;
