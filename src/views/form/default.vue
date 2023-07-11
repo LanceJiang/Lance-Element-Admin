@@ -348,6 +348,7 @@ export default defineComponent({
 				// todo...
 				prop: 'inputNumber',
 				label: 'inputNumber',
+				itemWidth: '500px',
 				itemStyle: 'min-width: 200px',
 				class: 'inputNumber_class_class',
 			  slots: {
@@ -384,7 +385,8 @@ export default defineComponent({
 				// leSearchFormConfig 默认通过 propStart 和 propEnd 两个字段拆分平放于params eg: params: {[inputNumberRange.propStart]:min, [inputNumberRange.propEnd]:max}
 				prop: 'inputNumberRange',
 				label: 'inputNumberRange',
-				itemWidth: '600px',
+				itemWidth: '300px',
+				// itemStyle: 'width: 300px; max-width: 300px;',
 				/*inputNumberRangeStart: 1,
 				inputNumberRangeEnd: 2*/
 				// // t_label: `${prefix}test5`,

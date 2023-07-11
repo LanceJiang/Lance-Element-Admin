@@ -2,7 +2,7 @@
 	<div class="common_title">LeInputNumber && LeInputNumberRange</div>
 	<div class="content">
 		{{ testNumber }}
-		<LeInputNumber disabled v-model="testNumber" :min="0" prefixIcon="#" _controlsPosition=""></LeInputNumber>
+		<LeInputNumber style="width: 500px" disabled v-model="testNumber" :min="0" prefixIcon="#" _controlsPosition=""></LeInputNumber>
 		<LeInputNumber v-model="testNumber" :min="0" prefixIcon="#" suffixIcon="￥" size="small" _controlsPosition=""></LeInputNumber>
 		<LeInputNumber v-model="testNumber" :min="0" prefixIcon="#" size="small" _controlsPosition=""></LeInputNumber>
 		<LeInputNumber v-model="testNumber" :min="0" suffixIcon="￥" _controlsPosition=""></LeInputNumber>
@@ -13,7 +13,7 @@
 		</LeInputNumber>
 		<div>-------LeInputNumberRange--------</div>
 		{{ numberRangeParams }}<br />
-		<LeInputNumberRange v-model="numberRangeParams" v-bind="numberRangeForm" style="width: 500px">
+		<LeInputNumberRange v-model="numberRangeParams" v-bind="numberRangeForm" itemStyle="width: 400px">
 <!--			<template #prepend><span class="le-input-number-range_addon local_prepend" style="background: #0f0;">prepend</span></template>-->
 			<template #append><span class="le-input-number-range_addon local_append" style="background: #f00">append</span></template>
 		</LeInputNumberRange>

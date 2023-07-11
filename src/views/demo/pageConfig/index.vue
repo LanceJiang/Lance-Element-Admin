@@ -267,7 +267,8 @@ const _forms = [
 		label: 'inputNumberRange', // label 标签
 		itemType: 'inputNumberRange', // form-item 类型
 		// controlsPosition: '',
-		itemWidth: '300px'
+		// itemWidth: '100px'
+		itemStyle: 'width: 120px; max-width: 120px; overflow: hidden;',
 		// prepend: 'Http://', // 额外form-item配置
 		// append: '.com' // 额外form-item配置
 		// placeholder: '请输入input..............' // 额外form-item配置
@@ -423,7 +424,8 @@ const columns = [
 const tableOpts = reactive({
 	searchParams: {
 		page: 1,
-		size: 10
+		size: 10,
+		// inputNumberRange: []
 	},
 	checkSelectedKey: 'id', // 'customerSn', // 查询当前页面数据是否被选中 筛选的唯一key值 【有多选数据不传默认 为 ‘id'】
 	total: 0, // table数据总条数
