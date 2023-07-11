@@ -439,7 +439,7 @@ const FormConfig = defineComponent({
 								v-model={params[prop]}
 								isValueArray
 								onChange={numberChange}
-								style={_itemStyle}
+								itemStyle={_itemStyle}
 								disabled={disabled}
 								placeholder={_placeholder}
 								size={_size ?? size}

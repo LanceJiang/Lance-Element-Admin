@@ -1,18 +1,13 @@
 <script lang="tsx">
-import {
-	defineComponent,
-	watch,
-	ref,
-	computed,
-	PropType
-} from 'vue'
-import {LeFormItem, ObjectOpts, FormConfigOpts, FormItemSlots, SlotOption} from "@/components/FormConfig/formConfig.types";
+import { defineComponent, watch, ref, computed, PropType, CSSProperties } from 'vue'
+import { Refresh, Search } from '@element-plus/icons-vue'
+import { LeFormItem, ObjectOpts, FormConfigOpts, FormItemSlots, SlotOption } from '@/components/FormConfig/formConfig.types'
 import InputNumber from './InputNumber'
 import InputNumberRange from './InputNumberRange'
 import CustomRender from './CustomRender'
 import { useI18n } from 'vue-i18n'
-import { getOptions, renderOption, get_formSlots } from "@/components/FormConfig/utils.ts";
-import { OptionItemProps } from '@/components/Select/select.types.ts';
+import { getOptions, renderOption, get_formSlots } from '@/components/FormConfig/utils.ts'
+import { OptionItemProps } from '@/components/Select/select.types.ts'
 
 const emits = ['update:searchParams']
 export type SearchFormItem = LeFormItem
@@ -37,15 +32,14 @@ export const SearchFormProps = {
 	// formModal的配置项对象
 	formConfig: {
 		type: Object as PropType<FormConfigOpts>,
-		default: () => ({
-		})
+		default: () => ({})
 	},
 	loading: {
 		type: Boolean,
 		default: false
 	},
 	reset: {
-		type: Function as PropType<((initSearchParams: Record<string, any>) => any)>,
+		type: Function as PropType<((initSearchParams: Record<string, any>) => any)>
 	}
 }
 export const SearchForm = defineComponent({
@@ -102,6 +96,14 @@ export const SearchForm = defineComponent({
 				}
 			})
 		})
+		// const gutter = 8
+		// const colStyle = computed(() => {
+		// 	const styles: CSSProperties = {}
+		// 	if (gutter) {
+		// 		styles.paddingLeft = styles.paddingRight = `${gutter / 2}px`
+		// 	}
+		// 	return styles
+		// })
 		// render渲染
 		return () => {
 			const { searchParams, formConfig = {}, triggerSearchAuto } = props
@@ -111,8 +113,7 @@ export const SearchForm = defineComponent({
 			}
 			const itemRender = (form, _label) => {
 				// 申明: onChange 会导致(类input) change后触发两次(组件定义一次,原生change一次) 对组件定义进行过滤,仅留原生触发,组件触发onChange 用change 替代
-				const { prop, itemType, itemWidth, options, change, onChange, itemStyle = '', placeholder,
-					t_placeholder, le_slots, ...formOthers } = form
+				const { prop, itemType, itemWidth, options, change, onChange, itemStyle = '', placeholder, t_placeholder, le_slots, ...formOthers } = form
 				const _options = options || []
 				const _itemStyle = itemStyle + (itemWidth ? `;width: ${itemWidth}` : '')
 				let disabled = form.disabled
@@ -125,41 +126,43 @@ export const SearchForm = defineComponent({
 				}
 				let bindInputEvents = {}
 				let changeAndSearch = formatterChange
-				if(triggerSearchAuto) {
+				if (triggerSearchAuto) {
 					changeAndSearch = () => formatterChange().then(searchHandler)
 					bindInputEvents = {
 						onBlur: searchHandler,
 						// 回车触发搜索
 						onKeydown: (e: KeyboardEvent) => {
 							// console.error(e, 'onKeyDown', e.key)
-							if(e.key === 'Enter') {
+							if (e.key === 'Enter') {
 								searchHandler()
 							}
 						}
 					}
 				}
 				switch (itemType) {
-					case 'leSelect' :
+					case 'leSelect':
 						// leSelect: 基于 element-plus el-select-v2扩展
 						const slots_leSelect = {
 							default: le_slots.option as SlotOption<OptionItemProps>
 						}
-						return <LeSelect
-							{...formOthers}
-							options={_options}
-							v-model={searchParams[prop]}
-							// 通过teleport插入到body (popper-append-to-body popperAppendToBody已弃用)
-							teleported={formOthers.teleported ?? true}
-							// '@update:selected_label' todo
-							onChange={changeAndSearch}
-							disabled={disabled}
-							placeholder={_placeholder}
-							style={getItemStyle(_itemStyle, '200px')}
-							v-slots={slots_leSelect}
-						/>
+						return (
+							<LeSelect
+								{...formOthers}
+								options={_options}
+								v-model={searchParams[prop]}
+								// 通过teleport插入到body (popper-append-to-body popperAppendToBody已弃用)
+								teleported={formOthers.teleported ?? true}
+								// '@update:selected_label' todo
+								onChange={changeAndSearch}
+								disabled={disabled}
+								placeholder={_placeholder}
+								style={getItemStyle(_itemStyle, '200px')}
+								v-slots={slots_leSelect}
+							/>
+						)
 
 					// 自定义render
-					case 'render' :
+					case 'render':
 						return <CustomRender
 							form={form}
 							params={searchParams}
@@ -257,7 +260,7 @@ export const SearchForm = defineComponent({
 								isValueArray
 								// modelValue={searchParams}
 								onChange={numberChange}
-								style={getItemStyle(_itemStyle, '230px')}
+								itemStyle={getItemStyle(_itemStyle, '230px')}
 								disabled={disabled}
 								placeholder={_placeholder}
 								precision={form.precision || 0}
@@ -331,6 +334,10 @@ export const SearchForm = defineComponent({
 									return (
 										<el-col v-show={form.visible !== false} key={idx} span={form.span ?? 1024}>
 											<el-form-item
+												// class={`${form.showLabel === false ? 'hideLabel' : ''} el-col el-col-${form.span}`}
+												// v-show={form.visible !== false}
+												// style={colStyle.value}
+												// key={idx}
 												class={form.showLabel === false ? 'hideLabel' : ''}
 												{...form}
 												label={_label}
@@ -344,16 +351,20 @@ export const SearchForm = defineComponent({
 							</el-row>
 						</el-form>
 						<div class="action-wrap">
-							<el-button size="default" plain onClick={local_resetHandler}>
-								<el-icon>
-									<Refresh />
-								</el-icon>
+							<el-button
+								size="default"
+								plain
+								icon={Refresh}
+								disabled={props.loading}
+								onClick={local_resetHandler}>
 								{ t('le.btn.reset') }
 							</el-button>
-							<el-button size="default" type="primary" loading={props.loading} onClick={searchHandler}>
-								<el-icon>
-									<Search />
-								</el-icon>
+							<el-button
+								size="default"
+								type="primary"
+								loading={props.loading}
+								icon={Search}
+								onClick={searchHandler}>
 								{ t('le.btn.search') }
 							</el-button>
 						</div>
