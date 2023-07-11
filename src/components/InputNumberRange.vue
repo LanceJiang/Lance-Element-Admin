@@ -59,11 +59,6 @@ export default defineComponent({
 		itemStyle: {
 			type: String,
 			default: ''
-		},
-		// 自定义 宽(最大值/最小值)
-		itemWidth: {
-			type: String,
-			default: '100px'
 		}
 	},
 	setup(props, { attrs, slots, emit }) {
@@ -77,11 +72,6 @@ export default defineComponent({
 
 		const _prepend = prepend ? <span class="le-input-number-range_addon prepend">{prepend}</span> : ''
 		const _append = append ? <span class="le-input-number-range_addon append">{append}</span> : ''
-		const localStyle = computed(() => {
-			let _styles = props.itemStyle
-			if (props.itemWidth) _styles += `;width: ${props.itemWidth};`
-			return _styles
-		})
 		const propStart = computed(() => {
 			if (props.isValueArray) return 0
 			return props.propStart || `${props.prop}Start`
@@ -92,7 +82,6 @@ export default defineComponent({
 		})
 		const localModelValue = computed({
 			get() {
-				// console.error('localModelValue get', props.modelValue, props.prop, props.isValueArray)
 				if (props.isValueArray) {
 					if (Array.isArray(props.modelValue)) {
 						return props.modelValue
@@ -133,7 +122,7 @@ export default defineComponent({
 					precision={props.precision}
 					controlsPosition={_controlsPosition}
 					placeholder={placeholderStart}
-					style={localStyle}
+					style={props.itemStyle}
 					modelValue={localModelValue.value[local_propStart]}
 					v-model={localModelValue.value[local_propStart]}
 					onChange={onChangeStart}
@@ -150,7 +139,7 @@ export default defineComponent({
 					precision={props.precision}
 					controlsPosition={_controlsPosition}
 					placeholder={placeholderEnd}
-					style={localStyle}
+					style={props.itemStyle}
 					modelValue={localModelValue.value[local_propEnd]}
 					v-model={localModelValue.value[local_propEnd]}
 					// v-model={getPropValue(localModelValue.value, local_propEnd)}
