@@ -15,11 +15,13 @@
 		</LeSearchForm>
 		<!--  LeTable 组件使用 示例：  -->
 		<LeTable
+			ref="tableRef"
 			v-model:searchParams="tableOpts.searchParams"
 			:list="tableOpts.list"
 			:total="tableOpts.total"
 			:options="tableOpts.options"
 			:columns_="tableOpts.columns"
+			v-model:curRow="tableOpts.curRow"
 			:check-selected-key="tableOpts.checkSelectedKey"
 			:columns="localColumns"
 			v-model:checked-options="checkedColumns"
@@ -82,7 +84,9 @@ import { nextTick, ref, reactive, watch, computed, unref } from 'vue'
 import { getAdminList } from '@/api/demo'
 import { ElMessage } from 'element-plus'
 import i18n from '@/lang'
-
+// import { Plus, Delete } from '@element-plus/icons-vue'
+const tableRef = ref()
+// window.tableRef = tableRef
 const _forms = [
 	// leSelect 单选
 	{
@@ -339,6 +343,7 @@ const activeData = ref({})
 const forms = ref(
 	_forms.map(v => {
 		v.rules = []
+		v.span = undefined
 		return v
 	})
 )
@@ -427,6 +432,18 @@ const tableOpts = reactive({
 		size: 10,
 		// inputNumberRange: []
 	},
+	curRow: {
+		id: `id_1`,
+		google_key: Math.random() > 0.5 ? 1 : 0,
+		username: `username_1`,
+		add_time: '2020-09-09 05:20:50',
+		describe: `describe_1`,
+		status: 1,
+		phone: 1,
+		email: `demo1@com.cn`,
+		// roles: [[1, 2], [0, 1, 2], [2]][i % 3],
+		roles: []
+	},
 	checkSelectedKey: 'id', // 'customerSn', // 查询当前页面数据是否被选中 筛选的唯一key值 【有多选数据不传默认 为 ‘id'】
 	total: 0, // table数据总条数
 	list: [], // table数据
@@ -469,6 +486,12 @@ const localColumns = computed(() => {
 		}
 	}).filter(Boolean)
 })
+watch(() => tableOpts.curRow, (v, oldv) => {
+	console.error(v, 'tableOpts.curRow')
+}, {
+	immediate: true
+})
+window.tableOpts = tableOpts
 // watch(() => tableOpts.searchParams.custName, (v, oldv) => {
 // watch(tableOpts.searchParams, (v, oldv) => {
 watch(
@@ -566,5 +589,8 @@ const submitHandler = params => {
 <style scoped lang="scss">
 .testTable {
 	padding: 10px;
+}
+.btn-icon {
+	margin-left: 6px;
 }
 </style>
