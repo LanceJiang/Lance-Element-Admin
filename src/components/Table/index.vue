@@ -64,6 +64,11 @@ export const tableProps = {
 		default: () => {
 			return {}
 		}
+	},
+	// 当前行(高亮)
+	curRow: {
+		type: Object as PropType<{[key:string]: any}|null>,
+		default: null
 	}
 }
 const default_tableConfig = {
@@ -73,7 +78,7 @@ const default_tableConfig = {
 	size: 'default', // 尺寸类型 (弹窗建议使用 mini)
 	// stripe: false, // 是否为斑马纹 table
 	// showSummary: false, // 是否展示合计
-	// highlightCurrentRow: true, // 是否要高亮当前行
+	highlightCurrentRow: true, // 是否要高亮当前行
 
 	// 分页器参数
 	pageSizes: [10, 20, 50, 100],
@@ -98,7 +103,7 @@ const TableComponent = defineComponent({
 	name: 'LeTable',
 	props: tableProps,
 	// 更新搜索条件, 更新列配置, table Sort 排序, table 刷新
-	emits: ['update:searchParams', 'update:checkedOptions', 'sortChange', 'refresh'],
+	emits: ['update:searchParams', 'update:checkedOptions', 'sortChange', 'refresh', 'row-click'],
 	setup(props, { attrs, slots, emit, expose }) {
 		const { t } = useI18n()
 		// const tableRef = ref<Table>(/*tableRef*/)
@@ -169,6 +174,37 @@ const TableComponent = defineComponent({
 			// console.error(checkedOptions, 'checkedOptions checkedOptionsChange')
 			emit('update:checkedOptions', checkedOptions)
 		}
+		// 点击当前行
+		const onRowClick = (row, column) => {
+			emit('row-click', row, column)
+			emit('update:curRow', row)
+		}
+		// 设置当前行
+		const setCurrentRow = (rowOrIndex: ({[key: string]: any}|number|null) = null, update = true) => {
+			let curRowIndex = -1
+			const list = props.list
+			if(typeof rowOrIndex === 'number') {
+				curRowIndex = rowOrIndex
+			} else if (Object.keys(rowOrIndex || {}).length) {
+				const currentRowKey = computedOptions.value.currentRowKey
+				curRowIndex = list.findIndex(_item => {
+					return _item[currentRowKey] === props.curRow?.[currentRowKey]
+				})
+			}
+			update && emit('update:curRow', list[curRowIndex] ?? null)
+			// console.error(curRowIndex, 'curRowIndex')
+			nextTick(() => {
+				tableRef.value.setCurrentRow(list[curRowIndex]) // 高亮原本被选中的数据
+			})
+		}
+		watch(() => props.list, (list) => {
+			// 高亮数据判断
+			if (Object.keys(props.curRow || {}).length) {
+				setCurrentRow(props.curRow, false)
+			}
+		}/*, {
+			immediate: true
+		}*/)
 
 		const table_slots = {
 			empty: () => <NoData size={unref(computedOptions).size}></NoData>
@@ -181,7 +217,8 @@ const TableComponent = defineComponent({
 			tableRef
 		} as useColumnsOpts)
 		expose({
-			tableRef
+			tableRef,
+			setCurrentRow
 		})
 		return () => {
 			const { list, total, searchParams, columnsConfig, checkedOptions } = props
@@ -232,7 +269,7 @@ const TableComponent = defineComponent({
 								data={list}
 								// 组件内单独封装 事件
 								onSortChange={tableSortChange}
-								// onRowClick={this.handleCurrentChange}
+								onRowClick={onRowClick}
 								// onSelectionChange={this.handleSelectionChange}
 								v-slots={table_slots}
 							>
@@ -276,8 +313,6 @@ export default TableComponent
     :options="options" // table相关的 配置对象 // 配置参考 defaultOptions
     :columns="columns" // 需要展示的列配置 // 参考上面的 columns
     :searchParams="searchParams"
-    :selected_list="testList" // 多选情况下 接口返回的元贝备选中的 数组  【有多选数据必传】
-    :curRow="testCurRow" // 当前高亮的 数据  【需要高亮上次数据必传】
-    :checkSelectedKey="checkSelectedKey" // 查询当前页面数据是否被选中 筛选的唯一key值 【有多选数据不传默认 为 ‘id'】
+    v-model:curRow="testCurRow" // 当前高亮的 数据  【需要高亮上次数据必传】
   />*/
 </script>

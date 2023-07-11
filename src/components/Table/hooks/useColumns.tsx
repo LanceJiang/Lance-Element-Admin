@@ -97,7 +97,7 @@ const columnSlots = (column: LeTableColumnProps & { titleHelp: any; slots: any }
 }
 type local_columnProps = LeTableColumnProps & { le_children: any[]; le_slots: LeSlots }
 export type useColumnsOpts = {
-	propsRef: ComputedRef<LeTableProps>
+	propsRef: LeTableProps
 	computedOptions: ComputedRef<LeTableOptions>
 	slots: Slots
 	tableRef: Ref
