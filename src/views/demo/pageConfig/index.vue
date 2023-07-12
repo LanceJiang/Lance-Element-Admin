@@ -5,7 +5,7 @@
 			ref="searchForm"
 			v-model:searchParams="tableOpts.searchParams"
 			:forms="forms"
-			:loading2="tableOpts.options.loading"
+			:loading="tableOpts.options.loading"
 		>
 			<template #slot_label_test="{label}">
 				<div style="background: #f00; color:#fff;display: flex">
@@ -14,18 +14,18 @@
 			</template>
 		</LeSearchForm>
 		<!--  LeTable 组件使用 示例：  -->
+<!--		:list="tableOpts.list"
+		:total="tableOpts.total"
+		:options="tableOpts.options"
+		:columns_="tableOpts.columns"
+		:columnsConfig="tableOpts.columnsConfig"-->
 		<LeTable
 			ref="tableRef"
 			v-model:searchParams="tableOpts.searchParams"
-			:list="tableOpts.list"
-			:total="tableOpts.total"
-			:options="tableOpts.options"
-			:columns_="tableOpts.columns"
+			v-bind="tableOpts"
+			:columns="activeColumns"
 			v-model:curRow="tableOpts.curRow"
-			:check-selected-key="tableOpts.checkSelectedKey"
-			:columns="localColumns"
 			v-model:checked-options="checkedColumns"
-			:columnsConfig="tableOpts.columnsConfig"
 		>
 			<template #toolLeft>
 				<el-button @click="toggleForm">toggle searchForms（项目类型）测试</el-button>
@@ -83,7 +83,9 @@
 import { nextTick, ref, reactive, watch, computed, unref } from 'vue'
 import { getAdminList } from '@/api/demo'
 import { ElMessage } from 'element-plus'
+import { useTablePage } from '@/hooks/useTablePage'
 import i18n from '@/lang'
+import {SearchParams} from "@/components/Table";
 // import { Plus, Delete } from '@element-plus/icons-vue'
 const tableRef = ref()
 // window.tableRef = tableRef
@@ -356,15 +358,24 @@ const formOptions = ref({
 		submitLoading: false
 	}
 })
-const formData = ref({
-	// bondCode: ['2020-09-10', '2020-10-10'],
-	securitiesCode: 'securitiesCode',
-	dataType: '导出当前页面数据'
-})
-/*const searchParams = ref({
-	page: 1,
-	size: 10
-})*/
+
+// table列表数据请求
+const queryList = () => {
+	const { options } = tableOpts
+	// console.error('测试....')
+	options.loading = true
+	console.log('搜索参数： ', JSON.stringify(tableOpts.searchParams))
+	getAdminList(tableOpts.searchParams)
+		.then((data: any) => {
+			const { total, data: list } = data
+			tableOpts.total = total
+			// list.push({})
+			tableOpts.list = list
+		})
+		.finally(() => {
+			options.loading = false // 更改加载中的 loading值
+		})
+}
 // table 参数
 const columns = [
 	{
@@ -426,11 +437,11 @@ const columns = [
 		fixed: 'right'
 	}
 ]
-const tableOpts = reactive({
+const { tableOpts, checkedColumns, activeColumns } = useTablePage({
 	searchParams: {
 		page: 1,
 		size: 10,
-		// inputNumberRange: []
+		inputNumberRange: [1, 5]
 	},
 	curRow: {
 		id: `id_1`,
@@ -444,21 +455,58 @@ const tableOpts = reactive({
 		// roles: [[1, 2], [0, 1, 2], [2]][i % 3],
 		roles: []
 	},
-	checkSelectedKey: 'id', // 'customerSn', // 查询当前页面数据是否被选中 筛选的唯一key值 【有多选数据不传默认 为 ‘id'】
+	// 需要展示的列
+	columns,
+	// 控制列配置
+	columnsConfig: {
+		columns,
+		defaultCheckedOptions: columns.slice(0, 2)
+	}
+}, {
+	fetchImmediate: false,
+	queryList
+})
+setTimeout(() => {
+	// 模拟特殊情况初始化搜索数据
+	tableOpts.searchParams = {
+		page: 1,
+		size: 10,
+		inputNumberRange: [1, 5],
+		projectType: '类型one'
+	}
+	// debugger
+	searchForm.value.forceUpdateInitParams(tableOpts.searchParams)
+	window.searchForm = searchForm
+})
+// 选中的columns
+checkedColumns.value = columns.slice(0, 2)
+/*const tableOpts = reactive({
+	searchParams: {
+		page: 1,
+		size: 10,
+		inputNumberRange: [1, 5]
+	},
+	curRow: {
+		id: `id_1`,
+		google_key: Math.random() > 0.5 ? 1 : 0,
+		username: `username_1`,
+		add_time: '2020-09-09 05:20:50',
+		describe: `describe_1`,
+		status: 1,
+		phone: 1,
+		email: `demo1@com.cn`,
+		// roles: [[1, 2], [0, 1, 2], [2]][i % 3],
+		roles: []
+	},
 	total: 0, // table数据总条数
 	list: [], // table数据
 	// table 的参数
 	options: {
-		loading: false,
+		loading: false, // 是否添加表格loading加载动画
 		showOverflowTooltip: false,
+		multipleSelect: true, // 是否支持列表项选中功能
 		// stripe: true, // 是否为斑马纹 table
-		// loading: false, // 是否添加表格loading加载动画
 		// highlightCurrentRow: true, // 是否支持当前行高亮显示
-		showIndex: true, // 是否展示 列表序列号
-		// showIndex: true, // 是否展示 列表序列号
-		// indexLabel: '编号',
-		// multipleSelect: true, // 是否支持列表项选中功能
-		multipleSelectIndexKey: 'id' // test 根据 id 查找对应的 index
 	},
 	// 需要展示的列
 	columns,
@@ -467,12 +515,12 @@ const tableOpts = reactive({
 		columns,
 		defaultCheckedOptions: columns.slice(0, 2)
 	}
-})
+})*/
 // 选中的columns
 // const checkedColumns = ref(JSON.parse(JSON.stringify(columns.slice(0, 2))))
-const checkedColumns = ref(columns.slice(0, 2))
+/*const checkedColumns = ref(columns.slice(0, 2))*/
 // 活跃的columns
-const localColumns = computed(() => {
+/*const activeColumns = computed(() => {
 	const _checkedColumns = unref(checkedColumns)
 	if(!_checkedColumns.length) return columns
 	return _checkedColumns.map(v => {
@@ -485,55 +533,29 @@ const localColumns = computed(() => {
 			return cur
 		}
 	}).filter(Boolean)
-})
+})*/
 watch(() => tableOpts.curRow, (v, oldv) => {
 	console.error(v, 'tableOpts.curRow')
 }, {
 	immediate: true
 })
 window.tableOpts = tableOpts
+
+nextTick(() => {
+	// console.error(searchForm.value, 'searchForm.value')
+	window.searchForm = searchForm.value
+})
 // watch(() => tableOpts.searchParams.custName, (v, oldv) => {
 // watch(tableOpts.searchParams, (v, oldv) => {
-watch(
+/*watch(
 	() => tableOpts.searchParams,
 	(v, oldv) => {
 		queryList()
+	},
+	{
+		immediate: true
 	}
-)
-
-setTimeout(() => {
-	// 模拟特殊情况初始化搜索数据
-	tableOpts.searchParams = {
-		page: 1,
-		size: 10,
-		projectType: '类型one'
-	}
-	// debugger
-	searchForm.value.forceUpdateInitParams(tableOpts.searchParams)
-	window.searchForm = searchForm
-})
-nextTick(() => {
-	console.error(searchForm.value, 'searchForm.value')
-	window.searchForm = searchForm.value
-})
-// 初始化列表
-const queryList = () => {
-	const { options } = tableOpts
-	// console.error(formData, 'formData todo...')
-	console.error('测试....')
-	options.loading = true
-	console.log('搜索参数： ', JSON.stringify(tableOpts.searchParams))
-	getAdminList(tableOpts.searchParams)
-		.then((data: any) => {
-			const { total, data: list } = data
-			tableOpts.total = total
-			// list.push({})
-			tableOpts.list = list
-		})
-		.finally(() => {
-			options.loading = false // 更改加载中的 loading值
-		})
-}
+)*/
 const addHandler = () => {
 	isCreate.value = true
 	activeData.value = {}
@@ -576,7 +598,7 @@ const submitHandler = params => {
 			ElMessage.success(`${isCreate.value ? '新增' : '修改'}成功~`)
 			visible.value = false
 			tableOpts.searchParams = {
-			  ...tableOpts.searchParams,
+			  ...tableOpts.searchParams as SearchParams,
 			  page: 1
 			}
 		})
