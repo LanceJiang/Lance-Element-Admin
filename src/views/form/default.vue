@@ -4,7 +4,7 @@
 		<div class="common_title">le-search-form</div>
 		<div class="content">
 			<LeSearchForm
-				v-model:searchParams="searchParams" :forms="searchForms" :loading="queryLoading"
+				v-model:searchData="searchParams" :forms="searchForms" :loading="queryLoading"
 			/>
 		</div>
 		<div class="common_title">le-form-config</div>

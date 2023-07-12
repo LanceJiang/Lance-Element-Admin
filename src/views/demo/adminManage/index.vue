@@ -1,7 +1,7 @@
 <template>
 	<div class="column-page-wrap">
 		<!-- 公用搜索组件 -->
-		<LeSearchForm v-model:searchParams="tableOpts.searchParams" :forms="searchForms" :loading="tableOpts.options.loading" />
+		<LeSearchForm v-model:searchData="tableOpts.searchParams" :forms="searchForms" :loading="tableOpts.options.loading" />
 		<!-- 公用Table组件 -->
 		<!--		:list="list"
 		:total="total"
