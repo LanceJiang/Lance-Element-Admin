@@ -9,7 +9,7 @@ import { useI18n } from 'vue-i18n'
 import { getOptions, renderOption, get_formSlots } from '@/components/FormConfig/utils.ts'
 import { OptionItemProps } from '@/components/Select/select.types.ts'
 
-const emits = ['update:searchParams']
+const emits = ['update:searchData']
 export type SearchFormItem = LeFormItem
 export const SearchFormProps = {
 	forms: {
@@ -18,7 +18,7 @@ export const SearchFormProps = {
 		required: true
 	},
 	// 后台传递的初始值 以及 双向绑定 对象
-	searchParams: {
+	searchData: {
 		required: true,
 		type: Object as PropType<ObjectOpts>
 	},
@@ -39,7 +39,7 @@ export const SearchFormProps = {
 		default: false
 	},
 	reset: {
-		type: Function as PropType<((initSearchParams: Record<string, any>) => any)>
+		type: Function as PropType<((initSearchData: Record<string, any>) => any)>
 	}
 }
 export const SearchForm = defineComponent({
@@ -49,12 +49,12 @@ export const SearchForm = defineComponent({
 	setup(props, ctx) {
 		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
-		let initSearchParams = undefined
+		let initSearchData = undefined
 		watch(
-			() => props.searchParams,
+			() => props.searchData,
 			(newValue, oldValue) => {
-				if (!initSearchParams && newValue) {
-					initSearchParams = { ...newValue }
+				if (!initSearchData && newValue) {
+					initSearchData = { ...newValue }
 				}
 			},
 			{
@@ -66,22 +66,22 @@ export const SearchForm = defineComponent({
 		const local_resetHandler = () => {
 			// 若有reset 将不会触发默认重置的操作
 			const emitReset = props.reset
-			const _initSearchParams = { ...(initSearchParams || {}) }
+			const _initSearchData = { ...(initSearchData || {}) }
 			if (emitReset) {
-				emitReset(_initSearchParams)
+				emitReset(_initSearchData)
 			} else {
 				// formRef.value!.resetFields()
 				// 撤回为初始化状态
-				ctx.emit('update:searchParams', _initSearchParams)
+				ctx.emit('update:searchData', _initSearchData)
 			}
 		}
 		// 搜索
 		const searchHandler = () => {
-			ctx.emit('update:searchParams', { ...props.searchParams })
+			ctx.emit('update:searchData', { ...props.searchData })
 		}
 		// 强行修改初始化数据(用于 重置方法进行数据重置)
-		const forceUpdateInitParams = (searchParams = props.searchParams) => {
-			initSearchParams = { ...searchParams }
+		const forceUpdateInitParams = (searchData = props.searchData) => {
+			initSearchData = { ...searchData }
 		}
 		ctx.expose({
 			formRef,
@@ -106,7 +106,7 @@ export const SearchForm = defineComponent({
 		// })
 		// render渲染
 		return () => {
-			const { searchParams, formConfig = {}, triggerSearchAuto } = props
+			const { searchData, formConfig = {}, triggerSearchAuto } = props
 			let warpClass = 'le-search-form-container labelStyle'
 			const getItemStyle = (itemStyle, defaultWidth) => {
 				return itemStyle + ((/width\:/g).test(itemStyle) ? '' : `;width:${defaultWidth}`)
@@ -121,7 +121,7 @@ export const SearchForm = defineComponent({
 				// 优化后的 change事件
 				let formatterChange = async () => {
 					if (typeof change === 'function') {
-						return change(searchParams[prop], _options, searchParams)
+						return change(searchData[prop], _options, searchData)
 					}
 				}
 				let bindInputEvents = {}
@@ -149,7 +149,7 @@ export const SearchForm = defineComponent({
 							<LeSelect
 								{...formOthers}
 								options={_options}
-								v-model={searchParams[prop]}
+								v-model={searchData[prop]}
 								// 通过teleport插入到body (popper-append-to-body popperAppendToBody已弃用)
 								teleported={formOthers.teleported ?? true}
 								// '@update:selected_label' todo
@@ -165,14 +165,14 @@ export const SearchForm = defineComponent({
 					case 'render':
 						return <CustomRender
 							form={form}
-							params={searchParams}
+							params={searchData}
 						/>
 					// 下拉框
 					case 'select':
 						return (
 							<el-select
 								{...formOthers}
-								v-model={searchParams[prop]}
+								v-model={searchData[prop]}
 								onChange={changeAndSearch}
 								style={getItemStyle(_itemStyle, '200px')}
 								disabled={disabled}
@@ -195,7 +195,7 @@ export const SearchForm = defineComponent({
 						return (
 							<el-radio-group
 								{...formOthers}
-								v-model={searchParams[prop]}
+								v-model={searchData[prop]}
 								disabled={disabled}
 								onChange={changeAndSearch}
 								style={getItemStyle(_itemStyle, 'auto')}
@@ -219,7 +219,7 @@ export const SearchForm = defineComponent({
 						return (
 							<el-cascader
 								{...formOthers}
-								v-model={searchParams[prop]}
+								v-model={searchData[prop]}
 								onChange={changeAndSearch}
 								style={getItemStyle(_itemStyle, '200px')}
 								disabled={disabled}
@@ -238,7 +238,7 @@ export const SearchForm = defineComponent({
 								{...bindInputEvents}
 								{...formOthers}
 								slots={le_slots}
-								v-model={searchParams[prop]}
+								v-model={searchData[prop]}
 								onChange={formatterChange}
 								style={getItemStyle(_itemStyle, '130px')}
 								disabled={disabled}
@@ -249,16 +249,16 @@ export const SearchForm = defineComponent({
 					// 数字区间
 					case 'inputNumberRange':
 						const numberChange = (e, propKey) => {
-							change && change(searchParams[propKey], _options, searchParams, propKey)
+							change && change(searchData[propKey], _options, searchData, propKey)
 						}
 						return (
 							<InputNumberRange
 								{...bindInputEvents}
 								prop={prop}
 								{...formOthers}
-								v-model={searchParams[prop]}
+								v-model={searchData[prop]}
 								isValueArray
-								// modelValue={searchParams}
+								// modelValue={searchData}
 								onChange={numberChange}
 								itemStyle={getItemStyle(_itemStyle, '230px')}
 								disabled={disabled}
@@ -290,7 +290,7 @@ export const SearchForm = defineComponent({
 							<el-date-picker
 								{...formOthers}
 								{...dateOpts}
-								v-model={searchParams[prop]}
+								v-model={searchData[prop]}
 								onChange={changeAndSearch}
 								style={getItemStyle(_itemStyle, dateWidthDefault)}
 								disabled={disabled}
@@ -300,7 +300,7 @@ export const SearchForm = defineComponent({
 					case 'switch':
 						return <el-switch
 							{...formOthers}
-							v-model={searchParams[prop]}
+							v-model={searchData[prop]}
 							onChange={changeAndSearch}
 							style={_itemStyle}
 							disabled={disabled}
@@ -311,7 +311,7 @@ export const SearchForm = defineComponent({
 							<el-input
 								{...bindInputEvents}
 								{...formOthers}
-								v-model={searchParams[prop]}
+								v-model={searchData[prop]}
 								onChange={formatterChange}
 								disabled={disabled}
 								placeholder={_placeholder}
@@ -323,7 +323,7 @@ export const SearchForm = defineComponent({
 			return (
 				<div class={warpClass}>
 					<div class="le-search-form-flex">
-						<el-form ref={formRef} inline={true} size="default" class="le-search-form-flex-wrap" model={searchParams} {...formConfig}>
+						<el-form ref={formRef} inline={true} size="default" class="le-search-form-flex-wrap" model={searchData} {...formConfig}>
 							<el-row class="form_wrap" gutter={8}>
 								{realForms.value.map((form: SearchFormItem & { le_slots: ObjectOpts }, idx) => {
 									// 通过 form.visible 控制 是否展示
