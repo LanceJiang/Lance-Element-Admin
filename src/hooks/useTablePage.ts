@@ -17,25 +17,27 @@ export const useTablePage = (tableProps: Partial<LeTableProps> = {}, config: Par
 		config
 	)
 	const tableOpts = reactive<LeTableProps>({
-		searchParams: {
-			page: 1,
-			size: 10
-		},
 		total: 0,
 		list: [],
-		options: {
-			loading: false,
-			showOverflowTooltip: false,
-			multipleSelect: true // 是否支持列表项选中功能
-			// stripe: true, // 是否为斑马纹 table
-			// highlightCurrentRow: true, // 是否支持当前行高亮显示
-		},
 		columns: [],
 		/*columnsConfig: {
 			columns: [],
 			defaultCheckedOptions: []
 		}*/
-		...tableProps
+		...tableProps,
+		searchParams: {
+			page: 1,
+			size: 20,
+			...(tableProps.searchParams || {})
+		},
+		options: {
+			loading: false,
+			showOverflowTooltip: false,
+			multipleSelect: true, // 是否支持列表项选中功能
+			// stripe: true, // 是否为斑马纹 table
+			// highlightCurrentRow: true, // 是否支持当前行高亮显示
+			...(tableProps.options || {})
+		}
 	})
 	const checkedColumns = ref([])
 	const activeColumns = computed(() => {

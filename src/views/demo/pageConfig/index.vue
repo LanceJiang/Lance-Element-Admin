@@ -3,7 +3,7 @@
 		<!-- 公用搜索组件 -->
 		<LeSearchForm
 			ref="searchForm"
-			v-model:searchParams="tableOpts.searchParams"
+			v-model:searchData="searchData"
 			:forms="forms"
 			:loading="tableOpts.options.loading"
 		>
@@ -157,7 +157,7 @@ const _forms = [
 			{ value: '类型two', label: '类型二' }
 		]
 		/* rules: [
-				{ required: true, message: '请输入邮箱地址', trigger: 'blur' }
+				{ required: true, message: '请选择项目类型', trigger: 'blur' }
 		]*/
 	},
 	// select 多选
@@ -177,7 +177,7 @@ const _forms = [
 			{ value: '类型three', label: '类型三' }
 		]
 		/* rules: [
-				{ required: true, message: '请输入邮箱地址', trigger: 'blur' }
+				{ required: true, message: '请选择select多选', trigger: 'blur' }
 		]*/
 	},
 	{
@@ -228,13 +228,15 @@ const _forms = [
 				]
 			}
 		],
-		// // slotOption: 'cascaderSelectSlot',
-		slotOption: ({ node, data }) => {
-			return (
-				<div style="color: #f0c;">
-					{data.label} - <span style="background: #0ff">标记</span>
-				</div>
-			)
+		slots: {
+			// option: 'cascaderSelectSlot',
+			option: ({ node, data }) => {
+				return (
+					<div style="color: #f0c;">
+						{data.label} - <span style="background: #0ff">标记</span>
+					</div>
+				)
+			}
 		}
 		/*rules: [
 			{
@@ -254,8 +256,8 @@ const _forms = [
 		span: 8,
 		placeholder: '请输入客户名称Test..............'
 		/* rules: [
-				{ required: true, message: '请输入客户名称 邮箱', trigger: 'blur' },
-				{ type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+				{ required: true, message: '请输入客户名称', trigger: 'blur' },
+				{ type: 'email', message: '请输入正确的客户名称(邮箱)', trigger: ['blur', 'change'] }
 		]*/
 	},
 	{
@@ -287,7 +289,7 @@ const _forms = [
 		// type: 'daterange', // form-item 类型
 		type: 'datetimerange', // form-item 类型
 		valueFormat: 'MM/DD/YYYY HH:mm:ss',
-		itemType: 'datePicker', // todo...
+		itemType: 'datePicker',
 		span: 8,
 		// 多语言
 		t_startPlaceholder: 'le.filter.startDate',
@@ -303,8 +305,8 @@ const _forms = [
 		label: '时间 Date',
 		itemType: 'datePicker',
 		span: 8,
-		placeholder: '请输入项目经办人',
-		rules: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' }]
+		// placeholder: '请输入时间 Date',
+		rules: [{ required: true, message: '请输入时间 Date', trigger: 'blur' }]
 		/*format: (value, key) => {
 			// form表单提交时候 调用的....
 			console.warn(value, key, 'value, key')
@@ -316,16 +318,18 @@ const _forms = [
 		// label: 'switch',
 		t_label: 'le.table.hasChecked',
 		itemType: 'switch',
+		slots: {
+			/*label({ label }) {
+				console.error(label, 'label...')
+				return (
+					<span style="background: #f00;display: flex">
+						label custom: fn<span style="margin-left: auto; background: #0f0">{label}</span>
+					</span>
+				)
+			},*/
+			label: 'slot_label_test',
+		},
 		// itemStyle: 'background: #f00',
-		// slotLabel({ label }) {
-		// 	console.error(label, 'label...')
-		// 	return (
-		// 		<span style="background: #f00;display: flex">
-		// 			label custom: fn<span style="margin-left: auto; background: #0f0">{label}</span>
-		// 		</span>
-		// 	)
-		// },
-		slotLabel: 'slot_label_test',
 		span: 8,
 		// inlinePrompt: true,
 		activeText: '是',
@@ -376,6 +380,23 @@ const queryList = () => {
 			options.loading = false // 更改加载中的 loading值
 		})
 }
+	// todo 优化 watch searchData 处理 进行 updateParams 并请求
+	const searchData = ref<{ [prop: string]: any }>({
+		inputNumberRange: [1, 5]
+	})
+	const updateParams = () => {
+		tableOpts.searchParams = {
+			...tableOpts.searchParams as SearchParams,
+			...searchData.value,
+			// ...todo 更多操作 searchData
+			page: 1
+		}
+	}
+	watch(() => searchData.value, () => {
+		nextTick().then(updateParams)
+	}, {
+		immediate: true
+	})
 // table 参数
 const columns = [
 	{
@@ -440,8 +461,8 @@ const columns = [
 const { tableOpts, checkedColumns, activeColumns } = useTablePage({
 	searchParams: {
 		page: 1,
-		size: 10,
-		inputNumberRange: [1, 5]
+		size: 10
+		// ...searchData.value
 	},
 	curRow: {
 		id: `id_1`,
@@ -466,18 +487,22 @@ const { tableOpts, checkedColumns, activeColumns } = useTablePage({
 	fetchImmediate: false,
 	queryList
 })
-setTimeout(() => {
+/*setTimeout(() => {
 	// 模拟特殊情况初始化搜索数据
-	tableOpts.searchParams = {
+	/!*tableOpts.searchParams = {
 		page: 1,
 		size: 10,
+		inputNumberRange: [1, 5],
+		projectType: '类型one'
+	}*!/
+	searchData.value = {
 		inputNumberRange: [1, 5],
 		projectType: '类型one'
 	}
 	// debugger
 	searchForm.value.forceUpdateInitParams(tableOpts.searchParams)
 	window.searchForm = searchForm
-})
+})*/
 // 选中的columns
 checkedColumns.value = columns.slice(0, 2)
 /*const tableOpts = reactive({
@@ -597,10 +622,11 @@ const submitHandler = params => {
 		.then(data => {
 			ElMessage.success(`${isCreate.value ? '新增' : '修改'}成功~`)
 			visible.value = false
-			tableOpts.searchParams = {
+			updateParams()
+			/*tableOpts.searchParams = {
 			  ...tableOpts.searchParams as SearchParams,
 			  page: 1
-			}
+			}*/
 		})
 		.finally(() => {
 			formOptions.value.formConfig.submitLoading = false
