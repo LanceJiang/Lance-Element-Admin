@@ -1,12 +1,16 @@
 <template>
 	<div class="column-page-wrap">
 		<!-- 公用搜索组件 -->
-		<LeSearchForm v-model:searchParams="searchParams" :forms="searchForms" :loading="options.loading" />
+		<LeSearchForm v-model:searchParams="tableOpts.searchParams" :forms="searchForms" :loading="tableOpts.options.loading" />
 		<!-- 公用Table组件 -->
-		<LeTable v-model:searchParams="searchParams" :list="list" :total="total" :options="options" :columns="columns">
+		<!--		:list="list"
+		:total="total"
+		:options="options"
+		:columns="columns"-->
+		<LeTable v-model:searchParams="tableOpts.searchParams" v-bind="tableOpts">
 			<template #toolLeft>
 				<el-button type="primary" size="default" @click="addItem">
-					新增<el-icon><Plus/></el-icon>
+					新增<el-icon><Plus /></el-icon>
 				</el-button>
 			</template>
 			<template #谷歌验证状态="{ row }">
@@ -32,8 +36,8 @@
 		</LeTable>
 		<!-- 编辑表单弹窗 -->
 		<LeFormConfigDialog
-			ref="dialgRef"
 			v-if="dialog.visible"
+			ref="dialogRef"
 			v-model="dialog.visible"
 			v-bind="dialog"
 			:formData="activeData"
@@ -46,23 +50,26 @@
 import { ref, reactive, watch, toRefs } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { getAdminList, queryEdit } from '@/api/demo'
-import { forms, search_forms, columns as _columns } from './config.data.ts'
+import { forms, search_forms, columns } from './config.data.ts'
+import { useTablePage } from '@/hooks/useTablePage'
+import { SearchParams } from '@/components/Table'
+
 // todo ... 尝试调整 state 编写 合适的 Hooks 进行替换
 // 搜索配置
 const searchForms = ref(search_forms)
 // 搜索数据
-const searchParams = ref({
+/*const searchParams = ref({
 	page: 1,
 	size: 20,
 	search_word: '',
 	search_google_key: '',
 	search_status: '',
 	dateRange: undefined
-})
+})*/
 const state: any = reactive({
 	// 查询请求参数
 	query: {},
-	list: [],
+	/*list: [],
 	total: 0,
 	// table 的参数
 	options: {
@@ -70,9 +77,9 @@ const state: any = reactive({
 		loading: false,
 		showIndex: true,
 		size: 'small'
-	},
+	},*/
 	// 需要展示的列
-	columns: _columns,
+	columns,
 	activeData: {},
 	// 弹窗配置
 	dialog: {
@@ -84,28 +91,72 @@ const state: any = reactive({
 				labelWidth: 80,
 				itemWidth: '100%',
 				submitLoading: false
-			},
+			}
 			// isEdit: false
 		}
 	}
 })
-
+const updateParams = () => {
+	tableOpts.searchParams = {
+		...(tableOpts.searchParams as SearchParams),
+		page: 1
+	}
+}
 //获取管理员列表
-const queryList = (params: any) => {
-	state.options.loading = true
+const queryList = () => {
+	const params = getRequestParams()
 	console.error(JSON.stringify(params), '请求参数')
+	tableOpts.options.loading = true
 	getAdminList(params)
 		.then((data: any) => {
 			console.error(data, 'data...')
-			state.list = data.data
-			state.total = data.total
+			tableOpts.list = data.data
+			tableOpts.total = data.total
 		})
 		.finally(() => {
-			state.options.loading = false // 更改加载中的 loading值
+			tableOpts.options.loading = false // 更改加载中的 loading值
 		})
 }
-const updateParams = () => {
-	const { dateRange, ...opts } = searchParams.value
+const { tableOpts } = useTablePage(
+	{
+		// 搜索数据
+		searchParams: {
+			page: 1,
+			size: 20,
+			search_word: '',
+			search_google_key: '',
+			search_status: '',
+			dateRange: undefined
+		},
+		columns,
+		options: {
+			// showOverflowTooltip: false,
+			loading: false,
+			showIndex: true,
+			size: 'small'
+		}
+	},
+	{
+		queryList
+	}
+)
+const getRequestParams = () => {
+	const { dateRange, ...opts } = tableOpts?.searchParams || {}
+	// 时间区间
+	if (Array.isArray(dateRange) && dateRange.length) {
+		opts.search_begin_date = `${dateRange[0]} 00:00:00`
+		opts.search_end_date = `${dateRange[1]} 23:59:59`
+	} else {
+		opts.search_begin_date = opts.search_end_date = undefined
+	}
+	state.query = {
+		...state.query,
+		...opts
+	}
+	return state.query
+}
+/*const updateParams = () => {
+	const { dateRange, ...opts } = tableOpts.searchParams
 	// 时间区间
 	if (Array.isArray(dateRange) && dateRange.length) {
 		opts.search_begin_date = `${dateRange[0]} 00:00:00`
@@ -121,15 +172,15 @@ const updateParams = () => {
 }
 // 边听searchParams变化 更新query
 watch(
-	() => searchParams.value,
+	() => tableOpts.searchParams,
 	() => {
 		updateParams()
 	},
 	{
 		immediate: true
 	}
-)
-// 边听query变化 重新请求
+)*/
+/*// 边听query变化 重新请求
 watch(
 	() => state.query,
 	() => {
@@ -138,35 +189,36 @@ watch(
 	{
 		immediate: true
 	}
-)
+)*/
 
-const { list, total, columns, options, dialog, activeData } = toRefs(state)
+const { /*list, total, columns, options,*/ dialog, activeData } = toRefs(state)
 const submitHandler = params => {
 	dialog.value.formOptions.formConfig.submitLoading = true
-	if(!dialog.value.isCreate) {
+	if (!dialog.value.isCreate) {
 		// 编辑
 		params.id = activeData.value.id
 	}
-	queryEdit(params).then(data => {
-		ElMessage.success(`${dialog.value.isCreate ? '新增' : '修改'}成功~`)
-		dialog.value.visible = false
-		updateParams()
-	})
+	queryEdit(params)
+		.then(data => {
+			ElMessage.success(`${dialog.value.isCreate ? '新增' : '修改'}成功~`)
+			dialog.value.visible = false
+			updateParams()
+		})
 		.finally(() => {
 			dialog.value.formOptions.formConfig.submitLoading = false
 		})
 }
-const dialgRef = ref()
+const dialogRef = ref()
 const addItem = () => {
 	activeData.value = {}
 	dialog.value.isCreate = true
 	dialog.value.visible = true
-	// window.dialgRef = dialgRef // 测试ref
+	// window.dialogRef = dialogRef // 测试ref
 }
 
 const changeItem = (value: any) => {
 	console.log('修改', value)
-	const info = { ...value, roles: (value.roles || []).map(v => v.id)}
+	const info = { ...value, roles: (value.roles || []).map(v => v.id) }
 	activeData.value = info
 	dialog.value.isCreate = false
 	dialog.value.visible = true
@@ -184,13 +236,12 @@ const changGooGleKey = (_id: any, key?: any) => {
 			cancelButtonText: '取消',
 			// type: 'info',
 			buttonSize: 'default'
-		})
-			.then(() => {
-				ElMessage({
-					message: '解绑成功!',
-					type: 'success'
-				})
+		}).then(() => {
+			ElMessage({
+				message: '解绑成功!',
+				type: 'success'
 			})
+		})
 	} else {
 		ElMessageBox.confirm('是否删除该用户？', '提示', {
 			confirmButtonText: '确认',
@@ -204,12 +255,12 @@ const changGooGleKey = (_id: any, key?: any) => {
 					type: 'success'
 				})
 				updateParams()
-			}).catch(() => {
-			console.log('取消')
-		})
+			})
+			.catch(() => {
+				console.log('取消')
+			})
 	}
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

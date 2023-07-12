@@ -1,4 +1,4 @@
-import { reactive, ref, computed, /*getCurrentInstance,*/ unref, watch } from 'vue'
+import { reactive, ref, computed, /*getCurrentInstance,*/ unref, watch, nextTick } from 'vue'
 import { $log } from '@/utils'
 // import { ObjectOpts } from '@/components/FormConfig/formConfig.types.ts'
 import { LeTableColumnProps, LeTableProps } from '@/components/Table'
@@ -64,9 +64,12 @@ export const useTablePage = (tableProps: Partial<LeTableProps> = {}, config: Par
 	watch(
 		() => tableOpts.searchParams,
 		// (v, oldV) => {
-		// 	localConfig.queryList?.()
-		// },
-		localConfig.queryList,
+		() => {
+			nextTick(() => {
+				localConfig.queryList?.()
+			})
+		},
+		// localConfig.queryList,
 		{
 			immediate: localConfig.fetchImmediate
 		}

@@ -1,5 +1,5 @@
-import {LeFormItem} from "@/components/FormConfig/formConfig.types.ts";
-import {LeColumnProps} from "@/components/Table";
+import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
+import { LeTableColumnProps } from '@/components/Table'
 
 // 状态枚举
 export const statusOptions = [
@@ -7,39 +7,39 @@ export const statusOptions = [
 	{ value: 2, label: '锁定' },
 	{ value: 1, label: '正常' }
 ]
-export const statusOptions_config = statusOptions.reduce((res, {label, value}) => {
+export const statusOptions_config = statusOptions.reduce((res: { [key: string]: any }, { label, value }) => {
 	res[value] = label
 	return res
 }, {})
 
 // 角色枚举
-const rolesOptions = [{
-	label: '超级管理员',
-	value: 0,
-}, {
-	label: '管理员',
-	value: 1,
-}, {
-	label: '成员',
-	value: 2,
-}]
+const rolesOptions = [
+	{
+		label: '超级管理员',
+		value: 0
+	},
+	{
+		label: '管理员',
+		value: 1
+	},
+	{
+		label: '成员',
+		value: 2
+	}
+]
 export const forms: LeFormItem[] = [
 	{
 		prop: 'username',
 		label: '用户名',
 		itemType: 'input',
-		rules: [
-			{ required: true, message: '请输入用户名', trigger: 'blur' },
-		]
+		rules: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
 	},
 	{
 		prop: 'phone',
 		label: '手机号',
 		itemType: 'input',
 		// type: 'tel',
-		rules: [
-			{ required: true, message: '请输入手机号', trigger: 'blur' },
-		]
+		rules: [{ required: true, message: '请输入手机号', trigger: 'blur' }]
 	},
 	{
 		prop: 'email',
@@ -62,10 +62,8 @@ export const forms: LeFormItem[] = [
 		itemType: 'select',
 		options: rolesOptions,
 		multiple: true,
-		rules: [
-			{ required: true, message: '请选择角色', trigger: ['blur'] }
-		]
-	},
+		rules: [{ required: true, message: '请选择角色', trigger: ['blur'] }]
+	}
 ]
 export const search_forms: LeFormItem[] = [
 	{
@@ -98,7 +96,7 @@ export const search_forms: LeFormItem[] = [
 		options: statusOptions
 	}
 ]
-export const columns: LeColumnProps[] = [
+export const columns: LeTableColumnProps[] = [
 	{
 		prop: 'username',
 		label: '用户名',
