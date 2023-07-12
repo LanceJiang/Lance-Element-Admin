@@ -4,12 +4,12 @@ import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/lib/co
 export type LeColumnSlots = {
 	// default?: ((scope: Record<string, any>) => any) | string
 	// header?: ((scope: Record<string, any>) => any) | string
-	default?: ((scope: { row, column, $index }) => (HTMLDivElement|string)) | string
-	header?: ((scope: { column, $index }) => (HTMLDivElement|string)) | string
+	default?: ((scope: { row; column; $index }) => HTMLDivElement | string) | string
+	header?: ((scope: { column; $index }) => HTMLDivElement | string) | string
 }
 export type LeColumnProps = {
 	// 多语言label转义字符
-	t_label: string
+	t_label?: string
 	// 插槽
 	slots?: LeColumnSlots
 	// 多级表头
@@ -21,9 +21,9 @@ export type LeTableColumnProps = InstanceType<typeof ElTableColumn>['$props'] & 
 // Options 配置
 export type Options = {
 	// el-table参数
-	height: string
-	maxHeight: string
-	size: string
+	height?: string
+	maxHeight?: string
+	size?: string
 
 	// 表格分页器 pageSizes (默认:[10, 20, 50, 100])
 	pageSizes?: number[]
@@ -78,6 +78,7 @@ export type LeTableProps = {
 	total?: number
 	// 表格的控制参数
 	options?: LeTableOptions
+	curRow?: { [key: string]: any } | null
 }
 /* TableActions */
 export type LeTableActions = {

@@ -67,7 +67,7 @@ export const tableProps = {
 	},
 	// 当前行(高亮)
 	curRow: {
-		type: Object as PropType<{[key:string]: any}|null>,
+		type: Object as PropType<{[key: string]: any}|null>,
 		default: null
 	}
 }
@@ -92,7 +92,7 @@ const default_tableConfig = {
 	// currentRowKey: 'id', // 根据 该值 查找当前页面数据是否包含当前数据 添加 高亮状态(不传 默认继承rowKey)
 	// align: 'center', // columnItem 对齐方式
 	resizable: true, // ColumnItem 是否允许拖动
-	showOverflowTooltip: true, // columnItem 超出内容 省略号 同时添加 tiptool
+	showOverflowTooltip: true, // columnItem 超出内容 省略号 同时添加 tooltip
 
 	showIndex: true, // 是否展示序号
 	indexLabel: 'No.', // 自选的序号label标签
