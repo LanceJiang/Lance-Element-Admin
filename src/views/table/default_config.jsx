@@ -11,7 +11,7 @@ const tPrefix = 'example.table.'
  *  leVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}){ return [<element>]}
  */
 const slot_user = (scope) => {
-	console.error('slot_user', scope)
+	// console.error('slot_user', scope)
 	// $rowIndex 指 vxeTable Cell  $index 指 elTable Cell
 	// if (scope.$rowIndex === 0 || scope.$index === 0) console.error(scope, 'slot_user scope 第一条数据') // todo
 	const { row, column } = scope
@@ -184,10 +184,12 @@ export const get_tabs_filterForms = () => [
 		label: 'leSelect_icon', // label 标签
 		itemType: 'leSelect', // form-item 类型
 		options: iconOptions,
-		slotOption({ option, label }) {
-			// console.error(option, label, 'option, label')
-			const style = `color: ${option.color}`
-			return <le-icon icon-class={option.icon} style={style}></le-icon>
+		slots: {
+			option({ option, label }) {
+				// console.error(option, label, 'option, label')
+				const style = `color: ${option.color}`
+				return <le-icon icon-class={option.icon} style={style}></le-icon>
+			}
 		},
 		// 渲染选中的特殊展示
 		tagRender({ searchParams, transLabel, deleteFn, isMore }) {
@@ -238,12 +240,14 @@ export const get_tabs_filterForms = () => [
 				label_1: 'leSelect单选' + i
 			}
 		}),
-		// slot template（$scopedSlots）  方式1
-		slotOption: 'leSelectSlot'
-		// slot function 方式2
-		// slotOption({ option, label }) {
-		//   return label + '_____'
-		// }
+		slots: {
+			// slot template（$scopedSlots）  方式1
+			option: 'leSelectSlot'
+			// slot function 方式2
+			// option({ option, label }) {
+			//   return label + '_____'
+			// }
+		}
 	},
 	{
 		// visible: true, // 只要不为false 就是 展示

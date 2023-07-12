@@ -65,9 +65,6 @@ export type LeFormItem = Partial<FormItemInstance['props']> & {
 	visible?: boolean // 默认的formItem 是否显示
 	// 插槽
 	slots?: FormItemSlots
-	// // label 自定义插槽
-	// slotLabel?: string | (({ label: string }) => HTMLDivElement) // [[定义的slotLabel插槽名称], function[slotLabel插槽jsx渲染函数]] // slotLabel: ({label}) => DOM
-	// slotOption?: SlotOption
 	/*** select || radio || cascader 使用 Start*/
 	valueKey?: string
 	labelKey?: string

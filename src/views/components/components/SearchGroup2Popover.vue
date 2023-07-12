@@ -274,11 +274,18 @@ const formOptions = ref({
 			label: 'leSelect_icon', // label 标签
 			itemType: 'leSelect', // form-item 类型
 			options: iconOptions,
-			slotOption({ option, label }) {
+			slots: {
+				option({ option, label }) {
+					// console.error(option, label, 'option, label')
+					const style = `color: ${option.color}`
+					return <le-icon icon-class={option.icon} style={style}></le-icon>
+				}
+			},
+			/*slotOption({ option, label }) {
 				// console.error(option, label, 'option, label')
 				const style = `color: ${option.color}`
 				return <le-icon icon-class={option.icon} style={style}></le-icon>
-			},
+			},*/
 			// 渲染选中的特殊展示
 			tagRender({ searchParams, transLabel, deleteFn, isMore }) {
 				// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
@@ -313,10 +320,16 @@ const formOptions = ref({
 			itemType: 'leSelect', // form-item 类型
 			multiple: true,
 			options: iconOptions,
-			slotOption({ option, label }) {
+			slots: {
+				option({ option, label }) {
+					const style = `color: ${option.color}`
+					return <le-icon icon-class={option.icon} style={style}></le-icon>
+				},
+			},
+			/*slotOption({ option, label }) {
 				const style = `color: ${option.color}`
 				return <le-icon icon-class={option.icon} style={style}></le-icon>
-			},
+			},*/
 			// 渲染选中的特殊展示
 			tagRender({ searchParams, transLabel, deleteFn, isMore }) {
 				// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')

@@ -130,18 +130,6 @@ export default defineComponent({
 						return <div style={style}>{item.le_label} ttt</div>
 					},
 				},
-				/*// label template 支持
-				// slotLabel: 'leSelect_label',
-				// label render 支持
-				slotLabel({ label }) {
-					return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ label }</span></span>
-				},*/
-				/*// slotOption: 'leSelectSlot',
-				// slotOption({ value, label, disabled }) { // select 类型处理
-				slotOption({ item, index, disabled }){ // leSelect (基于el-select-v2 二开)
-					const style = `color: #fff; background: #00f`
-					return <div style={style}>{item.le_label} ttt</div>
-				},*/
 				change(...args) {
 					console.warn(...args, 'leSelect.chang args')
 				},
@@ -575,18 +563,6 @@ export default defineComponent({
 							return <div style={style}>{item.le_label} ttt</div>
 						},
 					},
-					/*// label template 支持
-					// slotLabel: 'leSelect_label',
-					// label render 支持
-					slotLabel({ label }) {
-						return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ label }</span></span>
-					},*/
-					/*// slotOption: 'leSelectSlot',
-					// slotOption({ value, label, disabled }) { // select 类型处理
-					slotOption({ item, index, disabled }){ // leSelect (基于el-select-v2 二开)
-						const style = `color: #fff; background: #00f`
-						return <div style={style}>{item.le_label} ttt</div>
-					},*/
 					change(...args) {
 						console.warn(...args, 'leSelect.chang args')
 					},
