@@ -1,12 +1,8 @@
 <template>
 	<div class="column-page-wrap">
 		<!-- 公用搜索组件 -->
-		<LeSearchForm v-model:searchData="tableOpts.searchParams" :forms="searchForms" :loading="tableOpts.options.loading" />
+		<LeSearchForm v-model:searchData="searchData" :forms="searchForms" :loading="tableOpts.options.loading" />
 		<!-- 公用Table组件 -->
-		<!--		:list="list"
-		:total="total"
-		:options="options"
-		:columns="columns"-->
 		<LeTable v-model:searchParams="tableOpts.searchParams" v-bind="tableOpts">
 			<template #toolLeft>
 				<el-button type="primary" size="default" @click="addItem">
@@ -57,27 +53,7 @@ import { SearchParams } from '@/components/Table'
 // todo ... 尝试调整 state 编写 合适的 Hooks 进行替换
 // 搜索配置
 const searchForms = ref(search_forms)
-// 搜索数据
-/*const searchParams = ref({
-	page: 1,
-	size: 20,
-	search_word: '',
-	search_google_key: '',
-	search_status: '',
-	dateRange: undefined
-})*/
 const state: any = reactive({
-	// 查询请求参数
-	query: {},
-	/*list: [],
-	total: 0,
-	// table 的参数
-	options: {
-		showOverflowTooltip: false,
-		loading: false,
-		showIndex: true,
-		size: 'small'
-	},*/
 	// 需要展示的列
 	columns,
 	activeData: {},
@@ -97,14 +73,24 @@ const state: any = reactive({
 	}
 })
 const updateParams = () => {
+	const { dateRange, ...opts } = searchData.value || {}
+	// 时间区间
+	if (Array.isArray(dateRange) && dateRange.length) {
+		opts.search_begin_date = `${dateRange[0]} 00:00:00`
+		opts.search_end_date = `${dateRange[1]} 23:59:59`
+	} else {
+		opts.search_begin_date = opts.search_end_date = undefined
+	}
 	tableOpts.searchParams = {
 		...(tableOpts.searchParams as SearchParams),
+		...opts,
 		page: 1
 	}
 }
 //获取管理员列表
 const queryList = () => {
-	const params = getRequestParams()
+	// const params = getRequestParams() // todo...
+	const params = tableOpts.searchParams
 	console.error(JSON.stringify(params), '请求参数')
 	tableOpts.options.loading = true
 	getAdminList(params)
@@ -117,16 +103,12 @@ const queryList = () => {
 			tableOpts.options.loading = false // 更改加载中的 loading值
 		})
 }
-const { tableOpts } = useTablePage(
+const { tableOpts, searchData } = useTablePage(
 	{
 		// 搜索数据
 		searchParams: {
 			page: 1,
-			size: 20,
-			search_word: '',
-			search_google_key: '',
-			search_status: '',
-			dateRange: undefined
+			size: 20
 		},
 		columns,
 		options: {
@@ -137,10 +119,18 @@ const { tableOpts } = useTablePage(
 		}
 	},
 	{
+		searchData: {
+			search_word: 'search_word',
+			search_google_key: 1,
+			search_status: 1,
+			// dateRange: undefined
+			dateRange: ['06/29/2023', '06/30/2023']
+		},
+		updateParams,
 		queryList
 	}
 )
-const getRequestParams = () => {
+/*const getRequestParams = () => {
 	const { dateRange, ...opts } = tableOpts?.searchParams || {}
 	// 时间区间
 	if (Array.isArray(dateRange) && dateRange.length) {
@@ -154,44 +144,9 @@ const getRequestParams = () => {
 		...opts
 	}
 	return state.query
-}
-/*const updateParams = () => {
-	const { dateRange, ...opts } = tableOpts.searchParams
-	// 时间区间
-	if (Array.isArray(dateRange) && dateRange.length) {
-		opts.search_begin_date = `${dateRange[0]} 00:00:00`
-		opts.search_end_date = `${dateRange[1]} 23:59:59`
-	} else {
-		opts.search_begin_date = opts.search_end_date = undefined
-	}
-	state.query = {
-		...state.query,
-		...opts,
-		page: 1
-	}
-}
-// 边听searchParams变化 更新query
-watch(
-	() => tableOpts.searchParams,
-	() => {
-		updateParams()
-	},
-	{
-		immediate: true
-	}
-)*/
-/*// 边听query变化 重新请求
-watch(
-	() => state.query,
-	() => {
-		queryList(state.query)
-	},
-	{
-		immediate: true
-	}
-)*/
+}*/
 
-const { /*list, total, columns, options,*/ dialog, activeData } = toRefs(state)
+const { dialog, activeData } = toRefs(state)
 const submitHandler = params => {
 	dialog.value.formOptions.formConfig.submitLoading = true
 	if (!dialog.value.isCreate) {

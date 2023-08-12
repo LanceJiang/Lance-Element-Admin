@@ -1,18 +1,33 @@
 import { reactive, ref, computed, /*getCurrentInstance,*/ unref, watch, nextTick } from 'vue'
 import { $log } from '@/utils'
 // import { ObjectOpts } from '@/components/FormConfig/formConfig.types.ts'
-import { LeTableColumnProps, LeTableProps } from '@/components/Table'
-
+import { LeTableColumnProps, LeTableProps, SearchParams } from '@/components/Table'
+type SearchData = { [prop: string]: any }
 export type UseTableConfig = {
-	fetchImmediate?: boolean
+	// 搜索表单数据
+	searchData: SearchData
+	// 更新searchParams参数数据
+	updateParams: () => void
+	// 请求表格数据方法
 	queryList: () => void
+	// 是否初始化请求
+	fetchImmediate?: boolean
 }
 
 export const useTablePage = (tableProps: Partial<LeTableProps> = {}, config: Partial<UseTableConfig> = {}) => {
 	const localConfig: UseTableConfig = Object.assign(
 		{
+			searchData: {},
 			fetchImmediate: true,
-			queryList: () => $log('请添加queryList', JSON.stringify(tableOpts.searchParams))
+			queryList: () => $log('请添加queryList', JSON.stringify(tableOpts.searchParams)),
+			updateParams: () => {
+				tableOpts.searchParams = {
+					...(tableOpts.searchParams as SearchParams),
+					...searchData.value,
+					// ...todo 若有更多操作 searchData 进行请求，请覆盖updateParams 方法
+					page: 1
+				}
+			}
 		},
 		config
 	)
@@ -39,6 +54,9 @@ export const useTablePage = (tableProps: Partial<LeTableProps> = {}, config: Par
 			...(tableProps.options || {})
 		}
 	})
+	const searchData = ref<SearchData>({
+		...config.searchData
+	})
 	const checkedColumns = ref([])
 	const activeColumns = computed(() => {
 		const _checkedColumns = unref(checkedColumns) as LeTableColumnProps[]
@@ -60,25 +78,37 @@ export const useTablePage = (tableProps: Partial<LeTableProps> = {}, config: Par
 	})
 	/*const instance = getCurrentInstance()
 	console.error(instance, 'instance.proxy')*/
-
+	watch(
+		() => searchData.value,
+		() => {
+			nextTick().then(localConfig.updateParams)
+		},
+		{
+			immediate: localConfig.fetchImmediate
+		}
+	)
 	// watch(() => tableOpts.searchParams.custName, (v, oldv) => {
 	// watch(tableOpts.searchParams, (v, oldv) => {
 	watch(
 		() => tableOpts.searchParams,
 		// (v, oldV) => {
-		() => {
+		/*() => {
 			nextTick(() => {
 				localConfig.queryList?.()
 			})
-		},
-		// localConfig.queryList,
+		},*/
+		localConfig.queryList,
 		{
-			immediate: localConfig.fetchImmediate
+			// immediate: localConfig.fetchImmediate
 		}
 	)
 	return {
 		tableOpts,
 		checkedColumns,
-		activeColumns
+		activeColumns,
+		// 搜索表单数据
+		searchData,
+		// 刷新数据方法
+		updateParams: localConfig.updateParams
 	}
 }

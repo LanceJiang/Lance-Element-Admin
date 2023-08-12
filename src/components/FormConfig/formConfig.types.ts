@@ -26,7 +26,7 @@ export type ComponentType =
 	| 'datePicker'
 	| 'switch'
 	| 'input'
-export type SlotOption<T = (ObjectOpts | OptionItemProps | {data: any, node: any})> = ((T) => HTMLDivElement | string) | string | undefined
+export type SlotOption<T = ObjectOpts | OptionItemProps | { data: any; node: any }> = ((T) => HTMLDivElement | string) | string | undefined
 export type FormItemSlots = {
 	// label 自定义插槽
 	label?: (({ label: string }) => HTMLDivElement) | string
@@ -40,11 +40,11 @@ export type FormItemSlots = {
 
 	// 由于inputNumber && inputNumberRange定义的slots 很少用到 目前只给出 render方法进行slot处理
 	/**inputNumber && inputNumberRange*/
-	prefix?: ((scope: Record<string, any>) => any)// | string
-	suffix?: ((scope: Record<string, any>) => any)// | string
+	prefix?: (scope: Record<string, any>) => any // | string
+	suffix?: (scope: Record<string, any>) => any // | string
 	/**inputNumberRange*/
-	prepend?: ((scope: Record<string, any>) => any)// | string
-	append?: ((scope: Record<string, any>) => any)// | string
+	prepend?: (scope: Record<string, any>) => any // | string
+	append?: (scope: Record<string, any>) => any // | string
 
 	[prop: string]: any
 }

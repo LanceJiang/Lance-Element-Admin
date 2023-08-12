@@ -380,23 +380,6 @@ const queryList = () => {
 			options.loading = false // 更改加载中的 loading值
 		})
 }
-	// todo 优化 watch searchData 处理 进行 updateParams 并请求
-	const searchData = ref<{ [prop: string]: any }>({
-		inputNumberRange: [1, 5]
-	})
-	const updateParams = () => {
-		tableOpts.searchParams = {
-			...tableOpts.searchParams as SearchParams,
-			...searchData.value,
-			// ...todo 更多操作 searchData
-			page: 1
-		}
-	}
-	watch(() => searchData.value, () => {
-		nextTick().then(updateParams)
-	}, {
-		immediate: true
-	})
 // table 参数
 const columns = [
 	{
@@ -458,11 +441,10 @@ const columns = [
 		fixed: 'right'
 	}
 ]
-const { tableOpts, checkedColumns, activeColumns } = useTablePage({
+const { searchData, tableOpts, checkedColumns, activeColumns, updateParams } = useTablePage({
 	searchParams: {
 		page: 1,
 		size: 10
-		// ...searchData.value
 	},
 	curRow: {
 		id: `id_1`,
@@ -484,17 +466,24 @@ const { tableOpts, checkedColumns, activeColumns } = useTablePage({
 		defaultCheckedOptions: columns.slice(0, 2)
 	}
 }, {
+	searchData: {
+		inputNumberRange: [1, 5]
+	},
+	queryList,
 	fetchImmediate: false,
-	queryList
+})
+nextTick(() => {
+	// 模拟特殊情况初始化搜索数据
+	searchData.value = {
+		inputNumberRange: [1, 5],
+		projectType: '类型one'
+	}
+	// debugger
+	searchForm.value.forceUpdateInitParams(tableOpts.searchParams)
+	window.searchForm = searchForm
 })
 /*setTimeout(() => {
 	// 模拟特殊情况初始化搜索数据
-	/!*tableOpts.searchParams = {
-		page: 1,
-		size: 10,
-		inputNumberRange: [1, 5],
-		projectType: '类型one'
-	}*!/
 	searchData.value = {
 		inputNumberRange: [1, 5],
 		projectType: '类型one'
