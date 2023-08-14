@@ -1,5 +1,3 @@
-// eslint-disable-next-line
-// @ts-ignore
 import Storage from 'vue-ls'
 const options = {
 	namespace: 'vue3_admin_', // key prefix
