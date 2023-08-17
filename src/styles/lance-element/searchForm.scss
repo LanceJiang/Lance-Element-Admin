@@ -21,7 +21,7 @@
 							//background: #fafafa;
 							background: #fcfcfc;
 						}
-						.el-input__wrapper {
+						.el-select-v2__wrapper, .el-input__wrapper {
 							border-radius: 0 var(--el-input-border-radius,var(--el-border-radius-base)) var(--el-input-border-radius,var(--el-border-radius-base)) 0;
 						}
 						// 修复 InputNumber 于labelStyle 样式问题
