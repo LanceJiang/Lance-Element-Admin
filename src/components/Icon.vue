@@ -1,5 +1,5 @@
 <template>
-	<svg class="le-icon" aria-hidden="true" @click="$emit('click', $event)">
+	<svg class="le-icon" aria-hidden="true">
 		<use :xlink:href="`#${iconClass}`" :fill="color" />
 	</svg>
 </template>
@@ -15,5 +15,4 @@ const props = defineProps({
 		default: ''
 	}
 })
-defineEmits(['click'])
 </script>

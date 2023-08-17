@@ -25,12 +25,16 @@ const props = defineProps({
 const symbolId = computed(() => `#${props.prefix}-${props.iconClass}`)
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .svg-icon {
 	width: 1em;
 	height: 1em;
 	vertical-align: -0.15em;
 	overflow: hidden;
 	fill: currentColor;
+
+	&:focus {
+		outline: unset;
+	}
 }
 </style>
