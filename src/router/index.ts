@@ -123,7 +123,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 			}
 		]
 	},
-	// 仅用于研发测试 START
+	/*// 仅用于研发测试 START
 	{
 		path: '/test',
 		component: Layout,
@@ -145,7 +145,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 			}
 		]
 	},
-	// 仅用于研发测试 END
+	// 仅用于研发测试 END*/
 	// 外部链接
 	{
 		path: '/external-link',
@@ -194,7 +194,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 				name: 'adminManage',
 				component: 'demo/adminManage/index',
 				meta: { title: 'demo_adminManage' }
-			},
+			}
 		]
 	}
 

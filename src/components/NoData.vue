@@ -7,7 +7,6 @@
 	</div>
 </template>
 <script setup name="LeNoData" lang="ts">
-import { defineProps, defineEmits } from 'vue'
 import Icon from '@/components/Icon.vue'
 defineEmits(['click'])
 const props = defineProps({

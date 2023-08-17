@@ -1,6 +1,6 @@
 <!--<script setup lang="tsx">-->
 <script lang="tsx">
-import {defineComponent, ref, watchEffect, withDefaults, defineProps } from "vue";
+import { defineComponent, ref, watchEffect, withDefaults } from 'vue'
 // interface Props {
 // 	msg?: string
 // 	labels: string[]
@@ -44,12 +44,15 @@ export default defineComponent({
 		/*{labels}<br/>
 			{msg}<br/>*/
 		return () => {
-			return <div style="background: #f00">
-				{JSON.stringify(props)}<br/>
-				{/*{labels}<br/>
+			return (
+				<div style="background: #f00">
+					{JSON.stringify(props)}
+					<br />
+					{/*{labels}<br/>
 				{msg}<br/>*/}
-				<el-input v-model={testValue.value}></el-input>
-			</div>
+					<el-input v-model={testValue.value}></el-input>
+				</div>
+			)
 		}
 	}
 })
@@ -69,6 +72,4 @@ export default defineComponent({
 <!--	</div>-->
 <!--</template>-->
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
