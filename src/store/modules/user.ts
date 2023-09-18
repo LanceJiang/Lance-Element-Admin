@@ -1,17 +1,19 @@
 import { defineStore } from 'pinia'
-import { LoginFormData, GoogleLoginData, UserState } from '@/types'
+import { UserState } from '@/types'
 import { ls } from '@/utils'
 import { login, googleLogin, logout } from '@/api/login'
 import router, { resetRouter } from '@/router'
-// @ts-ignore
 import md5 from 'js-md5'
+
+import avatarUrl from '@/assets/favicon.ico'
 
 const useUserStore = defineStore({
 	id: 'user',
 	state: (): UserState => ({
 		token: ls.get('token') || '',
 		nickname: '',
-		avatar: '',
+		// avatar: '',
+		avatar: avatarUrl,
 		roles: [],
 		perms: [],
 		loginQuery: {},
@@ -28,7 +30,7 @@ const useUserStore = defineStore({
 		 *  password: 密码 -> md5加密
 		 *  challenge: 验证码
 		 */
-		login(params: LoginFormData) {
+		login(params: any) {
 			const userInfo = {
 				...params,
 				password: md5(params.password)
@@ -48,19 +50,19 @@ const useUserStore = defineStore({
 		/**
 		 * Google验证登录
 		 */
-		googleLogin(params: GoogleLoginData) {
+		googleLogin(params: any) {
 			return googleLogin(params).then((data: any) => {
 				// console.error(data, 'data')
 				const token = (data || {}).token
 				ls.set('token', token)
 				this.token = token
 
-				// @ts-ignore
+				/*// eslint-disable-next-line
+				// @ts-ignore*/
 				const { redirect, ...query } = this.loginQuery || {}
 				// debugger
 				const path = redirect || '/'
 				// console.error(path, 'path query', query)
-				// @ts-ignore
 				router.push({ path, query })
 				return data
 			})
@@ -71,6 +73,8 @@ const useUserStore = defineStore({
 		getUserInfo() {
 			return new Promise(resolve => {
 				this.isLogin = true
+				console.log('获取用户信息')
+				this.nickname = 'admin'
 				resolve(true)
 			})
 			// return getUserInfo()
