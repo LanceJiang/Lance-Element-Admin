@@ -1,4 +1,7 @@
 #app {
+	--el-menu-item-height: 42px;
+	--el-menu-sub-item-height: 42px;
+	//--el-menu-hover-bg-color: transparent; // rgba(243, 243, 245);
 	.main-container {
 		min-height: 100%;
 		height: 100%;
@@ -10,7 +13,7 @@
 	.sidebar-container {
 		transition: width 0.28s;
 		width: $sideBarWidth !important;
-		background-color: $menuBg;
+		background-color: var(--el-menu-bg-color); // todo
 		height: 100%;
 		position: fixed;
 		font-size: 0px;
@@ -19,6 +22,7 @@
 		left: 0;
 		z-index: 1001;
 		overflow: hidden;
+		box-shadow: 2px 0 8px #1d23290d;
 
 		// reset element-plus css
 		.horizontal-collapse-transition {
@@ -66,28 +70,72 @@
 			border: none;
 			height: 100%;
 			width: 100% !important;
-		}
-
-		// menu hover
-		.submenu-title-noDropdown,
-		.el-sub-menu__title {
-			&:hover {
-				background-color: $menuHover !important;
+			.el-sub-menu {
+				&.is-active {
+					.el-sub-menu__title {
+						color: var(--el-menu-active-color);
+					}
+				}
+			}
+			/*$active_1: var(--el-menu-active-color);
+			$active_bg: desaturate(rgba(0, 0, 0, .90), 1%);
+			//$active_bg: desaturate($active_1, 50%);
+			//$active_bg: draken($active_1, 50%);*/
+			$active_bg: var(--el-color-primary);
+			.el-menu-item,
+			.el-sub-menu__title {
+				margin-top: 6px;
+			}
+			.el-menu-item.is-active::before {
+				background-color: $active_bg;
+			}
+			.el-menu-item:hover {
+				&::before {
+					background-color: $active_bg;
+				}
+			}
+			.el-sub-menu__title:hover {
+				&::before {
+					background-color: $active_bg;
+				}
+			}
+			.el-menu-item::before,
+			.el-sub-menu__title::before {
+				z-index: auto;
+				content: "";
+				background-color: #0000;
+				opacity: 0.08;
+				position: absolute;
+				left: 8px;
+				right: 8px;
+				top: 0;
+				bottom: 0;
+				pointer-events: none;
+				border-radius: 3px;
+				transition: background-color .3s cubic-bezier(.4, 0, .2, 1);
 			}
 		}
 
-		.is-active > .el-sub-menu__title {
-			color: $subMenuActiveText !important;
-		}
+		// menu hover
+		/*.submenu-title-noDropdown,
+		.el-sub-menu__title {
+			&:hover {
+				//background-color: $menuHover !important;
+			}
+		}*/
+
+		/*.is-active > .el-sub-menu__title {
+			color: // $subMenuActiveText !important;
+		}*/
 
 		& .nest-menu .el-sub-menu > .el-sub-menu__title,
 		& .el-sub-menu .el-menu-item {
 			min-width: $sideBarWidth !important;
-			background-color: $subMenuBg !important;
+			// // background-color: $subMenuBg !important;
 
-			&:hover {
-				background-color: $subMenuHover !important;
-			}
+			//&:hover {
+			//	// background-color: $subMenuHover !important;
+			//}
 		}
 	}
 
@@ -199,13 +247,13 @@
 		}
 	}
 
-	.nest-menu .el-sub-menu > .el-sub-menu__title,
+	/*.nest-menu .el-sub-menu > .el-sub-menu__title,
 	.el-menu-item {
 		&:hover {
 			// you can use $subMenuHover
-			background-color: $menuHover !important;
+			//background-color: $menuHover !important;
 		}
-	}
+	}*/
 
 	// the scroll bar appears when the subMenu is too long
 	> .el-menu--popup {

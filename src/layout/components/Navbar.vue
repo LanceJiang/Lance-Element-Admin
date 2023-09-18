@@ -19,9 +19,9 @@
 
 			<el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click" size="default">
 				<div class="avatar-wrapper">
-					<!--					<img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />-->
-					{{ username }} <img src="@/assets/favicon.ico" class="user-avatar" />
-					<CaretBottom style="width: 0.6em; height: 0.6em; margin-left: 5px" />
+					<span class="nickname">{{ user.nickname || '' }}</span>
+					<img :src="user.avatar" class="user-avatar" />
+					<ArrowDown style="width: 0.6em; height: 0.6em; margin-left: 5px; font-size: 24px;" />
 				</div>
 
 				<template #dropdown>
@@ -39,12 +39,12 @@
 	</div>
 </template>
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue'
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox } from 'element-plus'
 
 import useStore from '@/store'
-import { ls } from '@/utils'
+// import { ls } from '@/utils'
 
 // 组件依赖
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
@@ -54,8 +54,7 @@ import SizeSelect from '@/components/SizeSelect/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
 
 // 图标依赖
-import { CaretBottom } from '@element-plus/icons-vue'
-const menuController = ref(false)
+import { ArrowDown } from '@element-plus/icons-vue'
 
 const { app, user } = useStore()
 
@@ -64,19 +63,10 @@ const router = useRouter()
 
 const sidebar = computed(() => app.sidebar)
 const device = computed(() => app.device)
-// const avatar = computed(() => user.avatar)
 
 function toggleSideBar() {
 	app.toggleSidebar()
 }
-let username = ref('')
-const getName = () => {
-	username.value = ls.get('username')
-}
-
-onBeforeMount(() => {
-	getName()
-})
 
 function logout() {
 	ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
@@ -84,7 +74,6 @@ function logout() {
 		cancelButtonText: '取消',
 		type: 'warning'
 	}).then(() => {
-		ls.remove('username')
 		user.logout().then(() => {
 			router.push(`/login?redirect=${route.fullPath}`)
 		})
@@ -100,10 +89,12 @@ ul {
 }
 .navbar {
 	height: 50px;
+	display: flex;
+	align-items: center;
 	overflow: hidden;
 	position: relative;
 	background: #fff;
-	box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+	box-shadow: 0 1px 2px #00152914;
 
 	.hamburger-container {
 		line-height: 46px;
@@ -119,11 +110,14 @@ ul {
 	}
 
 	.breadcrumb-container {
-		float: left;
+		flex: 1;
 	}
 
 	.right-menu {
-		float: right;
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
 		height: 100%;
 		line-height: 50px;
 
@@ -132,12 +126,10 @@ ul {
 		}
 
 		.right-menu-item {
-			display: inline-block;
 			padding: 0 8px;
 			height: 100%;
 			font-size: 18px;
 			color: #5a5e66;
-			vertical-align: text-bottom;
 
 			&.hover-effect {
 				cursor: pointer;
@@ -151,23 +143,22 @@ ul {
 
 		.avatar-container {
 			.avatar-wrapper {
-				margin-top: 8px;
-				position: relative;
-
+				display: flex;
+				align-items: center;
+				white-space: nowrap;
+				.nickname {
+					font-size: 14px;
+				}
 				.user-avatar {
 					cursor: pointer;
-					width: 36px;
-					height: 36px;
-					border-radius: 10px;
-					vertical-align: middle;
-					margin-left: 10px;
+					width: 26px;
+					height: 26px;
+					border-radius: 50%;
+					margin-left: 8px;
 				}
 
 				.el-icon-caret-bottom {
 					cursor: pointer;
-					position: absolute;
-					right: -20px;
-					top: 25px;
 					font-size: 12px;
 				}
 			}

@@ -1,7 +1,7 @@
 <template>
 	<el-dropdown class="lang-select" trigger="click" @command="handleSetLanguage">
 		<div class="lang-select__icon">
-			<LeIcon :icon-class="`le-lang_${language}`" style="transform: scale(1.2)" />
+			<LeIcon :icon-class="`le-lang_${language}`" />
 		</div>
 		<template #dropdown>
 			<el-dropdown-menu>

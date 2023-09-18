@@ -46,10 +46,21 @@ const title = ref('vue3_element_admin')
 	width: 100%;
 	height: 50px;
 	line-height: 50px;
-	background: #2b2f3a;
 	text-align: center;
 	overflow: hidden;
-
+	&::before {
+		z-index: auto;
+		content: '';
+		background-color: var(--el-menu-active-color);
+		opacity: 0.01;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		pointer-events: none;
+		transition: background-color .3s cubic-bezier(.4, 0, .2, 1);
+	}
 	& .sidebar-logo-link {
 		height: 100%;
 		width: 100%;
@@ -64,7 +75,7 @@ const title = ref('vue3_element_admin')
 		& .sidebar-title {
 			display: inline-block;
 			margin: 0;
-			color: #fff;
+			color: var(--el-color-primary);
 			font-weight: 600;
 			line-height: 50px;
 			font-size: 14px;
