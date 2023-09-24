@@ -1,7 +1,7 @@
 <template>
 	<div class="sidebar-logo-container" :class="{ collapse: isCollapse }">
 		<transition name="sidebarLogoFade">
-			<router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
+			<router-link v-if="false" key="collapse" class="sidebar-logo-link" to="/">
 				<Svg-Icon class="sidebar-logo" icon-class="logo" />
 			</router-link>
 			<router-link v-else key="expand" class="sidebar-logo-link" to="/">

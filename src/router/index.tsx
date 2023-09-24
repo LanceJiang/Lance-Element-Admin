@@ -2,11 +2,14 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { AppRouteRecordRaw } from './types'
 import useStore from '@/store'
 
-export const Layout = () => import('@/layout/index.vue')
+// export const Layout = () => import('@/layout/index.vue')
+export const Layout = () => import('@/layout/index_old.vue')
+// const HOME_URL = '/dashboard'
 
 // 参数说明: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
 // 静态路由
 export const constantRoutes: Array<AppRouteRecordRaw> = [
+	// todo 进行删除???
 	{
 		path: '/redirect',
 		component: Layout,
@@ -33,19 +36,24 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 		component: () => import('@/views/error-page/401.vue'),
 		meta: { hidden: true }
 	},
+	// 主入口
 	{
 		path: '/',
+		name: 'layout',
 		component: Layout,
+		// redirect: HOME_URL,
 		redirect: '/dashboard',
 		children: [
 			{
 				path: 'dashboard',
+				// path: HOME_URL,
 				component: () => import('@/views/dashboard/index.vue'),
 				name: 'dashboard',
 				meta: { title: 'dashboard', icon: 'homepage', affix: true }
 			}
 		]
 	},
+	// 其他示例
 	{
 		path: '/components',
 		component: Layout,
@@ -182,6 +190,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 		meta: { title: 'demo', icon: 'peoples' },
 		children: [
 			{
+				// path: '/demo/pageConfig',
 				path: 'pageConfig',
 				// component: () => import('@/views/demo/pageConfig/index'),
 				component: 'demo/pageConfig/index',
@@ -190,14 +199,138 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 			},
 			{
 				// 管理员管理
+				// path: '/demo/adminManage',
 				path: 'adminManage',
 				name: 'adminManage',
 				component: 'demo/adminManage/index',
 				meta: { title: 'demo_adminManage' }
 			}
 		]
+	},
+	{
+		path: '/menu',
+		name: 'menu',
+		component: 'Layout',
+		redirect: '/menu/menu1',
+		meta: {
+			icon: 'List',
+			title: '菜单嵌套'
+		},
+		children: [
+			{
+				path: '/menu/menu1',
+				name: 'menu1',
+				component: 'menu/menu1/index',
+				meta: {
+					icon: 'Menu',
+					title: '菜单1'
+				}
+			},
+			{
+				path: '/menu/menu2',
+				name: 'menu2',
+				redirect: '/menu/menu2/menu21',
+				component: '',
+				meta: {
+					icon: 'Menu',
+					title: '菜单2',
+					isLink: '',
+					isHide: false,
+					isFull: false,
+					isAffix: false,
+					isKeepAlive: true
+				},
+				children: [
+					{
+						path: '/menu/menu2/menu21',
+						name: 'menu21',
+						component: 'menu/menu2/menu21/index',
+						meta: {
+							icon: 'Menu',
+							title: '菜单2-1',
+							isLink: '',
+							isHide: false,
+							isFull: false,
+							isAffix: false,
+							isKeepAlive: true
+						}
+					},
+					{
+						path: '/menu/menu2/menu22',
+						name: 'menu22',
+						redirect: '/menu/menu2/menu22/menu221',
+						meta: {
+							icon: 'Menu',
+							title: '菜单2-2',
+							isLink: '',
+							isHide: false,
+							isFull: false,
+							isAffix: false,
+							isKeepAlive: true
+						},
+						children: [
+							{
+								path: '/menu/menu2/menu22/menu221',
+								name: 'menu221',
+								component: 'menu/menu2/menu22/menu221/index',
+								meta: {
+									icon: 'Menu',
+									title: '菜单2-2-1',
+									isLink: '',
+									isHide: false,
+									isFull: false,
+									isAffix: false,
+									isKeepAlive: true
+								}
+							},
+							{
+								path: '/menu/menu2/menu22/menu222',
+								name: 'menu222',
+								component: 'menu/menu2/menu22/menu222/index',
+								meta: {
+									icon: 'Menu',
+									title: '菜单2-2-2',
+									isLink: '',
+									isHide: false,
+									isFull: false,
+									isAffix: false,
+									isKeepAlive: true
+								}
+							}
+						]
+					},
+					{
+						path: '/menu/menu2/menu23',
+						name: 'menu23',
+						component: 'menu/menu2/menu23/index',
+						meta: {
+							icon: 'Menu',
+							title: '菜单2-3',
+							isLink: '',
+							isHide: false,
+							isFull: false,
+							isAffix: false,
+							isKeepAlive: true
+						}
+					}
+				]
+			},
+			{
+				path: '/menu/menu3',
+				name: 'menu3',
+				component: 'menu/menu3/index',
+				meta: {
+					icon: 'Menu',
+					title: '菜单3',
+					isLink: '',
+					isHide: false,
+					isFull: false,
+					isAffix: false,
+					isKeepAlive: true
+				}
+			}
+		]
 	}
-
 	// todo 请添加相关新路由描述
 ]
 

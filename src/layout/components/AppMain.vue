@@ -1,5 +1,6 @@
 <template>
 	<section class="app-main">
+		<TagsView v-show="needTagsView" />
 		<router-view v-slot="{ Component, route }">
 			<transition name="router-fade" mode="out-in">
 				<keep-alive :include="cachedViews">
@@ -7,15 +8,19 @@
 				</keep-alive>
 			</transition>
 		</router-view>
+		<el-footer v-show="setting.footer">
+			<Footer />
+		</el-footer>
 	</section>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import useStore from '@/store'
-
-const { tagsView } = useStore()
-
+import Footer from '@/layout/components/Footer/index.vue'
+import TagsView from '@/layout/components/TagsView/index.vue'
+const { tagsView, setting } = useStore()
+const needTagsView = computed(() => setting.tagsView)
 const cachedViews = computed(() => tagsView.cachedViews)
 </script>
 

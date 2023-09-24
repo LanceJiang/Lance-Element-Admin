@@ -1,0 +1,137 @@
+<template>
+	<div :class="['breadcrumb-box mask-image', !setting.breadcrumbIcon && 'no-icon']">
+		<el-breadcrumb :separator-icon="ArrowRight">
+			<transition-group name="breadcrumb">
+				<!--				<el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="item.path">-->
+				<el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="item.path">
+					<div class="el-breadcrumb__inner is-link" @click="onBreadcrumbClick(item, index)">
+						<!--						<el-icon v-show="item.meta?.icon && setting.breadcrumbIcon" class="breadcrumb-icon">
+							<component :is="item.meta.icon"></component>
+						</el-icon>-->
+						<!--						<span class="breadcrumb-title">{{ item.meta.title }}</span>-->
+						<span class="breadcrumb-title">{{ generateTitle(item.meta.title) }}</span>
+					</div>
+				</el-breadcrumb-item>
+			</transition-group>
+		</el-breadcrumb>
+	</div>
+</template>
+
+<script setup lang="ts">
+import { computed, onBeforeMount, ref, watch } from 'vue'
+// import { HOME_URL } from '@/config'
+import { RouteLocationMatched, useRoute, useRouter } from 'vue-router'
+import { ArrowRight } from '@element-plus/icons-vue'
+// import { useAuthStore } from '@/stores/modules/auth'
+// import { useGlobalStore } from '@/stores/modules/global'
+import useStore from '@/store'
+// import router from '@/router'
+import { generateTitle } from '@/utils/i18n'
+
+const route = useRoute()
+const router = useRouter()
+// const authStore = useAuthStore()
+// const globalStore = useGlobalStore()
+const { setting } = useStore()
+
+/*const breadcrumbList = computed(() => {
+	let breadcrumbData = authStore.breadcrumbListGet[route.matched[route.matched.length - 1].path] ?? []
+	// 🙅‍♀️不需要首页面包屑可删除以下判断
+	if (breadcrumbData[0].path !== HOME_URL) {
+		breadcrumbData = [{ path: HOME_URL, meta: { icon: 'HomeFilled', title: '首页' } }, ...breadcrumbData]
+	}
+	return breadcrumbData
+})*/
+const currentRoute = useRoute()
+
+const breadcrumbs = ref([] as Array<RouteLocationMatched>)
+
+function getBreadcrumb() {
+	// console.error(currentRoute, 'currentRoute')
+	let matched = currentRoute.matched.filter(item => item.meta && item.meta.title)
+	const first = matched[0]
+	if (!isDashboard(first)) {
+		matched = [{ path: '/dashboard', meta: { title: 'dashboard' } } as any].concat(matched)
+	}
+	breadcrumbs.value = matched
+	//   .filter(item => {
+	// 	return item.meta && item.meta.title && item.meta.breadcrumb !== false
+	// })
+}
+function isDashboard(route: RouteLocationMatched) {
+	const name = route && route.name
+	if (!name) {
+		return false
+	}
+	return name.toString().trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
+}
+watch(
+	() => currentRoute.path,
+	path => {
+		if (path.startsWith('/redirect/')) {
+			return
+		}
+		getBreadcrumb()
+	}
+)
+
+onBeforeMount(() => {
+	getBreadcrumb()
+})
+
+// Click Breadcrumb
+const onBreadcrumbClick = (item: Menu.MenuOptions, index: number) => {
+	if (item.redirect === 'noredirect' || index !== breadcrumbList.value.length - 1) router.push(item.path)
+}
+</script>
+
+<style scoped lang="scss">
+.breadcrumb-box {
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	.el-breadcrumb {
+		white-space: nowrap;
+		.el-breadcrumb__item {
+			position: relative;
+			display: inline-block;
+			float: none;
+			.el-breadcrumb__inner {
+				display: inline-flex;
+				&.is-link {
+					color: var(--el-header-text-color);
+					&:hover {
+						color: var(--el-color-primary);
+					}
+				}
+				.breadcrumb-icon {
+					margin-top: 2px;
+					margin-right: 6px;
+					font-size: 16px;
+				}
+				.breadcrumb-title {
+					margin-top: 3px;
+				}
+			}
+			&:last-child .el-breadcrumb__inner,
+			&:last-child .el-breadcrumb__inner:hover {
+				color: var(--el-header-text-color-regular);
+			}
+			:deep(.el-breadcrumb__separator) {
+				position: relative;
+				top: -1px;
+			}
+		}
+	}
+}
+.no-icon {
+	.el-breadcrumb {
+		.el-breadcrumb__item {
+			top: -2px;
+			:deep(.el-breadcrumb__separator) {
+				top: 2px;
+			}
+		}
+	}
+}
+</style>

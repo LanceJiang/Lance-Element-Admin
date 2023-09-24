@@ -29,7 +29,7 @@ const sizeOptions = ref([
 ])
 
 function handleSetSize(size: string) {
-	app.setSize(size)
+	app.setSize(size) // todo 改成setting
 	ElMessage.success('切换布局大小成功')
 }
 </script>

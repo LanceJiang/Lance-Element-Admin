@@ -14,7 +14,7 @@ import { useRouter } from 'vue-router'
 
 import useStore from '@/store'
 
-const { app } = useStore()
+const { app, setting } = useStore()
 
 const sidebar = computed(() => app.sidebar)
 const device = computed(() => app.device)
@@ -29,7 +29,7 @@ export default defineComponent({
 	setup(props) {
 		const router = useRouter()
 		const push = () => {
-			if (device.value === 'mobile' && sidebar.value.opened == true) {
+			if (device.value === 'mobile' && !setting.isCollapse) {
 				app.closeSideBar(false)
 			}
 			router.push(props.to).catch(err => {

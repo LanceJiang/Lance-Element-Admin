@@ -43,7 +43,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.lang-select__icon {
+/*.lang-select__icon {
 	line-height: 50px;
-}
+}*/
 </style>

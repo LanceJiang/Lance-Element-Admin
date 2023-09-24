@@ -19,7 +19,7 @@ export interface AppState {
  */
 export interface PermissionState {
 	routes: AppRouteRecordRaw[]
-	addRoutes: AppRouteRecordRaw[]
+	menuList: AppRouteRecordRaw[]
 }
 
 /**
@@ -28,9 +28,13 @@ export interface PermissionState {
 export interface SettingState {
 	// 展示设置
 	showSettings: boolean
+	// 展示底部
+	footer: boolean
+	// 折叠菜单
+	isCollapse: boolean
 	// 布局模式
 	layout: string
-	// 暗黑模式
+	// 暗黑主题
 	isDark: boolean
 	// 主题颜色
 	themeColor: string
@@ -40,6 +44,8 @@ export interface SettingState {
 	fixedHeader: boolean
 	// 侧边栏 Logo
 	sidebarLogo: boolean
+	// 手风琴
+	accordion: boolean
 }
 
 /**

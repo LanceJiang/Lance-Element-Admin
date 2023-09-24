@@ -479,7 +479,7 @@ nextTick(() => {
 		projectType: '类型one'
 	}
 	// debugger
-	searchForm.value.forceUpdateInitParams(tableOpts.searchParams)
+	searchForm.value?.forceUpdateInitParams(tableOpts.searchParams)
 	window.searchForm = searchForm
 })
 /*setTimeout(() => {

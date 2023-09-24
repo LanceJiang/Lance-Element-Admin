@@ -2,7 +2,7 @@
 	<div :class="{ 'has-logo': showLogo }">
 		<logo v-if="showLogo" :collapse="isCollapse" />
 		<el-scrollbar wrap-class="scrollbar-wrapper">
-			<el-menu :default-active="activeMenu" :collapse="isCollapse" :unique-opened="false" :collapse-transition="false" mode="vertical">
+			<el-menu :default-active="activeMenu" :collapse="false" :unique-opened="false" :collapse-transition="false" mode="vertical">
 				<sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" :is-collapse="isCollapse" />
 			</el-menu>
 		</el-scrollbar>
@@ -23,7 +23,8 @@ const { permission, setting, app } = useStore()
 const route = useRoute()
 const routes = computed(() => permission.routes)
 const showLogo = computed(() => setting.sidebarLogo)
-const isCollapse = computed(() => !app.sidebar.opened)
+const isCollapse = computed(() => setting.isCollapse)
+// const isCollapse = computed(() => !app.sidebar.opened)
 
 const activeMenu = computed(() => {
 	const { meta, path } = route

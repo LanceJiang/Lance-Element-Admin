@@ -5,7 +5,7 @@ import { devAllRouters } from '@/router'
 /**
  * 获取路由列表
  */
-export function listRoutes(): AxiosPromise {
+export function getMenuList(): AxiosPromise {
 	const isRequestAsyncRoutes = true // import.meta.env.VITE_APP_USE_LOCAL_ROUTES === '1'
 	// 请求本地路由配置
 	if (isRequestAsyncRoutes) {

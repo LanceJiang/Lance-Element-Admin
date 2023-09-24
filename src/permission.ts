@@ -4,6 +4,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { ls, $log } from '@/utils'
 NProgress.configure({ showSpinner: false }) // 进度环显示/隐藏
+// const modules = import.meta.glob('@/views/**/*.vue')
 
 // 白名单路由
 const whiteList = ['/recordPoint'] // todo 白名单过滤列表
@@ -34,16 +35,55 @@ router.beforeEach(async (to, from, next) => {
 			try {
 				await user.getUserInfo()
 				// const roles = user.roles
-				// const accessRoutes: any = await permission.generateRoutes(roles)
-				const accessRoutes: any = await permission.generateRoutes([])
+				// const accessRoutes: any = await permission.queryMenuList(roles)
+				const accessRoutes: any = await permission.queryMenuList([])
+				// 单独处理 菜单实体路径
 				accessRoutes.forEach((route: any) => {
+					console.error(route, 'route....')
 					router.addRoute(route)
 				})
+				/*router.addRoute('testLayout', {
+					// 管理员管理
+					path: 'adminManage1',
+					name: 'adminManage1',
+					// component: 'demo/adminManage/index',
+					// component: 'demo/adminManage/index',
+					component: modules[`/src/views/${'demo/adminManage/index'}.vue`],
+					// const  = modules[`/src/views/${tmp.component}.vue`] as any
+					// if (component) {
+					// 	tmp.component = component
+					meta: { title: 'demo_adminManage' }
+				})*/
+				/*router.addRoute('testLayout', {
+					// demo演示
+					path: '/demo2',
+					// component: 'Layout',
+					component: () => import('@/layout/index.vue'),
+					redirect: '/demo/adminManage',
+					meta: { title: 'demo', icon: 'peoples' },
+					children: [
+						{
+							path: 'pageConfig2',
+							component: () => import('@/views/demo/pageConfig/index'),
+							// component: 'demo/pageConfig/index',
+							name: 'pageConfig2',
+							meta: { title: 'demo_pageConfig' }
+						},
+						{
+							// 管理员管理
+							path: 'adminManage2',
+							name: 'adminManage2',
+							// component: 'demo/adminManage/index',
+							component: () => import('@/views/demo/adminManage/index'),
+							meta: { title: 'demo_adminManage' }
+						}
+					]
+				})*/
 				next({ ...to, replace: true })
 			} catch (error) {
 				// 移除 token 并跳转登录页
 				await user.resetToken()
-				$log(error, 'getUserInfo&generateRoutes: error')
+				$log(error, 'getUserInfo&queryMenuList: error')
 				next(`/login?redirect=${to.path}`)
 			}
 			NProgress.done()

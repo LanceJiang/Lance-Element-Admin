@@ -3,19 +3,20 @@ import { SettingState } from '@/types'
 import defaultSettings from '@/settings'
 // import { ls } from '@/utils'
 
-const { layout, themeColor, isDark, showSettings, tagsView, fixedHeader, sidebarLogo } = defaultSettings
+// const { layout, themeColor, isDark, showSettings, tagsView, fixedHeader, sidebarLogo } = defaultSettings
 
 export const useSettingStore = defineStore({
 	id: 'setting',
-	state: (): SettingState => ({
-		layout,
-		themeColor,
-		isDark,
-		showSettings,
-		tagsView,
-		fixedHeader,
-		sidebarLogo
-	}),
+	state: (): SettingState => defaultSettings,
+	// state: (): SettingState => ({
+	// 	layout,
+	// 	themeColor,
+	// 	isDark,
+	// 	showSettings,
+	// 	tagsView,
+	// 	fixedHeader,
+	// 	sidebarLogo
+	// }),
 	actions: {
 		async changeSetting(...payload: [string, any]) {
 			const [key, value] = payload

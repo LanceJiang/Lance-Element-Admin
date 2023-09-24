@@ -7,29 +7,29 @@ const useAppStore = defineStore({
 	id: 'app',
 	state: (): AppState => ({
 		device: 'desktop',
-		sidebar: {
-			opened: true,
-			withoutAnimation: false
-		},
+		// sidebar: {
+		// 	opened: true,
+		// 	withoutAnimation: false
+		// },
 		language: getLanguage(),
 		size: 'default'
 		// size: 'small'
 	}),
 	actions: {
-		toggleSidebar() {
-			this.sidebar.opened = !this.sidebar.opened
-			this.sidebar.withoutAnimation = false
-			// if (this.sidebar.opened) {
-			// 	ls.set('sidebarStatus', 1)
-			// } else {
-			// 	ls.set('sidebarStatus', 0)
-			// }
-		},
-		closeSideBar(withoutAnimation: any) {
-			// ls.set('sidebarStatus', 0)
-			this.sidebar.opened = false
-			this.sidebar.withoutAnimation = withoutAnimation
-		},
+		// toggleSidebar() {
+		// 	this.sidebar.opened = !this.sidebar.opened
+		// 	this.sidebar.withoutAnimation = false
+		// 	// if (this.sidebar.opened) {
+		// 	// 	ls.set('sidebarStatus', 1)
+		// 	// } else {
+		// 	// 	ls.set('sidebarStatus', 0)
+		// 	// }
+		// },
+		// closeSideBar(withoutAnimation: any) {
+		// 	// ls.set('sidebarStatus', 0)
+		// 	this.sidebar.opened = false
+		// 	this.sidebar.withoutAnimation = withoutAnimation
+		// },
 		toggleDevice(device: string) {
 			this.device = device
 		},

@@ -1,6 +1,6 @@
 <template>
 	<div class="navbar">
-		<hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+		<hamburger id="hamburger-container" :is-active="isCollapse" class="hamburger-container" @toggleClick="toggleSideBar" />
 
 		<breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
@@ -21,7 +21,7 @@
 				<div class="avatar-wrapper">
 					<span class="nickname">{{ user.nickname || '' }}</span>
 					<img :src="user.avatar" class="user-avatar" />
-					<ArrowDown style="width: 0.6em; height: 0.6em; margin-left: 5px; font-size: 24px;" />
+					<ArrowDown style="width: 0.6em; height: 0.6em; margin-left: 5px; font-size: 24px" />
 				</div>
 
 				<template #dropdown>
@@ -56,16 +56,18 @@ import LangSelect from '@/components/LangSelect/index.vue'
 // 图标依赖
 import { ArrowDown } from '@element-plus/icons-vue'
 
-const { app, user } = useStore()
+const { setting, app, user } = useStore()
 
 const route = useRoute()
 const router = useRouter()
 
-const sidebar = computed(() => app.sidebar)
+// const sidebar = computed(() => setting.isCollapse)
+const isCollapse = computed(() => setting.isCollapse)
 const device = computed(() => app.device)
 
 function toggleSideBar() {
-	app.toggleSidebar()
+	// app.toggleSidebar()
+	setting.changeSetting('isCollapse', !isCollapse.value)
 }
 
 function logout() {

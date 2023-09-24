@@ -4,10 +4,28 @@ import { defineComponent } from 'vue'
 
 export type Component<T = any> = ReturnType<typeof defineComponent> | (() => Promise<typeof import('*.vue')>) | (() => Promise<T>)
 
+export interface MetaProps {
+	// 标题
+	title?: string
+	// 图标
+	icon?: string
+	// 隐藏菜单
+	hidden?: boolean
+	// 是否固定
+	affix?: boolean
+	// 不缓存路由
+	noCache?: boolean
+
+	// todo???
+	activeMenu?: string
+	// // todo???
+	// roles?: string[]
+}
+// eslint-disable-next-line
 // @ts-ignore
 export interface AppRouteRecordRaw extends Omit<RouteRecordRaw, 'meta'> {
 	name?: string
-	meta?: RouteMeta
+	meta?: MetaProps
 	component?: Component | string
 	components?: Component
 	children?: AppRouteRecordRaw[]
