@@ -1,45 +1,50 @@
 import { defineStore } from 'pinia'
 import { SettingState } from '@/types'
 import defaultSettings from '@/settings'
-import { ls } from '@/utils'
+// import { ls } from '@/utils'
 
-const { showSettings, tagsView, fixedHeader, sidebarLogo } = defaultSettings
-const el = document.documentElement
+const { layout, themeColor, isDark, showSettings, tagsView, fixedHeader, sidebarLogo } = defaultSettings
 
 export const useSettingStore = defineStore({
 	id: 'setting',
 	state: (): SettingState => ({
-		theme: ls.get('theme') || getComputedStyle(el).getPropertyValue(`--el-color-primary`),
-		showSettings: showSettings,
-		tagsView: ls.get('tagsView') != null ? ls.get('tagsView') : tagsView,
-		fixedHeader: fixedHeader,
-		sidebarLogo: sidebarLogo
+		layout,
+		themeColor,
+		isDark,
+		showSettings,
+		tagsView,
+		fixedHeader,
+		sidebarLogo
 	}),
 	actions: {
-		async changeSetting(payload: { key: string; value: any }) {
-			const { key, value } = payload
+		async changeSetting(...payload: [string, any]) {
+			const [key, value] = payload
 			switch (key) {
-				case 'theme':
-					this.theme = value
-					break
-				case 'showSettings':
-					this.showSettings = value
-					break
-				case 'fixedHeader':
-					this.fixedHeader = value
-					break
-				case 'tagsView':
-					this.tagsView = value
-					ls.set('tagsView', value)
-					break
-				case 'sidebarLogo':
-					this.sidebarLogo = value
-					break
+				// case 'tagsView':
+				// 	this.tagsView = value
+				// 	// ls.set('tagsView', value)
+				// 	break
+				// case 'themeColor':
+				// 	this.themeColor = value
+				// 	break
+				// case 'showSettings':
+				// 	this.showSettings = value
+				// 	break
+				// case 'fixedHeader':
+				// 	this.fixedHeader = value
+				// 	break
+				// case 'sidebarLogo':
+				// 	this.sidebarLogo = value
+				// 	break
 				default:
+					// eslint-disable-next-line
+					// @ts-ignore
+					this[key] = value
 					break
 			}
 		}
-	}
+	},
+	persist: true
 })
 
 export default useSettingStore

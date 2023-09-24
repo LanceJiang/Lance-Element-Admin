@@ -2,9 +2,9 @@
 	<div ref="rightPanel" :class="{ show }" class="rightPanel-container">
 		<div class="rightPanel-background" />
 		<div class="rightPanel">
-			<div class="handle-button" :style="{ top: buttonTop + 'px', 'background-color': theme }" @click="show = !show">
-				<Close class="icon" v-show="show" />
-				<Setting class="icon" v-show="!show" />
+			<div class="handle-button" :style="{ top: buttonTop + 'px', 'background-color': themeColor }" @click="show = !show">
+				<Close v-show="show" class="icon" />
+				<Setting v-show="!show" class="icon" />
 			</div>
 			<div class="rightPanel-items">
 				<slot />
@@ -24,7 +24,7 @@ import { ElColorPicker } from 'element-plus'
 
 const { setting } = useStore()
 
-const theme = computed(() => setting.theme)
+const themeColor = computed(() => setting.themeColor)
 const show = ref(false)
 
 defineProps({
@@ -98,15 +98,19 @@ onBeforeUnmount(() => {
 
 .rightPanel {
 	width: 100%;
-	max-width: 260px;
+	max-width: 280px;
 	height: 100vh;
 	position: fixed;
 	top: 0;
 	right: 0;
 	box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.05);
-	transition: all 0.25s cubic-bezier(0.7, 0.3, 0.1, 1);
+	//transition: all 0.25s cubic-bezier(0.7, 0.3, 0.1, 1);
 	transform: translate(100%);
-	background: #fff;
+	//background: #fff;
+	//background-color: var(--el-drawer-bg-color);
+  background-color: var(--el-bg-color);
+	//box-shadow: var(--el-box-shadow-dark);
+	transition: all var(--el-transition-duration);
 	z-index: 40000;
 }
 

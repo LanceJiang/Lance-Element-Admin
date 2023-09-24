@@ -26,10 +26,19 @@ export interface PermissionState {
  * 设置状态类型声明
  */
 export interface SettingState {
-	theme: string
-	tagsView: boolean
-	fixedHeader: boolean
+	// 展示设置
 	showSettings: boolean
+	// 布局模式
+	layout: string
+	// 暗黑模式
+	isDark: boolean
+	// 主题颜色
+	themeColor: string
+	// 开启 Tags-View
+	tagsView: boolean
+	// 固定 Header
+	fixedHeader: boolean
+	// 侧边栏 Logo
 	sidebarLogo: boolean
 }
 

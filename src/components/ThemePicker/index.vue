@@ -1,6 +1,6 @@
 <template>
 	<el-color-picker
-		v-model="theme"
+		v-model="themeColor"
 		:predefine="['#409EFF', '#1890ff', '#304156', '#212121', '#11a983', '#13c2c2', '#6959CD', '#f5222d']"
 		class="theme-picker"
 		popper-class="theme-picker-dropdown"
@@ -37,11 +37,11 @@ const mixBlack = '#000000'
 const node = document.documentElement
 
 const { setting } = useStore()
-const theme = computed(() => setting.theme)
+const themeColor = computed(() => setting.themeColor)
 
-watch(theme, (color: string) => {
+watch(themeColor, (color: string) => {
 	node.style.setProperty('--el-color-primary', color)
-	ls.set('theme', color)
+	// ls.set('themeColor', color)
 
 	for (let i = 1; i < 10; i += 1) {
 		node.style.setProperty(`--el-color-primary-light-${i}`, mix(color, mixWhite, i * 0.1))

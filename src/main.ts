@@ -4,6 +4,10 @@ import router from '@/router'
 // element plus
 import ElementPlus from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
+// element dark css
+import 'element-plus/theme-chalk/dark/css-vars.css'
+// 自定义样式
+import '@/styles/index.scss'
 // 注册全局组件
 import { registerGlobComp } from '@/components/registerGlobComp'
 // 注册全局directive
@@ -40,8 +44,6 @@ import 'virtual:svg-icons-register'
 import i18n from '@/lang/index'
 // pinia store
 import pinia from '@/store/createPinia'
-// 自定义样式
-import '@/styles/index.scss'
 import { $log } from '@/utils'
 
 const app = createApp(App)
