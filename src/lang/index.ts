@@ -1,6 +1,6 @@
 // 自定义国际化配置
 import { createI18n } from 'vue-i18n'
-import { ls } from '@/utils'
+// import { ls } from '@/utils'
 
 // 导入 Element Plus 语言包
 import ElementCnLocale from 'element-plus/es/locale/lang/zh-cn'
@@ -30,13 +30,13 @@ export const messages = {
  * @returns zh-cn|en ...
  */
 export const getLanguage = () => {
-	// 本地缓存获取
+	/*// 本地缓存获取
 	let language = ls.get('language')
 	if (language) {
 		return language
-	}
+	}*/
 	// 浏览器使用语言
-	language = navigator.language.toLowerCase()
+	const language = navigator.language.toLowerCase()
 	const locales = Object.keys(messages)
 	for (const locale of locales) {
 		if (language.indexOf(locale) > -1) {
