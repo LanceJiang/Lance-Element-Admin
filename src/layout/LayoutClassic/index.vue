@@ -1,6 +1,6 @@
 <!-- 经典布局 -->
 <template>
-	<el-container class="layout">
+	<el-container class="layout-wrap--classic">
 		<el-header>
 			<div class="header-lf mask-image">
 				<div class="logo">
@@ -46,6 +46,6 @@ const menuList = computed(() => permission.showMenuList)
 const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string)
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import './index.scss';
 </style>

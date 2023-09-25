@@ -48,7 +48,7 @@ watch(themeColor, (color: string) => {
 	}
 	node.style.setProperty('--el-color-primary-dark', mix(color, mixBlack, 0.1))
 
-	ls.set('style', node.style.cssText)
+	// ls.set('style', node.style.cssText)
 })
 </script>
 
