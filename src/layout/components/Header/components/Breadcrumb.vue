@@ -81,7 +81,8 @@ onBeforeMount(() => {
 
 // Click Breadcrumb
 const onBreadcrumbClick = (item: Menu.MenuOptions, index: number) => {
-	if (item.redirect === 'noredirect' || index !== breadcrumbList.value.length - 1) router.push(item.path)
+	if (item.redirect === 'noredirect' || index !== breadcrumbs.value.length - 1) router.push(item.path)
+	// if (item.redirect === 'noredirect' || index !== breadcrumbList.value.length - 1) router.push(item.path)
 }
 </script>
 
@@ -90,6 +91,7 @@ const onBreadcrumbClick = (item: Menu.MenuOptions, index: number) => {
 	display: flex;
 	align-items: center;
 	overflow: hidden;
+	margin-left: 6px;
 	.el-breadcrumb {
 		white-space: nowrap;
 		.el-breadcrumb__item {
