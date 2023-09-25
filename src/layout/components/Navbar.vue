@@ -131,14 +131,16 @@ ul {
 			padding: 0 8px;
 			height: 100%;
 			font-size: 18px;
-			color: #5a5e66;
+			//color: #5a5e66;
+			color: var(--el-color-info);
 
 			&.hover-effect {
 				cursor: pointer;
 				transition: background 0.3s;
 
 				&:hover {
-					background: rgba(0, 0, 0, 0.025);
+					//background: rgba(0, 0, 0, 0.025);
+					background: var(--el-fill-color);
 				}
 			}
 		}
