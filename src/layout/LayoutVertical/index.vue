@@ -6,7 +6,7 @@
 				<div class="logo">
 					<!--          <SvgIcon class="logo-img sidebar-logo" icon-class="logo" />-->
 					<img class="logo-img" src="@/assets/icons/logo.svg" alt="logo" />
-					<span v-show="!isCollapse" class="logo-text">{{ title }}</span>
+					<span v-show="!isCollapse" class="text-overflow_ellipsis logo-text">{{ title }}</span>
 				</div>
 				<el-scrollbar>
 					<el-menu :router="false" :default-active="activeMenu" :collapse="isCollapse" :unique-opened="accordion" :collapse-transition="false">
