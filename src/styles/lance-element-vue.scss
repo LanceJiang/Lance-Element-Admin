@@ -109,7 +109,8 @@
 // header 带有背景色的 和 before 条样式
 .#{$prefix}card-bg {
   .el-card__header {
-    background-color: $le-bg-color_3;
+    //background-color: $le-bg-color_3;
+    //background-color: $le-bg-color_3;
     &::before {
       display: block;
     }

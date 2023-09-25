@@ -1,5 +1,5 @@
 <template>
-	<div class="dashboard-container">
+	<div class="dashboard-container column-page-wrap">
 		<!-- Echarts 图表 -->
 		<el-row :gutter="40" style="margin-top: 20px">
 			<el-col :sm="24" :lg="8" class="card-panel__col">
@@ -241,7 +241,8 @@ new Promise(resolve => {
 .dashboard-container {
 	overflow-y: auto;
 	padding: 24px;
-	background-color: rgb(240, 242, 245);
+	//background-color: rgb(240, 242, 245);
+	background: var(--el-bg-color);
 	position: relative;
 
 	.card-panel__col {

@@ -23,7 +23,9 @@
     width: calc(100% + 48px);
     margin-left: -24px;
     padding: 10px 24px 0 24px;
-    border-top: 1px solid $le-border-color_3;
+	  //box-shadow: 1px 0 0 0 var(--el-input-border-color, var(--el-border-color));
+		//box-shadow: 0 -1px -1px 0 $le-border-color_3;
+		box-shadow: 0 -1px 0 -1px var(--el-border-color-lighter);
     // 取消
     .cancel-button {
       //margin-right: auto;

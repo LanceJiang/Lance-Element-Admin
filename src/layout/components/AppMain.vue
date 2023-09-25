@@ -8,9 +8,9 @@
 				</keep-alive>
 			</transition>
 		</router-view>
-		<el-footer v-show="setting.footer">
+		<div class="layout-footer" v-show="setting.footer">
 			<Footer />
-		</el-footer>
+		</div>
 	</section>
 </template>
 
@@ -59,5 +59,7 @@ const cachedViews = computed(() => tagsView.cachedViews)
 	.fixed-header {
 		padding-right: 15px;
 	}
+}
+.layout-footer {
 }
 </style>

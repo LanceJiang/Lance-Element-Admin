@@ -59,10 +59,14 @@ export default {
 
 <style lang="scss" scoped>
 .wscn-http404-container {
-	transform: translate(-50%, -50%);
-	position: absolute;
-	top: 40%;
-	left: 50%;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	justify-content: center;
+	//transform: translate(-50%, -50%);
+	//position: absolute;
+	//top: 40%;
+	//left: 50%;
 }
 .wscn-http404 {
 	position: relative;
@@ -200,7 +204,8 @@ export default {
 		&__headline {
 			font-size: 20px;
 			line-height: 24px;
-			color: #222;
+			//color: #222;
+			color: var(--el-text-color-primary);
 			font-weight: bold;
 			opacity: 0;
 			margin-bottom: 10px;

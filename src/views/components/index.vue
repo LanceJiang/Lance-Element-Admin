@@ -75,7 +75,7 @@
     </div>-->
 		<div class="common_title">暂无数据 LeNoData</div>
 		<div class="content">
-			<LeNoData :message="`<div style='background: #f00;'>test: lang: ${$i18n.locale}</div>`" @click="$log('test....')">
+			<LeNoData :message="`<div style='background: var(--el-color-danger);'>test: lang: ${$i18n.locale}</div>`" @click="$log('test....')">
 				<template #extraContent>no data</template>
 			</LeNoData>
 		</div>

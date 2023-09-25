@@ -30,7 +30,8 @@
     padding: 16px 24px;
     align-items: center;
     justify-content: space-between;
-    background: #E3E9F1;
+    //background: #E3E9F1;
+    background-color: var(--el-color-info-light-9);
     text-align: left;
 		margin-right: 0;
     .el-dialog__title {

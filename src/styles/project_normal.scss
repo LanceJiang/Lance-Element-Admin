@@ -26,19 +26,21 @@ body {
 	//line-height: 22px;
 	padding: 12px 0;
 	font-size: 14px;
-	color: rgba(0, 0, 0, 0.85);
+	//color: rgba(0, 0, 0, 0.85);
+	color: var(--el-text-color-primary);
+	//background-color: var(--el-fill-color);
 	&:before {
 		content: '';
 		width: 3px;
 		height: 16px;
 		margin-right: 6px;
-		background: #4097fd;
+		background: $le-color-primary;
 	}
 }
 
 // 全局滚动条样式
 ::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{border-radius:6px;background: #FAFAFA;}
+::-webkit-scrollbar-track{border-radius:6px;background: $le-bg-color_1;}
 ::-webkit-scrollbar-track:hover{background-color:rgba(0,0,0,0.06);box-shadow:0 0 0 #fff inset,0 0 0 rgba(255,255,255,0.9) inset,0 0 0 rgba(255,255,255,0.9) inset,0 0 0 rgba(255,255,255,0.9) inset}
 ::-webkit-scrollbar-track:active{background-color:rgba(0,0,0,0.1)}
 ::-webkit-scrollbar-thumb{border-radius:6px;background-color:rgba(0,0,0,0.1);box-shadow:0 0 0 #fff inset,0 0 0 #fff inset,0 0 0 rgba(255,255,255,0.9) inset,0 0 0 rgba(255,255,255,0.9) inset}

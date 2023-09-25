@@ -40,7 +40,8 @@
     .title {
       padding: 0 12px;
       line-height: 22px;
-      color: $le-color_3;
+      //color: $le-color_3;
+			color: var(--el-text-color-primary);
     }
     .label {
       padding: 0 12px;
@@ -76,7 +77,8 @@
   width: 100%;
 	padding: 12px 12px 0 12px;
   min-height: 0;
-  background: #fff;
+  //background: #fff;
+  background-color: var(--el-bg-color);;
 	/*.tableLoading {
 		position: absolute;
 		left: 0;
@@ -173,8 +175,9 @@
   .le-table {
     font-size: 14px;
     transform: translate(0, 0);
-		//$header-bg: #f5f7fa;
-		$header-bg: #f6faff;
+		//$header-bg: var(--el-table-header-bg-color);
+		$header-bg: var(--el-fill-color-light);
+		//$header-bg: var(--el-fill-color-lighter);
 		// todo
     /*&.el-table--border {
       td:not(:last-child) {
@@ -245,12 +248,16 @@
       tr.hover-row.el-table__row--striped.current-row > td,
       tr.hover-row.el-table__row--striped > td,
       tr.hover-row > td {
-        background-color: #e8f2fe;
+        //background-color: #e8f2fe;
+        background-color: var(--el-fill-color-lighter);
+        //background-color: var(--el-color-danger);
       }
     }
     &.el-table--enable-row-hover {
       .el-table__body tr:hover > td {
-        background-color: #e8f2fe;
+        //background-color: #e8f2fe;
+				background-color: var(--el-fill-color-lighter);
+        //background-color: var(--el-color-danger);
       }
     }
     .el-table__body tr.hover-row > td {

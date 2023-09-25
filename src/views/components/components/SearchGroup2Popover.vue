@@ -170,7 +170,7 @@
 		<div>-------分割--------</div>
 		<!--   模拟 查看更多下拉列表 类型 le-popover--list   -->
 		<!--      <LePopover trigger="click" :popperClass="`le-popover&#45;&#45;list ${'popperClass'}`" placement="right">
-			<div class="labelWrap" style="width: 400px;background: #f00;" slot="reference">
+			<div class="labelWrap" style="width: 400px;background: var(--el-color-danger);" slot="reference">
 				可售：666（le-popover默认 click 触发le-popover-list展示）
 			</div>
 			<div class="more-item_title">

@@ -9,13 +9,13 @@
 		<LeInputNumber size="small" v-model="testNumber" :min="0" prefixIcon="#" suffixIcon="￥" _controlsPosition=""></LeInputNumber>
 		<LeInputNumber v-model="testNumber" :min="0" style="width: 300px" controlsPosition="">
 			<template slot="prefix"><span class="le-addon le-input-number__prefix" style="background: #0f0">prefix</span></template>
-			<template slot="suffix"><span class="le-addon le-input-number__suffix" style="background: #f00">suffix</span></template>
+			<template slot="suffix"><span class="le-addon le-input-number__suffix" style="background: var(--el-color-danger)">suffix</span></template>
 		</LeInputNumber>
 		<div>-------LeInputNumberRange--------</div>
 		{{ numberRangeParams }}<br />
 		<LeInputNumberRange v-model="numberRangeParams" v-bind="numberRangeForm" itemStyle="width: 400px">
 <!--			<template #prepend><span class="le-input-number-range_addon local_prepend" style="background: #0f0;">prepend</span></template>-->
-			<template #append><span class="le-input-number-range_addon local_append" style="background: #f00">append</span></template>
+			<template #append><span class="le-input-number-range_addon local_append" style="background: var(--el-color-danger)">append</span></template>
 		</LeInputNumberRange>
 	</div>
 </template>

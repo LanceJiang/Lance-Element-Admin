@@ -2,7 +2,8 @@
 // SearchForm 样式
 .#{$prefix}search-form {
 	&-container {
-		background-color: #fff;
+		//background-color: #fff;
+		background-color: var(--el-bg-color);;
 		margin-bottom: 12px;
 		padding: 10px 12px;
 		padding-top: 0;
@@ -18,8 +19,10 @@
 							border-radius: var(--el-input-border-radius,var(--el-border-radius-base)) 0 0 var(--el-input-border-radius,var(--el-border-radius-base));
 							/* border-right: 0; */
 							padding-left: 10px;
-							//background: #fafafa;
-							background: #fcfcfc;
+							//background: $le-bg-color_3;
+							//background: #fcfcfc;
+							//background: var(--el-border-color-lighter);
+							background: var(--el-border-color-extra-light);
 						}
 						.el-select-v2__wrapper, .el-input__wrapper {
 							border-radius: 0 var(--el-input-border-radius,var(--el-border-radius-base)) var(--el-input-border-radius,var(--el-border-radius-base)) 0;

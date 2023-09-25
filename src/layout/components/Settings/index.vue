@@ -10,7 +10,7 @@
 				<theme-picker @change="themeChange" />
 			</div>
 		</div>
-		<div class="drawer-item">
+		<div class="drawer-item" @click.stop="">
 			<span>暗黑主题</span>
 			<el-switch v-model="isDark" inline-prompt class="drawer-switch" active-icon="Sunny" inactive-icon="Moon" @change="switchDark" />
 		</div>
@@ -150,6 +150,7 @@ const setLayout = (val: LayoutType) => {
 	.drawer-title {
 		padding: 16px 24px;
 		margin: 0 -24px;
+		height: 55px;
 		//margin-bottom: 12px;
 		//color: rgba(0, 0, 0, 0.85);
 		font-size: 16px;

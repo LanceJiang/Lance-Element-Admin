@@ -3,36 +3,52 @@ $prefix: 'le-';
 $le-family: Helvetica Neue, Helvetica, sans-serif;
 
 // 主题类型
-$le-color-primary: #4097fd;
-$le-color-success: #03B497;
-$le-color-warning: #F4A508;
-$le-color-danger: #F47367;
-$le-color-info: #67809F;
+//$le-color-primary: #4097fd;
+$le-color-primary: var(--el-color-primary);
+//$le-color-success: #03b497;
+$le-color-success: var(--el-color-success);
+//$le-color-warning: #f4a508;
+$le-color-warning: var(--el-color-warning);
+//$le-color-danger: #f47367;
+$le-color-danger: var(--el-color-danger);
+//$le-color-info: #67809f;
+$le-color-info: var(--el-color-info);
 
 // 文字
-$le-color_1: #32363B;
-$le-color_2: #5C6570;
-$le-color_3: #7C8794;
-$le-color_4: #A0AAB7;
-$le-color_5: #BDC3C9;
+//$le-color_1: #32363b;
+$le-color_1: var(--el-text-color-primary);
+//$le-color_2: #5c6570;
+//$le-color_3: #7c8794;
+//$le-color_3: var(--el-fill-color);
+$le-color_3: var(--el-text-color-primary);
+//$le-color_4: #a0aab7;
+$le-color_4: var(--el-text-color-regular);
+//$le-color_5: #bdc3c9;
+$le-color_5: var(--el-text-color-secondary);
 
 // 线条
-$le-border-color_1: #C6CDD5;
-$le-border-color_2: #D5DBE1;
-$le-border-color_3: #EAEDF0;
-$le-border-color_4: #F5F7FA;
+//$le-border-color_1: #c6cdd5;
+//$le-border-color_2: #d5dbe1;
+//$le-border-color_3: #eaedf0;
+//$le-border-color_4: #f5f7fa;
+$le-border-color_1: var(--el-border-color);
+$le-border-color_2: var(--el-border-color-light);
+$le-border-color_3: var(--el-border-color-lighter);
+$le-border-color_4: var(--el-border-color-extra-light);
 
 // 背景
-$le-bg-color_1: #F5F6F7;
-$le-bg-color_2: #F5F7FA;
-$le-bg-color_3: #FAFAFA;
+//$le-bg-color_1: #f5f6f7;
+$le-bg-color_1: var(--el-bg-color);
+$le-bg-color_2: #f5f7fa;
+//$le-bg-color_3: #fafafa;
 
 // hover
-$le-hover-color_1: #F6F8FA;
-$le-hover-color_2: #F0F7FF;
+//$le-hover-color_1: #f6f8fa;
+$le-hover-color_1: var(--el-fill-color-lighter);
+$le-hover-color_2: #f0f7ff;
 
 //$le-color-header: #7c8794;
 //$le-color-black: #32363b;
-//$le-bg-color-gray: #f5f6f7;
+//$le-bg-color-gray: $le-bg-color_1;
 
-//$le-link-background-gray: #4097fd;
+//$le-link-background-gray: $le-color-primary;

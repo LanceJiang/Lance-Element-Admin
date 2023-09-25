@@ -18,7 +18,7 @@ const slot_user = (scope) => {
 	return [
 		<div style={'background: #0ff;'}>
 			slot:default <br />
-			<div style={'color: #00f'}>{row[column.property]}</div>
+			<div style={'color: var(--el-color-primary)'}>{row[column.property]}</div>
 		</div>
 	]
 }
@@ -64,7 +64,7 @@ export const columns = [
 		// 用户提示配置
 		titleHelp: {
 			icon: 'le-iconfont le-check_1', // todo 自定义icon
-			message: `<span style='background: #f00'>wo的 <br/>sssssssssss</span>`
+			message: `<span style='background: var(--el-color-danger)'>wo的 <br/>sssssssssss</span>`
 		},
 		slots: {
 			/**
@@ -84,7 +84,7 @@ export const columns = [
 			 */
 			// console.error(maybeRow, 'maybeRow ', others, 'others')
 			// const row = maybeRow.row || maybeRow
-			// return <span style="background: #f00;">{'orderNo: formatter: ' + row.orderNo}</span>
+			// return <span style="background: var(--el-color-danger);">{'orderNo: formatter: ' + row.orderNo}</span>
 			return others[1]// cellValue
 		}
 	},

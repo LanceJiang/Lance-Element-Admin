@@ -78,7 +78,7 @@ div:focus {
 }
 ::-webkit-scrollbar-track {
 	border-radius: 4px;
-	background: #fafafa;
+	background: $le-bg-color_1;
 }
 ::-webkit-scrollbar-track:hover {
 	background-color: rgba(0, 0, 0, 0.06);
@@ -105,7 +105,9 @@ div:focus {
 	flex: 1;
 	display: flex;
 	height: 100%;
+	min-height: 0;
 	flex-direction: column;
+	background-color: var(--el-bg-color-page);
 }
 // 文字超出隐藏
 .text-overflow_ellipsis {

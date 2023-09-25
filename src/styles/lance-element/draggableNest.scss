@@ -16,7 +16,7 @@
     //box-shadow: 1px 1px 5px 2px rgb(0 0 0 / 15%);
     //cursor: move;
     //box-shadow: #007bfc 0 0 6px -2px inset;
-    //background: #f00;
+    //background: var(--el-color-danger);
     box-shadow: 1px 1px 5px 2px rgba(0,0,0,.15);
     cursor: move;
     transition: .18s ease;
@@ -37,7 +37,8 @@
       align-items: center;
       line-height: 34px;
       padding-right: 4px;
-      color: #333;
+      //color: #333;
+			color: var(--el-text-color-regular);
       font-size: 14px;
       cursor: pointer;
       //transition: .18s ease;

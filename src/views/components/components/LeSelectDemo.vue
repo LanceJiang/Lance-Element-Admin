@@ -1,7 +1,7 @@
 <template>
 	<div class="common_title">LeSelect 使用</div>
 	<div class="content">
-		<div style="color: #f00">testValue:{{ testValue }}</div>
+		<div style="color: var(--el-color-danger)">testValue:{{ testValue }}</div>
 <!--		el-select
 		<ElSelect v-model="testValue" filterable multiple collapseTags isPopover>
 			&lt;!&ndash;				<template #prefix>
@@ -15,7 +15,7 @@
 								<LeIcon icon-class="icon-logo"/>
 							</template>-->
 		</el-select-v2>
-		LeSelect(cust_label 多语言)<span style="color: #f00;">(测试valueKey 变更)</span>
+		LeSelect(cust_label 多语言)<span style="color: var(--el-color-danger);">(测试valueKey 变更)</span>
 		<!--			3labelKey="obj.label"-->
 		<LeSelect
 			v-model="testValue"
@@ -45,7 +45,7 @@
 			style="width: 200px" filterable isPopover>
 			<template #default="{ item, index, disabled }"> <LeIcon icon-class="icon-logo" /> {{ item.le_label }} </template>
 		</LeSelect>
-		valueKey(obj.value) <span style="color: #00f;">(测试labelKey 变更)</span>
+		valueKey(obj.value) <span style="color: var(--el-color-primary);">(测试labelKey 变更)</span>
 		<!-- 读取option 非value 的数据 作为value 储蓄 -->
 		<LeSelect
 			v-model="testValue"

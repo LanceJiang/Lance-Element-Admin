@@ -81,7 +81,19 @@ const usePermissionStore = defineStore({
 	}),
 	getters: {
 		// 有效的 菜单列表
-		showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify(state.menuList)))
+		showMenuList: state =>
+			getShowMenuList([
+				...JSON.parse(JSON.stringify(state.menuList)),
+				// 测试
+				{
+					path: 'dashboard',
+					// path: HOME_URL,
+					component: () => import('@/views/dashboard/index.vue'),
+					name: 'dashboard',
+					meta: { title: 'dashboard', icon: 'homepage', affix: true }
+				}
+			])
+		// showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify(state.routes)))
 	},
 	actions: {
 		setRoutes(menuList: AppRouteRecordRaw[]) {

@@ -1,6 +1,6 @@
 <template>
 	<div class="child-wrap input-group">
-		<li style="color: #f00">子组件</li>
+		<li style="color: var(--el-color-danger)">子组件</li>
 		<input v-model="value" type="text" class="form-control" placeholder="请输入" />
 		<div class="input-group-append">
 			<button @click="handleSubmit" class="btn btn-primary" type="button">添加</button>

@@ -14,6 +14,7 @@ import MergeCells from '@/views/table/mergeCells.vue'
 	//padding-top: 12px;
 	//padding: 12px 12px 0 12px;
 	overflow: auto;
-	background-color: #f5f6f7;
+	background-color: $le-bg-color_1;
+	background: var(--el-bg-color);
 }
 </style>

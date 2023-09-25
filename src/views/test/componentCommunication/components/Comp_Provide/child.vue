@@ -1,6 +1,6 @@
 <template>
 	<div class="child-wrap input-group">
-		<li style="color: #f00">子组件</li>
+		<li style="color: var(--el-color-danger)">子组件</li>
 		<li class="list-group-item" v-for="i in list" :key="i">{{ i }}</li>
 	</div>
 </template>

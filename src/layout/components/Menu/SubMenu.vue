@@ -11,10 +11,10 @@
 			<SubMenu :menu-list="subItem.children" />
 		</el-sub-menu>
 		<el-menu-item v-else :index="subItem.path" @click="handleClickMenu(subItem)">
-			<!--      <el-icon>
-        <component :is="subItem.meta.icon"></component>
-      </el-icon>-->
 			<SvgIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+			<!--      <el-icon>
+				<component :is="subItem.meta.icon"></component>
+			</el-icon>-->
 			<template #title>
 				<span class="sle">{{ generateTitle(subItem.meta?.title) }}</span>
 			</template>
@@ -48,9 +48,9 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
 		align-items: center;
 		justify-content: center;
 		padding: 0;
-		.svg-icon {
+		/*.svg-icon {
 			font-size: 18px;
-		}
+		}*/
 	}
 	.is-active {
 		.el-sub-menu__title {

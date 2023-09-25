@@ -17,9 +17,9 @@
 					<div style="background: #a0aab7">{{ label }} + {{ option.value_1 }}</div>
 				</template>
 				<template #leSelect_label="{label}">
-					<span style="background: #f00; display: flex">
+					<span style="background: var(--el-color-danger); display: flex">
 						label custom: template
-						<span style="margin-left: auto; background: #00f; color: #fff">{{ label }}</span>
+						<span style="margin-left: auto; background: var(--el-color-primary); color: #fff">{{ label }}</span>
 					</span>
 				</template>
 			</LeFormConfig>
@@ -50,7 +50,7 @@
 					@cancel="changeVisible"
 				>
 					<template #leSelectSlot="{ option, label }">
-						<div style="background: #00f">{{ label }} + {{ option.value_1 }}</div>
+						<div style="background: var(--el-color-primary)">{{ label }} + {{ option.value_1 }}</div>
 					</template>
 					<template #extraContent>
 <!--						若有需要可以塞入额外内容-->
@@ -76,7 +76,7 @@
 				@submit="formSubmit"
 			>
 				<template #leSelectSlot="{ option, label }">
-					<div style="background: #f00">{{ label }} + {{ option.value_1 }}</div>
+					<div style="background: var(--el-color-danger)">{{ label }} + {{ option.value_1 }}</div>
 				</template>
 			</LeFormConfigDialog>
 		</div>
@@ -121,12 +121,12 @@ export default defineComponent({
 					// label: 'leSelect_label',
 					// label render 支持
 					label({ label }) {
-						return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ label }</span></span>
+						return <span style='background: var(--el-color-danger);display: flex'>label custom: fn<span style='margin-left: auto; background: var(--el-color-success)'>{ label }</span></span>
 					},
 					// option: 'leSelectSlot',
 					// option({ value, label, disabled }) { // select 类型处理
 					option({ item, index, disabled }){ // leSelect (基于el-select-v2 二开)
-						const style = `color: #fff; background: #00f`
+						const style = `color: #fff; background: var(--el-color-primary)`
 						return <div style={style}>{item.le_label} ttt</div>
 					},
 				},
@@ -166,7 +166,7 @@ export default defineComponent({
 				render: (extendsParams) => {
 					const { form, params } = extendsParams
 					// console.error(form, params, '///////////')
-					return <div style="background: #f0f; display: flex; width: 100%;">
+					return <div style="background: var(--el-color-danger-light-3); display: flex; width: 100%;">
 						<el-input modelValue={params[form.prop]} onInput={e => (params[form.prop] = e)} placeholder="placeholder render" />
 						<span style="min-width: 130px;padding: 0 10px; text-align: center;"> -render, others -</span>
 						<el-input modelValue={params.others} onInput={e => (params.others = e)} placeholder="placeholder others" />
@@ -187,8 +187,8 @@ export default defineComponent({
 					/*label({ label }) {
 						// console.log(label, '带 {label} 参数')
 						return (
-							<span style="background: #f00;display: flex">
-								label custom: fn<span style="margin-left: auto; background: #0f0">{label}</span>
+							<span style="background: var(--el-color-danger);display: flex">
+								label custom: fn<span style="margin-left: auto; background: var(--el-color-success)">{label}</span>
 							</span>
 						)
 					},*/
@@ -340,7 +340,7 @@ export default defineComponent({
 				itemStyle: 'min-width: 200px',
 				class: 'inputNumber_class_class',
 			  slots: {
-					prefix: () => <span class="le-addon le-input-number__prefix" style="background: #0f0;">prefix</span>,
+					prefix: () => <span class="le-addon le-input-number__prefix" style="background: var(--el-color-success);">prefix</span>,
 					suffix: () => <span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">suffix</span>
 					// onlyTest: () => <span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">onlyTest</span>
 				},
@@ -383,9 +383,9 @@ export default defineComponent({
 				// prefixIcon: 'Http://',
 				// suffixIcon: '.com',
 				slots: {
-					prepend: () => <span class="le-addon le-input-number__prefix" style="background: yellow;">prepend</span>,
-					append: () => <span class="le-addon le-input-number__prefix" style="background: yellow;">append</span>,
-					prefix: () => <span class="le-addon le-input-number__prefix" style="background: #0f0;">prefix</span>,
+					prepend: () => <span class="le-addon le-input-number__prefix" style="background: var(--el-color-warning);">prepend</span>,
+					append: () => <span class="le-addon le-input-number__prefix" style="background: var(--el-color-warning);">append</span>,
+					prefix: () => <span class="le-addon le-input-number__prefix" style="background: var(--el-color-success);">prefix</span>,
 					suffix: () => <span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">suffix</span>
 				},
 				itemType: 'inputNumberRange',
@@ -554,12 +554,12 @@ export default defineComponent({
 						// label: 'leSelect_label',
 						// label render 支持
 						label({ label }) {
-							return <span style='background: #f00;display: flex'>label custom: fn<span style='margin-left: auto; background: #0f0'>{ label }</span></span>
+							return <span style='background: var(--el-color-danger);display: flex'>label custom: fn<span style='margin-left: auto; background: var(--el-color-success)'>{ label }</span></span>
 						},
 						// option: 'leSelectSlot',
 						// option({ value, label, disabled }) { // select 类型处理
 						option({ item, index, disabled }){ // leSelect (基于el-select-v2 二开)
-							const style = `color: #fff; background: #00f`
+							const style = `color: #fff; background: var(--el-color-primary)`
 							return <div style={style}>{item.le_label} ttt</div>
 						},
 					},
@@ -654,14 +654,14 @@ export default defineComponent({
 .pageWrap {
 	padding: 10px 12px;
 	overflow: auto;
-	background: #fafafa;
+	background: $le-bg-color_1;
 }
 :deep(.test_radio) {
 	.el-radio {
 		border-radius: 4px;
 		background: #d0d0d0;
 		&.is-checked {
-			background: yellow;
+			background: var(--el-color-warning);
 		}
 	}
 }

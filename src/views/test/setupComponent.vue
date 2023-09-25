@@ -45,7 +45,7 @@ export default defineComponent({
 			{msg}<br/>*/
 		return () => {
 			return (
-				<div style="background: #f00">
+				<div style="background: var(--el-color-danger)">
 					{JSON.stringify(props)}
 					<br />
 					{/*{labels}<br/>
@@ -64,7 +64,7 @@ export default defineComponent({
 </script>
 
 <!--<template>-->
-<!--	<div style="background: #f00">-->
+<!--	<div style="background: var(--el-color-danger)">-->
 <!--		{{props}}<br>-->
 <!--		{{labels}}<br>-->
 <!--		{{msg}}<br>-->

@@ -8,8 +8,8 @@
 			:loading="tableOpts.options.loading"
 		>
 			<template #slot_label_test="{label}">
-				<div style="background: #f00; color:#fff;display: flex">
-					label custom: string<span style="margin-left: auto; background: #00f">{{label}}</span>
+				<div style="background: var(--el-color-danger); color:#fff;display: flex">
+					label custom: string<span style="margin-left: auto; background: var(--el-color-primary)">{{label}}</span>
 				</div>
 			</template>
 		</LeSearchForm>
@@ -108,7 +108,7 @@ const _forms = [
 	{
 		prop: 'leSelect多选',
 		label: 'leSelect多选',
-		// itemStyle: 'background: #f00; width: 500px',
+		// itemStyle: 'background: var(--el-color-danger); width: 500px',
 		// itemWidth: '300px',
 		itemType: 'leSelect',
 		multiple: true,
@@ -322,14 +322,14 @@ const _forms = [
 			/*label({ label }) {
 				console.error(label, 'label...')
 				return (
-					<span style="background: #f00;display: flex">
+					<span style="background: var(--el-color-danger);display: flex">
 						label custom: fn<span style="margin-left: auto; background: #0f0">{label}</span>
 					</span>
 				)
 			},*/
 			label: 'slot_label_test',
 		},
-		// itemStyle: 'background: #f00',
+		// itemStyle: 'background: var(--el-color-danger)',
 		span: 8,
 		// inlinePrompt: true,
 		activeText: '是',

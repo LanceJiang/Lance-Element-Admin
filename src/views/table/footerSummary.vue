@@ -48,7 +48,7 @@ const options = ref({
 					curPageTotal: {data.length}
 				</div>)
 			} else {
-				sums[index] = <div style="color: #f00">- 空 -</div>
+				sums[index] = <div style="color: var(--el-color-danger)">- 空 -</div>
 			}
 		})
 		return sums
@@ -152,16 +152,15 @@ onMounted(() => {
 	//padding-top: 12px;
 	padding: 12px 12px 0 12px;
 	overflow: auto;
-	background-color: #f5f6f7;
+	background-color: $le-bg-color_1;
 }
 
 // 其他样式
 .local_table {
 	//padding: 0 12px;
 	box-shadow: 0 0 6px 4px rgb(145 159 175 / 6%);
-	border-top: 1px solid #eaedf0;
+	border-top: 1px solid $le-border-color_3;
 	border-radius: 6px 6px 0 0;
-	background-color: #fff;
 	//padding: 12px 12px 0 12px;
 	&.tabs_content-wrap {
 		border-top: 0;
