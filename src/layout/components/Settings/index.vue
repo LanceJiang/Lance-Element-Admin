@@ -15,16 +15,16 @@
 			<el-switch v-model="isDark" inline-prompt class="drawer-switch" active-icon="Sunny" inactive-icon="Moon" @change="switchDark" />
 		</div>
 		<div class="drawer-item">
-			<span>侧边栏主题切换</span>
-			<el-switch v-model="fixedHeader" class="drawer-switch" />
+			<span>侧边栏深色</span>
+			<el-switch v-model="asideInverted" @change="setAsideTheme" class="drawer-switch" />
 		</div>
 		<div class="drawer-item">
-			<span>头部主题切换</span>
-			<el-switch v-model="fixedHeader" class="drawer-switch" />
+			<span>头部深色</span>
+			<el-switch v-model="headerInverted" @change="setHeaderTheme" class="drawer-switch" />
 		</div>
 		<div class="drawer-item">
-			<span>底部主题切换</span>
-			<el-switch v-model="fixedHeader" class="drawer-switch" />
+			<span>底部深色</span>
+			<el-switch v-model="footerInverted" @change="setFooterTheme" class="drawer-switch" />
 		</div>
 
 		<el-divider class="local-divider">
@@ -107,7 +107,7 @@ import { useTheme } from '@/hooks/useTheme'
 import useStore from '@/store'
 
 const { setting } = useStore()
-const { switchDark } = useTheme()
+const { switchDark, setAsideTheme, setHeaderTheme, setFooterTheme } = useTheme()
 // const isDark = useDark()
 // const toggleDark = () => useToggle(isDark)
 
@@ -117,7 +117,7 @@ const { switchDark } = useTheme()
 // 	sidebarLogo: setting.sidebarLogo
 // })
 
-const { layout, fixedHeader, tagsView, sidebarLogo, isDark } = storeToRefs(setting)
+const { layout, asideInverted, headerInverted, footerInverted, fixedHeader, tagsView, sidebarLogo, isDark } = storeToRefs(setting)
 
 function themeChange(val: any) {
 	setting.changeSetting('themeColor', val)
@@ -126,7 +126,7 @@ function themeChange(val: any) {
 // 设置布局方式
 const setLayout = (val: LayoutType) => {
 	setting.changeSetting('layout', val)
-	// setAsideTheme()
+	setAsideTheme()
 }
 
 // watch(

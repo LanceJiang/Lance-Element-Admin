@@ -38,11 +38,11 @@ export interface SettingState {
 	themeColor: string
 	// 暗黑主题
 	isDark: boolean
-	// 侧边栏主题切换
+	// 侧边栏深色
 	asideInverted: boolean
-	// 头部主题切换
+	// 头部深色
 	headerInverted: boolean
-	// 底部主题切换
+	// 底部深色
 	footerInverted: boolean
 	// 开启 Tags-View
 	tagsView: boolean

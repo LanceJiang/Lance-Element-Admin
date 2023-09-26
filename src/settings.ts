@@ -12,11 +12,11 @@ const defaultSettingState: SettingState = {
 	themeColor: '#409eff',
 	// 暗黑主题
 	isDark: false,
-	// 侧边栏主题切换
+	// 侧边栏深色
 	asideInverted: false,
-	// 头部主题切换
+	// 头部深色
 	headerInverted: false,
-	// 底部主题切换
+	// 底部深色
 	footerInverted: false,
 	// 标签展示
 	tagsView: true,

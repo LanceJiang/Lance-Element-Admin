@@ -7,13 +7,14 @@ import { getLightColor, getDarkColor } from '@/utils/color'
 import { menuTheme } from '@/styles/theme/menu'
 import { asideTheme } from '@/styles/theme/aside'
 import { headerTheme } from '@/styles/theme/header'
+import { footerTheme } from '@/styles/theme/footer'
 
 /**
  * @description 全局主题 hooks
  * */
 export const useTheme = () => {
 	const { setting } = useStore()
-	const { themeColor, isDark, /*isGrey, isWeak, */layout/*, asideInverted, headerInverted*/ } = storeToRefs(setting)
+	const { themeColor, layout, isDark, asideInverted, headerInverted, footerInverted /*isGrey, isWeak, */ } = storeToRefs(setting)
 
 	// 切换暗黑主题 ==> 同时修改主题颜色、侧边栏、头部颜色
 	const switchDark = () => {
@@ -23,6 +24,7 @@ export const useTheme = () => {
 		changeThemeColor(themeColor.value)
 		setAsideTheme()
 		setHeaderTheme()
+		setFooterTheme()
 	}
 
 	// 修改主题颜色
@@ -56,10 +58,11 @@ export const useTheme = () => {
 	// 设置菜单样式
 	const setMenuTheme = () => {
 		let type: Theme.ThemeType = 'light'
-		// if (layout.value === 'transverse' && headerInverted.value) type = 'inverted'
-		// if (layout.value !== 'transverse' && asideInverted.value) type = 'inverted'
+		if (layout.value === 'transverse' && headerInverted.value) type = 'inverted'
+		if (layout.value !== 'transverse' && asideInverted.value) type = 'inverted'
 		if (isDark.value) type = 'dark'
 		const theme = menuTheme[type!]
+		// console.error(type, 'type theme', theme)
 		for (const [key, value] of Object.entries(theme)) {
 			document.documentElement.style.setProperty(key, value)
 		}
@@ -68,7 +71,7 @@ export const useTheme = () => {
 	// 设置侧边栏样式
 	const setAsideTheme = () => {
 		let type: Theme.ThemeType = 'light'
-		// if (asideInverted.value) type = 'inverted'
+		if (asideInverted.value) type = 'inverted'
 		if (isDark.value) type = 'dark'
 		const theme = asideTheme[type!]
 		for (const [key, value] of Object.entries(theme)) {
@@ -80,9 +83,20 @@ export const useTheme = () => {
 	// 设置头部样式
 	const setHeaderTheme = () => {
 		let type: Theme.ThemeType = 'light'
-		// if (headerInverted.value) type = 'inverted'
+		if (headerInverted.value) type = 'inverted'
 		if (isDark.value) type = 'dark'
 		const theme = headerTheme[type!]
+		for (const [key, value] of Object.entries(theme)) {
+			document.documentElement.style.setProperty(key, value)
+		}
+		setMenuTheme()
+	}
+	// 设置底部样式
+	const setFooterTheme = () => {
+		let type: Theme.ThemeType = 'light'
+		if (footerInverted.value) type = 'inverted'
+		if (isDark.value) type = 'dark'
+		const theme = footerTheme[type!]
 		for (const [key, value] of Object.entries(theme)) {
 			document.documentElement.style.setProperty(key, value)
 		}
@@ -102,6 +116,7 @@ export const useTheme = () => {
 		changeThemeColor,
 		changeGreyOrWeak,
 		setAsideTheme,
-		setHeaderTheme
+		setHeaderTheme,
+		setFooterTheme
 	}
 }
