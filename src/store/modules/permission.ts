@@ -90,7 +90,7 @@ const usePermissionStore = defineStore({
 					// path: HOME_URL,
 					component: () => import('@/views/dashboard/index.vue'),
 					name: 'dashboard',
-					meta: { title: 'dashboard', icon: 'homepage', affix: true }
+					meta: { title: 'dashboard', icon: 'icon-homepage', affix: true }
 				}
 			])
 		// showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify(state.routes)))

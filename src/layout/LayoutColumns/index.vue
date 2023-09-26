@@ -16,20 +16,21 @@
 						:class="{ 'split-active': splitActive === item.path || `/${splitActive.split('/')[1]}` === item.path }"
 						@click="changeSubMenu(item)"
 					>
-						<el-icon>
+						<MenuIcon v-if="item.meta.icon" :icon-class="item.meta.icon"></MenuIcon>
+<!--						<el-icon>
 							<component :is="item.meta.icon"></component>
-						</el-icon>
-						<span class="title">{{ item.meta.title }}</span>
+						</el-icon>-->
+						<span class="title">{{ generateTitle(item.meta.title) }}</span>
 					</div>
 				</div>
 			</el-scrollbar>
 		</div>
 		<el-aside :class="{ 'not-aside': !subMenuList.length }" :style="{ width: isCollapse ? '65px' : '210px' }">
 			<div class="logo">
-				<span v-show="subMenuList.length" class="text-overflow_ellipsis logo-text">{{ isCollapse ? 'G' : title }}</span>
+				<span v-show="subMenuList.length" class="text-overflow_ellipsis logo-text" :title="title">{{ title }}</span>
 			</div>
 			<el-scrollbar>
-				<el-menu :router="false" :default-active="activeMenu" :collapse="isCollapse" :unique-opened="accordion" :collapse-transition="false">
+				<el-menu class="layout-menu-wrap" :router="false" :default-active="activeMenu" :collapse="isCollapse" :unique-opened="accordion" :collapse-transition="false">
 					<SubMenu :menu-list="subMenuList" />
 				</el-menu>
 			</el-scrollbar>
@@ -54,8 +55,9 @@ import AppMain from '@/layout/components/AppMain.vue'
 import ToolBarLeft from '@/layout/components/Header/ToolBarLeft.vue'
 import ToolBarRight from '@/layout/components/Header/ToolBarRight.vue'
 import SubMenu from '@/layout/components/Menu/SubMenu.vue'
+import MenuIcon from '@/layout/components/Menu/MenuIcon.vue'
 import useStore from '@/store'
-
+import { generateTitle } from '@/utils/i18n'
 const title = import.meta.env.VITE_APP_TITLE
 
 const route = useRoute()
@@ -103,6 +105,6 @@ const changeSubMenu = (item: Menu.MenuOptions) => {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import './index.scss';
 </style>

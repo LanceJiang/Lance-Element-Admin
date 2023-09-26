@@ -15,7 +15,7 @@
 		<el-container class="classic-content">
 			<el-aside class="aside-box" :style="{ width: isCollapse ? '65px' : '210px' }">
 				<el-scrollbar>
-					<el-menu :router="false" :default-active="activeMenu" :collapse="isCollapse" :unique-opened="accordion" :collapse-transition="false">
+					<el-menu class="layout-menu-wrap" :router="false" :default-active="activeMenu" :collapse="isCollapse" :unique-opened="accordion" :collapse-transition="false">
 						<SubMenu :menu-list="menuList" />
 					</el-menu>
 				</el-scrollbar>

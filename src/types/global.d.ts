@@ -9,6 +9,10 @@ declare namespace Menu {
 		children?: MenuOptions[]
 	}
 	interface MetaProps {
+		// 关于icon 描述：
+		// 1.来自本地src/assets/icons 的svg: 'icon-[dir]-[name]'
+		// 2.iconfont svg 链接: 'le-[name]'
+		// 3. 匹配不到icon- & le- 默认element
 		icon: string
 		title: string
 		activeMenu?: string

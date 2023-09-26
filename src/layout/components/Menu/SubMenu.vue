@@ -1,8 +1,8 @@
 <template>
 	<template v-for="subItem in menuList" :key="subItem.path">
-		<el-sub-menu v-if="subItem.children?.length" :index="subItem.path">
+		<el-sub-menu v-if="subItem.children?.length" popperClass="layout-menu-popper-wrap" :index="subItem.path">
 			<template #title>
-				<SvgIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+				<MenuIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 				<!--				<el-icon v-if="subItem.meta.icon">
 					<component :is="subItem.meta.icon" />
 				</el-icon>-->
@@ -10,8 +10,8 @@
 			</template>
 			<SubMenu :menu-list="subItem.children" />
 		</el-sub-menu>
-		<el-menu-item v-else :index="subItem.path" @click="handleClickMenu(subItem)">
-			<SvgIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+		<el-menu-item v-else popperClass="layout-menu-popper-wrap" :index="subItem.path" @click="handleClickMenu(subItem)">
+			<MenuIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 			<!--      <el-icon>
 				<component :is="subItem.meta.icon"></component>
 			</el-icon>-->
@@ -25,6 +25,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { generateTitle } from '@/utils/i18n'
+import MenuIcon from './MenuIcon.vue'
 
 defineProps<{ menuList: Menu.MenuOptions[] }>()
 
@@ -39,8 +40,9 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
 
 <style lang="scss">
 .el-sub-menu .el-sub-menu__title:hover {
-	color: var(--el-menu-hover-text-color) !important;
-	background-color: transparent !important;
+	// 来自 vertical 关闭
+	//color: var(--el-menu-hover-text-color) !important;
+	//background-color: transparent !important;
 }
 .el-menu--collapse {
 	.el-sub-menu__title {
@@ -48,7 +50,7 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
 		align-items: center;
 		justify-content: center;
 		padding: 0;
-		/*.svg-icon {
+		/*.menu-icon {
 			font-size: 18px;
 		}*/
 	}

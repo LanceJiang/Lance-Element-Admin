@@ -3,7 +3,7 @@ import { Theme } from '@/hooks/interface'
 export const menuTheme: Record<Theme.ThemeType, { [key: string]: string }> = {
 	light: {
 		'--el-menu-bg-color': '#ffffff',
-		'--el-menu-hover-bg-color': '#cccccc',
+		// '--el-menu-hover-bg-color': '#cccccc',
 		'--el-menu-active-bg-color': 'var(--el-color-primary-light-9)',
 		'--el-menu-text-color': '#333333',
 		'--el-menu-active-color': 'var(--el-color-primary)',
@@ -12,7 +12,7 @@ export const menuTheme: Record<Theme.ThemeType, { [key: string]: string }> = {
 	},
 	inverted: {
 		'--el-menu-bg-color': '#191a20',
-		'--el-menu-hover-bg-color': '#000000',
+		// '--el-menu-hover-bg-color': '#000000',
 		'--el-menu-active-bg-color': '#000000',
 		'--el-menu-text-color': '#bdbdc0',
 		'--el-menu-active-color': '#ffffff',
@@ -21,7 +21,7 @@ export const menuTheme: Record<Theme.ThemeType, { [key: string]: string }> = {
 	},
 	dark: {
 		'--el-menu-bg-color': '#141414',
-		'--el-menu-hover-bg-color': '#000000',
+		// '--el-menu-hover-bg-color': '#000000',
 		'--el-menu-active-bg-color': '#000000',
 		'--el-menu-text-color': '#bdbdc0',
 		'--el-menu-active-color': '#ffffff',
