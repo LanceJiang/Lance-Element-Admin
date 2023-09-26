@@ -2,8 +2,8 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { AppRouteRecordRaw } from './types'
 import useStore from '@/store'
 
-// export const Layout = () => import('@/layout/index.vue')
-export const Layout = () => import('@/layout/index_old.vue')
+export const Layout = () => import('@/layout/index.vue') // todo....
+// export const Layout = () => import('@/layout/index_old.vue')
 // const HOME_URL = '/dashboard'
 
 // 参数说明: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -63,7 +63,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 				path: 'index',
 				component: () => import('@/views/components/index.vue'),
 				name: 'comps',
-				meta: { title: 'comps', icon: 'excel' }
+				meta: { title: 'comps', icon: 'icon-excel' }
 			}
 		]
 	},
@@ -77,7 +77,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 				path: 'default',
 				component: () => import('@/views/form/default.vue'),
 				name: 'FormDefault',
-				meta: { title: 'form', icon: 'guide' }
+				meta: { title: 'form', icon: 'icon-guide' }
 			}
 		]
 	},
@@ -85,7 +85,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 		path: '/table',
 		component: Layout,
 		redirect: '/default',
-		meta: { title: 'table', icon: 'table' },
+		meta: { title: 'table', icon: 'icon-table' },
 		children: [
 			{
 				path: 'default',
@@ -161,7 +161,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 		children: [
 			{
 				path: 'https://github.com/LanceJiang/vue3_element_admin',
-				meta: { title: '外部链接', icon: 'link' }
+				meta: { title: '外部链接', icon: 'icon-link' }
 			}
 		]
 	}
@@ -187,7 +187,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 		path: '/demo',
 		component: 'Layout',
 		redirect: '/demo/adminManage',
-		meta: { title: 'demo', icon: 'peoples' },
+		meta: { title: 'demo', icon: 'icon-peoples' },
 		children: [
 			{
 				// path: '/demo/pageConfig',
@@ -195,7 +195,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 				// component: () => import('@/views/demo/pageConfig/index'),
 				component: 'demo/pageConfig/index',
 				name: 'pageConfig',
-				meta: { title: 'demo_pageConfig' }
+				meta: { title: 'demo_pageConfig', icon: 'le-fangda1' }
 			},
 			{
 				// 管理员管理
@@ -203,7 +203,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 				path: 'adminManage',
 				name: 'adminManage',
 				component: 'demo/adminManage/index',
-				meta: { title: 'demo_adminManage' }
+				meta: { title: 'demo_adminManage', icon: 'setting' }
 			}
 		]
 	},
@@ -243,6 +243,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 				children: [
 					{
 						path: '/menu/menu2/menu21',
+						// path: 'menu21',
 						name: 'menu21',
 						component: 'menu/menu2/menu21/index',
 						meta: {
@@ -257,6 +258,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 					},
 					{
 						path: '/menu/menu2/menu22',
+						// path: 'menu22',
 						name: 'menu22',
 						redirect: '/menu/menu2/menu22/menu221',
 						meta: {
@@ -271,6 +273,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 						children: [
 							{
 								path: '/menu/menu2/menu22/menu221',
+								// path: 'menu221',
 								name: 'menu221',
 								component: 'menu/menu2/menu22/menu221/index',
 								meta: {
@@ -285,6 +288,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 							},
 							{
 								path: '/menu/menu2/menu22/menu222',
+								// path: 'menu222',
 								name: 'menu222',
 								component: 'menu/menu2/menu22/menu222/index',
 								meta: {
@@ -301,6 +305,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 					},
 					{
 						path: '/menu/menu2/menu23',
+						// path: 'menu23',
 						name: 'menu23',
 						component: 'menu/menu2/menu23/index',
 						meta: {
