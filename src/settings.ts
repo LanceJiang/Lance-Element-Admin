@@ -12,6 +12,12 @@ const defaultSettingState: SettingState = {
 	themeColor: '#409eff',
 	// 暗黑主题
 	isDark: false,
+	// 侧边栏主题切换
+	asideInverted: false,
+	// 头部主题切换
+	headerInverted: false,
+	// 底部主题切换
+	footerInverted: false,
 	// 标签展示
 	tagsView: true,
 	// todo???

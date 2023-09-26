@@ -14,12 +14,24 @@
 			<span>暗黑主题</span>
 			<el-switch v-model="isDark" inline-prompt class="drawer-switch" active-icon="Sunny" inactive-icon="Moon" @change="switchDark" />
 		</div>
+		<div class="drawer-item">
+			<span>侧边栏主题切换</span>
+			<el-switch v-model="fixedHeader" class="drawer-switch" />
+		</div>
+		<div class="drawer-item">
+			<span>头部主题切换</span>
+			<el-switch v-model="fixedHeader" class="drawer-switch" />
+		</div>
+		<div class="drawer-item">
+			<span>底部主题切换</span>
+			<el-switch v-model="fixedHeader" class="drawer-switch" />
+		</div>
 
 		<el-divider class="local-divider">
 			<el-icon><Menu /></el-icon>布局模式
 		</el-divider>
 		<div class="layout-box">
-			<el-tooltip effect="dark" content="经典" placement="top" :show-after="200">
+			<el-tooltip effect="dark" content="顶部菜单混合模式" placement="top" :show-after="200">
 				<div :class="['layout-item layout-classic', { 'is-active': layout == 'classic' }]" @click="setLayout('classic')">
 					<div class="layout-dark"></div>
 					<div class="layout-container">
@@ -31,7 +43,7 @@
 					</el-icon>
 				</div>
 			</el-tooltip>
-			<el-tooltip effect="dark" content="横向" placement="top" :show-after="200">
+			<el-tooltip effect="dark" content="顶部菜单模式" placement="top" :show-after="200">
 				<div :class="['layout-item layout-transverse', { 'is-active': layout == 'transverse' }]" @click="setLayout('transverse')">
 					<div class="layout-dark"></div>
 					<div class="layout-content"></div>
@@ -40,7 +52,7 @@
 					</el-icon>
 				</div>
 			</el-tooltip>
-			<el-tooltip effect="dark" content="纵向" placement="top" :show-after="200">
+			<el-tooltip effect="dark" content="左侧菜单模式" placement="top" :show-after="200">
 				<div :class="['layout-item layout-vertical', { 'is-active': layout == 'vertical' }]" @click="setLayout('vertical')">
 					<div class="layout-dark"></div>
 					<div class="layout-container">
@@ -52,7 +64,7 @@
 					</el-icon>
 				</div>
 			</el-tooltip>
-			<el-tooltip effect="dark" content="分栏" placement="top" :show-after="200">
+			<el-tooltip effect="dark" content="左侧菜单混合模式" placement="top" :show-after="200">
 				<div :class="['layout-item layout-columns', { 'is-active': layout == 'columns' }]" @click="setLayout('columns')">
 					<div class="layout-dark"></div>
 					<div class="layout-light"></div>
@@ -77,10 +89,10 @@
 			<el-switch v-model="fixedHeader" class="drawer-switch" />
 		</div>
 
-		<div class="drawer-item">
+<!--		<div class="drawer-item">
 			<span>侧边栏 Logo</span>
 			<el-switch v-model="sidebarLogo" class="drawer-switch" />
-		</div>
+		</div>-->
 	</div>
 </template>
 
@@ -141,6 +153,7 @@ const setLayout = (val: LayoutType) => {
 
 <style lang="scss" scoped>
 .drawer-container {
+	position: relative;
 	padding: 0 24px 16px 24px;
 	//padding-top: 0;
 	font-size: 14px;

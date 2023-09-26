@@ -34,10 +34,16 @@ export interface SettingState {
 	isCollapse: boolean
 	// 布局模式
 	layout: string
-	// 暗黑主题
-	isDark: boolean
 	// 主题颜色
 	themeColor: string
+	// 暗黑主题
+	isDark: boolean
+	// 侧边栏主题切换
+	asideInverted: boolean
+	// 头部主题切换
+	headerInverted: boolean
+	// 底部主题切换
+	footerInverted: boolean
 	// 开启 Tags-View
 	tagsView: boolean
 	// 固定 Header
