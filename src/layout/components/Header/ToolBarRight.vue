@@ -1,12 +1,12 @@
 <template>
-	<div class="tool-bar-ri">
+	<div class="tool-bar-right">
 		<div class="header-icon">
 			<!--			<AssemblySize id="assemblySize" />-->
-			<Screenfull id="screenfull" class="right-menu-item hover-effect" />
+			<Screenfull id="screenfull" class="right-menu-item le-hover-effect--bg" />
 			<el-tooltip content="布局大小" effect="dark" placement="bottom">
-				<SizeSelect id="size-select" class="right-menu-item hover-effect" />
+				<SizeSelect id="size-select" class="right-menu-item le-hover-effect--bg" />
 			</el-tooltip>
-			<Language id="language" class="right-menu-item hover-effect" />
+			<Language id="language" class="right-menu-item le-hover-effect--bg" />
 			<!--      todo...搜索 -->
 			<!--			<SearchMenu id="searchMenu" />-->
 			<!--			<ThemeSetting id="themeSetting" />-->
@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-// import { useUserStore } from '@/stores/modules/user'
 // import AssemblySize from './components/AssemblySize.vue'
 import Language from './components/Language.vue'
 import Screenfull from '@/components/Screenfull/index.vue'
@@ -30,53 +29,29 @@ import SizeSelect from '@/components/SizeSelect/index.vue'
 // import Fullscreen from './components/Fullscreen.vue'
 import Avatar from './components/Avatar.vue'
 
-// const userStore = useUserStore()
 // const username = computed(() => userStore.userInfo.name)
 </script>
 
-<style scoped lang="scss">
-.tool-bar-ri {
+<style lang="scss">
+.tool-bar-right {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	height: 100%;
-	//padding-right: 25px;
-	&:deep(.header-icon) {
-		height: 100%;
+	.header-icon {
+		//height: 100%;
+		//display: flex;
+		//align-items: center;
+		//justify-content: center;
+	}
+	.right-menu-item {
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		.right-menu-item {
-			display: flex;
-			align-items: center;
-			padding: 0 8px;
-			height: 100%;
-			//height: 55px;
-			font-size: 18px;
-			//color: #5a5e66;
-			//color: var(--el-header-text-color);
-			color: var(--el-color-info);
-
-			&.hover-effect {
-				cursor: pointer;
-				transition: background 0.3s;
-
-				&:hover {
-					//background: rgba(0, 0, 0, 0.025);
-					background: var(--el-fill-color);
-				}
-			}
-		}
-		//& > * {
-		//	margin-left: 21px;
-		//}
-	}
-	.header-icon {
-	}
-	.username {
-		margin: 0 20px;
-		font-size: 15px;
-		color: var(--el-header-text-color);
+		padding: 0 8px;
+		height: 100%;
+		//height: 55px;
+		font-size: 18px;
+		color: var(--el-color-info);
 	}
 }
 </style>

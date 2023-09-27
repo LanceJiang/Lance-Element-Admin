@@ -1,5 +1,5 @@
 <template>
-	<el-icon class="collapse-icon hover-effect" @click="changeCollapse">
+	<el-icon class="collapse-icon le-hover-effect--bg" @click="changeCollapse">
 		<component :is="setting.isCollapse ? 'expand' : 'fold'"></component>
 	</el-icon>
 </template>
@@ -20,15 +20,5 @@ const changeCollapse = () => setting.changeSetting('isCollapse', !setting.isColl
 	padding: 0 15px;
 	font-size: 16px;
 	color: var(--el-header-text-color);
-	//cursor: pointer;
-	&.hover-effect {
-		cursor: pointer;
-		transition: background 0.3s;
-
-		&:hover {
-			//background: rgba(0, 0, 0, 0.025);
-			background: var(--el-fill-color);
-		}
-	}
 }
 </style>
