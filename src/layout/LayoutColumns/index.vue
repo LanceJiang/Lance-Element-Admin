@@ -16,7 +16,7 @@
 						:class="{ 'split-active': splitActive === item.path || `/${splitActive.split('/')[1]}` === item.path }"
 						@click="changeSubMenu(item)"
 					>
-						<MenuIcon v-if="item.meta.icon" :icon-class="item.meta.icon"></MenuIcon>
+						<MenuIcon v-if="item.meta?.icon" :icon-class="item.meta.icon"></MenuIcon>
 <!--						<el-icon>
 							<component :is="item.meta.icon"></component>
 						</el-icon>-->

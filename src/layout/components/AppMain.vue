@@ -2,7 +2,7 @@
 	<section class="app-main">
 		<TagsView v-show="needTagsView" />
 		<router-view v-slot="{ Component, route }">
-			<transition name="router-fade" mode="out-in">
+			<transition :name="pageAnimateMode" mode="out-in">
 				<keep-alive :include="cachedViews">
 					<component :is="Component" :key="route.fullPath" />
 				</keep-alive>
@@ -22,6 +22,7 @@ import TagsView from '@/layout/components/TagsView/index.vue'
 const { tagsView, setting } = useStore()
 const needTagsView = computed(() => setting.tagsView)
 const cachedViews = computed(() => tagsView.cachedViews)
+const pageAnimateMode = computed(() => setting.animate ? setting.animateMode : undefined)
 </script>
 
 <style lang="scss" scoped>

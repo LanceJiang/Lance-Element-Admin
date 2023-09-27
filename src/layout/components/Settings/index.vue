@@ -6,9 +6,7 @@
 		</el-divider>
 		<div class="drawer-item">
 			<span>主题颜色</span>
-			<div style="float: right; height: 26px; margin: -3px 8px 0 0">
-				<theme-picker @change="themeChange" />
-			</div>
+			<theme-picker @change="themeChange" />
 		</div>
 		<div class="drawer-item" @click.stop="">
 			<span>暗黑主题</span>
@@ -16,15 +14,15 @@
 		</div>
 		<div class="drawer-item">
 			<span>侧边栏深色</span>
-			<el-switch v-model="asideInverted" @change="setAsideTheme" class="drawer-switch" />
+			<el-switch v-model="asideInverted" class="drawer-switch" @change="setAsideTheme" />
 		</div>
 		<div class="drawer-item">
 			<span>头部深色</span>
-			<el-switch v-model="headerInverted" @change="setHeaderTheme" class="drawer-switch" />
+			<el-switch v-model="headerInverted" class="drawer-switch" @change="setHeaderTheme" />
 		</div>
-		<div class="drawer-item">
+		<div v-show="footer" class="drawer-item">
 			<span>底部深色</span>
-			<el-switch v-model="footerInverted" @change="setFooterTheme" class="drawer-switch" />
+			<el-switch v-model="footerInverted" class="drawer-switch" @change="setFooterTheme" />
 		</div>
 
 		<el-divider class="local-divider">
@@ -80,14 +78,41 @@
 			<el-icon><Operation /></el-icon>界面功能
 		</el-divider>
 		<div class="drawer-item">
-			<span>开启 Tags-View</span>
+			<span>显示底部</span>
+			<el-switch v-model="footer" class="drawer-switch" />
+		</div>
+		<div class="drawer-item">
+			<span>面包屑</span>
+			<el-switch v-model="breadcrumb" class="drawer-switch" />
+		</div>
+		<div v-show="breadcrumb" class="drawer-item">
+			<span>面包屑图标</span>
+			<el-switch v-model="breadcrumbIcon" class="drawer-switch" />
+		</div>
+
+		<div class="drawer-item">
+			<span>多页签</span>
 			<el-switch v-model="tagsView" class="drawer-switch" />
 		</div>
 
 		<div class="drawer-item">
+			<span>页面切换动画</span>
+			<el-switch v-model="animate" class="drawer-switch" />
+		</div>
+
+		<div class="drawer-item">
+			<span>页面切换动画类型</span>
+			<el-select v-model="animateMode" style="width: 100px;" class="drawer-switch">
+				<el-option v-for="v of animateList" :key="v.value" :value="v.value" :label="v.label" />
+			</el-select>
+		</div>
+
+<!--
+		<div class="drawer-item">
 			<span>固定 Header</span>
 			<el-switch v-model="fixedHeader" class="drawer-switch" />
 		</div>
+-->
 
 <!--		<div class="drawer-item">
 			<span>侧边栏 Logo</span>
@@ -116,8 +141,47 @@ const { switchDark, setAsideTheme, setHeaderTheme, setFooterTheme } = useTheme()
 // 	tagsView: setting.tagsView,
 // 	sidebarLogo: setting.sidebarLogo
 // })
-
-const { layout, asideInverted, headerInverted, footerInverted, fixedHeader, tagsView, sidebarLogo, isDark } = storeToRefs(setting)
+const animateList = [
+	{
+		label: '消退',
+		value: 'fade'
+	},
+	{
+		label: '滑动',
+		value: 'fade-slide'
+	},
+	{
+		label: '底部消退',
+		value: 'fade-bottom'
+	},
+	{
+		label: '缩放消退',
+		value: 'fade-scale'
+	},
+	{
+		label: '渐变',
+		value: 'zoom-fade'
+	},
+	{
+		label: '闪现',
+		value: 'zoom-out'
+	}
+]
+const {
+	isDark,
+	layout,
+	asideInverted,
+	headerInverted,
+	footerInverted,
+	fixedHeader,
+	footer,
+	breadcrumb,
+	breadcrumbIcon,
+	tagsView,
+	animate,
+	animateMode,
+	sidebarLogo
+} = storeToRefs(setting)
 
 function themeChange(val: any) {
 	setting.changeSetting('themeColor', val)
@@ -181,13 +245,16 @@ const setLayout = (val: LayoutType) => {
 
 	.drawer-item {
 		//color: rgba(0, 0, 0, 0.65);
-    color: var(--el-text-color-primary);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		color: var(--el-text-color-primary);
 		font-size: 14px;
-		padding: 12px 0;
+		padding: 6px 0;
 	}
 
 	.drawer-switch {
-		float: right;
+		//float: right;
 	}
 
 	.job-link {

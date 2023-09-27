@@ -1,12 +1,11 @@
 <template>
 	<div :class="classObj" class="app-wrapper">
 		<div v-if="device === 'mobile' && !setting.isCollapse" class="drawer-bg" @click="handleClickOutside" />
-		<Sidebar class="sidebar-container" />
+<!--		<Sidebar class="sidebar-container" />-->
 
-		<div :class="{ hasTagsView: needTagsView }" class="main-container">
+		<div class="main-container">
 			<div :class="{ 'fixed-header': fixedHeader }">
-				<navbar />
-				<tags-view v-if="needTagsView" />
+				<!--				<tags-view v-if="needTagsView" />-->
 			</div>
 			<AppMain />
 			<RightPanel v-if="showSettings">
@@ -19,8 +18,8 @@
 <script setup lang="ts">
 import { computed, watchEffect } from 'vue'
 import { useWindowSize } from '@vueuse/core'
-import { AppMain, Navbar, Settings, TagsView } from './components/index'
-import Sidebar from './components/Sidebar/index.vue'
+import { AppMain, Settings, TagsView } from './components/index'
+// import Sidebar from './components/Sidebar/index.vue'
 import RightPanel from '@/components/RightPanel/index.vue'
 
 import useStore from '@/store'
@@ -39,9 +38,9 @@ const showSettings = computed(() => setting.showSettings)
 const classObj = computed(() => ({
 	// hideSidebar: !sidebar.value.opened,
 	// openSidebar: sidebar.value.opened,
-  // withoutAnimation: sidebar.value.withoutAnimation,
-	hideSidebar: !setting.isCollapse,
-	openSidebar: setting.isCollapse,
+	// withoutAnimation: sidebar.value.withoutAnimation,
+	hideSidebar: setting.isCollapse,
+	openSidebar: !setting.isCollapse,
 	mobile: device.value === 'mobile'
 }))
 
@@ -102,6 +101,7 @@ function handleClickOutside() {
 	width: 100%;
 }
 .main-container {
-	background: #e5e5e5;
+	//background: #e5e5e5;
+	background-color: var(--el-bg-color);
 }
 </style>

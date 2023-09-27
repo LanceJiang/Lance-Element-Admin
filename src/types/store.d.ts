@@ -44,7 +44,7 @@ export interface SettingState {
 	headerInverted: boolean
 	// 底部深色
 	footerInverted: boolean
-	// 开启 Tags-View
+	// 多页签
 	tagsView: boolean
 	// 固定 Header
 	fixedHeader: boolean
@@ -52,8 +52,24 @@ export interface SettingState {
 	sidebarLogo: boolean
 	// 手风琴
 	accordion: boolean
+	// 面包屑
+	breadcrumb: boolean
+	// 面包屑图标
+	breadcrumbIcon: boolean
+	// 页面切换动画
+	animate: boolean
+	// 页面切换动画类型
+	/**
+	 * 过渡动画类型
+	 * - fade: 消退
+	 * - fade-slide: 滑动
+	 * - fade-bottom: 底部消退
+	 * - fade-scale: 缩放消退
+	 * - zoom-fade: 渐变
+	 * - zoom-out: 闪现
+	 */
+	animateMode: 'fade' | 'fade-slide' | 'fade-bottom' | 'fade-scale' | 'zoom-fade' | 'zoom-out'
 }
-
 /**
  * 标签状态类型声明
  */

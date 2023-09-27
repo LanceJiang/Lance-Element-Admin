@@ -10,7 +10,7 @@
 <script setup lang="ts" name="layout">
 import { computed, type Component } from 'vue'
 import { LayoutType } from '@/store/interface'
-// import { AppMain, Navbar, Settings, TagsView } from './components/index'
+// import { AppMain, Settings, TagsView } from './components/index'
 import useStore from '@/store'
 // import { useGlobalStore } from "@/stores/modules/global";
 // import ThemeDrawer from './components/ThemeDrawer/index.vue'
