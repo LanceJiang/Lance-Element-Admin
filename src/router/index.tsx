@@ -166,6 +166,32 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 		]
 	}
 ]
+const getFlatMenuList_1children = (menuList: AppRouteRecordRaw[]) => {
+	return menuList.reduce((res, v) => {
+		// 过滤掉隐藏
+		if (v.meta?.hidden) return res
+		const children = v.children
+		if (Array.isArray(children) && children.length) {
+			if (children.length === 1) {
+				const child0 = children[0]
+				// delete v.children
+				res.push({
+					...child0,
+					path: /\/.*/.test(child0.path) ? child0.path : `${v.path}/${child0.path}`
+				})
+			} else {
+				res.push({
+					...v,
+					children: getFlatMenuList_1children(v.children as AppRouteRecordRaw[])
+				})
+			}
+		} else {
+			res.push(v)
+		}
+		return res
+	}, [] as AppRouteRecordRaw[])
+}
+export const constantMenuList: Array<AppRouteRecordRaw> = getFlatMenuList_1children(constantRoutes)
 
 export const noFoundRouters = [
 	{

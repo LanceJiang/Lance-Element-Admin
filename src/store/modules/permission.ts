@@ -2,7 +2,7 @@ import { PermissionState } from '@/types'
 import { AppRouteRecordRaw } from '@/router/types'
 // import { RouteRecordRaw } from 'vue-router'
 import { defineStore } from 'pinia'
-import { constantRoutes, noFoundRouters } from '@/router'
+import { constantRoutes, noFoundRouters, constantMenuList } from '@/router'
 import { getMenuList } from '@/api/system/menu'
 
 const modules = import.meta.glob('@/views/**/*.vue')
@@ -32,7 +32,7 @@ export const filterAsyncRoutes = (routes: AppRouteRecordRaw[], roles: string[]) 
 		// if (hasPermission(roles, tmp)) {
 		// todo be delete
 		// }
-		console.warn(tmp.component, 'tmp.component')
+		// console.warn(tmp.component, 'tmp.component')
 		// 特殊Layout 配置 标识
 		if (!tmp.component) {
 			tmp.component = Test
@@ -81,8 +81,8 @@ const usePermissionStore = defineStore({
 	}),
 	getters: {
 		// 有效的 菜单列表
-		showMenuList: state =>
-			getShowMenuList([
+		showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify([...constantMenuList, ...state.menuList])))
+		/*getShowMenuList([
 				...JSON.parse(JSON.stringify(state.menuList)),
 				// 测试
 				{
@@ -92,7 +92,7 @@ const usePermissionStore = defineStore({
 					name: 'dashboard',
 					meta: { title: 'dashboard', icon: 'icon-homepage', affix: true }
 				}
-			])
+			])*/
 		// showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify(state.routes)))
 	},
 	actions: {

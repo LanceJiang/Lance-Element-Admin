@@ -268,6 +268,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .tags-view__container {
+	position: relative;
+	z-index: 1;
 	height: 34px;
 	width: 100%;
 	background-color: var(--el-bg-color);

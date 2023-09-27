@@ -62,5 +62,7 @@ const pageAnimateMode = computed(() => setting.animate ? setting.animateMode : u
 	}
 }
 .layout-footer {
+	position: relative;
+	z-index: 1;
 }
 </style>
