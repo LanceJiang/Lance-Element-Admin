@@ -62,6 +62,8 @@ const getShowMenuList = (menuList: AppRouteRecordRaw[], parentPath = '') => {
 	return menuList.filter(item => {
 		// console.error(item, 'item')
 		item.meta = item.meta ? item.meta : {}
+		// 默认icon
+		item.meta.icon = item.meta.icon || 'menu'
 		// path全链 重组
 		item.path = /\/.*/.test(item.path) ? item.path : `${parentPath}/${item.path}`
 		if (!item.meta.hidden) {
