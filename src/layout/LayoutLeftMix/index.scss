@@ -11,7 +11,7 @@
     background-color: var(--el-menu-bg-color);
     //border-right: 1px solid var(--el-aside-border-color);
 		box-shadow: 1px 0 2px var(--el-aside-border-color);
-		z-index: $header_index + 2;
+		z-index: $header_index + 3;
     .logo {
       display: flex;
       align-items: center;
@@ -90,7 +90,7 @@
     overflow: hidden;
     background-color: var(--el-menu-bg-color);
     //border-right: 1px solid var(--el-aside-border-color);
-		z-index: $header_index + 1;
+		z-index: $header_index + 2;
 		box-shadow: 1px 0 2px var(--el-aside-border-color);
 		//box-shadow: 2px 0 8px #1d23290d;
 		//box-shadow: 1px 0 4px -1px var(--el-aside-border-color);

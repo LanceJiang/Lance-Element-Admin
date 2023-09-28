@@ -35,7 +35,7 @@ const pageAnimateMode = computed(() => setting.animate ? setting.animateMode : u
 	height: 100%;
 	width: 100%;
 	position: relative;
-	z-index: 0;
+	//z-index: 0; // 不能有
 	overflow: hidden;
 }
 
