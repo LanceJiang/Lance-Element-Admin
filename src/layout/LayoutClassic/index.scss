@@ -2,7 +2,6 @@
 .layout-wrap--classic {
   width: 100%;
   height: 100%;
-  //:deep() {
 	.el-header {
     box-sizing: border-box;
     display: flex;
@@ -12,7 +11,10 @@
     //padding: 0 15px 0 0;
     padding: 0;
     background-color: var(--el-header-bg-color);
-    border-bottom: 1px solid var(--el-header-border-color);
+    //border-bottom: 1px solid var(--el-header-border-color);
+		//box-shadow: 0 2px 8px var(--el-header-border-color);
+		box-shadow: 0 1px 4px -1px var(--el-header-border-color);
+		z-index: $header_index;
     .header-lf {
       display: flex;
       align-items: center;
@@ -52,9 +54,13 @@
     .aside-box {
       width: auto;
       background-color: var(--el-menu-bg-color);
-      border-right: 1px solid var(--el-aside-border-color);
-      z-index: 1;
-      box-shadow: 2px 0 8px #1d23290d;
+      //border-right: 1px solid var(--el-aside-border-color);
+      z-index: $header_index - 1;
+      //box-shadow: 2px 0 8px #1d23290d;
+      //box-shadow: 2px 0 8px var(--el-aside-border-color);
+			box-shadow: 1px 0 2px var(--el-aside-border-color);
+      ////box-shadow: 1px 1px 8px var(--el-color-primary);
+			//box-shadow: 1px 1px 16px -10px var(--el-color-primary);
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -63,62 +69,15 @@
         width: 100%;
         overflow-x: hidden;
         border-right: none;
-/*				.menu-icon {
-					margin-right: 4px;
-					font-size: 18px;
-				}*/
         // 折叠
-        &--collapse {
+        /*&--collapse {
           //background-color: transparent !important;
 					.menu-icon {
 						margin-right: 0;
 					}
-        }
-        .el-sub-menu {
-          &.is-active {
-						& > .el-sub-menu__title {
-              color: var(--el-menu-active-color);
-            }
-          }
-        }
-        $active_bg: var(--el-color-primary);
-        .el-menu-item,
-        .el-sub-menu__title {
-          margin-top: 5px;
-        }
-        .el-menu-item.is-active::before {
-          background-color: $active_bg;
-        }
-        .el-menu-item:hover {
-          &::before {
-            background-color: $active_bg;
-          }
-        }
-        .el-sub-menu__title:hover {
-          &::before {
-            background-color: $active_bg;
-          }
-        }
-        .el-menu-item::before,
-        .el-sub-menu__title::before {
-          z-index: auto;
-          content: "";
-          background-color: #0000;
-          opacity: 0.08;
-          position: absolute;
-          left: 8px;
-          right: 8px;
-          top: 0;
-          bottom: 0;
-          pointer-events: none;
-          border-radius: 3px;
-          transition: background-color .3s cubic-bezier(.4, 0, .2, 1);
-        }
+        }*/
       }
     }
-    //:deep(.el-aside) {
-    //
-    //}
     .classic-main {
       display: flex;
       flex-direction: column;

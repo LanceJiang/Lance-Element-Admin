@@ -46,7 +46,7 @@ const { permission, setting } = useStore()
 // const accordion = computed(() => globalStore.accordion)
 // const isCollapse = computed(() => globalStore.isCollapse)
 // const menuList = computed(() => authStore.showMenuListGet)
-const accordion = computed(() => setting.accordion || false) // todo...
+const accordion = computed(() => setting.accordion)
 const isCollapse = computed(() => setting.isCollapse)
 // const isCollapse = computed(() => !app.sidebar.opened)
 

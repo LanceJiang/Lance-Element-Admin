@@ -50,35 +50,21 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
 		align-items: center;
 		justify-content: center;
 		padding: 0;
-		/*.menu-icon {
-			font-size: 18px;
-		}*/
 	}
 	.is-active {
 		.el-sub-menu__title {
 			&::before {
 				background-color: var(--el-color-primary) !important;
 			}
-			//color: #ffffff !important;
-			//background-color: var(--el-color-primary) !important;
 		}
 	}
 }
 .el-menu-item {
-	&:hover {
+	/*&:hover {
 		color: var(--el-menu-hover-text-color);
-	}
+	}*/
 	&.is-active {
 		color: var(--el-menu-active-color) !important;
-		//background-color: var(--el-menu-active-bg-color) !important;
-		/*&::before {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			width: 4px;
-			content: '';
-			background-color: var(--el-color-primary);
-		}*/
 	}
 }
 .vertical,

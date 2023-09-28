@@ -2,7 +2,7 @@
 	<div class="tool-bar-right">
 		<div class="header-icon">
 			<!--			<AssemblySize id="assemblySize" />-->
-			<Screenfull id="screenfull" class="right-menu-item le-hover-effect--bg" />
+			<Screenfull id="screenfull" />
 			<el-tooltip content="布局大小" effect="dark" placement="bottom">
 				<SizeSelect id="size-select" class="right-menu-item le-hover-effect--bg" />
 			</el-tooltip>
@@ -39,10 +39,10 @@ import Avatar from './components/Avatar.vue'
 	justify-content: center;
 	height: 100%;
 	.header-icon {
-		//height: 100%;
-		//display: flex;
-		//align-items: center;
-		//justify-content: center;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.right-menu-item {
 		display: flex;

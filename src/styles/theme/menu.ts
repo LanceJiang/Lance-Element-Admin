@@ -15,7 +15,7 @@ export const menuTheme: Record<Theme.ThemeType, { [key: string]: string }> = {
 		// '--el-menu-hover-bg-color': '#000000',
 		'--el-menu-active-bg-color': '#000000',
 		'--el-menu-text-color': '#bdbdc0',
-		'--el-menu-active-color': '#ffffff',
+		'--el-menu-active-color': 'var(--el-color-primary)',
 		'--el-menu-hover-text-color': '#ffffff',
 		'--el-menu-horizontal-sub-item-height': '50px'
 	},
@@ -24,7 +24,7 @@ export const menuTheme: Record<Theme.ThemeType, { [key: string]: string }> = {
 		// '--el-menu-hover-bg-color': '#000000',
 		'--el-menu-active-bg-color': '#000000',
 		'--el-menu-text-color': '#bdbdc0',
-		'--el-menu-active-color': '#ffffff',
+		'--el-menu-active-color': 'var(--el-color-primary)',
 		'--el-menu-hover-text-color': '#ffffff',
 		'--el-menu-horizontal-sub-item-height': '50px'
 	}

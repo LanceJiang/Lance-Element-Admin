@@ -1,6 +1,33 @@
+// 操作按钮
 %icon-button {
   width: 36px;
   height: 36px;
   padding: 0;
   border-radius: 6px;
+}
+
+// 背景定位left&right, 背景颜色, 背景透明度
+@mixin hover-bg-opacity($lr: 0, $bgColor: var(--el-color-primary), $opacity: 0.08) {
+	position: relative;
+	transition: background 0.3s;
+	&::before {
+		z-index: auto;
+		content: '';
+		background-color: #0000;
+		opacity: $opacity;
+		position: absolute;
+		left: $lr;
+		right: $lr;
+		top: 0;
+		bottom: 0;
+		pointer-events: none;
+		border-radius: 3px;
+		transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	&:hover {
+		//background: var(--el-fill-color);
+		&::before {
+			background-color: $bgColor;
+		}
+	}
 }

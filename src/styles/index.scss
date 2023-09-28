@@ -134,30 +134,8 @@ div:focus {
 }
 
 // hover下 背景转化为 带透明度的 --el-color-primary
-.#{$prefix}hover-effect--bg {
-	position: relative;
+//.#{$prefix}hover-effect--bg {
+.le-hover-effect--bg {
 	cursor: pointer;
-	transition: background 0.3s;
-	&::before {
-		z-index: auto;
-		content: '';
-		background-color: #0000;
-		opacity: 0.08;
-		position: absolute;
-		//left: 8px;
-		//right: 8px;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		pointer-events: none;
-		border-radius: 3px;
-		transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	}
-	&:hover {
-		//background: var(--el-fill-color);
-		&::before {
-			background-color: var(--el-color-primary);
-		}
-	}
+	@include hover-bg-opacity();
 }

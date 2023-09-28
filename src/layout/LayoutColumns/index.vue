@@ -1,4 +1,4 @@
-<!-- 分栏布局 -->
+<!-- 顶部菜单混合模式(分列):columns -->
 <template>
 	<el-container class="layout-wrap--columns">
 		<div class="aside-split">
@@ -12,7 +12,7 @@
 					<div
 						v-for="item in menuList"
 						:key="item.path"
-						class="split-item"
+						class="el-menu-item split-item"
 						:class="{ 'split-active': splitActive === item.path || `/${splitActive.split('/')[1]}` === item.path }"
 						@click="changeSubMenu(item)"
 					>
@@ -68,10 +68,10 @@ const { permission, setting, app } = useStore()
 // const accordion = computed(() => globalStore.accordion)
 // const isCollapse = computed(() => globalStore.isCollapse)
 // const menuList = computed(() => authStore.showMenuListGet)
-const accordion = computed(() => setting.accordion || false) // todo...
+const accordion = computed(() => setting.accordion)
 const isCollapse = computed(() => setting.isCollapse)
 const menuList = computed(() => permission.showMenuList)
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string)
+const activeMenu = computed(() => (route.meta?.activeMenu ? route.meta.activeMenu : route.path) as string)
 
 const subMenuList = ref<Menu.MenuOptions[]>([])
 const splitActive = ref('')

@@ -29,6 +29,15 @@
 			<el-icon><Menu /></el-icon>布局模式
 		</el-divider>
 		<div class="layout-box">
+			<el-tooltip effect="dark" content="顶部菜单模式" placement="top" :show-after="200">
+				<div :class="['layout-item layout-transverse', { 'is-active': layout == 'transverse' }]" @click="setLayout('transverse')">
+					<div class="layout-dark"></div>
+					<div class="layout-content"></div>
+					<el-icon v-if="layout == 'transverse'">
+						<CircleCheckFilled />
+					</el-icon>
+				</div>
+			</el-tooltip>
 			<el-tooltip effect="dark" content="顶部菜单混合模式" placement="top" :show-after="200">
 				<div :class="['layout-item layout-classic', { 'is-active': layout == 'classic' }]" @click="setLayout('classic')">
 					<div class="layout-dark"></div>
@@ -37,15 +46,6 @@
 						<div class="layout-content"></div>
 					</div>
 					<el-icon v-if="layout == 'classic'">
-						<CircleCheckFilled />
-					</el-icon>
-				</div>
-			</el-tooltip>
-			<el-tooltip effect="dark" content="顶部菜单模式" placement="top" :show-after="200">
-				<div :class="['layout-item layout-transverse', { 'is-active': layout == 'transverse' }]" @click="setLayout('transverse')">
-					<div class="layout-dark"></div>
-					<div class="layout-content"></div>
-					<el-icon v-if="layout == 'transverse'">
 						<CircleCheckFilled />
 					</el-icon>
 				</div>

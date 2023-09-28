@@ -1,4 +1,4 @@
-<!-- 经典布局 -->
+<!-- 顶部菜单混合模式(经典):classic -->
 <template>
 	<el-container class="layout-wrap--classic">
 		<el-header>
@@ -40,10 +40,10 @@ const title = import.meta.env.VITE_APP_TITLE
 const { permission, setting } = useStore()
 
 const route = useRoute()
-const accordion = computed(() => setting.accordion) // todo...
+const accordion = computed(() => setting.accordion)
 const isCollapse = computed(() => setting.isCollapse)
 const menuList = computed(() => permission.showMenuList)
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string)
+const activeMenu = computed(() => (route.meta?.activeMenu ? route.meta.activeMenu : route.path) as string)
 </script>
 
 <style lang="scss">

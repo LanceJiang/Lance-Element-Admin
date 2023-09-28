@@ -274,7 +274,8 @@ onMounted(() => {
 	width: 100%;
 	background-color: var(--el-bg-color);
 	//border-bottom: 1px solid #d8dce5;
-	border-bottom: 1px solid var(--el-border-color-light);
+	//border-bottom: 1px solid var(--el-border-color-light);
+	box-shadow: 0 1px 4px -1px var(--el-border-color-light);
 	//box-shadow: 0 1px 2px #00152914;
 	.tags-view__wrapper {
 		.tags-view__item {

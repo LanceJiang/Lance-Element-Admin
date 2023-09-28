@@ -1,72 +1,32 @@
+@import "../layout_common";
 .layout-wrap--vertical {
   width: 100%;
   height: 100%;
-  //:deep(.el-aside) {
   .el-aside {
     width: auto;
     background-color: var(--el-menu-bg-color);
-    border-right: 1px solid var(--el-aside-border-color);
+    //border-right: 1px solid var(--el-aside-border-color);
+		box-shadow: 1px 0 2px var(--el-aside-border-color);
+		//box-shadow: 1px 0 4px -1px var(--el-aside-border-color);
+		z-index: $header_index + 1;
+		//box-shadow: 2px 0 8px #1d23290d;
     .aside-box {
       display: flex;
       flex-direction: column;
       height: 100%;
       transition: width 0.3s ease;
       .el-scrollbar {
-        height: calc(100% - 55px);
+        height: calc(100% - $header_height);
         .layout-menu-wrap {
           width: 100%;
           overflow-x: hidden;
           border-right: none;
-          /*.menu-icon {
-            margin-right: 4px;
-            font-size: 18px;
-          }*/
           // 折叠
-          &--collapse {
+          /*&--collapse {
             //background-color: transparent !important;
             .menu-icon {
               margin-right: 0;
             }
-          }
-          /*.el-sub-menu {
-            &.is-active {
-							& > .el-sub-menu__title {
-                color: var(--el-menu-active-color);
-              }
-            }
-          }
-          $active_bg: var(--el-color-primary);
-          .el-menu-item,
-          .el-sub-menu__title {
-            margin-top: 5px;
-          }
-          .el-menu-item.is-active::before {
-            background-color: $active_bg;
-          }
-          .el-menu-item:hover {
-            &::before {
-              background-color: $active_bg;
-            }
-          }
-          .el-sub-menu__title:hover {
-            &::before {
-              background-color: $active_bg;
-            }
-          }
-          .el-menu-item::before,
-          .el-sub-menu__title::before {
-            z-index: auto;
-            content: "";
-            background-color: #0000;
-            opacity: 0.08;
-            position: absolute;
-            left: 8px;
-            right: 8px;
-            top: 0;
-            bottom: 0;
-            pointer-events: none;
-            border-radius: 3px;
-            transition: background-color .3s cubic-bezier(.4, 0, .2, 1);
           }*/
         }
       }
@@ -75,13 +35,8 @@
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
-        height: 55px;
-        /*.logo-img {
-          width: 28px;
-          object-fit: contain;
-          margin-right: 6px;
-        }*/
-        .logo-img {
+        height: $header_height; // todo  55-1 ???
+        .logo-img { // 样式提取 todo...
           //width: 28px;
           width: 36px;
           height: 36px;
@@ -92,7 +47,6 @@
         .logo-text {
           font-size: 15px;
           font-weight: bold;
-          //color: var(--el-aside-logo-text-color);
           color: var(--el-color-primary);
           white-space: nowrap;
         }
@@ -104,11 +58,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 55px;
-    //padding: 0 15px;
+    height: $header_height;
     padding: 0;
     background-color: var(--el-header-bg-color);
-    border-bottom: 1px solid var(--el-header-border-color);
+    //border-bottom: 1px solid var(--el-header-border-color);
+		box-shadow: 0 1px 4px -1px var(--el-header-border-color);
+		z-index: $header_index;
   }
 	.app-main {
 		min-height: 0;
