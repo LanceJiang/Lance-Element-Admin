@@ -81,8 +81,7 @@ onBeforeUnmount(() => {
 .showRightPanel {
 	overflow: hidden;
 	position: relative;
-	//width: calc(100% - 15px);
-	width: 100%;
+	width: calc(100% - 15px);
 }
 </style>
 
@@ -93,7 +92,8 @@ onBeforeUnmount(() => {
 	left: 0;
 	opacity: 0;
 	transition: opacity 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
-	background: rgba(0, 0, 0, 0.2);
+	//background: rgba(0, 0, 0, 0.2);
+	background: var(--el-fill-color-darker);
 	z-index: -1;
 }
 
@@ -104,15 +104,19 @@ onBeforeUnmount(() => {
 	position: fixed;
 	top: 0;
 	right: 0;
-	box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
+	//box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
 	//transition: all 0.25s cubic-bezier(0.7, 0.3, 0.1, 1);
 	transform: translate(100%);
 	//background: #fff;
 	//background-color: var(--el-drawer-bg-color);
 	background-color: var(--el-bg-color);
 	//box-shadow: var(--el-box-shadow-dark);
+	box-shadow: var(--el-box-shadow-lighter);
 	transition: all var(--el-transition-duration);
 	z-index: 99;
+	&-items {
+		height: 100%;
+	}
 }
 
 .show {
@@ -120,7 +124,7 @@ onBeforeUnmount(() => {
 
 	.rightPanel-background {
 		z-index: 88;
-		opacity: 1;
+		opacity: 0.5;
 		width: 100%;
 		height: 100%;
 	}

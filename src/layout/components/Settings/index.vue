@@ -1,133 +1,136 @@
 <template>
 	<div class="drawer-container">
 		<h3 class="drawer-title">主题配置</h3>
-		<el-divider class="local-divider">
-			<el-icon><Operation /></el-icon>主题模式
-		</el-divider>
-		<div class="drawer-item">
-			<span>主题颜色</span>
-			<theme-picker @change="themeChange" />
-		</div>
-		<div class="drawer-item" @click.stop="">
-			<span>暗黑主题</span>
-			<el-switch v-model="isDark" inline-prompt class="drawer-switch" active-icon="Sunny" inactive-icon="Moon" @change="switchDark" />
-		</div>
-		<div class="drawer-item" @click.stop="">
-			<span>灰色模式</span>
-			<el-switch v-model="isGrey" inline-prompt class="drawer-switch" @change="changeGreyOrWeak('grey', $event)" />
-		</div>
-		<div class="drawer-item" @click.stop="">
-			<span>色弱模式</span>
-			<el-switch v-model="isWeak" inline-prompt class="drawer-switch" @change="changeGreyOrWeak('weak', $event)" />
-		</div>
-		<div class="drawer-item">
-			<span>侧边栏深色</span>
-			<el-switch v-model="asideInverted" class="drawer-switch" @change="setAsideTheme" />
-		</div>
-		<div class="drawer-item">
-			<span>头部深色</span>
-			<el-switch v-model="headerInverted" class="drawer-switch" @change="setHeaderTheme" />
-		</div>
-		<div v-show="footer" class="drawer-item">
-			<span>底部深色</span>
-			<el-switch v-model="footerInverted" class="drawer-switch" @change="setFooterTheme" />
-		</div>
+		<el-scrollbar class="drawer-content">
+			<el-divider class="local-divider">
+				<el-icon><Operation /></el-icon>主题模式
+			</el-divider>
+			<div class="drawer-item">
+				<span>主题颜色</span>
+				<theme-picker @change="themeChange" />
+			</div>
+			<div class="drawer-item" @click.stop="">
+				<span>暗黑主题</span>
+				<el-switch v-model="isDark" inline-prompt active-icon="Sunny" inactive-icon="Moon" @change="switchDark" />
+			</div>
+			<div class="drawer-item" @click.stop="">
+				<span>灰色模式</span>
+				<el-switch v-model="isGrey" inline-prompt @change="changeGreyOrWeak('grey', $event)" />
+			</div>
+			<div class="drawer-item" @click.stop="">
+				<span>色弱模式</span>
+				<el-switch v-model="isWeak" inline-prompt @change="changeGreyOrWeak('weak', $event)" />
+			</div>
+			<div class="drawer-item">
+				<span>侧边栏深色</span>
+				<el-switch v-model="asideInverted" @change="setAsideTheme" />
+			</div>
+			<div class="drawer-item">
+				<span>头部深色</span>
+				<el-switch v-model="headerInverted" @change="setHeaderTheme" />
+			</div>
+			<div v-show="footer" class="drawer-item">
+				<span>底部深色</span>
+				<el-switch v-model="footerInverted" @change="setFooterTheme" />
+			</div>
 
-		<el-divider class="local-divider">
-			<el-icon><Menu /></el-icon>布局模式
-		</el-divider>
-		<div class="layout-box">
-			<el-tooltip effect="dark" content="左侧菜单模式" placement="top" :show-after="200">
-				<div :class="['layout-item layout-left', { 'is-active': layout == 'left' }]" @click="setLayout('left')">
-					<div class="layout-light"></div>
-					<div class="layout-container">
-						<div class="layout-dark"></div>
-						<div class="layout-content"></div>
-					</div>
-					<el-icon v-if="layout == 'left'">
-						<CircleCheckFilled />
-					</el-icon>
-				</div>
-			</el-tooltip>
-			<el-tooltip effect="dark" content="左侧菜单混合模式" placement="top" :show-after="200">
-				<div :class="['layout-item layout-leftMix', { 'is-active': layout == 'leftMix' }]" @click="setLayout('leftMix')">
-					<div class="layout-light"></div>
-					<div class="layout-light light-2"></div>
-					<div class="layout-container">
-						<div class="layout-dark"></div>
-						<div class="layout-content"></div>
-					</div>
-					<el-icon v-if="layout == 'leftMix'">
-						<CircleCheckFilled />
-					</el-icon>
-				</div>
-			</el-tooltip>
-			<el-tooltip effect="dark" content="顶部菜单模式" placement="top" :show-after="200">
-				<div :class="['layout-item layout-top', { 'is-active': layout == 'top' }]" @click="setLayout('top')">
-					<div class="layout-dark"></div>
-					<div class="layout-content"></div>
-					<el-icon v-if="layout == 'top'">
-						<CircleCheckFilled />
-					</el-icon>
-				</div>
-			</el-tooltip>
-			<el-tooltip effect="dark" content="顶部菜单混合模式" placement="top" :show-after="200">
-				<div :class="['layout-item layout-topMix', { 'is-active': layout == 'topMix' }]" @click="setLayout('topMix')">
-					<div class="layout-dark"></div>
-					<div class="layout-container">
+			<el-divider class="local-divider">
+				<el-icon><Menu /></el-icon>布局模式
+			</el-divider>
+			<div class="layout-box">
+				<el-tooltip effect="dark" content="左侧菜单模式" placement="top" :show-after="200">
+					<div :class="['layout-item layout-left', { 'is-active': layout == 'left' }]" @click="setLayout('left')">
 						<div class="layout-light"></div>
-						<div class="layout-content"></div>
+						<div class="layout-container">
+							<div class="layout-dark"></div>
+							<div class="layout-content"></div>
+						</div>
+						<el-icon v-if="layout == 'left'">
+							<CircleCheckFilled />
+						</el-icon>
 					</div>
-					<el-icon v-if="layout == 'topMix'">
-						<CircleCheckFilled />
-					</el-icon>
-				</div>
-			</el-tooltip>
-		</div>
+				</el-tooltip>
+				<el-tooltip effect="dark" content="左侧菜单混合模式" placement="top" :show-after="200">
+					<div :class="['layout-item layout-leftMix', { 'is-active': layout == 'leftMix' }]" @click="setLayout('leftMix')">
+						<div class="layout-light"></div>
+						<div class="layout-light light-2"></div>
+						<div class="layout-container">
+							<div class="layout-dark"></div>
+							<div class="layout-content"></div>
+						</div>
+						<el-icon v-if="layout == 'leftMix'">
+							<CircleCheckFilled />
+						</el-icon>
+					</div>
+				</el-tooltip>
+				<el-tooltip effect="dark" content="顶部菜单模式" placement="top" :show-after="200">
+					<div :class="['layout-item layout-top', { 'is-active': layout == 'top' }]" @click="setLayout('top')">
+						<div class="layout-dark"></div>
+						<div class="layout-content"></div>
+						<el-icon v-if="layout == 'top'">
+							<CircleCheckFilled />
+						</el-icon>
+					</div>
+				</el-tooltip>
+				<el-tooltip effect="dark" content="顶部菜单混合模式" placement="top" :show-after="200">
+					<div :class="['layout-item layout-topMix', { 'is-active': layout == 'topMix' }]" @click="setLayout('topMix')">
+						<div class="layout-dark"></div>
+						<div class="layout-container">
+							<div class="layout-light"></div>
+							<div class="layout-content"></div>
+						</div>
+						<el-icon v-if="layout == 'topMix'">
+							<CircleCheckFilled />
+						</el-icon>
+					</div>
+				</el-tooltip>
+			</div>
 
-		<el-divider class="local-divider">
-			<el-icon><Operation /></el-icon>界面功能
-		</el-divider>
-		<div class="drawer-item">
-			<span>显示底部</span>
-			<el-switch v-model="footer" class="drawer-switch" />
-		</div>
-		<div class="drawer-item">
-			<span>面包屑</span>
-			<el-switch v-model="breadcrumb" class="drawer-switch" />
-		</div>
-		<div v-show="breadcrumb" class="drawer-item">
-			<span>面包屑图标</span>
-			<el-switch v-model="breadcrumbIcon" class="drawer-switch" />
-		</div>
+			<el-divider class="local-divider">
+				<el-icon><Operation /></el-icon>界面功能
+			</el-divider>
+			<div class="drawer-item">
+				<span>显示底部</span>
+				<el-switch v-model="footer" />
+			</div>
+			<div class="drawer-item">
+				<span>面包屑</span>
+				<el-switch v-model="breadcrumb" />
+			</div>
+			<div v-show="breadcrumb" class="drawer-item">
+				<span>面包屑图标</span>
+				<el-switch v-model="breadcrumbIcon" />
+			</div>
 
-		<div class="drawer-item">
-			<span>多页签</span>
-			<el-switch v-model="tagsView" class="drawer-switch" />
-		</div>
+			<div class="drawer-item">
+				<span>多页签</span>
+				<el-switch v-model="tagsView" />
+			</div>
 
-		<div class="drawer-item">
-			<span>页面切换动画</span>
-			<el-switch v-model="animate" class="drawer-switch" />
-		</div>
+			<div class="drawer-item">
+				<span>页面切换动画</span>
+				<el-switch v-model="animate" />
+			</div>
 
-		<div class="drawer-item">
-			<span>页面切换动画类型</span>
-			<el-select v-model="animateMode" style="width: 100px;" class="drawer-switch">
-				<el-option v-for="v of animateList" :key="v.value" :value="v.value" :label="v.label" />
-			</el-select>
-		</div>
+			<div class="drawer-item">
+				<span>页面切换动画类型</span>
+				<el-select v-model="animateMode" style="width: 100px;">
+					<el-option v-for="v of animateList" :key="v.value" :value="v.value" :label="v.label" />
+				</el-select>
+			</div>
+		</el-scrollbar>
+
 
 		<!--
 				<div class="drawer-item">
 					<span>固定 Header</span>
-					<el-switch v-model="fixedHeader" class="drawer-switch" />
+					<el-switch v-model="fixedHeader" />
 				</div>
 		-->
 
 		<!--		<div class="drawer-item">
 					<span>侧边栏 Logo</span>
-					<el-switch v-model="sidebarLogo" class="drawer-switch" />
+					<el-switch v-model="sidebarLogo" />
 				</div>-->
 	</div>
 </template>
@@ -229,26 +232,34 @@ const setLayout = (val: LayoutType) => {
 </script>
 
 <style lang="scss" scoped>
+$header_height: 55px;
 .drawer-container {
 	position: relative;
-	padding: 0 24px 16px 24px;
-	//padding-top: 0;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	//padding: 0 24px 16px 24px;
+	padding-bottom: 10px;
 	font-size: 14px;
 	line-height: 1.5;
 	word-wrap: break-word;
 
 	.drawer-title {
 		padding: 16px 24px;
-		margin: 0 -24px;
-		height: 55px;
-		//margin-bottom: 12px;
-		//color: rgba(0, 0, 0, 0.85);
+		//margin: 0 -24px;
+		//padding: 16px 0;
+		height: $header_height;
 		font-size: 16px;
-		//line-height: 22px;
 		border-bottom: 1px solid var(--el-border-color-lighter);
 	}
 
+	/*.drawer-content {
+		height: calc(100% - $header_height);
+	}*/
+
 	.local-divider {
+		margin: 24px;
+		width: auto;
 		.el-icon {
 			position: relative;
 			top: 2px;
@@ -257,25 +268,12 @@ const setLayout = (val: LayoutType) => {
 	}
 
 	.drawer-item {
-		//color: rgba(0, 0, 0, 0.65);
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		color: var(--el-text-color-primary);
 		font-size: 14px;
-		padding: 6px 0;
-	}
-
-	.drawer-switch {
-		//float: right;
-	}
-
-	.job-link {
-		display: block;
-		position: absolute;
-		width: 100%;
-		left: 0;
-		bottom: 0;
+		padding: 4px 24px;
 	}
 
 	.layout-box {
@@ -283,7 +281,8 @@ const setLayout = (val: LayoutType) => {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		padding: 12px 6px 0;
+		//padding: 12px 6px 0;
+		padding: 4px 24px;
 		.layout-item {
 			position: relative;
 			box-sizing: border-box;
@@ -325,7 +324,7 @@ const setLayout = (val: LayoutType) => {
 		.layout-left {
 			display: flex;
 			justify-content: space-between;
-			margin-bottom: 20px;
+			margin-bottom: 12px;
 			.layout-light {
 				width: 20%;
 			}
@@ -342,42 +341,10 @@ const setLayout = (val: LayoutType) => {
 				}
 			}
 		}
-		.layout-topMix {
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-			margin-bottom: 20px;
-			.layout-dark {
-				height: 22%;
-			}
-			.layout-container {
-				display: flex;
-				justify-content: space-between;
-				height: 70%;
-				.layout-light {
-					width: 20%;
-				}
-				.layout-content {
-					width: 70%;
-				}
-			}
-		}
-		.layout-top {
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-			margin-bottom: 15px;
-			.layout-dark {
-				height: 20%;
-			}
-			.layout-content {
-				height: 67%;
-			}
-		}
 		.layout-leftMix {
 			display: flex;
 			justify-content: space-between;
-			margin-bottom: 15px;
+			margin-bottom: 12px;
 			.layout-light {
 				width: 14%;
 				&.light-2 {
@@ -395,6 +362,38 @@ const setLayout = (val: LayoutType) => {
 				.layout-content {
 					height: 67%;
 					width: 100%;
+				}
+			}
+		}
+		.layout-top {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			//margin-bottom: 12px;
+			.layout-dark {
+				height: 20%;
+			}
+			.layout-content {
+				height: 67%;
+			}
+		}
+		.layout-topMix {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			//margin-bottom: 12px;
+			.layout-dark {
+				height: 22%;
+			}
+			.layout-container {
+				display: flex;
+				justify-content: space-between;
+				height: 70%;
+				.layout-light {
+					width: 20%;
+				}
+				.layout-content {
+					width: 70%;
 				}
 			}
 		}
