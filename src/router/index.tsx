@@ -177,7 +177,7 @@ const getFlatMenuList_1children = (menuList: AppRouteRecordRaw[]) => {
 				// delete v.children
 				res.push({
 					...child0,
-					path: /\/.*/.test(child0.path) ? child0.path : `${v.path}/${child0.path}`
+					path: /\/.*/.test(child0.path) ? child0.path : v.name !== 'layout' ? `${v.path}/${child0.path}` : `/${child0.path}`
 				})
 			} else {
 				res.push({
@@ -203,11 +203,11 @@ export const noFoundRouters = [
 ]
 
 /**
- * devAllRouters: 每次有新的路由配置 请做好标注!!!
+ * local_permissionsMenuList: 每次有新的路由配置 请做好标注!!!
  * 本地 dev 调试 默认使用本地路由数据
  * (若想要调试 接口数据 请在 env.development.local 修改 VITE_APP_USE_LOCAL_ROUTES 不为 1即可)
  */
-export const devAllRouters: Array<AppRouteRecordRaw> = [
+export const local_permissionsMenuList: Array<AppRouteRecordRaw> = [
 	{
 		// demo演示
 		path: '/demo',
@@ -259,12 +259,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 				component: '',
 				meta: {
 					icon: 'Menu',
-					title: '菜单2',
-					isLink: '',
-					isHide: false,
-					isFull: false,
-					isAffix: false,
-					isKeepAlive: true
+					title: '菜单2'
 				},
 				children: [
 					{
@@ -274,12 +269,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 						component: 'menu/menu2/menu21/index',
 						meta: {
 							icon: 'Menu',
-							title: '菜单2-1',
-							isLink: '',
-							isHide: false,
-							isFull: false,
-							isAffix: false,
-							isKeepAlive: true
+							title: '菜单2-1'
 						}
 					},
 					{
@@ -289,12 +279,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 						redirect: '/menu/menu2/menu22/menu221',
 						meta: {
 							icon: 'Menu',
-							title: '菜单2-2',
-							isLink: '',
-							isHide: false,
-							isFull: false,
-							isAffix: false,
-							isKeepAlive: true
+							title: '菜单2-2'
 						},
 						children: [
 							{
@@ -304,12 +289,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 								component: 'menu/menu2/menu22/menu221/index',
 								meta: {
 									icon: 'Menu',
-									title: '菜单2-2-1',
-									isLink: '',
-									isHide: false,
-									isFull: false,
-									isAffix: false,
-									isKeepAlive: true
+									title: '菜单2-2-1'
 								}
 							},
 							{
@@ -319,12 +299,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 								component: 'menu/menu2/menu22/menu222/index',
 								meta: {
 									icon: 'Menu',
-									title: '菜单2-2-2',
-									isLink: '',
-									isHide: false,
-									isFull: false,
-									isAffix: false,
-									isKeepAlive: true
+									title: '菜单2-2-2'
 								}
 							}
 						]
@@ -336,12 +311,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 						component: 'menu/menu2/menu23/index',
 						meta: {
 							icon: 'Menu',
-							title: '菜单2-3',
-							isLink: '',
-							isHide: false,
-							isFull: false,
-							isAffix: false,
-							isKeepAlive: true
+							title: '菜单2-3'
 						}
 					}
 				]
@@ -352,12 +322,7 @@ export const devAllRouters: Array<AppRouteRecordRaw> = [
 				component: 'menu/menu3/index',
 				meta: {
 					icon: 'Menu',
-					title: '菜单3',
-					isLink: '',
-					isHide: false,
-					isFull: false,
-					isAffix: false,
-					isKeepAlive: true
+					title: '菜单3'
 				}
 			}
 		]

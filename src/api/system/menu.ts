@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import { AxiosPromise } from 'axios'
-import { devAllRouters } from '@/router'
+import { local_permissionsMenuList } from '@/router'
 
 /**
  * 获取路由列表
@@ -11,7 +11,7 @@ export function getMenuList(): AxiosPromise {
 	if (isRequestAsyncRoutes) {
 		// eslint-disable-next-line
 		// @ts-ignore
-		return Promise.resolve(devAllRouters)
+		return Promise.resolve(local_permissionsMenuList)
 	}
 	return request({
 		url: '/index/menu',
