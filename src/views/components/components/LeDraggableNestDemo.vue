@@ -45,7 +45,7 @@ const update_checkedOptions = (values) => {
 	<div class="common_title">LeDraggableNest</div>
 	<div class="content">
 		<LeDraggableNest
-			style="background: #fafafa;"
+			style="background: var(--el-fill-color-lighter);"
 			v-model="checkedOptions"
 			@update:modelValue="update_checkedOptions"
 			:move="onMove"
