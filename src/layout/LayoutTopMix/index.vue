@@ -1,6 +1,6 @@
-<!-- 顶部菜单混合模式(经典):classic -->
+<!-- 顶部菜单混合模式:topMix -->
 <template>
-	<el-container class="layout-wrap--classic">
+	<el-container class="layout-wrap--topMix">
 		<el-header>
 			<div class="header-lf mask-image">
 				<div class="logo">
@@ -12,7 +12,7 @@
 			</div>
 			<ToolBarRight class="header-ri" />
 		</el-header>
-		<el-container class="classic-content">
+		<el-container class="topMix-content">
 			<el-aside class="aside-box" :style="{ width: isCollapse ? '65px' : '210px' }">
 				<el-scrollbar>
 					<el-menu class="layout-menu-wrap" :router="false" :default-active="activeMenu" :collapse="isCollapse" :unique-opened="accordion" :collapse-transition="false">
@@ -20,14 +20,14 @@
 					</el-menu>
 				</el-scrollbar>
 			</el-aside>
-			<el-container class="classic-main">
+			<el-container class="topMix-main">
 				<AppMain />
 			</el-container>
 		</el-container>
 	</el-container>
 </template>
 
-<script setup lang="ts" name="layoutClassic">
+<script setup lang="ts" name="layoutTopMix">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import AppMain from '@/layout/components/AppMain.vue'

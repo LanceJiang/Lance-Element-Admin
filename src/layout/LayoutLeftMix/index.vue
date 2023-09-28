@@ -1,6 +1,6 @@
-<!-- 顶部菜单混合模式(分列):columns -->
+<!-- 左侧菜单混合模式:leftMix -->
 <template>
-	<el-container class="layout-wrap--columns">
+	<el-container class="layout-wrap--topMix">
 		<div class="aside-split">
 			<div class="logo">
 				<!--				<img class="logo-img" src="@/assets/images/logo.svg" alt="logo" />-->
@@ -45,7 +45,7 @@
 	</el-container>
 </template>
 
-<script setup lang="ts" name="layoutColumns">
+<script setup lang="ts" name="layoutTopMix">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 // import { useAuthStore } from '@/stores/modules/auth'

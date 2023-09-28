@@ -59,8 +59,8 @@ $active_color: var(--el-menu-active-color);
 // 由于 vertical collapsed 出现样式问题 进行隐藏
 .layout-menu-popper-wrap.el-menu--vertical,
 .layout-menu-popper-wrap.el-menu--horizontal {
-	// el-menu--horizontal: layout-transverse 模式
-	// el-menu--vertical: layout-vertical 模式
+	// el-menu--horizontal: layout-top 顶部菜单模式
+	// el-menu--vertical: layout-left 左侧菜单模式
 	& > .el-menu {
 		/*.svg-icon {
 			margin-right: 16px;

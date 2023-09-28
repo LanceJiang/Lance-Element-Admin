@@ -16,8 +16,8 @@ const defaultSettingState: SettingState = {
 	// 展示底部
 	footer: true,
 	/** 布局模式 */
-	// 布局模式 (纵向：vertical | 顶部菜单混合模式：classic | 横向：transverse | 分栏：columns) // todo...
-	layout: 'classic',
+	// 布局模式 (左侧菜单模式：left | 左侧菜单混合模式：leftMix | 顶部菜单模式：top | 顶部菜单混合模式：topMix)
+	layout: 'left',
 	/** 界面功能 */
 	// 面包屑
 	breadcrumb: true,

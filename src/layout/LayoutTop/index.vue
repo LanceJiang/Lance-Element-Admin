@@ -1,6 +1,6 @@
-<!-- 横向布局 -->
+<!-- 顶部菜单模式:top -->
 <template>
-	<el-container class="layout-wrap--transverse">
+	<el-container class="layout-wrap--top">
 		<el-header>
 			<div class="logo">
 				<!--          <SvgIcon class="logo-img sidebar-logo" icon-class="logo" />-->
@@ -45,7 +45,7 @@
 	</el-container>
 </template>
 
-<script setup lang="ts" name="layoutTransverse">
+<script setup lang="ts" name="layoutTop">
 import { computed } from 'vue'
 // import { useAuthStore } from '@/stores/modules/auth'
 import { useRoute, useRouter } from 'vue-router'

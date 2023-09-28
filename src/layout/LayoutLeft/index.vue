@@ -1,6 +1,6 @@
-<!-- 纵向布局 -->
+<!-- 左侧菜单模式:left -->
 <template>
-	<el-container class="layout-wrap--vertical">
+	<el-container class="layout-wrap--left">
 		<el-aside>
 			<div class="aside-box" :style="{ width: isCollapse ? '65px' : '210px' }">
 				<div class="logo">
@@ -25,7 +25,7 @@
 	</el-container>
 </template>
 
-<script setup lang="ts" name="layoutVertical">
+<script setup lang="ts" name="layoutLeft">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 // import { useAuthStore } from '@/stores/modules/auth'

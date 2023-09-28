@@ -39,11 +39,6 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
 </script>
 
 <style lang="scss">
-.el-sub-menu .el-sub-menu__title:hover {
-	// 来自 vertical 关闭
-	//color: var(--el-menu-hover-text-color) !important;
-	//background-color: transparent !important;
-}
 .el-menu--collapse {
 	.el-sub-menu__title {
 		display: flex;
@@ -65,26 +60,6 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
 	}*/
 	&.is-active {
 		color: var(--el-menu-active-color) !important;
-	}
-}
-.vertical,
-.classic,
-.transverse {
-	.el-menu-item {
-		&.is-active {
-			&::before {
-				left: 0;
-			}
-		}
-	}
-}
-.columns {
-	.el-menu-item {
-		&.is-active {
-			&::before {
-				right: 0;
-			}
-		}
 	}
 }
 </style>

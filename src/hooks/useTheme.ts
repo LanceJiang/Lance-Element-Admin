@@ -58,8 +58,8 @@ export const useTheme = () => {
 	// 设置菜单样式
 	const setMenuTheme = () => {
 		let type: Theme.ThemeType = 'light'
-		if (layout.value === 'transverse' && headerInverted.value) type = 'inverted'
-		if (layout.value !== 'transverse' && asideInverted.value) type = 'inverted'
+		if (layout.value === 'top' && headerInverted.value) type = 'inverted'
+		if (layout.value !== 'top' && asideInverted.value) type = 'inverted'
 		if (isDark.value) type = 'dark'
 		const theme = menuTheme[type!]
 		// console.error(type, 'type theme', theme)

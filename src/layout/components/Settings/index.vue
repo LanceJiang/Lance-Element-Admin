@@ -29,45 +29,48 @@
 			<el-icon><Menu /></el-icon>布局模式
 		</el-divider>
 		<div class="layout-box">
-			<el-tooltip effect="dark" content="顶部菜单模式" placement="top" :show-after="200">
-				<div :class="['layout-item layout-transverse', { 'is-active': layout == 'transverse' }]" @click="setLayout('transverse')">
-					<div class="layout-dark"></div>
-					<div class="layout-content"></div>
-					<el-icon v-if="layout == 'transverse'">
-						<CircleCheckFilled />
-					</el-icon>
-				</div>
-			</el-tooltip>
-			<el-tooltip effect="dark" content="顶部菜单混合模式" placement="top" :show-after="200">
-				<div :class="['layout-item layout-classic', { 'is-active': layout == 'classic' }]" @click="setLayout('classic')">
-					<div class="layout-dark"></div>
-					<div class="layout-container">
-						<div class="layout-light"></div>
-						<div class="layout-content"></div>
-					</div>
-					<el-icon v-if="layout == 'classic'">
-						<CircleCheckFilled />
-					</el-icon>
-				</div>
-			</el-tooltip>
 			<el-tooltip effect="dark" content="左侧菜单模式" placement="top" :show-after="200">
-				<div :class="['layout-item layout-vertical', { 'is-active': layout == 'vertical' }]" @click="setLayout('vertical')">
-					<div class="layout-dark"></div>
+				<div :class="['layout-item layout-left', { 'is-active': layout == 'left' }]" @click="setLayout('left')">
+					<div class="layout-light"></div>
 					<div class="layout-container">
-						<div class="layout-light"></div>
+						<div class="layout-dark"></div>
 						<div class="layout-content"></div>
 					</div>
-					<el-icon v-if="layout == 'vertical'">
+					<el-icon v-if="layout == 'left'">
 						<CircleCheckFilled />
 					</el-icon>
 				</div>
 			</el-tooltip>
 			<el-tooltip effect="dark" content="左侧菜单混合模式" placement="top" :show-after="200">
-				<div :class="['layout-item layout-columns', { 'is-active': layout == 'columns' }]" @click="setLayout('columns')">
-					<div class="layout-dark"></div>
+				<div :class="['layout-item layout-leftMix', { 'is-active': layout == 'leftMix' }]" @click="setLayout('leftMix')">
 					<div class="layout-light"></div>
+					<div class="layout-light light-2"></div>
+					<div class="layout-container">
+						<div class="layout-dark"></div>
+						<div class="layout-content"></div>
+					</div>
+					<el-icon v-if="layout == 'leftMix'">
+						<CircleCheckFilled />
+					</el-icon>
+				</div>
+			</el-tooltip>
+			<el-tooltip effect="dark" content="顶部菜单模式" placement="top" :show-after="200">
+				<div :class="['layout-item layout-top', { 'is-active': layout == 'top' }]" @click="setLayout('top')">
+					<div class="layout-dark"></div>
 					<div class="layout-content"></div>
-					<el-icon v-if="layout == 'columns'">
+					<el-icon v-if="layout == 'top'">
+						<CircleCheckFilled />
+					</el-icon>
+				</div>
+			</el-tooltip>
+			<el-tooltip effect="dark" content="顶部菜单混合模式" placement="top" :show-after="200">
+				<div :class="['layout-item layout-topMix', { 'is-active': layout == 'topMix' }]" @click="setLayout('topMix')">
+					<div class="layout-dark"></div>
+					<div class="layout-container">
+						<div class="layout-light"></div>
+						<div class="layout-content"></div>
+					</div>
+					<el-icon v-if="layout == 'topMix'">
 						<CircleCheckFilled />
 					</el-icon>
 				</div>
@@ -107,17 +110,17 @@
 			</el-select>
 		</div>
 
-<!--
-		<div class="drawer-item">
-			<span>固定 Header</span>
-			<el-switch v-model="fixedHeader" class="drawer-switch" />
-		</div>
--->
+		<!--
+				<div class="drawer-item">
+					<span>固定 Header</span>
+					<el-switch v-model="fixedHeader" class="drawer-switch" />
+				</div>
+		-->
 
-<!--		<div class="drawer-item">
-			<span>侧边栏 Logo</span>
-			<el-switch v-model="sidebarLogo" class="drawer-switch" />
-		</div>-->
+		<!--		<div class="drawer-item">
+					<span>侧边栏 Logo</span>
+					<el-switch v-model="sidebarLogo" class="drawer-switch" />
+				</div>-->
 	</div>
 </template>
 
@@ -309,11 +312,11 @@ const setLayout = (val: LayoutType) => {
 		.is-active {
 			box-shadow: 0 0 0 2px var(--el-color-primary) !important;
 		}
-		.layout-vertical {
+		.layout-left {
 			display: flex;
 			justify-content: space-between;
 			margin-bottom: 20px;
-			.layout-dark {
+			.layout-light {
 				width: 20%;
 			}
 			.layout-container {
@@ -321,7 +324,7 @@ const setLayout = (val: LayoutType) => {
 				flex-direction: column;
 				justify-content: space-between;
 				width: 72%;
-				.layout-light {
+				.layout-dark {
 					height: 20%;
 				}
 				.layout-content {
@@ -329,7 +332,7 @@ const setLayout = (val: LayoutType) => {
 				}
 			}
 		}
-		.layout-classic {
+		.layout-topMix {
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
@@ -349,7 +352,7 @@ const setLayout = (val: LayoutType) => {
 				}
 			}
 		}
-		.layout-transverse {
+		.layout-top {
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
@@ -361,18 +364,28 @@ const setLayout = (val: LayoutType) => {
 				height: 67%;
 			}
 		}
-		.layout-columns {
+		.layout-leftMix {
 			display: flex;
 			justify-content: space-between;
 			margin-bottom: 15px;
-			.layout-dark {
-				width: 14%;
-			}
 			.layout-light {
-				width: 17%;
+				width: 14%;
+				&.light-2 {
+					width: 17%;
+				}
 			}
-			.layout-content {
+			.layout-container {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
 				width: 55%;
+				.layout-dark {
+					height: 20%;
+				}
+				.layout-content {
+					height: 67%;
+					width: 100%;
+				}
 			}
 		}
 	}

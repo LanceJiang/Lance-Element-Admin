@@ -1,5 +1,5 @@
 @import "../layout_common";
-.layout-wrap--classic {
+.layout-wrap--topMix {
   width: 100%;
   height: 100%;
 	.el-header {
@@ -48,7 +48,7 @@
       }
     }
   }
-  .classic-content {
+  .topMix-content {
     display: flex;
     height: calc(100% - $header_height);
     .aside-box {
@@ -78,7 +78,7 @@
         }*/
       }
     }
-    .classic-main {
+    .topMix-main {
       display: flex;
       flex-direction: column;
     }
