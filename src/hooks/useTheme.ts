@@ -2,7 +2,6 @@ import { storeToRefs } from 'pinia'
 import { Theme } from './interface'
 // import { ElMessage } from 'element-plus'
 import useStore from '@/store'
-// import { useStore } from '@/stores/modules/global'
 import { getLightColor, getDarkColor } from '@/utils/color'
 import { menuTheme } from '@/styles/theme/menu'
 import { asideTheme } from '@/styles/theme/aside'
@@ -37,7 +36,6 @@ export const useTheme = () => {
 			const primaryColor = isDark.value ? `${getDarkColor(val, i / 10)}` : `${getLightColor(val, i / 10)}`
 			document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, primaryColor)
 		}
-		// globalStore.setGlobalState('primary', val)
 		setting.changeSetting('themeColor', val)
 	}
 
@@ -50,9 +48,7 @@ export const useTheme = () => {
 			weak: 'filter: invert(80%)'
 		}
 		body.setAttribute('style', styles[type])
-		const propName = type === 'grey' ? 'isWeak' : 'isGrey'
-		setting.changeSetting(propName, false)
-		// globalStore.setGlobalState(propName, false)
+		setting.changeSetting(type === 'grey' ? 'isWeak' : 'isGrey', false)
 	}
 
 	// 设置菜单样式

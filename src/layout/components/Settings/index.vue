@@ -12,6 +12,14 @@
 			<span>暗黑主题</span>
 			<el-switch v-model="isDark" inline-prompt class="drawer-switch" active-icon="Sunny" inactive-icon="Moon" @change="switchDark" />
 		</div>
+		<div class="drawer-item" @click.stop="">
+			<span>灰色模式</span>
+			<el-switch v-model="isGrey" inline-prompt class="drawer-switch" @change="changeGreyOrWeak('grey', $event)" />
+		</div>
+		<div class="drawer-item" @click.stop="">
+			<span>色弱模式</span>
+			<el-switch v-model="isWeak" inline-prompt class="drawer-switch" @change="changeGreyOrWeak('weak', $event)" />
+		</div>
 		<div class="drawer-item">
 			<span>侧边栏深色</span>
 			<el-switch v-model="asideInverted" class="drawer-switch" @change="setAsideTheme" />
@@ -135,7 +143,7 @@ import { useTheme } from '@/hooks/useTheme'
 import useStore from '@/store'
 
 const { setting } = useStore()
-const { switchDark, setAsideTheme, setHeaderTheme, setFooterTheme } = useTheme()
+const { switchDark, changeGreyOrWeak, setAsideTheme, setHeaderTheme, setFooterTheme } = useTheme()
 // const isDark = useDark()
 // const toggleDark = () => useToggle(isDark)
 
@@ -172,6 +180,8 @@ const animateList = [
 ]
 const {
 	isDark,
+	isGrey,
+	isWeak,
 	layout,
 	asideInverted,
 	headerInverted,

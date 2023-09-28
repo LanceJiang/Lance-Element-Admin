@@ -7,6 +7,10 @@ const defaultSettingState: SettingState = {
 	themeColor: '#409eff',
 	// 暗黑主题
 	isDark: false,
+	// 灰色模式
+	isGrey: false,
+	// 色弱模式
+	isWeak: false,
 	// 侧边栏深色
 	asideInverted: false,
 	// 头部深色

@@ -38,6 +38,10 @@ export interface SettingState {
 	themeColor: string
 	// 暗黑主题
 	isDark: boolean
+	// 灰色模式
+	isGrey: boolean
+	// 色弱模式
+	isWeak: boolean
 	// 侧边栏深色
 	asideInverted: boolean
 	// 头部深色
