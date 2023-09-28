@@ -1,5 +1,5 @@
 <template>
-	<div ref="rightPanel" :class="{ show }" class="rightPanel-container">
+	<div ref="rightPanel" :class="{ show }" class="rightPanel-wrap">
 		<div class="rightPanel-background" />
 		<div class="rightPanel">
 			<div class="handle-button" :style="{ top: buttonTop + 'px', 'background-color': themeColor }" @click="show = !show">
@@ -86,39 +86,35 @@ onBeforeUnmount(() => {
 </style>
 
 <style lang="scss" scoped>
-.rightPanel-background {
-	position: fixed;
-	top: 0;
-	left: 0;
-	opacity: 0;
-	transition: opacity 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
-	//background: rgba(0, 0, 0, 0.2);
-	background: var(--el-fill-color-darker);
-	z-index: -1;
-}
-
 .rightPanel {
-	width: 100%;
 	max-width: 280px;
-	height: 100vh;
-	position: fixed;
+	position: absolute;
 	top: 0;
 	right: 0;
+	z-index: 99;
 	//box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
 	//transition: all 0.25s cubic-bezier(0.7, 0.3, 0.1, 1);
 	transform: translate(100%);
-	//background: #fff;
 	//background-color: var(--el-drawer-bg-color);
 	background-color: var(--el-bg-color);
 	//box-shadow: var(--el-box-shadow-dark);
 	box-shadow: var(--el-box-shadow-lighter);
 	transition: all var(--el-transition-duration);
-	z-index: 99;
 	&-items {
+		display: none;
 		height: 100%;
 	}
-}
 
+	&-background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		transition: opacity 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+		background: var(--el-fill-color-darker);
+		z-index: -1;
+	}
+}
 .show {
 	transition: all 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
 
@@ -131,6 +127,9 @@ onBeforeUnmount(() => {
 
 	.rightPanel {
 		transform: translate(0);
+		&-items {
+			display: block;
+		}
 	}
 }
 
@@ -152,8 +151,6 @@ onBeforeUnmount(() => {
 	line-height: 32px;
 
 	.icon {
-		//font-size: 24px;
-		//line-height: 32px;
 		width: 18px;
 		height: 18px;
 	}

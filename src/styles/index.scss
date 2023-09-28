@@ -10,6 +10,10 @@
 @import './lance-element-ui.scss';
 // 涉及lance-element-ui的全局组件样式
 @import './lance-element-vue.scss';
+html {
+	height: 100%;
+	box-sizing: border-box;
+}
 body {
 	margin: 0;
 	padding: 0;
@@ -19,16 +23,12 @@ body {
 	text-rendering: optimizeLegibility;
 	//font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
 	font-size: 12px;
+	//overflow-x: auto;
 }
 
 /*label {
 	font-weight: 700;
 }*/
-
-html {
-	height: 100%;
-	box-sizing: border-box;
-}
 
 #app {
 	height: 100%;
