@@ -87,8 +87,10 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .rightPanel {
+	width: 100%;
 	max-width: 280px;
-	position: absolute;
+	height: 100vh;
+	position: fixed;
 	top: 0;
 	right: 0;
 	z-index: 99;
@@ -104,7 +106,6 @@ onBeforeUnmount(() => {
 		display: none;
 		height: 100%;
 	}
-
 	&-background {
 		position: fixed;
 		top: 0;
@@ -118,17 +119,16 @@ onBeforeUnmount(() => {
 .show {
 	transition: all 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
 
-	.rightPanel-background {
-		z-index: 88;
-		opacity: 0.5;
-		width: 100%;
-		height: 100%;
-	}
-
 	.rightPanel {
 		transform: translate(0);
 		&-items {
 			display: block;
+		}
+		&-background {
+			z-index: 88;
+			opacity: 0.5;
+			width: 100%;
+			height: 100%;
 		}
 	}
 }

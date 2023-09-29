@@ -653,7 +653,8 @@ export default defineComponent({
 <style scoped lang="scss">
 .pageWrap {
 	padding: 10px 12px;
-	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
 	background: $le-bg-color_1;
 }
 :deep(.test_radio) {
