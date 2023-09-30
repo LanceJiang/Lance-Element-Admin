@@ -1,6 +1,7 @@
 body {
 	font-family: $le-family;
 	font-size: 14px;
+	overflow-x: hidden;
 }
 // 页面公用样式 flex column 外壳
 .flex-column-page-wrap {
