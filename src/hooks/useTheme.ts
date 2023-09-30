@@ -13,7 +13,7 @@ import { footerTheme } from '@/styles/theme/footer'
  * */
 export const useTheme = () => {
 	const { setting } = useStore()
-	const { themeColor, layout, isDark, asideInverted, headerInverted, footerInverted /*isGrey, isWeak, */ } = storeToRefs(setting)
+	const { themeColor, layout, isDark, isGrey, isWeak, asideInverted, headerInverted, footerInverted } = storeToRefs(setting)
 
 	// 切换暗黑主题 ==> 同时修改主题颜色、侧边栏、头部颜色
 	const switchDark = () => {
@@ -102,8 +102,8 @@ export const useTheme = () => {
 	// init theme
 	const initTheme = () => {
 		switchDark()
-		// if (isGrey.value) changeGreyOrWeak('grey', true)
-		// if (isWeak.value) changeGreyOrWeak('weak', true)
+		if (isGrey.value) changeGreyOrWeak('grey', true)
+		if (isWeak.value) changeGreyOrWeak('weak', true)
 	}
 
 	return {

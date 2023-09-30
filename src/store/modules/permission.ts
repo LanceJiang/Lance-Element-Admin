@@ -8,7 +8,7 @@ import { getMenuList } from '@/api/system/menu'
 const modules = import.meta.glob('@/views/**/*.vue')
 export const Layout = () => import('@/layout/index.vue') // todo...
 // export const Layout = () => import('@/layout/index_old.vue.vue')
-export const Test = () => import('@/layout/test.vue')
+export const RouteView = () => import('@/layout/RouteView.vue')
 // export const Layout = () => import('@/layouts/index.vue')
 
 // const hasPermission = (roles: string[], route: AppRouteRecordRaw) => {
@@ -35,7 +35,7 @@ export const filterAsyncRoutes = (routes: AppRouteRecordRaw[], roles: string[]) 
 		// console.warn(tmp.component, 'tmp.component')
 		// 特殊Layout 配置 标识
 		if (!tmp.component) {
-			tmp.component = Test
+			tmp.component = RouteView
 		} else if (/*!tmp.component || */ tmp.component == 'Layout') {
 			tmp.component = Layout
 		} else {

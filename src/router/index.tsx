@@ -232,7 +232,7 @@ export const local_permissionsMenuList: Array<AppRouteRecordRaw> = [
 				meta: { title: 'demo_adminManage', icon: 'setting' }
 			}
 		]
-	},
+	} /*,
 	{
 		path: '/menu',
 		name: 'menu',
@@ -326,7 +326,7 @@ export const local_permissionsMenuList: Array<AppRouteRecordRaw> = [
 				}
 			}
 		]
-	}
+	}*/
 	// todo 请添加相关新路由描述
 ]
 
