@@ -28,7 +28,7 @@ const state = reactive({
 
 const { isCollapse } = toRefs(state)
 
-const title = ref('vue3_element_admin')
+const title = ref('Lance-Element-Admin')
 </script>
 
 <style lang="scss" scoped>

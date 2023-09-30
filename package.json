@@ -1,5 +1,5 @@
 {
-  "name": "vue3_element_admin",
+  "name": "Lance-Element-Admin",
   "private": true,
   "version": "0.0.0",
   "description": " Vue3、TS、Element-Plus、Pinia 和 Vite",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:LanceJiang/vue3_element_admin.git"
+    "url": "git@github.com:LanceJiang/Lance-Element-Admin.git"
   },
   "type": "module",
   "scripts": {

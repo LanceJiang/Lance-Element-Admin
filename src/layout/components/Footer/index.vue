@@ -1,6 +1,6 @@
 <template>
 	<div class="layout-footer">
-		<a href="https://github.com/LanceJiang" target="_blank"> 2028 © vue3_element_admin By LanceJiang. </a>
+		<a href="https://github.com/LanceJiang" target="_blank"> 2028 © Lance-Element-Admin By LanceJiang. </a>
 	</div>
 </template>
 

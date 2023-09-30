@@ -160,7 +160,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 		component: Layout,
 		children: [
 			{
-				path: 'https://github.com/LanceJiang/vue3_element_admin',
+				path: 'https://github.com/LanceJiang/Lance-Element-Admin',
 				meta: { title: '外部链接', icon: 'icon-link' }
 			}
 		]
