@@ -16,11 +16,11 @@ declare namespace Menu {
 		icon: string
 		title: string
 		activeMenu?: string
-		isLink?: string
-		isHide: boolean
-		isFull: boolean
-		isAffix: boolean
-		isKeepAlive: boolean
+		// isLink?: string
+		hidden: boolean
+		// isFull: boolean
+		// isAffix: boolean
+		// isKeepAlive: boolean
 	}
 }
 

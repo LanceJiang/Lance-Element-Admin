@@ -73,6 +73,14 @@ const getShowMenuList = (menuList: AppRouteRecordRaw[], parentPath = '') => {
 		return false
 	})
 }
+// 可展示的路由平铺
+const getMenuListFlat = (menuList: AppRouteRecordRaw[]) => {
+	const _menuList = JSON.parse(JSON.stringify(menuList))
+	return _menuList.flatMap((v: AppRouteRecordRaw) => {
+		const _children = v.children || []
+		return [v, ...getMenuListFlat(_children)]
+	})
+}
 
 const usePermissionStore = defineStore({
 	id: 'permission',
@@ -83,7 +91,7 @@ const usePermissionStore = defineStore({
 	}),
 	getters: {
 		// 有效的 菜单列表
-		showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify([...constantMenuList, ...state.menuList])))
+		showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify([...constantMenuList, ...state.menuList]))),
 		/*getShowMenuList([
 				...JSON.parse(JSON.stringify(state.menuList)),
 				// 测试
@@ -96,6 +104,11 @@ const usePermissionStore = defineStore({
 				}
 			])*/
 		// showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify(state.routes)))
+		// 菜单权限列表 ==> 扁平化之后的一维数组菜单，主要用来添加动态路由
+		showMenuListFlat() {
+			// console.error(state, 'test...', this)
+			return getMenuListFlat(this.showMenuList)
+		}
 	},
 	actions: {
 		setRoutes(menuList: AppRouteRecordRaw[]) {

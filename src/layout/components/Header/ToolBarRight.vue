@@ -1,17 +1,14 @@
 <template>
 	<div class="tool-bar-right">
 		<div class="header-icon">
-			<!--			<AssemblySize id="assemblySize" />-->
-			<Screenfull />
+			<ScreenFull />
 			<el-tooltip content="布局大小" effect="dark" placement="bottom">
 				<SizeSelect class="right-menu-item le-hover-effect--bg" />
 			</el-tooltip>
 			<Language class="right-menu-item le-hover-effect--bg" />
-			<!--      todo...搜索 -->
-			<!--			<SearchMenu id="searchMenu" />-->
+      <SearchMenu />
 			<!--			<ThemeSetting id="themeSetting" />-->
 			<Message class="right-menu-item le-hover-effect--bg" />
-			<!--			<Fullscreen id="fullscreen" />-->
 		</div>
 		<Avatar />
 	</div>
@@ -19,12 +16,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-// import AssemblySize from './components/AssemblySize.vue'
 import Language from './components/Language.vue'
-import Screenfull from '@/components/Screenfull/index.vue'
+import ScreenFull from '@/components/Screenfull/index.vue'
 import SizeSelect from '@/components/SizeSelect/index.vue'
-// import SearchMenu from './components/SearchMenu.vue'
-// import ThemeSetting from './components/ThemeSetting.vue'
+import SearchMenu from './components/SearchMenu.vue'
 import Message from './components/Message.vue'
 // import Fullscreen from './components/Fullscreen.vue'
 import Avatar from './components/Avatar.vue'
