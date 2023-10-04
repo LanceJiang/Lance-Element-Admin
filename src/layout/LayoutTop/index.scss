@@ -10,9 +10,9 @@
     height: $header_height;
     padding: 0;
     background-color: var(--el-header-bg-color);
-    //border-bottom: 1px solid var(--el-header-border-color);
-		box-shadow: 0 1px 4px -1px var(--el-header-border-color);
-		z-index: $header_index;
+    border-bottom: 1px solid var(--el-header-border-color);
+    //box-shadow: 0 1px 4px -1px var(--el-header-border-color);
+    //z-index: $header_index;
     .logo {
       display: flex;
       align-items: center;

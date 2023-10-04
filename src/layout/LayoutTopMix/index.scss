@@ -11,10 +11,10 @@
     //padding: 0 15px 0 0;
     padding: 0;
     background-color: var(--el-header-bg-color);
-    //border-bottom: 1px solid var(--el-header-border-color);
-		//box-shadow: 0 2px 8px var(--el-header-border-color);
-		box-shadow: 0 1px 4px -1px var(--el-header-border-color);
-		z-index: $header_index + 1;
+    border-bottom: 1px solid var(--el-header-border-color);
+    //box-shadow: 0 2px 8px var(--el-header-border-color);
+    //box-shadow: 0 1px 4px -1px var(--el-header-border-color);
+    //z-index: $header_index + 1;
     .header-lf {
       display: flex;
       align-items: center;
@@ -54,11 +54,11 @@
     .aside-box {
       width: auto;
       background-color: var(--el-menu-bg-color);
-      //border-right: 1px solid var(--el-aside-border-color);
-      z-index: $header_index;
+      border-right: 1px solid var(--el-aside-border-color);
+      //z-index: $header_index;
       //box-shadow: 2px 0 8px #1d23290d;
       //box-shadow: 2px 0 8px var(--el-aside-border-color);
-			box-shadow: 1px 0 2px var(--el-aside-border-color);
+      //box-shadow: 1px 0 2px var(--el-aside-border-color);
       ////box-shadow: 1px 1px 8px var(--el-color-primary);
 			//box-shadow: 1px 1px 16px -10px var(--el-color-primary);
       display: flex;
