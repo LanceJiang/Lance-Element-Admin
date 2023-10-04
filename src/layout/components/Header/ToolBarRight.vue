@@ -2,15 +2,15 @@
 	<div class="tool-bar-right">
 		<div class="header-icon">
 			<!--			<AssemblySize id="assemblySize" />-->
-			<Screenfull id="screenfull" />
+			<Screenfull />
 			<el-tooltip content="布局大小" effect="dark" placement="bottom">
-				<SizeSelect id="size-select" class="right-menu-item le-hover-effect--bg" />
+				<SizeSelect class="right-menu-item le-hover-effect--bg" />
 			</el-tooltip>
-			<Language id="language" class="right-menu-item le-hover-effect--bg" />
+			<Language class="right-menu-item le-hover-effect--bg" />
 			<!--      todo...搜索 -->
 			<!--			<SearchMenu id="searchMenu" />-->
 			<!--			<ThemeSetting id="themeSetting" />-->
-			<!--			<Message id="message" />-->
+			<Message class="right-menu-item le-hover-effect--bg" />
 			<!--			<Fullscreen id="fullscreen" />-->
 		</div>
 		<Avatar />
@@ -25,7 +25,7 @@ import Screenfull from '@/components/Screenfull/index.vue'
 import SizeSelect from '@/components/SizeSelect/index.vue'
 // import SearchMenu from './components/SearchMenu.vue'
 // import ThemeSetting from './components/ThemeSetting.vue'
-// import Message from './components/Message.vue'
+import Message from './components/Message.vue'
 // import Fullscreen from './components/Fullscreen.vue'
 import Avatar from './components/Avatar.vue'
 
