@@ -71,6 +71,8 @@ $active_color: var(--el-menu-active-color);
 	> .el-menu--popup {
 		max-height: 60vh;
 		overflow-y: auto;
+		&::-webkit-scrollbar{width:2px;height:2px}
+		&::-webkit-scrollbar-track{border-radius:2px;background: $le-bg-color_1;}
 		& > li:first-child {
 			margin-top: 0;
 		}
