@@ -56,6 +56,7 @@ import SubMenu from '@/layout/components/Menu/SubMenu.vue'
 import MenuIcon from '@/layout/components/Menu/MenuIcon.vue'
 import useStore from '@/store'
 import { generateTitle } from '@/utils/i18n'
+import { isExternal } from '@/utils/validate.ts'
 
 const title = import.meta.env.VITE_APP_TITLE
 const { permission, setting, app } = useStore()
@@ -67,7 +68,7 @@ const menuList = computed(() => permission.showMenuList)
 const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string)
 
 const handleClickMenu = (subItem: Menu.MenuOptions) => {
-	if (subItem.meta.isLink) return window.open(subItem.meta.isLink, '_blank')
+	if (isExternal(subItem.path)) return window.open(subItem.path, '_blank')
 	router.push(subItem.path)
 }
 </script>

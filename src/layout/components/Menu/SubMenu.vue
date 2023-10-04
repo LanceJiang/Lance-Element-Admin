@@ -26,12 +26,13 @@
 import { useRouter } from 'vue-router'
 import { generateTitle } from '@/utils/i18n'
 import MenuIcon from './MenuIcon.vue'
+import { isExternal } from '@/utils/validate'
 
 defineProps<{ menuList: Menu.MenuOptions[] }>()
 
 const router = useRouter()
 const handleClickMenu = (subItem: Menu.MenuOptions) => {
-	if (subItem.meta.isLink) return window.open(subItem.meta.isLink, '_blank')
+	if (isExternal(subItem.path)) return window.open(subItem.path, '_blank')
 	router.push(subItem.path)
 	// router.push({ name: subItem.name })
 	// router.push('/404')
