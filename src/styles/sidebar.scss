@@ -69,7 +69,7 @@ $active_color: var(--el-menu-active-color);
 
 	// 子菜单太长时出现滚动条
 	> .el-menu--popup {
-		max-height: 100vh;
+		max-height: 60vh;
 		overflow-y: auto;
 		& > li:first-child {
 			margin-top: 0;

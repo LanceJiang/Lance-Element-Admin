@@ -1,6 +1,6 @@
 <template>
 	<template v-for="subItem in menuList" :key="subItem.path">
-		<el-sub-menu v-if="subItem.children?.length" popperClass="layout-menu-popper-wrap" :index="subItem.path">
+		<el-sub-menu v-if="subItem.children?.length" teleported popperClass="layout-menu-popper-wrap" :index="subItem.path">
 			<template #title>
 				<MenuIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 				<!--				<el-icon v-if="subItem.meta.icon">
