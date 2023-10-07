@@ -93,3 +93,8 @@ declare module '*.vue' {
 	const Component: DefineComponent<{}, {}, any>
 	export default Component
 }
+
+interface Window {
+	// requestIdleCallback?: Function;
+	[key: string]: any
+}

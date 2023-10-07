@@ -291,8 +291,8 @@ const formOptions = ref({
 				// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
 				// 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
 				const iconValue = searchParams['leSelect_icon']
-				let showValue = ''
-				let tag = ''
+				let showValue: JSX.Element | string = ''
+				let tag: JSX.Element | string = ''
 				if (iconValue) {
 					const option = icon_configObj[iconValue]
 					const style = `color: ${option.color}`
@@ -335,8 +335,8 @@ const formOptions = ref({
 				// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
 				// 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
 				const iconValue = searchParams['leSelectMultipleMore_icon']
-				let showValue = ''
-				let tag = ''
+				let showValue: any = ''
+				let tag: JSX.Element | string = ''
 				if (iconValue) {
 					const options = Array.isArray(iconValue) ? iconValue.map(v => icon_configObj[v]) : [icon_configObj[iconValue]]
 					showValue = options.map(option => {

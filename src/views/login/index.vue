@@ -78,7 +78,6 @@ import useStore from '@/store'
 // API依赖
 // import { getGeetConfig } from '@/api/login'
 import { useRoute } from 'vue-router'
-import { LoginFormData } from '@/types'
 
 const { user } = useStore()
 const route = useRoute()
@@ -139,7 +138,7 @@ function handleLogin() {
 					...state.loginForm
 					// challenge,
 					// seccode
-				} as LoginFormData)
+				})
 				.then((formData: any) => {
 					user.googleLogin()
 					// state.dialogOpts = {

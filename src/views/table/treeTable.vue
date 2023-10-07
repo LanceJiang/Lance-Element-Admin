@@ -2,13 +2,13 @@
 	<div class="flex-column-page-wrap pageWrap">
 		<LeTable
 			v-model:searchParams="searchParams"
+			v-model:checkedOptions="tabs_checkedColumns"
 			class="local_table tabs_content-wrap"
 			:list="localList"
 			:total="total"
 			:options="options"
 			:columns="localColumns"
 			:columnsConfig="tabs_columnsConfig"
-			v-model:checkedOptions="tabs_checkedColumns"
 		>
 			<template #toolLeft>
 				<h3 style="line-height: 36px">树形表格示例</h3>
@@ -25,7 +25,7 @@ const selectionChange = e => {
 	// console.error('click 测试', e)
 	console.log(e, 'selectionChange')
 }
-const load = (row, treeNode: unknown, resolve: (data: any[]) => void) => {
+const load = (row, treeNode: unknown, resolve: (data: any) => any[]) => {
 	loadChildrenApi(row).then(res => {
 		resolve(res.data)
 	})

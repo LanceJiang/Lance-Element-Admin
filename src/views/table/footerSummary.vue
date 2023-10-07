@@ -22,7 +22,7 @@ const total = ref(0)
 const list = ref([])
 const options = ref({
 	// rowKey: 'value',
-	// loading: false,
+	loading: false,
 	// size: 'small',
 	showSummary: true,
 	summaryMethod: ({ columns, data }) => {
