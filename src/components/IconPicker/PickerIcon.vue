@@ -1,4 +1,4 @@
-<script setup lang="ts" name="MenuIcon">
+<script setup lang="ts" name="PickerIcon">
 import { computed } from 'vue'
 const props = defineProps({
 	iconClass: {
@@ -15,8 +15,8 @@ const icon = computed(() => {
 	let type = {
 		// 来自于 src/assets/icons 的svg: 'icon-[dir]-[name]'
 		icon: 'icon',
-		// 来自于 iconfont svg 链接: 'le-[name]'
-		le: 'iconfont'
+		// 来自于 le-iconfont svg 链接: 'le-[name]'
+		le: 'le-iconfont'
 		// // 来自于 element svg 链接: 'el-[name]' => 实际icon name为： [name] el-仅用于标记
 		// el: 'element'
 	}[iconClass.split('-')[0]]
@@ -39,13 +39,13 @@ const colorStyle = computed(() => {
 
 <template>
 	<template v-if="icon.type === 'element'">
-		<component :is="icon.component" class="menu-icon" :style="colorStyle" />
+		<component :is="icon.component" class="le-pick-icon menu-icon" :style="colorStyle" />
 	</template>
-	<LeIcon v-else :icon-class="icon.component" class="menu-icon" :color="color" />
+	<LeIcon v-else :icon-class="icon.component" class="le-pick-icon menu-icon" :color="color" />
 </template>
 
 <style scoped lang="scss">
-.menu-icon {
+.#{$prefix}pick-icon {
 	width: 1em;
 	height: 1em;
 	vertical-align: -0.15em;
@@ -54,5 +54,8 @@ const colorStyle = computed(() => {
 	&:focus {
 		outline: unset;
 	}
+}
+.menu-icon {
+
 }
 </style>
