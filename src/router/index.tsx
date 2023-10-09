@@ -131,7 +131,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 			}
 		]
 	},
-	/*// 仅用于研发测试 START
+	// 仅用于研发测试 START
 	{
 		path: '/test',
 		component: Layout,
@@ -153,7 +153,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 			}
 		]
 	},
-	// 仅用于研发测试 END*/
+	// 仅用于研发测试 END
 	// 外部链接
 	{
 		path: '/external-link',
@@ -229,10 +229,41 @@ export const local_permissionsMenuList: Array<AppRouteRecordRaw> = [
 				path: 'adminManage',
 				name: 'adminManage',
 				component: 'demo/adminManage/index',
-				meta: { title: 'demo_adminManage', icon: 'setting' }
+				meta: { title: 'demo_adminManage', icon: 'Setting' }
 			}
 		]
-	} /*,
+	},
+	// 设置 权限
+	{
+		path: '/setting',
+		component: 'Layout',
+		meta: { title: '设置', icon: 'icon-swagger' },
+		redirect: '/setting/user',
+		children: [
+			{
+				path: 'user',
+				// component: () => import('@/views/setting/user/index.vue'),
+				component: 'setting/user/index',
+				name: 'user',
+				meta: { title: '用户管理', icon: 'icon-logo' } // 本地icon
+			},
+			{
+				path: 'role',
+				// component: () => import('@/views/setting/role/index.vue'),
+				component: 'setting/role/index',
+				name: 'role',
+				meta: { title: '角色管理', icon: 'le-amazon' } // le-iconfont
+			},
+			{
+				path: 'menu',
+				// component: () => import('@/views/setting/menu/index.vue'),
+				component: 'setting/menu/index',
+				name: 'menu',
+				meta: { title: '菜单管理', icon: 'PriceTag' } // element icons
+			}
+		]
+	}
+	/*,
 	{
 		path: '/menu',
 		name: 'menu',
