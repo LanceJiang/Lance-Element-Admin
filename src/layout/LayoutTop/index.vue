@@ -20,7 +20,7 @@
 							<!--							<el-icon>
 								<component :is="subItem.meta.icon"></component>
 							</el-icon>-->
-							<MenuIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+							<PickerIcon class="menu-icon" v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 							<span>{{ generateTitle(subItem.meta?.title) }}</span>
 						</template>
 						<SubMenu :menu-list="subItem.children" />
@@ -32,7 +32,7 @@
 						:index="subItem.path"
 						@click="handleClickMenu(subItem)"
 					>
-						<MenuIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+						<PickerIcon class="menu-icon" v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 						<template #title>
 							<span>{{ generateTitle(subItem.meta?.title) }}</span>
 						</template>
@@ -53,7 +53,7 @@ import { useRoute, useRouter } from 'vue-router'
 import AppMain from '@/layout/components/AppMain.vue'
 import ToolBarRight from '@/layout/components/Header/ToolBarRight.vue'
 import SubMenu from '@/layout/components/Menu/SubMenu.vue'
-import MenuIcon from '@/layout/components/Menu/MenuIcon.vue'
+import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import useStore from '@/store'
 import { generateTitle } from '@/utils/i18n'
 import { isExternal } from '@/utils/validate.ts'

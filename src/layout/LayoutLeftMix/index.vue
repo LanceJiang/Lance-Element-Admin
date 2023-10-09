@@ -16,10 +16,7 @@
 						:class="{ 'split-active': splitActive === item.path || `/${splitActive.split('/')[1]}` === item.path }"
 						@click="changeSubMenu(item)"
 					>
-						<MenuIcon v-if="item.meta?.icon" :icon-class="item.meta.icon"></MenuIcon>
-<!--						<el-icon>
-							<component :is="item.meta.icon"></component>
-						</el-icon>-->
+						<PickerIcon v-if="item.meta?.icon" :icon-class="item.meta.icon"></PickerIcon>
 						<span class="title">{{ generateTitle(item.meta.title) }}</span>
 					</div>
 				</div>
@@ -55,7 +52,7 @@ import AppMain from '@/layout/components/AppMain.vue'
 import ToolBarLeft from '@/layout/components/Header/ToolBarLeft.vue'
 import ToolBarRight from '@/layout/components/Header/ToolBarRight.vue'
 import SubMenu from '@/layout/components/Menu/SubMenu.vue'
-import MenuIcon from '@/layout/components/Menu/MenuIcon.vue'
+import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import useStore from '@/store'
 import { generateTitle } from '@/utils/i18n'
 const title = import.meta.env.VITE_APP_TITLE

@@ -2,7 +2,7 @@
 	<template v-for="subItem in menuList" :key="subItem.path">
 		<el-sub-menu v-if="subItem.children?.length" teleported popperClass="layout-menu-popper-wrap" :index="subItem.path">
 			<template #title>
-				<MenuIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+				<PickerIcon class="menu-icon" v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 				<!--				<el-icon v-if="subItem.meta.icon">
 					<component :is="subItem.meta.icon" />
 				</el-icon>-->
@@ -11,7 +11,7 @@
 			<SubMenu :menu-list="subItem.children" />
 		</el-sub-menu>
 		<el-menu-item v-else popperClass="layout-menu-popper-wrap" :index="subItem.path" @click="handleClickMenu(subItem)">
-			<MenuIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+			<PickerIcon class="menu-icon" v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 			<!--      <el-icon>
 				<component :is="subItem.meta.icon"></component>
 			</el-icon>-->
@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { generateTitle } from '@/utils/i18n'
-import MenuIcon from './MenuIcon.vue'
+import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import { isExternal } from '@/utils/validate'
 
 defineProps<{ menuList: Menu.MenuOptions[] }>()

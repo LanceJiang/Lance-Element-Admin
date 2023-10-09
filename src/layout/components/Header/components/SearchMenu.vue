@@ -17,7 +17,7 @@
 					<LeIcon icon-class="le-search" />
 				</template>
 				<template #default="{ item }">
-					<MenuIcon v-if="item.meta?.icon" :icon-class="item.meta.icon" />
+					<PickerIcon v-if="item.meta?.icon" :icon-class="item.meta.icon" />
 					<span> {{ item.meta.local_title }} </span>
 				</template>
 			</el-autocomplete>
@@ -28,7 +28,7 @@
 <script setup lang="ts" name="SearchMenu">
 import { ref, computed, nextTick } from 'vue'
 import { AppRouteRecordRaw } from '@/router/types'
-import MenuIcon from '@/layout/components/Menu/MenuIcon.vue'
+import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import { useRouter } from 'vue-router'
 import { generateTitle } from '@/utils/i18n'
 import { isExternal } from '@/utils/validate'

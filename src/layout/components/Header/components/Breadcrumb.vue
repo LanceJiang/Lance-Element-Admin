@@ -1,14 +1,11 @@
 <template>
 	<div :class="['breadcrumb-box']">
-		<el-breadcrumb :separator-icon="ArrowRight">
+		<el-breadcrumb separator-icon="ArrowRight">
 			<transition-group name="breadcrumb">
 				<!--				<el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="item.path">-->
 				<el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="item.path">
 					<div class="el-breadcrumb__inner is-link" @click="onBreadcrumbClick(item, index)">
-						<MenuIcon v-if="setting.breadcrumbIcon && item.meta?.icon" :icon-class="item.meta.icon" class="breadcrumb-icon"/>
-						<!--						<el-icon v-show="item.meta?.icon && setting.breadcrumbIcon" class="breadcrumb-icon">
-							<component :is="item.meta.icon"></component>
-						</el-icon>-->
+						<PickerIcon v-if="setting.breadcrumbIcon && item.meta?.icon" :icon-class="item.meta.icon" class="breadcrumb-icon" />
 						<span class="breadcrumb-title">{{ generateTitle(item.meta.title) }}</span>
 					</div>
 				</el-breadcrumb-item>
@@ -27,7 +24,7 @@ import { ArrowRight } from '@element-plus/icons-vue'
 import useStore from '@/store'
 // import router from '@/router'
 import { generateTitle } from '@/utils/i18n'
-import MenuIcon from "@/layout/components/Menu/MenuIcon.vue";
+import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 
 const route = useRoute()
 const router = useRouter()

@@ -1,9 +1,21 @@
 @import "mixins";
+$menu-item-height: 42px;
 :root {
 	--el-menu-item-height: 42px;
 	--el-menu-sub-item-height: 42px;
 	--el-menu-hover-bg-color: transparent;
 }
+.el-menu--horizontal .el-menu .el-menu-item,
+.el-menu--horizontal .el-menu .el-sub-menu__title {
+	//--el-menu-horizontal-sub-item-height: 42px;
+	height: $menu-item-height;
+	line-height: $menu-item-height;
+	.menu-icon {
+		font-size: 18px;
+		margin-right: 4px;
+	}
+}
+
 $active_color: var(--el-menu-active-color);
 // 公用的 菜单样式
 .layout-menu-wrap, .layout-menu-popper-wrap, .layout-wrap--columns {
@@ -44,14 +56,18 @@ $active_color: var(--el-menu-active-color);
 			background-color: $active_color;
 		}
 	}
-	.el-sub-menu__title:hover {
-		&::before {
-			background-color: $active_color;
-		}
-	}
 	.el-menu-item,
 	.el-sub-menu__title {
 		@include hover-bg-opacity(8px, $active_color);
+	}
+	.el-sub-menu__title{
+/*		height: $menu-item-height;
+		line-height: $menu-item-height;*/
+		&:hover {
+			&::before {
+				background-color: $active_color;
+			}
+		}
 	}
 }
 
@@ -62,8 +78,8 @@ $active_color: var(--el-menu-active-color);
 	// el-menu--horizontal: layout-top 顶部菜单模式
 	// el-menu--vertical: layout-left 左侧菜单模式
 	& > .el-menu {
-		/*.svg-icon {
-			margin-right: 16px;
+		/*.menu-icon {
+			margin-right: 4px;
 		}*/
 	}
 

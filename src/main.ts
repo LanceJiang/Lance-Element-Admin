@@ -22,7 +22,7 @@ import 'virtual:svg-icons-register'
 	// const existIconVersion = [...d.querySelectorAll('.le-icon_svg')].map(v => v.getAttribute('version')).includes(version)
 	const existIconVersion = false
 	if (!existIconVersion) {
-		/** update 最新 iconfont(.css && .js) */
+		/** update 最新 le-iconfont(.css && .js) */
 		const origin_prefix = '//at.alicdn.com/t/c/font_4091949_0v9i1byqy04'
 		const link = d.createElement('link')
 		link.rel = 'stylesheet'

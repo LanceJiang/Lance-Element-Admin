@@ -17,7 +17,7 @@
 		<InputNumberDemo v-if="true" />
 		<LeDraggableNestDemo v-if="true" />
 
-		<div class="common_title">iconfont && LeIcon</div>
+		<div class="common_title">le-iconfont && LeIcon</div>
 		<div class="content">
 			<!--  单色样式类  -->
 			<!--也可拼接 对应icon文件夹注入的icon 文件-->
