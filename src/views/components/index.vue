@@ -73,6 +73,14 @@
         </template>
       </LeDropdown>
     </div>-->
+		<div class="common_title">IconPicker</div>
+		<div class="content">
+			<IconPicker v-model="curIcon" />
+			<div style="margin: 6px 0">
+				当前选中的 PickerIcon 为：
+				<PickerIcon style="color: var(--el-color-danger); font-size: 24px" :icon-class="curIcon || 'Grid'" />
+			</div>
+		</div>
 		<div class="common_title">暂无数据 LeNoData</div>
 		<div class="content">
 			<LeNoData :message="`<div style='background: var(--el-color-danger);'>test: lang: ${$i18n.locale}</div>`" @click="$log('test....')">
@@ -101,6 +109,8 @@ import SearchGroup2Popover from './components/SearchGroup2Popover'
 import LeSelectDemo from './components/LeSelectDemo'
 import InputNumberDemo from './components/InputNumberDemo'
 import LeDraggableNestDemo from './components/LeDraggableNestDemo'
+import IconPicker from '@/components/IconPicker/index.vue'
+import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import useStore from '@/store/index'
 import { useI18n } from 'vue-i18n'
 // import i18n from '@/lang'
@@ -115,6 +125,7 @@ const dropdownOptions = ref([
 		value: 1
 	}
 ])
+const curIcon = ref('icon-404')
 const testHandler = () => {
 	console.error('testHandler...')
 }

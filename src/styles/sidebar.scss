@@ -10,7 +10,7 @@ $menu-item-height: 42px;
 	//--el-menu-horizontal-sub-item-height: 42px;
 	height: $menu-item-height;
 	line-height: $menu-item-height;
-	.menu-icon {
+	.le-pick-icon {
 		font-size: 18px;
 		margin-right: 4px;
 	}
@@ -21,7 +21,7 @@ $active_color: var(--el-menu-active-color);
 .layout-menu-wrap, .layout-menu-popper-wrap, .layout-wrap--columns {
 	// 折叠情况
 	&.el-menu--collapse {
-		.menu-icon {
+		.le-pick-icon {
 			margin-right: 0;
 		}
 		// 折叠后无子菜单 样式类
@@ -29,7 +29,7 @@ $active_color: var(--el-menu-active-color);
 			justify-content: center;
 		}
 	}
-	.menu-icon {
+	.le-pick-icon {
 		margin-right: 4px;
 		font-size: 18px;
 	}
@@ -78,7 +78,7 @@ $active_color: var(--el-menu-active-color);
 	// el-menu--horizontal: layout-top 顶部菜单模式
 	// el-menu--vertical: layout-left 左侧菜单模式
 	& > .el-menu {
-		/*.menu-icon {
+		/*.le-pick-icon {
 			margin-right: 4px;
 		}*/
 	}

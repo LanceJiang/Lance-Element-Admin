@@ -20,7 +20,7 @@
 							<!--							<el-icon>
 								<component :is="subItem.meta.icon"></component>
 							</el-icon>-->
-							<PickerIcon class="menu-icon" v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+							<PickerIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 							<span>{{ generateTitle(subItem.meta?.title) }}</span>
 						</template>
 						<SubMenu :menu-list="subItem.children" />
@@ -32,7 +32,7 @@
 						:index="subItem.path"
 						@click="handleClickMenu(subItem)"
 					>
-						<PickerIcon class="menu-icon" v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+						<PickerIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 						<template #title>
 							<span>{{ generateTitle(subItem.meta?.title) }}</span>
 						</template>

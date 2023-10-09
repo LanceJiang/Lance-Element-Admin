@@ -35,11 +35,11 @@
 </template>
 
 <script setup lang="ts">
-import PickerIcon from '@/layout/components/Menu/PickerIcon.vue'
+import PickerIcon from './PickerIcon.vue'
 // import svgIcons from 'virtual:svg-icons-names'
 import { iconTypeOptions } from './iconsData.ts'
 import { useDebounceFn } from '@vueuse/core'
-import { ref, watch, computed } from 'vue'
+import { ref, watch, watchEffect, computed } from 'vue'
 const props = defineProps({
 	modelValue: {
 		type: String,
@@ -63,8 +63,6 @@ watch(curIconType, value => {
 		update_currentList()
 	}
 })
-
-console.error(curIconType_icons, 'curIconType_icons')
 
 const currentSelect = ref('')
 const currentSelect_type = ref<string>()
@@ -103,12 +101,9 @@ watch(visible, (bool: boolean) => {
 		update_currentList()
 	}
 })
-watch(
-	() => props.modelValue,
-	(val: string) => {
-		currentSelect.value = val
-	}
-)
+watchEffect(() => {
+	currentSelect.value = props.modelValue
+})
 const searchValue = ref('')
 const update_currentList = () => {
 	if (searchValue.value) {

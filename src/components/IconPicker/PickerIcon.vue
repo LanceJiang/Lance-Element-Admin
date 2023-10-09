@@ -39,9 +39,9 @@ const colorStyle = computed(() => {
 
 <template>
 	<template v-if="icon.type === 'element'">
-		<component :is="icon.component" class="le-pick-icon menu-icon" :style="colorStyle" />
+		<component :is="icon.component" class="le-pick-icon" :style="colorStyle" />
 	</template>
-	<LeIcon v-else :icon-class="icon.component" class="le-pick-icon menu-icon" :color="color" />
+	<LeIcon v-else :icon-class="icon.component" class="le-pick-icon" :color="color" />
 </template>
 
 <style scoped lang="scss">
@@ -54,8 +54,5 @@ const colorStyle = computed(() => {
 	&:focus {
 		outline: unset;
 	}
-}
-.menu-icon {
-
 }
 </style>

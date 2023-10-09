@@ -2,7 +2,7 @@
 	<template v-for="subItem in menuList" :key="subItem.path">
 		<el-sub-menu v-if="subItem.children?.length" teleported popperClass="layout-menu-popper-wrap" :index="subItem.path">
 			<template #title>
-				<PickerIcon class="menu-icon" v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+				<PickerIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 				<!--				<el-icon v-if="subItem.meta.icon">
 					<component :is="subItem.meta.icon" />
 				</el-icon>-->
@@ -11,7 +11,7 @@
 			<SubMenu :menu-list="subItem.children" />
 		</el-sub-menu>
 		<el-menu-item v-else popperClass="layout-menu-popper-wrap" :index="subItem.path" @click="handleClickMenu(subItem)">
-			<PickerIcon class="menu-icon" v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+			<PickerIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 			<!--      <el-icon>
 				<component :is="subItem.meta.icon"></component>
 			</el-icon>-->

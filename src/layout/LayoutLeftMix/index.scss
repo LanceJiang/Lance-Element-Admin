@@ -48,7 +48,7 @@
 					line-height: unset;
           cursor: pointer;
           transition: all 0.3s ease;
-					.menu-icon {
+					.le-pick-icon {
 						//font-size: 18px;
 						margin-right: 0;
 					}
@@ -57,7 +57,7 @@
             font-size: 12px;
 						//color: inherit;
           }
-          /*.menu-icon,
+          /*.le-pick-icon,
           .title {
             color: var(--el-menu-text-color);
           }*/
@@ -74,7 +74,7 @@
 					&::before {
 						background-color: var(--el-menu-active-color);
 					}
-          .menu-icon,
+          .le-pick-icon,
           .title {
 						color: var(--el-menu-active-color);
           }
