@@ -5,7 +5,7 @@
 				<template #reference>
 					<PickerIcon class="icon-selected" :icon-class="currentSelect || 'Grid'" />
 				</template>
-				<el-input v-model="searchValue" placeholder="搜索图标" @clear="searchIconsHandler" @input="searchIconsHandler">
+				<el-input v-model="searchValue" placeholder="搜索图标" clearable @clear="searchIconsHandler" @input="searchIconsHandler">
 					<template #prepend>
 						<el-select v-model="curIconType" :teleported="false" placeholder="Select" style="width: 100px">
 							<el-option v-for="item in iconTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
