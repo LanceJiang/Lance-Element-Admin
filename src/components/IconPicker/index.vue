@@ -102,7 +102,7 @@ watch(visible, (bool: boolean) => {
 	}
 })
 watchEffect(() => {
-	currentSelect.value = props.modelValue
+	currentSelect.value = props.modelValue as string
 })
 const searchValue = ref('')
 const update_currentList = () => {
@@ -126,7 +126,7 @@ function updateIcon(name: string) {
 
 function reset() {
 	currentSelect.value = ''
-	currentList.value = curIconType_icons
+	currentList.value = curIconType_icons.value
 }
 
 defineExpose({

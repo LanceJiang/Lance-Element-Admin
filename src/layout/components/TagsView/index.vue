@@ -246,8 +246,7 @@ function openMenu(tag: TagView, e: MouseEvent) {
 	} else {
 		left.value = l
 	}
-
-	top.value = e.clientY
+	top.value = e.clientY - 40
 	visible.value = true
 	selectedTag.value = tag
 }
