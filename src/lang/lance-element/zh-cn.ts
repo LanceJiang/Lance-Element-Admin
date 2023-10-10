@@ -22,6 +22,7 @@ export default {
 		refresh: '刷新',
 		fullscreen: '全屏',
 		exitFullscreen: '退出全屏',
+		menuSearch: '搜索菜单',
 		copy: '复制',
 		column: '视图',
 		// 筛选相关
@@ -101,6 +102,7 @@ export default {
 			validateAlreadyExists: '{name}已存在'
 		},
 		message: {
+			txt: '消息',
 			addSuccess: '添加成功',
 			editSuccess: '编辑成功',
 			CopiedSuccessfully: '复制成功!',

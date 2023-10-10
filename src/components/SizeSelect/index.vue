@@ -6,7 +6,7 @@
 		<template #dropdown>
 			<el-dropdown-menu>
 				<el-dropdown-item v-for="item of sizeOptions" :key="item.value" :disabled="(size || 'default') == item.value" :command="item.value">
-					{{ item.label }}
+					{{ t(item.label) }}
 				</el-dropdown-item>
 			</el-dropdown-menu>
 		</template>
@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 import useStore from '@/store'
 
@@ -23,11 +24,24 @@ const { app } = useStore()
 const size = computed(() => app.size)
 
 const sizeOptions = ref([
-	{ label: '默认', value: 'default' },
-	{ label: '大型', value: 'large' },
-	{ label: '小型', value: 'small' }
+	{ label: 'default', value: 'default' },
+	{ label: 'large', value: 'large' },
+	{ label: 'small', value: 'small' }
 ])
-
+const { t } = useI18n({
+	messages: {
+		en: {
+			default: 'Default',
+			large: 'Large',
+			small: 'Small'
+		},
+		'zh-cn': {
+			default: '默认',
+			large: '大型',
+			small: '小型'
+		}
+	}
+})
 function handleSetSize(size: string) {
 	app.setSize(size) // todo 改成setting
 	ElMessage.success('切换布局大小成功')

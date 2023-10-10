@@ -1,6 +1,6 @@
 <template>
 	<div class="menu--search-wrap">
-		<el-tooltip content="搜索" effect="dark" placement="bottom">
+		<el-tooltip :content="$t('le.menuSearch')" effect="dark" placement="bottom">
 			<div class="menu--search menu-item le-hover-effect--bg" @click="handleOpen">
 				<LeIcon icon-class="le-search" />
 			</div>

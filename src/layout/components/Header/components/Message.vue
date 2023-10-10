@@ -2,7 +2,7 @@
 	<el-popover placement="bottom" :width="310" trigger="click">
 		<template #reference>
 			<div class="menu--message-trigger">
-				<el-tooltip content="消息" effect="dark" placement="bottom">
+				<el-tooltip :content="$t('le.message.txt')" effect="dark" placement="bottom">
 					<div class="menu--message menu-item le-hover-effect--bg">
 						<el-badge :value="total">
 							<i class="le-iconfont le-notice"></i>

@@ -22,6 +22,7 @@ export default {
 		refresh: 'Refresh',
 		fullscreen: 'Full Screen',
 		exitFullscreen: 'Exit Full Screen',
+		menuSearch: 'Search Menu',
 		copy: 'Copy',
 		column: 'Column',
 		// 筛选相关
@@ -102,6 +103,7 @@ export default {
 			validateAlreadyExists: '{name} already exists'
 		},
 		message: {
+			txt: 'Message',
 			addSuccess: 'Add Success',
 			editSuccess: 'Edit Success',
 			CopiedSuccessfully: 'Copied successfully!',
