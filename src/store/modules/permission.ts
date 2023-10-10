@@ -114,9 +114,9 @@ const usePermissionStore = defineStore({
 		setRoutes(menuList: AppRouteRecordRaw[]) {
 			// 授权后的菜单列表
 			this.menuList = menuList
-			this.routes = constantRoutes.concat(
+			this.routes = menuList /*constantRoutes.concat(
 				menuList,
-				noFoundRouters /*, {
+				noFoundRouters /!*, {
 				// 管理员管理
 				path: '/adminManage1',
 				name: 'adminManage1',
@@ -127,8 +127,8 @@ const usePermissionStore = defineStore({
 				// if (component) {
 				// 	tmp.component = component
 				meta: { title: 'demo_adminManage' }
-			}*/
-			)
+			}*!/
+			)*/
 		},
 		queryMenuList(roles: string[]) {
 			return getMenuList().then((data: any) => {
