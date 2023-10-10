@@ -1,7 +1,7 @@
 <template>
 	<el-tooltip placement="top" :content="$t(isFullscreen ? 'le.exitFullscreen' : 'le.fullscreen')">
-		<div class="right-menu-item le-hover-effect--bg">
-			<LeIcon :icon-class="isFullscreen ? 'le-suoxiao1' : 'le-fangda1'" @click="toggle" />
+		<div class="menu--screen menu-item le-hover-effect--bg" @click="toggle">
+			<LeIcon :icon-class="isFullscreen ? 'le-suoxiao1' : 'le-fangda1'" />
 		</div>
 	</el-tooltip>
 </template>

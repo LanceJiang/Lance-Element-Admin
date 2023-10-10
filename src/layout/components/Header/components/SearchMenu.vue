@@ -1,9 +1,19 @@
 <template>
-	<div class="search-menu-wrap">
-		<div class="right-menu-item le-hover-effect--bg" @click="handleOpen">
-			<LeIcon icon-class="le-search" />
-		</div>
-		<el-dialog v-model="isShowSearch" destroy-on-close :modal="false" :show-close="false" fullscreen @click="closeSearch">
+	<div class="menu--search-wrap">
+		<el-tooltip content="搜索" effect="dark" placement="bottom">
+			<div class="menu--search menu-item le-hover-effect--bg" @click="handleOpen">
+				<LeIcon icon-class="le-search" />
+			</div>
+		</el-tooltip>
+		<el-dialog
+			v-model="isShowSearch"
+			class="le-search-menu-dialog"
+			destroy-on-close
+			:modal="false"
+			:show-close="false"
+			fullscreen
+			@click="closeSearch"
+		>
 			<el-autocomplete
 				ref="menuInputRef"
 				v-model="searchMenu"
@@ -17,8 +27,8 @@
 					<LeIcon icon-class="le-search" />
 				</template>
 				<template #default="{ item }">
-					<PickerIcon v-if="item.meta?.icon" :icon-class="item.meta.icon" />
-					<span> {{ item.meta.local_title }} </span>
+					<PickerIcon v-if="item.meta?.icon" class="icon" :icon-class="item.meta.icon" />
+					<span class="title"> {{ item.meta.local_title }} </span>
 				</template>
 			</el-autocomplete>
 		</el-dialog>
@@ -85,34 +95,36 @@ const handleClickMenu = (menuItem: AppRouteRecordRaw | Record<string, any>) => {
 }
 </script>
 <style scoped lang="scss">
-.search-menu-wrap {
+.menu--search-wrap {
 	height: 100%;
 }
-:deep(.el-dialog) {
-	background-color: rgb(0 0 0 / 50%);
-	border-radius: 0 !important;
-	box-shadow: unset !important;
-	.el-dialog__header {
-		border-bottom: none !important;
-	}
-}
-:deep(.el-autocomplete) {
-	position: absolute;
-	top: 100px;
-	left: 50%;
-	width: 550px;
-	transform: translateX(-50%);
-	.el-input__wrapper {
-		background-color: var(--el-bg-color);
+:deep {
+	.el-dialog {
+		background-color: rgb(0 0 0 / 50%);
+		border-radius: 0 !important;
+		box-shadow: unset !important;
+		.el-dialog__header {
+			border-bottom: none !important;
+		}
+		.el-autocomplete {
+			position: absolute;
+			top: 100px;
+			left: 50%;
+			width: 550px;
+			transform: translateX(-50%);
+			.el-input__wrapper {
+				background-color: var(--el-bg-color);
+			}
+		}
 	}
 }
 .el-autocomplete__popper {
-	.el-icon {
+	.icon {
 		position: relative;
 		top: 2px;
 		font-size: 16px;
 	}
-	span {
+	.title {
 		margin: 0 0 0 10px;
 		font-size: 14px;
 	}

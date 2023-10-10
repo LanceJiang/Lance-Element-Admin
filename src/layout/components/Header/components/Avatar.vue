@@ -1,5 +1,5 @@
 <template>
-	<el-dropdown class="avatar-container right-menu-item le-hover-effect--bg" trigger="click" size="default">
+	<el-dropdown class="avatar-container menu-item le-hover-effect--bg" trigger="click" size="default">
 		<div class="avatar-wrapper">
 			<span class="nickname">{{ user.nickname || '' }}</span>
 			<img :src="user.avatar" class="user-avatar" />

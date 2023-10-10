@@ -1,6 +1,6 @@
 <template>
-	<el-dropdown class="size-select" trigger="click" @command="handleSetSize">
-		<div class="size-select__icon">
+	<el-dropdown class="menu--size-select-wrap" trigger="hover" @command="handleSetSize">
+		<div class="menu--size-select menu-item le-hover-effect--bg">
 			<LeIcon class-name="size-icon" icon-class="le-text-size" />
 		</div>
 		<template #dropdown>
@@ -35,7 +35,7 @@ function handleSetSize(size: string) {
 </script>
 
 <style lang="scss" scoped>
-.size-select__icon {
-	line-height: 50px;
+.menu--size-select-wrap {
+	height: 100%;
 }
 </style>

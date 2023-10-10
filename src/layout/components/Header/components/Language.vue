@@ -1,6 +1,6 @@
 <template>
-	<el-dropdown class="lang-select" trigger="click" @command="handleSetLanguage">
-		<div class="lang-select__icon">
+	<el-dropdown class="menu--lang-select-wrap" trigger="hover" @command="handleSetLanguage">
+		<div class="menu--lang-select menu-item le-hover-effect--bg">
 			<LeIcon :icon-class="`le-lang_${language}`" />
 		</div>
 		<template #dropdown>
@@ -43,7 +43,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-/*.lang-select__icon {
-	line-height: 50px;
-}*/
+.menu--lang-select-wrap {
+	height: 100%;
+}
 </style>

@@ -1,35 +1,39 @@
 <template>
-	<div class="message-wrap">
-		<el-popover placement="bottom" :width="310" trigger="click">
-			<template #reference>
-				<el-badge class="item" :value="total">
-					<i class="le-iconfont le-notice"></i>
-				</el-badge>
-			</template>
-			<el-tabs v-model="activeTab">
-				<el-tab-pane v-for="v of tabsConfig" :key="v.name" :name="v.name">
-					<template #label> {{ v.label }}({{ v.list.length }}) </template>
-					<template v-if="v.list.length">
-						<div class="message-list">
-							<div v-for="item of v.list" :key="item.id" class="message-item">
-								<!--<img src="" alt="" class="message-icon" />-->
-								<div class="message-content">
-									<div class="message-title">
-										<span class="txt text-overflow_ellipsis" :title="item.title">{{ item.title }}</span>
-										<span class="message-date">{{ item.createTime }}</span>
-									</div>
-									<span class="message-txt">{{ item.content }}</span>
+	<el-popover placement="bottom" :width="310" trigger="click">
+		<template #reference>
+			<div class="menu--message-trigger">
+				<el-tooltip content="消息" effect="dark" placement="bottom">
+					<div class="menu--message menu-item le-hover-effect--bg">
+						<el-badge :value="total">
+							<i class="le-iconfont le-notice"></i>
+						</el-badge>
+					</div>
+				</el-tooltip>
+			</div>
+		</template>
+		<el-tabs class="message-tabs" v-model="activeTab">
+			<el-tab-pane v-for="v of tabsConfig" :key="v.name" :name="v.name">
+				<template #label> {{ v.label }}({{ v.list.length }}) </template>
+				<template v-if="v.list.length">
+					<div class="message-list">
+						<div v-for="item of v.list" :key="item.id" class="message-item">
+							<!--<img src="" alt="" class="message-icon" />-->
+							<div class="message-content">
+								<div class="message-title">
+									<span class="txt text-overflow_ellipsis" :title="item.title">{{ item.title }}</span>
+									<span class="message-date">{{ item.createTime }}</span>
 								</div>
+								<span class="message-txt">{{ item.content }}</span>
 							</div>
 						</div>
-					</template>
-					<template v-else>
-						<LeNoData />
-					</template>
-				</el-tab-pane>
-			</el-tabs>
-		</el-popover>
-	</div>
+					</div>
+				</template>
+				<template v-else>
+					<LeNoData />
+				</template>
+			</el-tab-pane>
+		</el-tabs>
+	</el-popover>
 </template>
 
 <script setup lang="ts">
@@ -109,5 +113,8 @@ getMessage().then(res => {
 			}
 		}
 	}
+}
+.menu--message-trigger {
+	height: 100%;
 }
 </style>
