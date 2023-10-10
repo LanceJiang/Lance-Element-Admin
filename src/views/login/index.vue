@@ -69,7 +69,7 @@ import { onMounted, reactive, ref, toRefs, watch, nextTick } from 'vue'
 
 // 组件依赖
 import { /*ElForm, ElInput,*/ ElMessage } from 'element-plus'
-import LangSelect from '@/components/LangSelect/index.vue'
+import LangSelect from '@/layout/components/Header/components/Language.vue'
 // 谷歌验证
 import GoogleVerifyDialog from './components/GoogleVerifyDialog.vue'
 
@@ -224,8 +224,9 @@ $cursor: #fff;
 			position: absolute;
 			top: 3px;
 			font-size: 18px;
-			right: 0px;
+			right: 0;
 			cursor: pointer;
+			height: unset;
 		}
 	}
 
