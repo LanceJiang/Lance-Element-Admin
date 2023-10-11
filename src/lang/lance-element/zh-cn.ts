@@ -23,6 +23,7 @@ export default {
 		fullscreen: '全屏',
 		exitFullscreen: '退出全屏',
 		menuSearch: '搜索菜单',
+		menuDarkTheme: '切换主题',
 		copy: '复制',
 		column: '视图',
 		// 筛选相关

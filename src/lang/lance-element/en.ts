@@ -23,6 +23,7 @@ export default {
 		fullscreen: 'Full Screen',
 		exitFullscreen: 'Exit Full Screen',
 		menuSearch: 'Search Menu',
+		menuDarkTheme: 'Switch Theme',
 		copy: 'Copy',
 		column: 'Column',
 		// 筛选相关

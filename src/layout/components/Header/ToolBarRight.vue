@@ -3,6 +3,7 @@
 		<div class="header-icon">
 			<SearchMenu />
 			<ScreenFull />
+			<SwitchDarkTheme />
 			<SizeSelect />
 			<Language />
 			<Message />
@@ -18,6 +19,7 @@ import SizeSelect from '@/components/SizeSelect/index.vue'
 import SearchMenu from './components/SearchMenu.vue'
 import Message from './components/Message.vue'
 import Avatar from './components/Avatar.vue'
+import SwitchDarkTheme from './components/SwitchDarkTheme.vue'
 </script>
 
 <style lang="scss">
