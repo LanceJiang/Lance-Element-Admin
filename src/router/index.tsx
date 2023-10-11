@@ -10,17 +10,6 @@ const HOME_URL = '/dashboard'
 // 静态路由
 export const sysStaticRouter: Array<AppRouteRecordRaw> = [
 	{
-		path: '/redirect',
-		component: Layout,
-		meta: { hidden: true },
-		children: [
-			{
-				path: '/redirect/:path(.*)',
-				component: () => import('@/views/redirect/index.vue')
-			}
-		]
-	},
-	{
 		path: '/login',
 		component: () => import('@/views/login/index.vue'),
 		meta: { hidden: true }
@@ -32,7 +21,14 @@ export const sysStaticRouter: Array<AppRouteRecordRaw> = [
 		component: Layout,
 		redirect: HOME_URL,
 		// redirect: '/dashboard',
-		children: []
+		children: [
+			// 重定向
+			{
+				path: '/redirect/:path(.*)',
+				meta: { hidden: true },
+				component: () => import('@/views/redirect/index.vue')
+			}
+		]
 	}
 ]
 
@@ -69,7 +65,7 @@ export const constantRoutes: AppRouteRecordRaw[] = [
 		path: '/personal',
 		component: () => import('@/views/personal/index.vue'),
 		name: 'personal',
-		meta: { title: 'personal', icon: 'le-account_fill', parentName: 'mainLayout' } // 塞入 Layout route
+		meta: { title: 'personal', icon: 'le-account', parentName: 'mainLayout' } // 塞入 Layout route
 	},
 	// 外部链接
 	{
@@ -113,7 +109,7 @@ export const constantRoutes: AppRouteRecordRaw[] = [
 	{
 		path: '/table',
 		component: Layout,
-		redirect: '/default',
+		redirect: 'default',
 		meta: { title: 'table', icon: 'icon-table' },
 		children: [
 			{
