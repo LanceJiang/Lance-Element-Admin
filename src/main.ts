@@ -23,7 +23,7 @@ import 'virtual:svg-icons-register'
 	const existIconVersion = false
 	if (!existIconVersion) {
 		/** update 最新 le-iconfont(.css && .js) */
-		const origin_prefix = '//at.alicdn.com/t/c/font_4091949_0v9i1byqy04'
+		const origin_prefix = '//at.alicdn.com/t/c/font_4091949_h5ex5dw89e'
 		const link = d.createElement('link')
 		link.rel = 'stylesheet'
 		link.type = 'text/css'
