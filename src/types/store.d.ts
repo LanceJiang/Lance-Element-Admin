@@ -18,7 +18,6 @@ export interface AppState {
  * 权限类型声明
  */
 export interface PermissionState {
-	routes: AppRouteRecordRaw[]
 	menuList: AppRouteRecordRaw[]
 }
 

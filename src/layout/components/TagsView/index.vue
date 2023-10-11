@@ -64,7 +64,7 @@ const router = useRouter()
 const route = useRoute()
 
 const visitedViews = computed<any>(() => tagsView.visitedViews)
-const routes = computed<any>(() => permission.routes)
+const menuList = computed<any>(() => permission.menuList)
 
 const affixTags = ref([])
 const visible = ref(false)
@@ -86,10 +86,10 @@ watch(visible, value => {
 	}
 })
 
-function filterAffixTags(routes: RouteRecordRaw[], basePath = '/') {
+function filterAffixTags(menuList: RouteRecordRaw[], basePath = '/') {
 	let tags: TagView[] = []
 
-	routes.forEach(route => {
+	menuList.forEach(route => {
 		// affix 固定钉子
 		if (route.meta && route.meta.affix) {
 			const tagPath = path.resolve(basePath, route.path)
@@ -112,7 +112,7 @@ function filterAffixTags(routes: RouteRecordRaw[], basePath = '/') {
 }
 
 function initTags() {
-	const res = filterAffixTags(routes.value) as []
+	const res = filterAffixTags(menuList.value) as []
 	affixTags.value = res
 	for (const tag of res) {
 		// Must have tag name

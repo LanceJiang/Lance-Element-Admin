@@ -2,14 +2,13 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { AppRouteRecordRaw } from './types'
 import useStore from '@/store'
 
-export const Layout = () => import('@/layout/index.vue') // todo....
-// export const Layout = () => import('@/layout/index_old.vue')
-// const HOME_URL = '/dashboard'
+export const Layout = () => import('@/layout/index.vue')
+
+const HOME_URL = '/dashboard'
 
 // 参数说明: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
 // 静态路由
-export const constantRoutes: Array<AppRouteRecordRaw> = [
-	// todo 进行删除???
+export const sysStaticRouter: Array<AppRouteRecordRaw> = [
 	{
 		path: '/redirect',
 		component: Layout,
@@ -26,6 +25,18 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 		component: () => import('@/views/login/index.vue'),
 		meta: { hidden: true }
 	},
+	// 主入口
+	{
+		path: '/',
+		name: 'mainLayout',
+		component: Layout,
+		redirect: HOME_URL,
+		// redirect: '/dashboard',
+		children: []
+	}
+]
+
+export const sysErrorRoutes = [
 	{
 		path: '/404',
 		component: () => import('@/views/error-page/404.vue'),
@@ -36,20 +47,38 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 		component: () => import('@/views/error-page/401.vue'),
 		meta: { hidden: true }
 	},
-	// 主入口
 	{
-		path: '/',
-		name: 'layout',
+		// redirect: '/404',
+		path: '/:pathMatch(.*)',
+		component: () => import('@/views/error-page/404.vue'),
+		meta: { hidden: true }
+	}
+]
+
+export const constantRoutes: AppRouteRecordRaw[] = [
+	// 首页
+	{
+		// path: '/dashboard',
+		path: HOME_URL,
+		component: () => import('@/views/dashboard/index.vue'),
+		name: 'dashboard',
+		meta: { title: 'dashboard', icon: 'icon-homepage', affix: true, parentName: 'mainLayout' }
+	},
+	// 用户中心
+	{
+		path: '/personal',
+		component: () => import('@/views/personal/index.vue'),
+		name: 'personal',
+		meta: { title: 'personal', icon: 'le-account_fill', parentName: 'mainLayout' } // 塞入 Layout route
+	},
+	// 外部链接
+	{
+		path: '/external-link',
 		component: Layout,
-		// redirect: HOME_URL,
-		redirect: '/dashboard',
 		children: [
 			{
-				path: 'dashboard',
-				// path: HOME_URL,
-				component: () => import('@/views/dashboard/index.vue'),
-				name: 'dashboard',
-				meta: { title: 'dashboard', icon: 'icon-homepage', affix: true }
+				path: 'https://github.com/LanceJiang/Lance-Element-Admin',
+				meta: { title: '外部链接', icon: 'icon-link' }
 			}
 		]
 	},
@@ -130,7 +159,7 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 				meta: { title: 'resizeParentHeightTable' }
 			}
 		]
-	},
+	}
 	/*// 仅用于研发测试 START
 	{
 		path: '/test',
@@ -152,54 +181,8 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
 				meta: { title: '组件通信方式' }
 			}
 		]
-	},
+	}
 	// 仅用于研发测试 END*/
-	// 外部链接
-	{
-		path: '/external-link',
-		component: Layout,
-		children: [
-			{
-				path: 'https://github.com/LanceJiang/Lance-Element-Admin',
-				meta: { title: '外部链接', icon: 'icon-link' }
-			}
-		]
-	}
-]
-const getFlatMenuList_1children = (menuList: AppRouteRecordRaw[]) => {
-	return menuList.reduce((res, v) => {
-		// 过滤掉隐藏
-		if (v.meta?.hidden) return res
-		const children = v.children
-		if (Array.isArray(children) && children.length) {
-			if (children.length === 1) {
-				const child0 = children[0]
-				// delete v.children
-				res.push({
-					...child0,
-					path: /\/.*/.test(child0.path) ? child0.path : v.name !== 'layout' ? `${v.path}/${child0.path}` : `/${child0.path}`
-				})
-			} else {
-				res.push({
-					...v,
-					children: getFlatMenuList_1children(v.children as AppRouteRecordRaw[])
-				})
-			}
-		} else {
-			res.push(v)
-		}
-		return res
-	}, [] as AppRouteRecordRaw[])
-}
-export const constantMenuList: Array<AppRouteRecordRaw> = getFlatMenuList_1children(constantRoutes)
-
-export const noFoundRouters = [
-	{
-		// redirect: '/404',
-		path: '/:pathMatch(.*)',
-		component: () => import('@/views/error-page/404.vue'),
-		meta: { hidden: true }
-	}
 ]
 
 /**
@@ -208,6 +191,7 @@ export const noFoundRouters = [
  * (若想要调试 接口数据 请在 env.development.local 修改 VITE_APP_USE_LOCAL_ROUTES 不为 1即可)
  */
 export const local_permissionsMenuList: Array<AppRouteRecordRaw> = [
+	...constantRoutes,
 	{
 		// demo演示
 		path: '/demo',
@@ -364,7 +348,7 @@ export const local_permissionsMenuList: Array<AppRouteRecordRaw> = [
 // 创建路由
 const router = createRouter({
 	history: createWebHashHistory(),
-	routes: constantRoutes.concat(noFoundRouters) as RouteRecordRaw[],
+	routes: sysStaticRouter.concat(sysErrorRoutes) as RouteRecordRaw[],
 	// 刷新时，滚动条位置还原
 	scrollBehavior: () => ({ left: 0, top: 0 })
 })

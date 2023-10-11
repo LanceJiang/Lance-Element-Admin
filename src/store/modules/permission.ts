@@ -2,14 +2,13 @@ import { PermissionState } from '@/types'
 import { AppRouteRecordRaw } from '@/router/types'
 // import { RouteRecordRaw } from 'vue-router'
 import { defineStore } from 'pinia'
-import { constantRoutes, noFoundRouters, constantMenuList } from '@/router'
+// import { sysStaticRouter, noFoundRouters, constantMenuList } from '@/router'
 import { getMenuList } from '@/api/system/menu'
 
 const modules = import.meta.glob('@/views/**/*.vue')
 export const Layout = () => import('@/layout/index.vue') // todo...
 // export const Layout = () => import('@/layout/index_old.vue.vue')
 export const RouteView = () => import('@/layout/RouteView.vue')
-// export const Layout = () => import('@/layouts/index.vue')
 
 // const hasPermission = (roles: string[], route: AppRouteRecordRaw) => {
 // 	if (route.meta && route.meta.roles) {
@@ -25,10 +24,16 @@ export const RouteView = () => import('@/layout/RouteView.vue')
 // 	return false
 // }
 
-export const filterAsyncRoutes = (routes: AppRouteRecordRaw[], roles: string[]) => {
+export const filterAsyncRoutes = (routes: AppRouteRecordRaw[], roles: string[], parentPath = '') => {
 	const res: AppRouteRecordRaw[] = []
 	routes.forEach(route => {
-		const tmp = { ...route } as any
+		const tmp = { ...route } as AppRouteRecordRaw
+		tmp.meta = tmp.meta ? tmp.meta : {}
+		// 默认icon
+		tmp.meta.icon = tmp.meta.icon || 'menu'
+		// path全链 重组
+		// tmp.path = /\/.*/.test(tmp.path) ? tmp.path : `${parentPath}/${tmp.path}`
+		tmp.path = /\/.+/.test(tmp.path) ? tmp.path : `${parentPath}/${tmp.path}`
 		// if (hasPermission(roles, tmp)) {
 		// todo be delete
 		// }
@@ -36,38 +41,67 @@ export const filterAsyncRoutes = (routes: AppRouteRecordRaw[], roles: string[]) 
 		// 特殊Layout 配置 标识
 		if (!tmp.component) {
 			tmp.component = RouteView
-		} else if (/*!tmp.component || */ tmp.component == 'Layout') {
-			tmp.component = Layout
-		} else {
-			const component = modules[`/src/views/${tmp.component}.vue`] as any
-			console.error(component, 'component')
-			if (component) {
-				tmp.component = component
+		} else if (typeof tmp.component === 'string') {
+			if (/*!tmp.component || */ tmp.component == 'Layout') {
+				tmp.component = Layout
 			} else {
-				tmp.component = modules[`/src/views/error-page/404.vue`]
+				const component = modules[`/src/views/${tmp.component}.vue`] as any
+				console.error(component, 'component')
+				if (component) {
+					tmp.component = component
+				} else {
+					tmp.component = modules[`/src/views/error-page/404.vue`]
+				}
 			}
 		}
 		res.push(tmp)
 
 		// 递归
 		if (tmp.children) {
-			tmp.children = filterAsyncRoutes(tmp.children, roles)
+			tmp.children = filterAsyncRoutes(tmp.children, roles, tmp.path)
 		}
 	})
 	return res
 }
 
+/**
+ * getFlatMenuList_1children 单child 菜单扁平优化
+ * 针对：children 只有一个child 的 进行菜单优化
+ */
+const getFlatMenuList_1children = (menuList: AppRouteRecordRaw[]) => {
+	return menuList.reduce((res, v) => {
+		// 过滤掉隐藏
+		if (v.meta?.hidden) return res
+		const children = v.children
+		if (Array.isArray(children) && children.length) {
+			if (children.length === 1) {
+				const child0 = children[0]
+				// delete v.children
+				res.push({
+					...child0,
+					path: /\/.*/.test(child0.path) ? child0.path : v.name !== 'mainLayout' ? `${v.path}/${child0.path}` : `/${child0.path}`
+				})
+			} else {
+				res.push({
+					...v,
+					children: getFlatMenuList_1children(v.children as AppRouteRecordRaw[])
+				})
+			}
+		} else {
+			res.push(v)
+		}
+		return res
+	}, [] as AppRouteRecordRaw[])
+}
+
 // 过滤隐藏
-const getShowMenuList = (menuList: AppRouteRecordRaw[], parentPath = '') => {
+// const getShowMenuList = (menuList: AppRouteRecordRaw[], parentPath = '') => {
+const getShowMenuList = (menuList: AppRouteRecordRaw[]) => {
 	return menuList.filter(item => {
 		// console.error(item, 'item')
-		item.meta = item.meta ? item.meta : {}
-		// 默认icon
-		item.meta.icon = item.meta.icon || 'menu'
-		// path全链 重组
-		item.path = /\/.*/.test(item.path) ? item.path : `${parentPath}/${item.path}`
 		if (!item.meta.hidden) {
-			item.children?.length && (item.children = getShowMenuList(item.children, item.path))
+			// item.children?.length && (item.children = getShowMenuList(item.children, item.path))
+			item.children?.length && (item.children = getShowMenuList(item.children))
 			return true
 		}
 		return false
@@ -85,13 +119,14 @@ const getMenuListFlat = (menuList: AppRouteRecordRaw[]) => {
 const usePermissionStore = defineStore({
 	id: 'permission',
 	state: (): PermissionState => ({
-		routes: [],
+		// routes: [],
 		// 动态菜单
 		menuList: []
 	}),
 	getters: {
 		// 有效的 菜单列表
-		showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify([...constantMenuList, ...state.menuList]))),
+		// showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify([...constantMenuList, ...state.menuList]))),
+		showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify(state.menuList))),
 		/*getShowMenuList([
 				...JSON.parse(JSON.stringify(state.menuList)),
 				// 测试
@@ -112,9 +147,11 @@ const usePermissionStore = defineStore({
 	},
 	actions: {
 		setRoutes(menuList: AppRouteRecordRaw[]) {
-			// 授权后的菜单列表
-			this.menuList = menuList
-			this.routes = menuList /*constantRoutes.concat(
+			// 授权后的菜单列表 对单个的 children 菜单减级优化
+			this.menuList = getFlatMenuList_1children(menuList)
+			// menuList
+			/*this.routes = menuList
+			sysStaticRouter.concat(
 				menuList,
 				noFoundRouters /!*, {
 				// 管理员管理

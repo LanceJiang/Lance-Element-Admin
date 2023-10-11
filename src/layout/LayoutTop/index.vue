@@ -49,7 +49,6 @@
 import { computed } from 'vue'
 // import { useAuthStore } from '@/stores/modules/auth'
 import { useRoute, useRouter } from 'vue-router'
-// import Main from '@/layouts/components/Main/index.vue'
 import AppMain from '@/layout/components/AppMain.vue'
 import ToolBarRight from '@/layout/components/Header/ToolBarRight.vue'
 import SubMenu from '@/layout/components/Menu/SubMenu.vue'

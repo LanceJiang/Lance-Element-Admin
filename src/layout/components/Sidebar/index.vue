@@ -21,7 +21,7 @@ import useStore from '@/store'
 const { permission, setting, app } = useStore()
 
 const route = useRoute()
-const routes = computed(() => permission.routes)
+const routes = computed(() => permission.menuList)
 const showLogo = computed(() => setting.sidebarLogo)
 const isCollapse = computed(() => setting.isCollapse)
 // const isCollapse = computed(() => !app.sidebar.opened)
