@@ -2,6 +2,7 @@ export default {
 	// 路由国际化
 	route: {
 		dashboard: 'Dashboard',
+		personal: 'Personal Center',
 		comps: 'Comps',
 		form: 'Form',
 		demo: 'Demo',
