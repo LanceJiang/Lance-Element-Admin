@@ -1,6 +1,6 @@
 <template>
-	<el-dropdown class="avatar-container menu-item le-hover-effect--bg" trigger="click" size="default">
-		<div class="avatar-wrapper">
+	<el-dropdown class="menu--avatar-wrap" trigger="click">
+		<div class="menu--avatar menu-item le-hover-effect--bg">
 			<span class="nickname">{{ user.nickname || '' }}</span>
 			<img :src="user.avatar" class="user-avatar" />
 			<ArrowDown style="width: 0.6em; height: 0.6em; margin-left: 5px; font-size: 24px" />
@@ -11,7 +11,10 @@
 				<!--						<router-link to="/">
           <el-dropdown-item>{{ $t('navbar.dashboard') }}</el-dropdown-item>
         </router-link>-->
-				<el-dropdown-item @click="logout">
+				<router-link to="/personal">
+					<el-dropdown-item>{{ $t('route.personal') }}</el-dropdown-item>
+				</router-link>
+				<el-dropdown-item divided @click="logout">
 					{{ $t('navbar.logout') }}
 				</el-dropdown-item>
 			</el-dropdown-menu>
@@ -41,8 +44,10 @@ function logout() {
 </script>
 
 <style lang="scss" scoped>
-.avatar-container {
-	.avatar-wrapper {
+.menu--avatar-wrap {
+	height: 100%;
+	.menu--avatar {
+		//height: 100%;
 		display: flex;
 		align-items: center;
 		white-space: nowrap;
