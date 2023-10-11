@@ -39,8 +39,12 @@ router.beforeEach(async (to, from, next) => {
 				const accessRoutes: any = await permission.queryMenuList([])
 				// 单独处理 菜单实体路径
 				accessRoutes.forEach((route: any) => {
-					console.error(route, 'route....')
-					router.addRoute(route)
+					console.error(route, 'route....', route.meta?.parentName)
+					if (route.meta?.parentName) {
+						router.addRoute(route.meta.parentName, route)
+					} else {
+						router.addRoute(route)
+					}
 				})
 				/*router.addRoute('testLayout', {
 					// 管理员管理

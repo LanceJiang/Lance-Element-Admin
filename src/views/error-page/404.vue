@@ -11,7 +11,7 @@
 				<div class="bullshit__oops">OOPS!</div>
 				<div class="bullshit__headline">{{ info.message }}</div>
 				<div class="bullshit__info">{{ info.desc }}</div>
-				<span @click="$router.push('/')" class="bullshit__return-home">{{ info.btn }}</span>
+				<span class="bullshit__return-home" @click="$router.push('/')">{{ info.btn }}</span>
 			</div>
 		</div>
 	</div>
@@ -25,9 +25,9 @@ const { app } = useStore()
 export default {
 	name: 'Page404',
 	data() {
-		// return {
-		//   locale: 'cn' // en
-		// }
+		return {
+			// locale: 'cn' // en
+		}
 	},
 	computed: {
 		// language() {
