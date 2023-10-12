@@ -65,7 +65,7 @@ export const constantRoutes: AppRouteRecordRaw[] = [
 		path: '/personal',
 		component: () => import('@/views/personal/index.vue'),
 		name: 'personal',
-		meta: { title: 'personal', icon: 'le-account', parentName: 'mainLayout' } // 塞入 Layout route
+		meta: { title: 'personal', hidden: true, icon: 'le-account', parentName: 'mainLayout' } // 塞入 Layout route
 	},
 	// 外部链接
 	{
