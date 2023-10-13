@@ -6,7 +6,7 @@
 				<el-icon><SetUp /></el-icon>{{ $t('le.layout.setting.themeModeTitle') }}
 			</el-divider>
 			<div class="drawer-item">
-				<span>{{ $t('le.layout.setting.themeModeTitle') }}</span>
+				<span>{{ $t('le.layout.setting.themeColor') }}</span>
 				<theme-picker @change="themeChange" />
 			</div>
 			<div class="drawer-item" @click.stop="">
