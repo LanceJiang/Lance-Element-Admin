@@ -45,8 +45,6 @@
 <script setup lang="ts" name="layoutTopMix">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-// import { useAuthStore } from '@/stores/modules/auth'
-// import { useGlobalStore } from '@/stores/modules/global'
 import AppMain from '@/layout/components/AppMain.vue'
 import ToolBarLeft from '@/layout/components/Header/ToolBarLeft.vue'
 import ToolBarRight from '@/layout/components/Header/ToolBarRight.vue'
@@ -59,11 +57,6 @@ const title = import.meta.env.VITE_APP_TITLE
 const route = useRoute()
 const router = useRouter()
 const { permission, setting, app } = useStore()
-// const authStore = useAuthStore()
-// const globalStore = useGlobalStore()
-// const accordion = computed(() => globalStore.accordion)
-// const isCollapse = computed(() => globalStore.isCollapse)
-// const menuList = computed(() => authStore.showMenuListGet)
 const accordion = computed(() => setting.accordion)
 const isCollapse = computed(() => setting.isCollapse)
 const menuList = computed(() => permission.showMenuList)

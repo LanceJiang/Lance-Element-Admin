@@ -28,8 +28,6 @@
 <script setup lang="ts" name="layoutLeft">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-// import { useAuthStore } from '@/stores/modules/auth'
-// import { useGlobalStore } from '@/stores/modules/global'
 import ToolBarLeft from '@/layout/components/Header/ToolBarLeft.vue'
 import ToolBarRight from '@/layout/components/Header/ToolBarRight.vue'
 import SubMenu from '@/layout/components/Menu/SubMenu.vue'
@@ -40,14 +38,8 @@ const title = import.meta.env.VITE_APP_TITLE
 
 const route = useRoute()
 const { permission, setting } = useStore()
-// const authStore = useAuthStore()
-// const globalStore = useGlobalStore()
-// const accordion = computed(() => globalStore.accordion)
-// const isCollapse = computed(() => globalStore.isCollapse)
-// const menuList = computed(() => authStore.showMenuListGet)
 const accordion = computed(() => setting.accordion)
 const isCollapse = computed(() => setting.isCollapse)
-// const isCollapse = computed(() => !app.sidebar.opened)
 
 const menuList = computed(() => permission.showMenuList)
 const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string)

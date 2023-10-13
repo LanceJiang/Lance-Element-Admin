@@ -47,7 +47,6 @@
 
 <script setup lang="ts" name="layoutTop">
 import { computed } from 'vue'
-// import { useAuthStore } from '@/stores/modules/auth'
 import { useRoute, useRouter } from 'vue-router'
 import AppMain from '@/layout/components/AppMain.vue'
 import ToolBarRight from '@/layout/components/Header/ToolBarRight.vue'
@@ -61,8 +60,6 @@ const title = import.meta.env.VITE_APP_TITLE
 const { permission, setting, app } = useStore()
 const route = useRoute()
 const router = useRouter()
-// const authStore = useAuthStore()
-// const menuList = computed(() => authStore.showMenuListGet)
 const menuList = computed(() => permission.showMenuList)
 const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string)
 
