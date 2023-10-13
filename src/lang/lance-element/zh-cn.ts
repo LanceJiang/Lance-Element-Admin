@@ -121,7 +121,7 @@ export default {
 				themeWeak: '色弱模式',
 				sideDark: '侧边栏深色',
 				headDark: '头部深色',
-				footDark: '头部深色',
+				footDark: '底部深色',
 				// 布局模式
 				layoutMode: '布局模式',
 				layoutLeftMenuMode: '左侧菜单模式',
