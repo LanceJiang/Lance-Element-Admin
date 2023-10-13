@@ -49,10 +49,10 @@ export interface SettingState {
 	footerInverted: boolean
 	// 多页签
 	tagsView: boolean
-	// 固定 Header
-	fixedHeader: boolean
-	// 侧边栏 Logo
-	sidebarLogo: boolean
+	// // 固定 Header
+	// fixedHeader: boolean
+	// // 侧边栏 Logo
+	// sidebarLogo: boolean
 	// 手风琴
 	accordion: boolean
 	// 面包屑

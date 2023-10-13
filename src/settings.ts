@@ -1,6 +1,6 @@
 import { SettingState } from '@/types'
 
-const defaultSettingState: SettingState = {
+export const defaultSettingState: SettingState = {
 	showSettings: true,
 	/** 主题模式 */
 	// 主题颜色
@@ -35,10 +35,10 @@ const defaultSettingState: SettingState = {
 	isCollapse: false,
 	// 标签展示
 	tagsView: true,
-	// todo???
+	/*// todo???
 	fixedHeader: true,
 	// 是否显示Logo
-	sidebarLogo: true,
+	sidebarLogo: true,*/
 	// 手风琴
 	accordion: true
 }

@@ -114,24 +114,19 @@
 
 			<div class="drawer-item">
 				<span>页面切换动画类型</span>
-				<el-select v-model="animateMode" style="width: 100px;">
+				<el-select v-model="animateMode" style="width: 100px">
 					<el-option v-for="v of animateList" :key="v.value" :value="v.value" :label="v.label" />
 				</el-select>
 			</div>
+
+			<el-divider class="local-divider">
+				<el-icon><Operation /></el-icon>主题配置
+			</el-divider>
+
+			<div class="drawer-item">
+				<el-button type="warning" style="width: 100%" @click="resetTheme"> 重置当前配置 </el-button>
+			</div>
 		</el-scrollbar>
-
-
-		<!--
-				<div class="drawer-item">
-					<span>固定 Header</span>
-					<el-switch v-model="fixedHeader" />
-				</div>
-		-->
-
-		<!--		<div class="drawer-item">
-					<span>侧边栏 Logo</span>
-					<el-switch v-model="sidebarLogo" />
-				</div>-->
 	</div>
 </template>
 
@@ -146,14 +141,12 @@ import { useTheme } from '@/hooks/useTheme'
 import useStore from '@/store'
 
 const { setting } = useStore()
-const { switchDark, changeGreyOrWeak, setAsideTheme, setHeaderTheme, setFooterTheme } = useTheme()
+const { switchDark, changeGreyOrWeak, setAsideTheme, setHeaderTheme, setFooterTheme, resetTheme } = useTheme()
 // const isDark = useDark()
 // const toggleDark = () => useToggle(isDark)
 
 // const state = reactive({
-// 	fixedHeader: setting.fixedHeader,
 // 	tagsView: setting.tagsView,
-// 	sidebarLogo: setting.sidebarLogo
 // })
 const animateList = [
 	{
@@ -189,14 +182,12 @@ const {
 	asideInverted,
 	headerInverted,
 	footerInverted,
-	fixedHeader,
 	footer,
 	breadcrumb,
 	breadcrumbIcon,
 	tagsView,
 	animate,
-	animateMode,
-	sidebarLogo
+	animateMode
 } = storeToRefs(setting)
 
 function themeChange(val: any) {
@@ -210,25 +201,12 @@ const setLayout = (val: LayoutType) => {
 }
 
 // watch(
-// 	() => state.fixedHeader,
-// 	value => {
-// 		setting.changeSetting('fixedHeader', value)
-// 	}
-// )
-
-// watch(
 // 	() => state.tagsView,
 // 	value => {
 // 		setting.changeSetting('tagsView', value)
 // 	}
 // )
 
-// watch(
-// 	() => state.sidebarLogo,
-// 	value => {
-// 		setting.changeSetting('sidebarLogo', value)
-// 	}
-// )
 </script>
 
 <style lang="scss" scoped>

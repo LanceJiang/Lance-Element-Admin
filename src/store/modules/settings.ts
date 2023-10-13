@@ -3,7 +3,7 @@ import { SettingState } from '@/types'
 import defaultSettings from '@/settings'
 // import { ls } from '@/utils'
 
-// const { layout, themeColor, isDark, showSettings, tagsView, fixedHeader, sidebarLogo } = defaultSettings
+// const { layout, themeColor, isDark, showSettings, tagsView } = defaultSettings
 
 export const useSettingStore = defineStore({
 	id: 'setting',
@@ -13,9 +13,7 @@ export const useSettingStore = defineStore({
 	// 	themeColor,
 	// 	isDark,
 	// 	showSettings,
-	// 	tagsView,
-	// 	fixedHeader,
-	// 	sidebarLogo
+	// 	tagsView
 	// }),
 	actions: {
 		async changeSetting(...payload: [string, any]) {
@@ -30,12 +28,6 @@ export const useSettingStore = defineStore({
 				// 	break
 				// case 'showSettings':
 				// 	this.showSettings = value
-				// 	break
-				// case 'fixedHeader':
-				// 	this.fixedHeader = value
-				// 	break
-				// case 'sidebarLogo':
-				// 	this.sidebarLogo = value
 				// 	break
 				default:
 					// eslint-disable-next-line

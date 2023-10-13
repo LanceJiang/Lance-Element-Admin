@@ -7,6 +7,7 @@ import { menuTheme } from '@/styles/theme/menu'
 import { asideTheme } from '@/styles/theme/aside'
 import { headerTheme } from '@/styles/theme/header'
 import { footerTheme } from '@/styles/theme/footer'
+import { defaultSettingState } from '@/settings.ts'
 
 /**
  * @description 全局主题 hooks
@@ -106,8 +107,20 @@ export const useTheme = () => {
 		if (isWeak.value) changeGreyOrWeak('weak', true)
 	}
 
+	const resetTheme = () => {
+		/*Object.keys(defaultSettingState).map(key => {
+			setting.changeSetting(key, defaultSettingState[key])
+		})*/
+		// setting.$reset()
+		Object.assign(setting.$state, defaultSettingState)
+		// initTheme()
+		switchDark()
+		changeGreyOrWeak('weak', false)
+	}
+
 	return {
 		initTheme,
+		resetTheme,
 		switchDark,
 		changeThemeColor,
 		changeGreyOrWeak,
