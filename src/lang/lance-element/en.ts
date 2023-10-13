@@ -107,8 +107,44 @@ export default {
 			txt: 'Message',
 			addSuccess: 'Add Success',
 			editSuccess: 'Edit Success',
+			resetSuccess: 'Reset Success',
 			CopiedSuccessfully: 'Copied successfully!',
 			CopyFailure: 'Copy Failure'
+		},
+		layout: {
+			setting: {
+				title: 'Theme configuration',
+				// 主题模式
+				themeModeTitle: 'Theme Mode',
+				themeColor: 'Theme Color',
+				themeDark: 'Dark Theme',
+				themeGray: 'Gray Mode',
+				themeWeak: 'Weak Mode',
+				sideDark: 'Dark Sidebar',
+				headDark: 'Dark Head',
+				footDark: 'Dark Bottom',
+				// 布局模式
+				layoutMode: 'Layout Mode',
+				layoutLeftMenuMode: 'Left Menu Mode',
+				layoutLeftMenuBlendingMode: 'Left Menu Blending Mode',
+				layoutTopMenuMode: 'Top Menu Mode',
+				layoutTopMenuBlendingMode: 'Top Menu Blending Mode',
+				// 界面功能
+				pageFunctions: 'Page Functions',
+				footerVisible: 'Show Bottom',
+				crumbVisible: 'Crumb',
+				crumbIconVisible: 'Crumb Icon',
+				multipleTabsVisible: 'Multiple Tabs',
+				pageAnimate: 'Switch Animation',
+				pageAnimateMode: 'Animation Type',
+				animate_fade: 'Fade Away',
+				animate_fadeSlide: 'Slide',
+				animate_fadeBottom: 'Bottom Fade',
+				animate_fadeScale: 'Resizing Fade Away',
+				animate_zoomFade: 'Gradual Change',
+				animate_zoomOut: 'Flash',
+				reset: 'Reset The Current Configuration'
+			}
 		}
 	}
 }

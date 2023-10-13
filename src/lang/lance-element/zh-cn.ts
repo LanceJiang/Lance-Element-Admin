@@ -106,8 +106,44 @@ export default {
 			txt: '消息',
 			addSuccess: '添加成功',
 			editSuccess: '编辑成功',
+			resetSuccess: '重置成功',
 			CopiedSuccessfully: '复制成功!',
 			CopyFailure: '复制失败'
+		},
+		layout: {
+			setting: {
+				title: '主题配置',
+				// 主题模式
+				themeModeTitle: '主题模式',
+				themeColor: '主题颜色',
+				themeDark: '暗黑主题',
+				themeGray: '灰色模式',
+				themeWeak: '色弱模式',
+				sideDark: '侧边栏深色',
+				headDark: '头部深色',
+				footDark: '头部深色',
+				// 布局模式
+				layoutMode: '布局模式',
+				layoutLeftMenuMode: '左侧菜单模式',
+				layoutLeftMenuBlendingMode: '左侧菜单混合模式',
+				layoutTopMenuMode: '顶部菜单模式',
+				layoutTopMenuBlendingMode: '顶部菜单混合模式',
+				// 界面功能
+				pageFunctions: '界面功能',
+				footerVisible: '显示底部',
+				crumbVisible: '面包屑',
+				crumbIconVisible: '面包屑图标',
+				multipleTabsVisible: '多页签',
+				pageAnimate: '页面切换动画',
+				pageAnimateMode: '页面切换动画类型',
+				animate_fade: '消退',
+				animate_fadeSlide: '滑动',
+				animate_fadeBottom: '底部消退',
+				animate_fadeScale: '缩放消退',
+				animate_zoomFade: '渐变',
+				animate_zoomOut: '闪现',
+				reset: '重置当前配置'
+			}
 		}
 	}
 }

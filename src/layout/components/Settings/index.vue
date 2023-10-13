@@ -1,44 +1,44 @@
 <template>
-	<div class="drawer-container">
-		<h3 class="drawer-title">主题配置</h3>
+	<div class="drawer-wrap">
+		<h3 class="drawer-title">{{ $t('le.layout.setting.title') }}</h3>
 		<el-scrollbar class="drawer-content">
 			<el-divider class="local-divider">
-				<el-icon><Operation /></el-icon>主题模式
+				<el-icon><SetUp /></el-icon>{{ $t('le.layout.setting.themeModeTitle') }}
 			</el-divider>
 			<div class="drawer-item">
-				<span>主题颜色</span>
+				<span>{{ $t('le.layout.setting.themeModeTitle') }}</span>
 				<theme-picker @change="themeChange" />
 			</div>
 			<div class="drawer-item" @click.stop="">
-				<span>暗黑主题</span>
+				<span>{{ $t('le.layout.setting.themeDark') }}</span>
 				<el-switch v-model="isDark" inline-prompt active-icon="Sunny" inactive-icon="Moon" @change="switchDark" />
 			</div>
 			<div class="drawer-item" @click.stop="">
-				<span>灰色模式</span>
+				<span>{{ $t('le.layout.setting.themeGray') }}</span>
 				<el-switch v-model="isGrey" inline-prompt @change="changeGreyOrWeak('grey', $event)" />
 			</div>
 			<div class="drawer-item" @click.stop="">
-				<span>色弱模式</span>
+				<span>{{ $t('le.layout.setting.themeWeak') }}</span>
 				<el-switch v-model="isWeak" inline-prompt @change="changeGreyOrWeak('weak', $event)" />
 			</div>
 			<div class="drawer-item">
-				<span>侧边栏深色</span>
+				<span>{{ $t('le.layout.setting.sideDark') }}</span>
 				<el-switch v-model="asideInverted" @change="setAsideTheme" />
 			</div>
 			<div class="drawer-item">
-				<span>头部深色</span>
+				<span>{{ $t('le.layout.setting.headDark') }}</span>
 				<el-switch v-model="headerInverted" @change="setHeaderTheme" />
 			</div>
 			<div v-show="footer" class="drawer-item">
-				<span>底部深色</span>
+				<span>{{ $t('le.layout.setting.footDark') }}</span>
 				<el-switch v-model="footerInverted" @change="setFooterTheme" />
 			</div>
 
 			<el-divider class="local-divider">
-				<el-icon><Menu /></el-icon>布局模式
+				<el-icon><Menu /></el-icon>{{ $t('le.layout.setting.layoutMode') }}
 			</el-divider>
 			<div class="layout-box">
-				<el-tooltip effect="dark" content="左侧菜单模式" placement="top" :show-after="200">
+				<el-tooltip effect="dark" :content="$t('le.layout.setting.layoutLeftMenuMode')" placement="top" :show-after="200">
 					<div :class="['layout-item layout-left', { 'is-active': layout == 'left' }]" @click="setLayout('left')">
 						<div class="layout-light"></div>
 						<div class="layout-container">
@@ -50,7 +50,7 @@
 						</el-icon>
 					</div>
 				</el-tooltip>
-				<el-tooltip effect="dark" content="左侧菜单混合模式" placement="top" :show-after="200">
+				<el-tooltip effect="dark" :content="$t('le.layout.setting.layoutLeftMenuBlendingMode')" placement="top" :show-after="200">
 					<div :class="['layout-item layout-leftMix', { 'is-active': layout == 'leftMix' }]" @click="setLayout('leftMix')">
 						<div class="layout-light"></div>
 						<div class="layout-light light-2"></div>
@@ -63,7 +63,7 @@
 						</el-icon>
 					</div>
 				</el-tooltip>
-				<el-tooltip effect="dark" content="顶部菜单模式" placement="top" :show-after="200">
+				<el-tooltip effect="dark" :content="$t('le.layout.setting.layoutTopMenuMode')" placement="top" :show-after="200">
 					<div :class="['layout-item layout-top', { 'is-active': layout == 'top' }]" @click="setLayout('top')">
 						<div class="layout-dark"></div>
 						<div class="layout-content"></div>
@@ -72,7 +72,7 @@
 						</el-icon>
 					</div>
 				</el-tooltip>
-				<el-tooltip effect="dark" content="顶部菜单混合模式" placement="top" :show-after="200">
+				<el-tooltip effect="dark" :content="$t('le.layout.setting.layoutTopMenuBlendingMode')" placement="top" :show-after="200">
 					<div :class="['layout-item layout-topMix', { 'is-active': layout == 'topMix' }]" @click="setLayout('topMix')">
 						<div class="layout-dark"></div>
 						<div class="layout-container">
@@ -87,51 +87,50 @@
 			</div>
 
 			<el-divider class="local-divider">
-				<el-icon><Operation /></el-icon>界面功能
+				<el-icon><Operation /></el-icon>{{ $t('le.layout.setting.pageFunctions') }}
 			</el-divider>
 			<div class="drawer-item">
-				<span>显示底部</span>
+				<span>{{ $t('le.layout.setting.footerVisible') }}</span>
 				<el-switch v-model="footer" />
 			</div>
 			<div class="drawer-item">
-				<span>面包屑</span>
+				<span>{{ $t('le.layout.setting.crumbVisible') }}</span>
 				<el-switch v-model="breadcrumb" />
 			</div>
 			<div v-show="breadcrumb" class="drawer-item">
-				<span>面包屑图标</span>
+				<span>{{ $t('le.layout.setting.crumbIconVisible') }}</span>
 				<el-switch v-model="breadcrumbIcon" />
 			</div>
 
 			<div class="drawer-item">
-				<span>多页签</span>
+				<span>{{ $t('le.layout.setting.multipleTabsVisible') }}</span>
 				<el-switch v-model="tagsView" />
 			</div>
 
 			<div class="drawer-item">
-				<span>页面切换动画</span>
+				<span>{{ $t('le.layout.setting.pageAnimate') }}</span>
 				<el-switch v-model="animate" />
 			</div>
 
 			<div class="drawer-item">
-				<span>页面切换动画类型</span>
+				<span>{{ $t('le.layout.setting.pageAnimateMode') }}</span>
 				<el-select v-model="animateMode" style="width: 100px">
-					<el-option v-for="v of animateList" :key="v.value" :value="v.value" :label="v.label" />
+					<el-option v-for="v of animateList" :key="v.value" :value="v.value" :label="$t(v.label)" />
 				</el-select>
 			</div>
 
 			<el-divider class="local-divider">
-				<el-icon><Operation /></el-icon>主题配置
+				<el-icon><Setting /></el-icon>{{ $t('le.layout.setting.title') }}
 			</el-divider>
 
 			<div class="drawer-item">
-				<el-button type="warning" style="width: 100%" @click="resetTheme"> 重置当前配置 </el-button>
+				<el-button type="warning" style="width: 100%" @click="handle_resetTheme"> {{ $t('le.layout.setting.reset') }} </el-button>
 			</div>
 		</el-scrollbar>
 	</div>
 </template>
 
 <script setup lang="ts">
-// import { reactive, toRefs, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { LayoutType } from '@/store/interface'
 import ThemePicker from '@/components/ThemePicker/index.vue'
@@ -139,38 +138,41 @@ import ThemePicker from '@/components/ThemePicker/index.vue'
 import { useTheme } from '@/hooks/useTheme'
 
 import useStore from '@/store'
+import { ElMessage } from 'element-plus'
 
-const { setting } = useStore()
-const { switchDark, changeGreyOrWeak, setAsideTheme, setHeaderTheme, setFooterTheme, resetTheme } = useTheme()
 // const isDark = useDark()
 // const toggleDark = () => useToggle(isDark)
+const { setting } = useStore()
+const { switchDark, changeGreyOrWeak, setAsideTheme, setHeaderTheme, setFooterTheme, resetTheme } = useTheme()
+const handle_resetTheme = () => {
+	resetTheme()
+	ElMessage.success('le.message.resetSuccess')
+}
 
-// const state = reactive({
-// 	tagsView: setting.tagsView,
-// })
+const prefix = 'le.layout.setting.'
 const animateList = [
 	{
-		label: '消退',
+		label: `${prefix}animate_fade`,
 		value: 'fade'
 	},
 	{
-		label: '滑动',
+		label: `${prefix}animate_fadeSlide`,
 		value: 'fade-slide'
 	},
 	{
-		label: '底部消退',
+		label: `${prefix}animate_fadeBottom`,
 		value: 'fade-bottom'
 	},
 	{
-		label: '缩放消退',
+		label: `${prefix}animate_fadeScale`,
 		value: 'fade-scale'
 	},
 	{
-		label: '渐变',
+		label: `${prefix}animate_zoomFade`,
 		value: 'zoom-fade'
 	},
 	{
-		label: '闪现',
+		label: `${prefix}animate_zoomOut`,
 		value: 'zoom-out'
 	}
 ]
@@ -206,12 +208,11 @@ const setLayout = (val: LayoutType) => {
 // 		setting.changeSetting('tagsView', value)
 // 	}
 // )
-
 </script>
 
 <style lang="scss" scoped>
 $header_height: 55px;
-.drawer-container {
+.drawer-wrap {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -242,6 +243,9 @@ $header_height: 55px;
 			position: relative;
 			top: 2px;
 			right: 5px;
+		}
+		:deep(.el-divider__text) {
+			width: max-content;
 		}
 	}
 
