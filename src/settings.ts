@@ -1,5 +1,5 @@
 import { SettingState } from '@/types'
-
+import { name } from '@/../package.json'
 export const defaultSettingState: SettingState = {
 	showSettings: true,
 	/** 主题模式 */
@@ -43,7 +43,7 @@ export const defaultSettingState: SettingState = {
 	accordion: true
 }
 const defaultSettings = {
-	title: 'vue3_admin',
+	title: name,
 
 	...defaultSettingState
 }
