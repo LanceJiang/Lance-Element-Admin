@@ -17,9 +17,6 @@
 						:index="subItem.path + 'el-sub-menu'"
 					>
 						<template #title>
-							<!--							<el-icon>
-								<component :is="subItem.meta.icon"></component>
-							</el-icon>-->
 							<PickerIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
 							<span>{{ generateTitle(subItem.meta?.title) }}</span>
 						</template>

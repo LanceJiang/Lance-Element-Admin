@@ -103,8 +103,20 @@
 			</div>
 
 			<div class="drawer-item">
-				<span>{{ $t('le.layout.setting.multipleTabsVisible') }}</span>
-				<el-switch v-model="tagsView" />
+				<span>{{ $t('le.layout.setting.tabsVisible') }}</span>
+				<el-switch v-model="tabsVisible" />
+			</div>
+
+			<div v-show="tabsVisible" class="drawer-item">
+				<span>{{ $t('le.layout.setting.tabsIcon') }}</span>
+				<el-switch v-model="tabsIcon" />
+			</div>
+
+			<div v-show="tabsVisible" class="drawer-item">
+				<span>{{ $t('le.layout.setting.tabsMode') }}</span>
+				<el-select v-model="tabsMode" style="width: 130px">
+					<el-option v-for="v of tabsModeList" :key="v.value" :value="v.value" :label="$t(v.label)" />
+				</el-select>
 			</div>
 
 			<div class="drawer-item">
@@ -176,6 +188,20 @@ const animateList = [
 		value: 'zoom-out'
 	}
 ]
+const tabsModeList = [
+	{
+		label: `${prefix}tabsMode_chrome`,
+		value: 'chrome'
+	},
+	{
+		label: `${prefix}tabsMode_card`,
+		value: 'card'
+	},
+	{
+		label: `${prefix}tabsMode_rectangle`,
+		value: 'rectangle'
+	}
+]
 const {
 	isDark,
 	isGrey,
@@ -187,7 +213,9 @@ const {
 	footer,
 	breadcrumb,
 	breadcrumbIcon,
-	tagsView,
+	tabsVisible,
+	tabsIcon,
+	tabsMode,
 	animate,
 	animateMode
 } = storeToRefs(setting)
@@ -203,9 +231,9 @@ const setLayout = (val: LayoutType) => {
 }
 
 // watch(
-// 	() => state.tagsView,
+// 	() => state.tabsVisible,
 // 	value => {
-// 		setting.changeSetting('tagsView', value)
+// 		setting.changeSetting('tabsVisible', value)
 // 	}
 // )
 </script>

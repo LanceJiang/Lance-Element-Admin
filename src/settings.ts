@@ -33,8 +33,12 @@ export const defaultSettingState: SettingState = {
 	animateMode: 'fade-slide',
 	// 折叠菜单
 	isCollapse: false,
-	// 标签展示
-	tagsView: true,
+	// 多页签展示
+	tabsVisible: true,
+	// 多页签Icon
+	tabsIcon: true,
+	// 多页签风格
+	tabsMode: 'rectangle',
 	/*// todo???
 	fixedHeader: true,
 	// 是否显示Logo

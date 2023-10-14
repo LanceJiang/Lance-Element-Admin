@@ -9,7 +9,16 @@ const useTagsViewStore = defineStore({
 	}),
 	actions: {
 		addVisitedView(view: any) {
-			if (this.visitedViews.some(v => v.path === view.path)) return
+			const idx = this.visitedViews.findIndex(v => v.path === view.path)
+			if (idx !== -1) {
+				return this.visitedViews.splice(
+					idx,
+					1,
+					Object.assign({}, view, {
+						title: view.meta?.title || 'no-name'
+					})
+				)
+			}
 			this.visitedViews.push(
 				Object.assign({}, view, {
 					title: view.meta?.title || 'no-name'
@@ -70,6 +79,14 @@ const useTagsViewStore = defineStore({
 					break
 				}
 			}
+		},
+		setViews(tabsList: any[]) {
+			this.visitedViews = tabsList
+			/*this.cachedViews = tabsList
+				.filter(v => {
+					return !v.meta.noCache
+				})
+				.map(v => v.name)*/
 		},
 		addView(view: any) {
 			this.addVisitedView(view)

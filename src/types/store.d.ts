@@ -48,7 +48,11 @@ export interface SettingState {
 	// 底部深色
 	footerInverted: boolean
 	// 多页签
-	tagsView: boolean
+	tabsVisible: boolean
+	// 多页签Icon
+	tabsIcon: boolean
+	// 多页签风格
+	tabsMode: string
 	// // 固定 Header
 	// fixedHeader: boolean
 	// // 侧边栏 Logo
@@ -74,10 +78,13 @@ export interface SettingState {
 	animateMode: 'fade' | 'fade-slide' | 'fade-bottom' | 'fade-scale' | 'zoom-fade' | 'zoom-out'
 }
 /**
- * 标签状态类型声明
+ * 多页签状态类型声明
  */
 export interface TagView extends Partial<RouteLocationNormalized> {
 	title?: string
+	meta?: {
+		[key: string]: any
+	}
 }
 
 export interface TagsViewState {
