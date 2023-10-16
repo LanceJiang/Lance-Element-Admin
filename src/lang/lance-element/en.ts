@@ -73,7 +73,14 @@ export default {
 		tabs: {
 			tab: 'Tab',
 			all: 'All',
-			tabSetting: 'Tab Setting'
+			tabSetting: 'Tab Setting',
+			opts: {
+				contentMax: 'Maximize Content',
+				closeOther: 'Close Other',
+				closeLeft: 'Close Left',
+				closeRight: 'Close Right',
+				closeAll: 'Close All'
+			}
 		},
 		columnsPop: {
 			title: 'Select option to display on the table',

@@ -72,7 +72,14 @@ export default {
 		tabs: {
 			tab: '标签',
 			all: '全部',
-			tabSetting: '标签设置'
+			tabSetting: '标签设置',
+			opts: {
+				contentMax: '内容最大化',
+				closeOther: '关闭其它',
+				closeLeft: '关闭左侧',
+				closeRight: '关闭右侧',
+				closeAll: '关闭全部'
+			}
 		},
 		columnsPop: {
 			title: '选择需要在列表展示的列',

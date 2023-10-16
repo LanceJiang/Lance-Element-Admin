@@ -15,29 +15,28 @@
 			<ul v-show="dropVisible" ref="dropdownMenu" :style="`left: ${dropLeft}px; top: ${dropTop}px`" class="local-contextmenu el-dropdown-menu">
 				<li class="el-dropdown-menu__item" @click="contentMaximizeChange">
 					<le-icon icon-class="icon-fullscreen"></le-icon>
-					<span>内容最大化</span>
-<!--					Maximize content-->
+					<span>{{ $t('le.tabs.opts.contentMax') }}</span>
 				</li>
 				<li class="el-dropdown-menu__item" @click="refreshSelectedTag(selectedTag)">
 					<le-icon icon-class="icon-refresh"></le-icon>
-					<span>刷新</span>
+					<span>{{ $t('le.refresh') }}</span>
 				</li>
 				<li role="separator" class="el-dropdown-menu__item--divided"></li>
 				<li class="el-dropdown-menu__item" @click="closeOtherTags">
 					<le-icon icon-class="icon-close_other" style="transform: rotate(90deg)"></le-icon>
-					<span>关闭其它</span>
+					<span>{{ $t('le.tabs.opts.closeOther') }}</span>
 				</li>
 				<li v-if="!isFirstView" class="el-dropdown-menu__item" @click="closeSideTags('left')">
 					<le-icon icon-class="icon-close_left"></le-icon>
-					<span>关闭左侧</span>
+					<span>{{ $t('le.tabs.opts.closeOther') }}</span>
 				</li>
 				<li v-if="!isLastView" class="el-dropdown-menu__item" @click="closeSideTags('right')">
 					<le-icon icon-class="icon-close_right"></le-icon>
-					<span>关闭右侧</span>
+					<span>{{ $t('le.tabs.opts.closeRight') }}</span>
 				</li>
 				<li class="el-dropdown-menu__item" @click="closeAllTags">
 					<le-icon icon-class="icon-close_all"></le-icon>
-					<span>关闭全部</span>
+					<span>{{ $t('le.tabs.opts.closeAll') }}</span>
 				</li>
 			</ul>
 
@@ -50,27 +49,27 @@
 					<el-dropdown-menu>
 						<el-dropdown-item @click="contentMaximizeChange">
 							<le-icon icon-class="icon-fullscreen"></le-icon>
-							<span>最大化</span>
+							<span>{{ $t('le.tabs.opts.contentMax') }}</span>
 						</el-dropdown-item>
 						<el-dropdown-item @click="refreshSelectedTag(selectedTag)">
 							<le-icon icon-class="icon-refresh"></le-icon>
-							<span>刷新</span>
+							<span>{{ $t('le.refresh') }}</span>
 						</el-dropdown-item>
 						<el-dropdown-item divided @click="closeOtherTags">
 							<le-icon icon-class="icon-close_other" style="transform: rotate(90deg)"></le-icon>
-							<span>关闭其它</span>
+							<span>{{ $t('le.tabs.opts.closeOther') }}</span>
 						</el-dropdown-item>
 						<el-dropdown-item v-if="!isFirstView" @click="closeSideTags('left')">
 							<le-icon icon-class="icon-close_left"></le-icon>
-							<span>关闭左侧</span>
+							<span>{{ $t('le.tabs.opts.closeOther') }}</span>
 						</el-dropdown-item>
 						<el-dropdown-item v-if="!isLastView" @click="closeSideTags('right')">
 							<le-icon icon-class="icon-close_right"></le-icon>
-							<span>关闭右侧</span>
+							<span>{{ $t('le.tabs.opts.closeRight') }}</span>
 						</el-dropdown-item>
 						<el-dropdown-item @click="closeAllTags">
 							<le-icon icon-class="icon-close_all"></le-icon>
-							<span>关闭全部</span>
+							<span>{{ $t('le.tabs.opts.closeAll') }}</span>
 						</el-dropdown-item>
 					</el-dropdown-menu>
 				</template>
