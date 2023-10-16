@@ -1,8 +1,8 @@
 @import "../layout_common";
-.layout-wrap--top {
+.#{$prefix}layout-wrap--top {
   width: 100%;
   height: 100%;
-  .el-header {
+	.#{$prefix}layout-header {
     box-sizing: border-box;
     display: flex;
     align-items: center;

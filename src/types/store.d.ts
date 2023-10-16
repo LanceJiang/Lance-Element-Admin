@@ -1,5 +1,5 @@
 import { /*RouteRecordRaw,*/ RouteLocationNormalized } from 'vue-router'
-import { AppRouteRecordRaw } from '@/router/types'
+// import { AppRouteRecordRaw } from '@/router/types'
 
 /**
  * 用户状态类型声明
@@ -18,7 +18,7 @@ export interface AppState {
  * 权限类型声明
  */
 export interface PermissionState {
-	menuList: AppRouteRecordRaw[]
+	menuList: RouteMenu.Item[]
 }
 
 /**
@@ -53,6 +53,8 @@ export interface SettingState {
 	tabsIcon: boolean
 	// 多页签风格
 	tabsMode: string
+	// 页面内容全屏
+	contentMaximize: boolean
 	// // 固定 Header
 	// fixedHeader: boolean
 	// // 侧边栏 Logo

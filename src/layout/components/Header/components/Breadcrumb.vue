@@ -25,7 +25,7 @@ import useStore from '@/store'
 // import router from '@/router'
 import { generateTitle } from '@/utils/i18n'
 import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
-
+// import { AppRouteRecordRaw } from '@/router/types'
 const route = useRoute()
 const router = useRouter()
 // const authStore = useAuthStore()
@@ -78,7 +78,7 @@ onBeforeMount(() => {
 })
 
 // Click Breadcrumb
-const onBreadcrumbClick = (item: Menu.MenuOptions, index: number) => {
+const onBreadcrumbClick = (item: RouteMenu.Item, index: number) => {
 	if (item.redirect === 'noredirect' || index !== breadcrumbs.value.length - 1) router.push(item.path)
 	// if (item.redirect === 'noredirect' || index !== breadcrumbList.value.length - 1) router.push(item.path)
 }

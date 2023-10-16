@@ -28,10 +28,10 @@ import { generateTitle } from '@/utils/i18n'
 import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import { isExternal } from '@/utils/validate'
 
-defineProps<{ menuList: Menu.MenuOptions[] }>()
+defineProps<{ menuList: RouteMenu.Item[] }>()
 
 const router = useRouter()
-const handleClickMenu = (subItem: Menu.MenuOptions) => {
+const handleClickMenu = (subItem: RouteMenu.Item) => {
 	if (isExternal(subItem.path)) return window.open(subItem.path, '_blank')
 	router.push(subItem.path)
 	// router.push({ name: subItem.name })

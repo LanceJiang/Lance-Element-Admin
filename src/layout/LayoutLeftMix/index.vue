@@ -1,9 +1,8 @@
 <!-- 左侧菜单混合模式:leftMix -->
 <template>
-	<el-container class="layout-wrap--topMix">
-		<div class="aside-split">
+	<el-container class="le-layout-wrap--leftMix">
+		<div class="le-layout-aside-split">
 			<div class="logo">
-				<!--				<img class="logo-img" src="@/assets/images/logo.svg" alt="logo" />-->
 				<!--          <SvgIcon class="logo-img sidebar-logo" icon-class="logo" />-->
 				<img class="logo-img" src="@/assets/icons/logo.svg" alt="logo" />
 			</div>
@@ -22,18 +21,25 @@
 				</div>
 			</el-scrollbar>
 		</div>
-		<el-aside :class="{ 'not-aside': !subMenuList.length }" :style="{ width: isCollapse ? '65px' : '210px' }">
+		<el-aside class="le-layout-aside" :class="{ 'not-aside': !subMenuList.length }" :style="{ width: isCollapse ? '65px' : '210px' }">
 			<div class="logo">
 				<span v-show="subMenuList.length" class="text-overflow_ellipsis logo-text" :title="title">{{ title }}</span>
 			</div>
 			<el-scrollbar>
-				<el-menu class="layout-menu-wrap" :router="false" :default-active="activeMenu" :collapse="isCollapse" :unique-opened="accordion" :collapse-transition="false">
+				<el-menu
+					class="layout-menu-wrap"
+					:router="false"
+					:default-active="activeMenu"
+					:collapse="isCollapse"
+					:unique-opened="accordion"
+					:collapse-transition="false"
+				>
 					<SubMenu :menu-list="subMenuList" />
 				</el-menu>
 			</el-scrollbar>
 		</el-aside>
 		<el-container>
-			<el-header>
+			<el-header class="le-layout-header">
 				<ToolBarLeft />
 				<ToolBarRight />
 			</el-header>
@@ -52,6 +58,8 @@ import SubMenu from '@/layout/components/Menu/SubMenu.vue'
 import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import useStore from '@/store'
 import { generateTitle } from '@/utils/i18n'
+import { isExternal } from '@/utils/validate'
+// import { AppRouteRecordRaw } from '@/router/types'
 const title = import.meta.env.VITE_APP_TITLE
 
 const route = useRoute()
@@ -62,7 +70,7 @@ const isCollapse = computed(() => setting.isCollapse)
 const menuList = computed(() => permission.showMenuList)
 const activeMenu = computed(() => (route.meta?.activeMenu ? route.meta.activeMenu : route.path) as string)
 
-const subMenuList = ref<Menu.MenuOptions[]>([])
+const subMenuList = ref<RouteMenu.Item[]>([])
 const splitActive = ref('')
 watch(
 	() => [menuList, route],
@@ -70,7 +78,7 @@ watch(
 		// 当前菜单没有数据直接 return
 		if (!menuList.value.length) return
 		splitActive.value = route.path
-		const menuItem = menuList.value.filter((item: Menu.MenuOptions) => {
+		const menuItem = menuList.value.filter((item: RouteMenu.Item) => {
 			return route.path === item.path || `/${route.path.split('/')[1]}` === item.path
 			// const pathArr = route.path.split('/')
 			// const childPath = pathArr.length > 1 ? `/${pathArr[1]}` : pathArr[0]
@@ -86,10 +94,11 @@ watch(
 )
 
 // change SubMenu
-const changeSubMenu = (item: Menu.MenuOptions) => {
+const changeSubMenu = (item: RouteMenu.Item) => {
 	splitActive.value = item.path
 	if (item.children?.length) return (subMenuList.value = item.children)
 	subMenuList.value = []
+	if (isExternal(item.path)) return window.open(item.path, '_blank')
 	router.push(item.path)
 }
 </script>

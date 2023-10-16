@@ -39,6 +39,8 @@ export const defaultSettingState: SettingState = {
 	tabsIcon: true,
 	// 多页签风格
 	tabsMode: 'rectangle',
+	// 页面内容全屏
+	contentMaximize: false,
 	/*// todo???
 	fixedHeader: true,
 	// 是否显示Logo

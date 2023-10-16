@@ -1,7 +1,7 @@
 <!-- 顶部菜单模式:top -->
 <template>
-	<el-container class="layout-wrap--top">
-		<el-header>
+	<el-container class="le-layout-wrap--top">
+		<el-header class="le-layout-header">
 			<div class="logo">
 				<!--          <SvgIcon class="logo-img sidebar-logo" icon-class="logo" />-->
 				<img class="logo-img" src="@/assets/icons/logo.svg" alt="logo" />
@@ -52,15 +52,16 @@ import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import useStore from '@/store'
 import { generateTitle } from '@/utils/i18n'
 import { isExternal } from '@/utils/validate.ts'
+// import { AppRouteRecordRaw } from '@/router/types'
 
 const title = import.meta.env.VITE_APP_TITLE
 const { permission, setting, app } = useStore()
 const route = useRoute()
 const router = useRouter()
 const menuList = computed(() => permission.showMenuList)
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string)
+const activeMenu = computed(() => (route.meta?.activeMenu ? route.meta.activeMenu : route.path) as string)
 
-const handleClickMenu = (subItem: Menu.MenuOptions) => {
+const handleClickMenu = (subItem: RouteMenu.Item) => {
 	if (isExternal(subItem.path)) return window.open(subItem.path, '_blank')
 	router.push(subItem.path)
 }

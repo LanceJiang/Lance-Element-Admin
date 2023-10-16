@@ -112,6 +112,30 @@ const useTagsViewStore = defineStore({
 				})
 			})
 		},
+		closeSideTags(view: any, side: 'left' | 'right' = 'left') {
+			return new Promise(resolve => {
+				const currIndex = this.visitedViews.findIndex(v => v.path === view.path)
+				if (currIndex === -1) {
+					return
+				}
+				const [leftI, rightI] = side === 'left' ? [0, currIndex] : [currIndex + 1, this.visitedViews.length]
+				this.visitedViews = this.visitedViews.filter((item, index) => {
+					// affix:true 固定tag，例如“首页”
+					if (index < leftI || index >= rightI || (item.meta && item.meta.affix)) {
+						return true
+					}
+
+					const cacheIndex = this.cachedViews.indexOf(item.name as string)
+					if (cacheIndex > -1) {
+						this.cachedViews.splice(cacheIndex, 1)
+					}
+					return false
+				})
+				resolve({
+					visitedViews: [...this.visitedViews]
+				})
+			})
+		},
 		delLeftViews(view: any) {
 			return new Promise(resolve => {
 				const currIndex = this.visitedViews.findIndex(v => v.path === view.path)

@@ -1,7 +1,7 @@
 <!-- 顶部菜单混合模式:topMix -->
 <template>
-	<el-container class="layout-wrap--topMix">
-		<el-header>
+	<el-container class="le-layout-wrap--topMix">
+		<el-header class="le-layout-header">
 			<div class="header-lf mask-image">
 				<div class="logo">
 					<!--          <SvgIcon class="logo-img sidebar-logo" icon-class="logo" />-->
@@ -13,9 +13,16 @@
 			<ToolBarRight class="header-ri" />
 		</el-header>
 		<el-container class="topMix-content">
-			<el-aside class="aside-box" :style="{ width: isCollapse ? '65px' : '210px' }">
+			<el-aside class="le-layout-aside" :style="{ width: isCollapse ? '65px' : '210px' }">
 				<el-scrollbar>
-					<el-menu class="layout-menu-wrap" :router="false" :default-active="activeMenu" :collapse="isCollapse" :unique-opened="accordion" :collapse-transition="false">
+					<el-menu
+						class="layout-menu-wrap"
+						:router="false"
+						:default-active="activeMenu"
+						:collapse="isCollapse"
+						:unique-opened="accordion"
+						:collapse-transition="false"
+					>
 						<SubMenu :menu-list="menuList" />
 					</el-menu>
 				</el-scrollbar>

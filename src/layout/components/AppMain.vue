@@ -1,6 +1,7 @@
 <template>
 	<section class="app-main">
-		<TagsView v-show="needTagsView" />
+		<MaximizeQuit v-show="setting.contentMaximize" />
+		<Tabs v-show="tabsVisible" />
 		<router-view v-slot="{ Component, route }">
 			<transition :name="pageAnimateMode" mode="out-in">
 				<keep-alive :include="cachedViews">
@@ -8,21 +9,33 @@
 				</keep-alive>
 			</transition>
 		</router-view>
-		<div class="layout-footer" v-show="setting.footer">
+		<div v-show="setting.footer" class="le-layout-footer">
 			<Footer />
 		</div>
 	</section>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import useStore from '@/store'
 import Footer from '@/layout/components/Footer/index.vue'
-import TagsView from '@/layout/components/TagsView/index.vue'
+import Tabs from '@/layout/components/Tabs/index.vue'
+import MaximizeQuit from './MaximizeQuit.vue'
 const { tagsView, setting } = useStore()
-const needTagsView = computed(() => setting.tagsView)
+const tabsVisible = computed(() => setting.tabsVisible)
 const cachedViews = computed(() => tagsView.cachedViews)
-const pageAnimateMode = computed(() => setting.animate ? setting.animateMode : undefined)
+const pageAnimateMode = computed(() => (setting.animate ? setting.animateMode : undefined))
+watch(
+	() => setting.contentMaximize,
+	() => {
+		const app = document.querySelector('#app') as HTMLElement
+		if (setting.contentMaximize) app.classList.add('le-app-maximize')
+		else app.classList.remove('le-app-maximize')
+	},
+	{
+		immediate: true
+	}
+)
 </script>
 
 <style lang="scss" scoped>
@@ -37,6 +50,7 @@ const pageAnimateMode = computed(() => setting.animate ? setting.animateMode : u
 	position: relative;
 	//z-index: 0; // 不能有
 	overflow: hidden;
+	transition: all var(--el-transition-duration);
 }
 
 .fixed-header + .app-main {

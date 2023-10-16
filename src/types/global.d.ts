@@ -1,26 +1,12 @@
-/* Menu */
-declare namespace Menu {
-	interface MenuOptions {
-		path: string
-		name: string
+import { AppRouteRecordRaw, MetaProps } from '@/router/types'
+
+/* RouteMenu */
+declare namespace RouteMenu {
+	interface Item extends AppRouteRecordRaw {
 		component?: string | (() => Promise<unknown>)
-		redirect?: string
-		meta: MetaProps
-		children?: MenuOptions[]
 	}
-	interface MetaProps {
-		// 关于icon 描述：
-		// 1.来自本地src/assets/icons 的svg: 'icon-[dir]-[name]'
-		// 2.le-iconfont svg 链接: 'le-[name]'
-		// 3. 匹配不到icon- & le- 默认element
-		icon: string
-		title: string
-		activeMenu?: string
-		// isLink?: string
-		hidden: boolean
-		// isFull: boolean
-		// isAffix: boolean
-		// isKeepAlive: boolean
+	interface Meta extends MetaProps {
+		test?: any
 	}
 }
 

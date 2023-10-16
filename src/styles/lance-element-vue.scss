@@ -125,4 +125,18 @@
 }
 
 .#{$prefix}test {}
+// 页面内容全屏样式限制
+.#{$prefix}app-maximize {
+	.#{$prefix}layout-aside-split, // leftMix
+	.#{$prefix}layout-aside,
+	.#{$prefix}layout-header,
+	.#{$prefix}layout-footer,
+	.#{$prefix}tabs-menu-wrap {
+		//display: none !important;
+		width: 0 !important;
+		height: 0 !important;
+		overflow: hidden !important;
+		opacity: 0;
+	}
+}
 /* --------引用 lance-element-ui 根据ui/产品 用于项目的默认样式 End-------- */

@@ -1,7 +1,7 @@
 <!-- 左侧菜单模式:left -->
 <template>
-	<el-container class="layout-wrap--left">
-		<el-aside>
+	<el-container class="le-layout-wrap--left">
+		<el-aside class="le-layout-aside">
 			<div class="aside-box" :style="{ width: isCollapse ? '65px' : '210px' }">
 				<div class="logo">
 					<!--          <SvgIcon class="logo-img sidebar-logo" icon-class="logo" />-->
@@ -9,14 +9,21 @@
 					<span v-show="!isCollapse" class="text-overflow_ellipsis logo-text" :title="title">{{ title }}</span>
 				</div>
 				<el-scrollbar>
-					<el-menu class="layout-menu-wrap" :router="false" :default-active="activeMenu" :collapse="isCollapse" :unique-opened="accordion" :collapse-transition="false">
+					<el-menu
+						class="layout-menu-wrap"
+						:router="false"
+						:default-active="activeMenu"
+						:collapse="isCollapse"
+						:unique-opened="accordion"
+						:collapse-transition="false"
+					>
 						<SubMenu :menu-list="menuList" />
 					</el-menu>
 				</el-scrollbar>
 			</div>
 		</el-aside>
 		<el-container>
-			<el-header>
+			<el-header class="le-layout-header">
 				<ToolBarLeft />
 				<ToolBarRight />
 			</el-header>
