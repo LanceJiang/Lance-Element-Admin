@@ -242,102 +242,136 @@ export const local_permissionsMenuList: Array<AppRouteRecordRaw> = [
 				meta: { title: '菜单管理', icon: 'PriceTag' } // element icons
 			}
 		]
-	}
-	/*,
+	},
 	{
-		path: '/menu',
-		name: 'menu',
+		path: '/menuNested',
+		name: 'menuNested',
 		component: 'Layout',
-		redirect: '/menu/menu1',
+		redirect: '/menuNested/menu1',
 		meta: {
 			icon: 'List',
 			title: '菜单嵌套'
 		},
 		children: [
 			{
-				path: '/menu/menu1',
+				path: '/menuNested/menu1',
 				name: 'menu1',
-				component: 'menu/menu1/index',
+				component: 'menuNested/menu1/index',
 				meta: {
 					icon: 'Menu',
 					title: '菜单1'
 				}
 			},
 			{
-				path: '/menu/menu2',
+				path: '/menuNested/menu2',
 				name: 'menu2',
-				redirect: '/menu/menu2/menu21',
+				redirect: '/menuNested/menu2/menu21',
 				component: '',
 				meta: {
 					icon: 'Menu',
 					title: '菜单2'
+					// parentName: 'mainLayout'
 				},
 				children: [
 					{
-						path: '/menu/menu2/menu21',
+						path: '/menuNested/menu2/menu21',
 						// path: 'menu21',
 						name: 'menu21',
-						component: 'menu/menu2/menu21/index',
+						component: 'menuNested/menu2/menu21/index',
 						meta: {
 							icon: 'Menu',
 							title: '菜单2-1'
 						}
 					},
+					...Array.from({ length: 50 }).map((_, i) => {
+						return {
+							path: '/menuNested/menu2/menu23' + i,
+							name: 'menu23_' + i,
+							component: 'menuNested/menu2/menu23/index',
+							meta: {
+								icon: 'Menu',
+								title: '菜单2-3_' + i
+							}
+						}
+					}),
 					{
-						path: '/menu/menu2/menu22',
+						path: '/menuNested/menu2/menu22',
 						// path: 'menu22',
 						name: 'menu22',
-						redirect: '/menu/menu2/menu22/menu221',
+						redirect: '/menuNested/menu2/menu22/menu221',
 						meta: {
 							icon: 'Menu',
 							title: '菜单2-2'
 						},
 						children: [
 							{
-								path: '/menu/menu2/menu22/menu221',
+								path: '/menuNested/menu2/menu22/menu221',
 								// path: 'menu221',
 								name: 'menu221',
-								component: 'menu/menu2/menu22/menu221/index',
+								component: 'menuNested/menu2/menu22/menu221/index',
 								meta: {
 									icon: 'Menu',
 									title: '菜单2-2-1'
 								}
 							},
 							{
-								path: '/menu/menu2/menu22/menu222',
+								path: '/menuNested/menu2/menu22/menu222',
 								// path: 'menu222',
 								name: 'menu222',
-								component: 'menu/menu2/menu22/menu222/index',
+								component: 'menuNested/menu2/menu22/menu222/index',
 								meta: {
 									icon: 'Menu',
 									title: '菜单2-2-2'
 								}
-							}
+							},
+							...Array.from({ length: 50 }).map((_, i) => {
+								return {
+									path: '/menuNested/menu2/menu22/menu222' + i,
+									// path: 'menu222',
+									name: 'menu222_' + i,
+									component: 'menuNested/menu2/menu22/menu222/index',
+									meta: {
+										icon: 'Menu',
+										title: '菜单2-2-2' + i
+									}
+								}
+							})
 						]
 					},
 					{
-						path: '/menu/menu2/menu23',
+						path: '/menuNested/menu2/menu23',
 						// path: 'menu23',
 						name: 'menu23',
-						component: 'menu/menu2/menu23/index',
+						component: 'menuNested/menu2/menu23/index',
 						meta: {
 							icon: 'Menu',
 							title: '菜单2-3'
 						}
-					}
+					} /*,
+					...Array.from({length: 50}).map((_, i) => {
+						return {
+							path: '/menuNested/menu2/menu23' + i,
+							name: 'menu23' + i,
+							component: 'menuNested/menu2/menu23/index',
+							meta: {
+								icon: 'Menu',
+								title: '菜单2-3' + i
+							}
+						}
+					})*/
 				]
 			},
 			{
-				path: '/menu/menu3',
+				path: '/menuNested/menu3',
 				name: 'menu3',
-				component: 'menu/menu3/index',
+				component: 'menuNested/menu3/index',
 				meta: {
 					icon: 'Menu',
 					title: '菜单3'
 				}
 			}
 		]
-	}*/
+	}
 	// todo 请添加相关新路由描述
 ]
 
