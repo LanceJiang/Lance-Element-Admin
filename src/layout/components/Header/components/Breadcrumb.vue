@@ -18,9 +18,6 @@
 import { computed, onBeforeMount, ref, watch } from 'vue'
 // import { HOME_URL } from '@/config'
 import { RouteLocationMatched, useRoute, useRouter } from 'vue-router'
-import { ArrowRight } from '@element-plus/icons-vue'
-// import { useAuthStore } from '@/stores/modules/auth'
-// import { useGlobalStore } from '@/stores/modules/global'
 import useStore from '@/store'
 // import router from '@/router'
 import { generateTitle } from '@/utils/i18n'
@@ -28,18 +25,7 @@ import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 // import { AppRouteRecordRaw } from '@/router/types'
 const route = useRoute()
 const router = useRouter()
-// const authStore = useAuthStore()
-// const globalStore = useGlobalStore()
 const { setting } = useStore()
-
-/*const breadcrumbList = computed(() => {
-	let breadcrumbData = authStore.breadcrumbListGet[route.matched[route.matched.length - 1].path] ?? []
-	// 🙅‍♀️不需要首页面包屑可删除以下判断
-	if (breadcrumbData[0].path !== HOME_URL) {
-		breadcrumbData = [{ path: HOME_URL, meta: { icon: 'HomeFilled', title: '首页' } }, ...breadcrumbData]
-	}
-	return breadcrumbData
-})*/
 const currentRoute = useRoute()
 
 const breadcrumbs = ref([] as Array<RouteLocationMatched>)
