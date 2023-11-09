@@ -37,7 +37,10 @@ export const useSettingStore = defineStore({
 			}
 		}
 	},
-	persist: true
+	// persist: true
+	persist: {
+		paths: Object.keys(defaultSettings).filter(key => key !== 'settingsVisible')
+	}
 })
 
 export default useSettingStore

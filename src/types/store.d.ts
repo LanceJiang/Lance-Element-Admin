@@ -25,8 +25,10 @@ export interface PermissionState {
  * 设置状态类型声明
  */
 export interface SettingState {
-	// 展示设置
+	// 开启主题设置
 	showSettings: boolean
+	// 主题配置Visible
+	settingsVisible: boolean
 	// 展示底部
 	footer: boolean
 	// 折叠菜单
@@ -55,10 +57,6 @@ export interface SettingState {
 	tabsMode: string
 	// 页面内容全屏
 	contentMaximize: boolean
-	// // 固定 Header
-	// fixedHeader: boolean
-	// // 侧边栏 Logo
-	// sidebarLogo: boolean
 	// 手风琴
 	accordion: boolean
 	// 面包屑

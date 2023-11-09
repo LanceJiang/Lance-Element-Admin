@@ -7,6 +7,7 @@
 			<SizeSelect />
 			<Language />
 			<Message />
+			<ThemeSetting />
 		</div>
 		<Avatar />
 	</div>
@@ -20,6 +21,7 @@ import SearchMenu from './components/SearchMenu.vue'
 import Message from './components/Message.vue'
 import Avatar from './components/Avatar.vue'
 import SwitchDarkTheme from './components/SwitchDarkTheme.vue'
+import ThemeSetting from './components/ThemeSetting.vue'
 </script>
 
 <style lang="scss">

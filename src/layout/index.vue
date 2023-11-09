@@ -1,20 +1,18 @@
 <template>
 	<component :is="LayoutComponents[layout]" />
-	<RightPanel v-if="showSettings">
-		<Settings />
-	</RightPanel>
+	<ThemeSettings v-if="showSettings" />
 </template>
 
 <script setup lang="ts" name="layout">
 import { computed, type Component } from 'vue'
 import { LayoutType } from '@/store/interface'
 import useStore from '@/store'
-import RightPanel from '@/components/RightPanel/index.vue'
+// import RightPanel from '@/components/RightPanel/index.vue'
 import LayoutLeft from './LayoutLeft/index.vue'
 import LayoutLeftMix from './LayoutLeftMix/index.vue'
 import LayoutTop from './LayoutTop/index.vue'
 import LayoutTopMix from './LayoutTopMix/index.vue'
-import { Settings } from '@/layout/components'
+import { ThemeSettings } from '@/layout/components'
 
 const LayoutComponents: Record<LayoutType, Component> = {
 	left: LayoutLeft,

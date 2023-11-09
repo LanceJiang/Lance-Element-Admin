@@ -1,7 +1,10 @@
 import { SettingState } from '@/types'
 import { name } from '@/../package.json'
 export const defaultSettingState: SettingState = {
+	// 开启主题设置
 	showSettings: true,
+	// 主题配置Visible
+	settingsVisible: false,
 	/** 主题模式 */
 	// 主题颜色
 	themeColor: '#409eff',
@@ -41,10 +44,6 @@ export const defaultSettingState: SettingState = {
 	tabsMode: 'rectangle',
 	// 页面内容全屏
 	contentMaximize: false,
-	/*// todo???
-	fixedHeader: true,
-	// 是否显示Logo
-	sidebarLogo: true,*/
 	// 手风琴
 	accordion: true
 }
