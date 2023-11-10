@@ -84,7 +84,7 @@ const chartProps = {
 	},
 	// 图表loading
 	loading: {
-		type: [Boolean, undefined],
+		type: Boolean as PropType<boolean | undefined>,
 		default: undefined
 	},
 	// 图表配置参数对象
@@ -115,7 +115,7 @@ export const ChartComponent = defineComponent({
 		// const chartRef = ref(null)
 		const elRef = ref(null)
 		const localLoading = ref(true)
-		const { width, height, option } = props
+		// const { width, height, option } = props
 		const noData = computed(() => {
 			if (props.loading) return true
 			return !props.showChart

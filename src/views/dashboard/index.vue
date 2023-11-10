@@ -7,10 +7,11 @@
 			</el-col>
 			<el-col :sm="24" :lg="8" class="card-panel__col">
 				<LeChart
-					class="local_chartWrap"
 					ref="chartRef"
+					style="background-color: #d4affe"
+					class="local_chartWrap"
 					:loading="chartLoading"
-					:showChart="showChart"
+					:show-chart="showChart"
 					:option="chartOption"
 					:height="height"
 					label_topLeft="label_topLeft"
@@ -20,7 +21,7 @@
 				/>
 			</el-col>
 			<el-col :sm="24" :lg="8" class="card-panel__col">
-				<LeChart :loading="chartLoading2" isInitOption :option="chartOption2" height="400px" />
+				<LeChart :loading="chartLoading2" is-init-option :option="chartOption2" height="400px" />
 			</el-col>
 		</el-row>
 	</div>
@@ -29,7 +30,7 @@
 <script setup name="dashboard" lang="ts">
 // 组件引用
 import BarChart from './components/Chart/BarChart.vue'
-// import LeChart from '@/components/Chart.vue'
+import { colorBase1 } from '@/components/Chart.vue'
 import { reactive, ref, toRefs } from 'vue'
 import * as echarts from 'echarts'
 
@@ -104,9 +105,8 @@ const getChartData = () => ({
 			barWidth: 20,
 			itemStyle: {
 				color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-					{ offset: 0, color: '#83bff6' },
-					{ offset: 0.5, color: '#188df0' },
-					{ offset: 1, color: '#188df0' }
+					{ offset: 0, color: colorBase1[0] },
+					{ offset: 1, color: colorBase1[1] }
 				])
 			}
 		},
@@ -117,9 +117,8 @@ const getChartData = () => ({
 			barWidth: 20,
 			itemStyle: {
 				color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-					{ offset: 0, color: '#25d73c' },
-					{ offset: 0.5, color: '#1bc23d' },
-					{ offset: 1, color: '#179e61' }
+					{ offset: 0, color: colorBase1[2] },
+					{ offset: 1, color: colorBase1[3] }
 				])
 			}
 		},
@@ -129,7 +128,45 @@ const getChartData = () => ({
 			yAxisIndex: 1,
 			data: [65, 67, 65, 53, 47, 45, 43, 42, 41],
 			itemStyle: {
-				color: '#67C23A'
+				color: new echarts.graphic.LinearGradient(1, 1, 0, 0, [
+					{
+						offset: 0,
+						color: colorBase1[0]
+					},
+					{
+						offset: 1,
+						color: colorBase1[1]
+					}
+				])
+			},
+			//区域填充样式
+			areaStyle: {
+				normal: {
+					//线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+					color: new echarts.graphic.LinearGradient(
+						0,
+						0,
+						0,
+						1,
+						[
+							{
+								offset: 0,
+								color: colorBase1[0]
+							},
+							// {
+							// 	offset: 0.5,
+							// 	color: colorBase1[2]
+							// },
+							{
+								offset: 1,
+								color: 'transparent'
+							}
+						],
+						false
+					)
+					// shadowColor: 'rgba(53,142,215, 0.9)', //阴影颜色
+					// shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+				}
 			}
 		},
 		{
@@ -138,59 +175,117 @@ const getChartData = () => ({
 			yAxisIndex: 1,
 			data: [80, 81, 78, 67, 65, 60, 56, 51, 45],
 			itemStyle: {
-				color: '#409EFF'
+				color: new echarts.graphic.LinearGradient(1, 1, 0, 0, [
+					{
+						offset: 0,
+						color: colorBase1[2]
+					},
+					{
+						offset: 1,
+						color: colorBase1[3]
+					}
+				])
 			}
 		}
 	]
 })
-const getChartData2 = () => ({
-	title: {
-		show: true,
-		text: '产品分类总览',
-		x: 'center',
-		padding: 15,
-		textStyle: {
-			fontSize: 18,
-			fontStyle: 'normal',
-			fontWeight: 'bold',
-			color: '#337ecc'
-		}
-	},
-	grid: {
-		left: '2%',
-		right: '2%',
-		bottom: '10%',
-		containLabel: true
-	},
-	legend: {
-		top: 'bottom'
-	},
-	series: [
-		{
-			name: 'Nightingale Chart',
-			type: 'pie',
-			radius: [50, 130],
-			center: ['50%', '50%'],
-			roseType: 'area',
-			itemStyle: {
-				borderRadius: 6,
-				normal: {
-					color: function (params: any) {
-						//自定义颜色
-						const colorList = ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C']
-						return colorList[params.dataIndex]
-					}
-				}
-			},
-			data: [
-				{ value: 26, name: '家用电器' },
-				{ value: 27, name: '户外运动' },
-				{ value: 24, name: '汽车用品' },
-				{ value: 23, name: '手机数码' }
-			]
-		}
+const getChartData2 = () => {
+	const data = [
+		{ value: 26, name: '家用电器' },
+		{ value: 27, name: '户外运动' },
+		{ value: 24, name: '汽车用品' },
+		{ value: 23, name: '手机数码' }
 	]
-})
+	return {
+		backgroundColor: '#f69cd8',
+		title: {
+			show: true,
+			text: '产品分类总览',
+			x: 'center',
+			padding: 15,
+			textStyle: {
+				fontSize: 18,
+				fontStyle: 'normal',
+				fontWeight: 'bold',
+				color: '#337ecc'
+			}
+		},
+		grid: {
+			left: '2%',
+			right: '2%',
+			bottom: '10%',
+			containLabel: true
+		},
+		legend: {
+			top: 'bottom',
+			data: data.map(v => ({ name: v.name }))
+		},
+		series: [
+			{
+				// name: 'Nightingale Chart',
+				type: 'pie',
+				radius: [120, 130],
+				hoverAnimation: false,
+				center: ['50%', '50%'],
+				// roseType: 'area',
+				itemStyle: {
+					borderRadius: 12,
+					normal: {
+						color: function (params: any) {
+							// //自定义颜色
+							// const colorList = ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C']
+							return colorBase1[params.dataIndex]
+						}
+					}
+				},
+				data: data
+					.map((v, i) => {
+						return [
+							{
+								...v,
+								itemStyle: {
+									normal: {
+										borderWidth: 10,
+										shadowBlur: 20,
+										// borderColor:color[i],
+										borderColor: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
+											{
+												offset: 0,
+												color: colorBase1[i + 1]
+											},
+											{
+												offset: 1,
+												color: colorBase1[i]
+											}
+										]),
+										shadowColor: colorBase1[i]
+									}
+								}
+							},
+							{
+								value: 2,
+								name: '',
+								itemStyle: {
+									normal: {
+										label: {
+											show: false
+										},
+										labelLine: {
+											show: false
+										},
+										color: 'rgba(0, 0, 0, 0)',
+										borderColor: 'rgba(0, 0, 0, 0)',
+										borderWidth: 0
+									}
+								}
+							}
+						]
+					})
+					.flat(1)
+			}
+		]
+	}
+}
 const chartRef = ref()
 window.chartRef = chartRef
 const state = reactive({
@@ -200,7 +295,7 @@ const state = reactive({
 	width: '100%',
 	height: '600px',
 	chartLoading2: false,
-	chartOption2: getChartData2(),
+	chartOption2: getChartData2()
 	/*chartOption: getChartData()*/
 })
 const { chartLoading, chartOption, width, height, showChart, chartLoading2, chartOption2 } = toRefs(state)
@@ -242,7 +337,8 @@ new Promise(resolve => {
 	overflow-y: auto;
 	padding: 24px;
 	//background-color: rgb(240, 242, 245);
-	background: var(--el-bg-color);
+	//background: var(--el-bg-color);
+	background: #f1f1fd;
 	position: relative;
 
 	.card-panel__col {

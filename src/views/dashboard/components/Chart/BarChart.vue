@@ -34,113 +34,185 @@ const { mounted, chart, beforeDestroy, activated, deactivated } = resize()
 
 function initChart() {
 	const barChart = init(document.getElementById(props.id) as HTMLDivElement)
-
+	const category = [
+		'市区',
+		'万州',
+		'江北',
+		'南岸',
+		'北碚',
+		'綦南',
+		'长寿',
+		'永川',
+		'璧山',
+		'江津',
+		'城口',
+		'大足',
+		'垫江',
+		'丰都',
+		'奉节',
+		'合川',
+		'江津区',
+		'开州',
+		'南川',
+		'彭水',
+		'黔江',
+		'石柱',
+		'铜梁',
+		'潼南',
+		'巫山',
+		'巫溪',
+		'武隆',
+		'秀山',
+		'酉阳',
+		'云阳',
+		'忠县',
+		'川东' /*,
+		'检修'*/
+	]
+	const dottedBase = []
+	const lineData = [
+		18092, 20728, 24045, 28348, 32808, 36097, 39867, 44715, 48444, 50415, 56061, 62677, 59521, 67560, 18092, 20728, 24045, 28348, 32808, 36097, 39867,
+		44715, 48444, 50415, 36097, 39867, 44715, 48444, 50415, 50061, 32677, 49521 /*, 32808*/
+	]
+	const barData = [
+		4600, 5000, 5500, 6500, 7500, 8500, 9900, 12500, 14000, 21500, 23200, 24450, 25250, 33300, 4600, 5000, 5500, 6500, 7500, 8500, 9900, 22500, 14000,
+		21500, 8500, 9900, 12500, 14000, 21500, 23200, 24450, 25250 /*, 7500*/
+	]
+	const rateData = []
+	for (let i = 0; i < 33; i++) {
+		// var date = i+2001;
+		// category.push(date)
+		const rate = barData[i] / lineData[i]
+		rateData[i] = rate.toFixed(2)
+	}
 	barChart.setOption({
 		title: {
-			show: true,
-			text: '业绩总览',
+			// text: '增量设备贯通情况-单位',
 			x: 'center',
-			padding: 15,
+			y: 0,
 			textStyle: {
-				fontSize: 18,
-				fontStyle: 'normal',
-				fontWeight: 'bold',
-				color: '#337ecc'
+				color: '#B4B4B4',
+				fontSize: 16,
+				fontWeight: 'normal'
 			}
 		},
-		grid: {
-			left: '2%',
-			right: '2%',
-			bottom: '10%',
-			containLabel: true
-		},
+		backgroundColor: '#3e4d8c',
+		// backgroundColor: '#f1f1fd',
+		// backgroundColor: '#D4AFFE',
 		tooltip: {
 			trigger: 'axis',
+			backgroundColor: 'rgba(255,255,255,0.1)',
+			textStyle: {
+				color: '#f6bd16'
+			},
 			axisPointer: {
-				type: 'cross',
-				crossStyle: {
-					color: '#999'
+				type: 'shadow',
+				label: {
+					show: true,
+					backgroundColor: '#7B7DDC'
 				}
 			}
 		},
 		legend: {
-			x: 'center',
-			y: 'bottom',
-			data: ['收入', '毛利润', '收入增长率', '利润增长率']
+			data: ['已贯通', '计划贯通', '贯通率'],
+			textStyle: {
+				color: '#B4B4B4'
+			},
+			top: '7%'
 		},
-		xAxis: [
-			{
-				type: 'category',
-				data: ['上海', '北京', '浙江', '广东', '深圳', '四川', '湖北', '安徽'],
-				axisPointer: {
-					type: 'shadow'
+		grid: {
+			x: '12%',
+			width: '82%',
+			y: '12%'
+		},
+		xAxis: {
+			data: category,
+			axisLine: {
+				lineStyle: {
+					color: '#B4B4B4'
 				}
+			},
+			axisTick: {
+				show: false
 			}
-		],
+		},
 		yAxis: [
 			{
-				type: 'value',
-				min: 0,
-				max: 10000,
-				interval: 2000,
+				splitLine: { show: false },
+				axisLine: {
+					lineStyle: {
+						color: '#B4B4B4'
+					}
+				},
+
 				axisLabel: {
 					formatter: '{value} '
 				}
 			},
 			{
-				type: 'value',
-				min: 0,
-				max: 100,
-				interval: 20,
+				splitLine: { show: false },
+				axisLine: {
+					lineStyle: {
+						color: '#B4B4B4'
+					}
+				},
 				axisLabel: {
-					formatter: '{value}%'
+					formatter: '{value} '
 				}
 			}
 		],
+
 		series: [
 			{
-				name: '收入',
-				type: 'bar',
-				data: [8000, 8200, 7000, 6200, 6500, 5500, 4500, 4200, 3800],
-				barWidth: 20,
-				itemStyle: {
-					color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-						{ offset: 0, color: '#83bff6' },
-						{ offset: 0.5, color: '#188df0' },
-						{ offset: 1, color: '#188df0' }
-					])
-				}
-			},
-			{
-				name: '毛利润',
-				type: 'bar',
-				data: [6700, 6800, 6300, 5213, 4500, 4200, 4200, 3800],
-				barWidth: 20,
-				itemStyle: {
-					color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-						{ offset: 0, color: '#25d73c' },
-						{ offset: 0.5, color: '#1bc23d' },
-						{ offset: 1, color: '#179e61' }
-					])
-				}
-			},
-			{
-				name: '收入增长率',
+				name: '贯通率',
 				type: 'line',
+				smooth: true,
+				showAllSymbol: true,
+				symbol: 'emptyCircle',
+				symbolSize: 8,
 				yAxisIndex: 1,
-				data: [65, 67, 65, 53, 47, 45, 43, 42, 41],
 				itemStyle: {
-					color: '#67C23A'
-				}
+					normal: {
+						color: '#F02FC2'
+					}
+				},
+				data: rateData
 			},
+
 			{
-				name: '利润增长率',
-				type: 'line',
-				yAxisIndex: 1,
-				data: [80, 81, 78, 67, 65, 60, 56, 51, 45],
+				name: '已贯通',
+				type: 'bar',
+				barWidth: 10,
 				itemStyle: {
-					color: '#409EFF'
-				}
+					normal: {
+						barBorderRadius: 5,
+						color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+							{ offset: 0, color: '#956FD4' },
+							{ offset: 1, color: '#3EACE5' }
+						])
+					}
+				},
+				data: barData
+			},
+
+			{
+				name: '计划贯通',
+				type: 'bar',
+				barGap: '-100%',
+				barWidth: 10,
+				itemStyle: {
+					normal: {
+						barBorderRadius: 5,
+						color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+							{ offset: 0, color: 'rgba(156,107,211,0.5)' },
+							{ offset: 0.2, color: 'rgba(156,107,211,0.3)' },
+							{ offset: 1, color: 'rgba(156,107,211,0)' }
+						])
+					}
+				},
+				z: -12,
+
+				data: lineData
 			}
 		]
 	} as EChartsOption)
