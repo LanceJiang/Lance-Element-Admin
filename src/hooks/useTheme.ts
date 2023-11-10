@@ -31,8 +31,8 @@ export const useTheme = () => {
 	const changeThemeColor = (val: string) => {
 		// 计算主题颜色变化
 		document.documentElement.style.setProperty('--el-color-primary', val)
-		// todo...
-		// document.documentElement.style.setProperty('--el-color-primary-dark-2', isDark.value ? `${getLightColor(val, 0.2)}` : `${getDarkColor(val, 0.3)}`)
+		// 颜色加深 :active 触发
+		document.documentElement.style.setProperty('--el-color-primary-dark-2', isDark.value ? `${getLightColor(val, 0.2)}` : `${getDarkColor(val, 0.3)}`)
 		for (let i = 1; i < 10; i++) {
 			const primaryColor = isDark.value ? `${getDarkColor(val, i / 10)}` : `${getLightColor(val, i / 10)}`
 			document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, primaryColor)
