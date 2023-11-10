@@ -1,18 +1,20 @@
 <template>
 	<el-color-picker
-		v-model="themeColor"
+		:model-value="themeColor"
 		:predefine="['#409EFF', '#1890ff', '#304156', '#212121', '#11a983', '#13c2c2', '#6959CD', '#f5222d']"
 		class="theme-picker"
 		popper-class="theme-picker-dropdown"
+		@update:modelValue="changeThemeColor"
 	/>
 </template>
 
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 import useStore from '@/store'
-
+import { useTheme } from '@/hooks/useTheme'
 // 参考连接:https://juejin.cn/post/7024025899813044232#heading-1
-import { ls } from '@/utils'
+// import { ls } from '@/utils'
+/*
 const mix = (color1: string, color2: string, weight: number) => {
 	weight = Math.max(Math.min(Number(weight), 1), 0)
 	const r1 = parseInt(color1.substring(1, 3), 16)
@@ -36,24 +38,24 @@ const mixBlack = '#000000'
 
 const node = document.documentElement
 
-const { setting } = useStore()
-const themeColor = computed(() => setting.themeColor)
-
 watch(themeColor, (color: string) => {
-	node.style.setProperty('--el-color-primary', color)
-	// ls.set('themeColor', color)
-
-	for (let i = 1; i < 10; i += 1) {
-		node.style.setProperty(`--el-color-primary-light-${i}`, mix(color, mixWhite, i * 0.1))
-	}
-	node.style.setProperty('--el-color-primary-dark', mix(color, mixBlack, 0.1))
-
+	// node.style.setProperty('--el-color-primary', color)
+	// // 颜色加深 :active 触发
+	// node.style.setProperty('--el-color-primary-dark-2', mix(color, mixBlack, 0.1))
+	// // ls.set('themeColor', color)
+	//
+	// for (let i = 1; i < 10; i += 1) {
+	// 	node.style.setProperty(`--el-color-primary-light-${i}`, mix(color, mixWhite, i * 0.1))
+	// }
 	// ls.set('style', node.style.cssText)
 })
+*/
+const { setting } = useStore()
+const themeColor = computed(() => setting.themeColor)
+const { changeThemeColor } = useTheme()
 </script>
 
 <style>
-.theme-message,
 .theme-picker-dropdown {
 	z-index: 99999 !important;
 }
