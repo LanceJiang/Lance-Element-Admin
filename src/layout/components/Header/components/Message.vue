@@ -4,7 +4,7 @@
 			<div class="menu--message-trigger">
 				<el-tooltip :content="$t('le.message.txt')" effect="dark" placement="bottom">
 					<div class="menu--message menu-item le-hover-effect--bg">
-						<el-badge :value="total">
+						<el-badge :value="total" :max="99">
 							<i class="le-iconfont le-notice"></i>
 						</el-badge>
 					</div>
@@ -116,5 +116,12 @@ getMessage().then(res => {
 }
 .menu--message-trigger {
 	height: 100%;
+}
+.menu--message {
+	width: 40px;
+	justify-content: center;
+	//.le-notice {
+	//.le-iconfont {
+	//}
 }
 </style>

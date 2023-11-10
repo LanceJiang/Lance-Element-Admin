@@ -15,3 +15,9 @@ const changeVisible = () => {
 	setting.settingsVisible = !setting.settingsVisible
 }
 </script>
+<style scoped lang="scss">
+.menu--theme-setting {
+	width: 40px;
+	justify-content: center;
+}
+</style>
