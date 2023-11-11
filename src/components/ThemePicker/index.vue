@@ -1,7 +1,7 @@
 <template>
 	<el-color-picker
 		:model-value="themeColor"
-		:predefine="['#409EFF', '#1890ff', '#304156', '#212121', '#11a983', '#13c2c2', '#6959CD', '#f5222d']"
+		:predefine="predefineColors"
 		class="theme-picker"
 		popper-class="theme-picker-dropdown"
 		@update:modelValue="changeThemeColor"
@@ -12,6 +12,7 @@
 import { computed, watch } from 'vue'
 import useStore from '@/store'
 import { useTheme } from '@/hooks/useTheme'
+const predefineColors = ['#409eff', '#1890ff', '#304156', '#212121', '#11a983', '#13c2c2', '#6959CD', '#f5222d', '#ff9d00']
 // 参考连接:https://juejin.cn/post/7024025899813044232#heading-1
 // import { ls } from '@/utils'
 /*
