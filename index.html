@@ -94,7 +94,7 @@
     </div>
     <script>
 			try {
-			var setting = JSON.parse(localStorage.getItem('setting'))
+			const setting = JSON.parse(localStorage.getItem('setting'))
 			if (setting) {
 					document.querySelector('.loader').style.color = setting.themeColor || '#409eff'
 				}

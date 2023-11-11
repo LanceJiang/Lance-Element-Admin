@@ -108,12 +108,14 @@ export default defineComponent({
 				// labelKey: 'label_1',
 				// valueKey: 'value_1',
 				// isPopover: false,
-				options: Array.from({ length: 20 }).map((_, i) => {
+				i18n: true, // 多语言切换
+				options: Array.from({ length: 4 }).map((_, i) => {
 					return {
 						// value_1: '选项' + i,
 						// label_1: '黄金糕' + i
 						value: '选项' + i,
-						label: '黄金糕' + i
+						// label: '黄金糕' + i,
+						label: `${prefix}leSelect_label_${i}`,
 					}
 				}),
 				slots: {
@@ -205,11 +207,11 @@ export default defineComponent({
 				// labelKey: 'label', // 默认
 				// clearable: true,
 				filterable: true,
-				// i18n: true,
+				i18n: true, // 多语言切换
 				// placeholder: '请选择项目阶段',
-				options: Array.from({ length: 6 }).map((_, i) => ({
-					// label: 'le.validate.validateEmptyTips',
-					label: `test1_LABEL_${i}`,
+				options: Array.from({ length: 4 }).map((_, i) => ({
+					label: `${prefix}leSelect_label_${i}`,
+					// label: `test1_LABEL_${i}`,
 					value: `test1_${i}`
 				})),
 				rules: [

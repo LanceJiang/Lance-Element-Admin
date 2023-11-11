@@ -1,21 +1,23 @@
 import { Slots } from 'vue'
-import {LeFormItem, ObjectOpts, SlotOption} from '@/components/FormConfig/formConfig.types.ts'
-export const getOptions = (options: any[], form: LeFormItem) => options.map((option) => {
-	let value = option
-	let label = option
-	let disabled = false
-	if (typeof option === 'object') {
-		value = option[form.valueKey || 'value']
-		label = option[form.labelKey || 'label']
-		if (form.i18n) label = t(label)
-		disabled = option.disabled
-	}
-	return {
-		label,
-		value,
-		disabled
-	}
-})
+import { LeFormItem, ObjectOpts, SlotOption } from '@/components/FormConfig/formConfig.types.ts'
+import i18n from '@/lang/index'
+export const getOptions = (options: any[], form: LeFormItem) =>
+	options.map(option => {
+		let value = option
+		let label = option
+		let disabled = false
+		if (typeof option === 'object') {
+			value = option[form.valueKey || 'value']
+			label = option[form.labelKey || 'label']
+			if (form.i18n) label = i18n.global.t(label)
+			disabled = option.disabled
+		}
+		return {
+			label,
+			value,
+			disabled
+		}
+	})
 
 /**
  *  自定义 Option 渲染
@@ -26,7 +28,7 @@ export const renderOption = function (
 	option: ObjectOpts
 ) {
 	if (slotOption) {
-		let scopedSlots_option = slotOption
+		const scopedSlots_option = slotOption
 		// if (typeof slotOption === 'string') {
 		// 	scopedSlots_option = slots[slotOption]
 		// }

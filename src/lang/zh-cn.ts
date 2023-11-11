@@ -32,7 +32,11 @@ export default {
 	},
 	example: {
 		forms: {
-			test1_select: '测试1_选择'
+			test1_select: '测试1_选择',
+			leSelect_label_0: '黄金',
+			leSelect_label_1: '玉石',
+			leSelect_label_2: '珍禽',
+			leSelect_label_3: '异兽'
 		},
 		table: {
 			user: '客户',

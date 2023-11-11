@@ -33,7 +33,11 @@ export default {
 	},
 	example: {
 		forms: {
-			test1_select: 'test1_select'
+			test1_select: 'test1_select',
+			leSelect_label_0: 'Gold',
+			leSelect_label_1: 'Jade',
+			leSelect_label_2: 'Rare Birds',
+			leSelect_label_3: 'Alien Beast'
 		},
 		table: {
 			user: 'User',
