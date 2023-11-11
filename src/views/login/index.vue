@@ -1,7 +1,10 @@
 <template>
 	<div class="login-container">
 		<div class="login-left">
-			<div class="header">{{ title }}</div>
+			<div class="header">
+				<img class="logo-img" src="@/assets/icons/logo.svg" alt="logo" />
+				{{ title }}
+			</div>
 			<ServerLogin class="login-left_svg" style="color: var(--el-color-primary)" />
 		</div>
 		<div class="login-right">
@@ -237,6 +240,10 @@ $light_gray: var(--el-color-white);
 			&::before {
 				//background-color: var(--el-color-primary) !important;
 				background: linear-gradient(270deg, var(--el-color-primary-light-5), var(--el-color-primary-light-7));
+			}
+			.logo-img {
+				width: 50px;
+				margin-right: 10px;
 			}
 		}
 		.login-left_svg {
