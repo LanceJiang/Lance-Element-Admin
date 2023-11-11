@@ -96,7 +96,7 @@ function initChart() {
 				fontWeight: 'normal'
 			}
 		},
-		backgroundColor: '#3e4d8c',
+		// backgroundColor: '#3e4d8c',
 		// backgroundColor: '#f1f1fd',
 		// backgroundColor: '#D4AFFE',
 		tooltip: {

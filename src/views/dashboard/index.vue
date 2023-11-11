@@ -1,14 +1,14 @@
 <template>
-	<div class="dashboard-container column-page-wrap">
+	<div ref="dashboardRef" class="dashboard-container column-page-wrap">
 		<!-- Echarts 图表 -->
 		<el-row :gutter="40" style="margin-top: 20px">
 			<el-col :sm="24" :lg="8" class="card-panel__col">
-				<BarChart id="barChart" height="400px" width="100%" class="chart-container" />
+				<BarChart style="background-color: var(--el-color-primary-light-9)" id="barChart" height="400px" width="100%" class="chart-container" />
 			</el-col>
 			<el-col :sm="24" :lg="8" class="card-panel__col">
 				<LeChart
 					ref="chartRef"
-					style="background-color: #d4affe"
+					style="background-color: var(--el-color-primary-light-9)"
 					class="local_chartWrap"
 					:loading="chartLoading"
 					:show-chart="showChart"
@@ -33,7 +33,8 @@ import BarChart from './components/Chart/BarChart.vue'
 import { colorBase1 } from '@/components/Chart.vue'
 import { reactive, ref, toRefs } from 'vue'
 import * as echarts from 'echarts'
-
+const dashboardRef = ref()
+window.dashboardRef = dashboardRef
 const getChartData = () => ({
 	title: {
 		show: true,
@@ -196,8 +197,11 @@ const getChartData2 = () => {
 		{ value: 24, name: '汽车用品' },
 		{ value: 23, name: '手机数码' }
 	]
+	// const backgroundColor = dashboardRef.value
+	const backgroundColor = dashboardRef.value && window.getComputedStyle(dashboardRef.value, null)?.getPropertyValue('background-color') || '#409eff'
 	return {
-		backgroundColor: '#f69cd8',
+		// backgroundColor: '#f69cd8',
+		backgroundColor,
 		title: {
 			show: true,
 			text: '产品分类总览',
@@ -338,7 +342,8 @@ new Promise(resolve => {
 	padding: 24px;
 	//background-color: rgb(240, 242, 245);
 	//background: var(--el-bg-color);
-	background: #f1f1fd;
+	//background: #f1f1fd;
+	background: var(--el-color-primary-light-9);
 	position: relative;
 
 	.card-panel__col {
