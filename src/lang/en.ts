@@ -20,7 +20,7 @@ export default {
 	},
 	// 登录页面国际化
 	login: {
-		title: 'vue3-admin',
+		// title: 'vue3-admin',
 		username: 'Username',
 		password: 'Password',
 		login: 'Login',
