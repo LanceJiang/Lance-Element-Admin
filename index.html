@@ -34,7 +34,8 @@
         }
 
         .loader {
-          color: #406eeb;
+				//color: var(--el-color-primary, #409eff);
+          color: #409eff;
           font-size: 10px;
           margin: 80px auto;
           position: relative;
@@ -91,6 +92,14 @@
       </style>
       <div class="loader"></div>
     </div>
+    <script>
+			try {
+			var setting = JSON.parse(localStorage.getItem('setting'))
+			if (setting) {
+					document.querySelector('.loader').style.color = setting.themeColor || '#409eff'
+				}
+			}catch (e) {}
+		</script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
