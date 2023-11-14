@@ -16,6 +16,7 @@
 		<LeSelectDemo v-if="true" />
 		<InputNumberDemo v-if="true" />
 		<LeDraggableNestDemo v-if="true" />
+		<WatermarkDemo v-if="true" />
 
 		<div class="common_title">le-iconfont && LeIcon</div>
 		<div class="content">
@@ -109,6 +110,7 @@ import SearchGroup2Popover from './components/SearchGroup2Popover'
 import LeSelectDemo from './components/LeSelectDemo'
 import InputNumberDemo from './components/InputNumberDemo'
 import LeDraggableNestDemo from './components/LeDraggableNestDemo'
+import WatermarkDemo from './components/WatermarkDemo'
 import IconPicker from '@/components/IconPicker/index.vue'
 import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import useStore from '@/store/index'
