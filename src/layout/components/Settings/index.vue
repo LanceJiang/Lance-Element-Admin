@@ -7,7 +7,7 @@
 				</el-divider>
 				<div class="drawer-item">
 					<span>{{ $t('le.layout.setting.themeColor') }}</span>
-					<theme-picker @change="themeChange" />
+					<ThemePicker />
 				</div>
 				<div class="drawer-item" @click.stop="">
 					<span>{{ $t('le.layout.setting.themeDark') }}</span>
@@ -131,6 +131,16 @@
 					</el-select>
 				</div>
 
+				<div class="drawer-item">
+					<span>{{ $t('le.layout.setting.isWartermark') }}</span>
+					<el-switch v-model="isWartermark" inline-prompt @change="watermarkChange" />
+				</div>
+
+				<div v-show="isWartermark" class="drawer-item">
+					<span>{{ $t('le.layout.setting.wartermarkText') }}</span>
+					<el-input v-model="wartermarkText" style="width: 160px" @input="wartermarkTextChange" />
+				</div>
+
 				<el-divider class="local-divider">
 					<el-icon><Setting /></el-icon>{{ $t('le.layout.setting.title') }}
 				</el-divider>
@@ -156,7 +166,7 @@ import { ElMessage } from 'element-plus'
 // const isDark = useDark()
 // const toggleDark = () => useToggle(isDark)
 const { setting } = useStore()
-const { switchDark, changeGreyOrWeak, setAsideTheme, setHeaderTheme, setFooterTheme, resetTheme } = useTheme()
+const { switchDark, changeGreyOrWeak, setAsideTheme, setHeaderTheme, setFooterTheme, resetTheme, watermarkChange, wartermarkTextChange } = useTheme()
 const handle_resetTheme = () => {
 	resetTheme()
 	ElMessage.success('le.message.resetSuccess')
@@ -219,12 +229,16 @@ const {
 	tabsMode,
 	animate,
 	animateMode,
-	settingsVisible
+	settingsVisible,
+	isWartermark,
+	wartermarkText
 } = storeToRefs(setting)
 
+/*
 function themeChange(val: any) {
 	setting.changeSetting('themeColor', val)
 }
+*/
 
 // 设置布局方式
 const setLayout = (val: LayoutType) => {

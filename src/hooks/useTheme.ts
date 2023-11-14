@@ -2,6 +2,7 @@ import { storeToRefs } from 'pinia'
 import { Theme } from './interface'
 // import { ElMessage } from 'element-plus'
 import useStore from '@/store'
+import { useWatermark } from '@/hooks/useWatermark'
 import { getLightColor, getDarkColor } from '@/utils/color'
 import { menuTheme } from '@/styles/theme/menu'
 import { asideTheme } from '@/styles/theme/aside'
@@ -15,7 +16,7 @@ import { defaultSettingState } from '@/settings.ts'
 export const useTheme = () => {
 	const { setting } = useStore()
 	const { themeColor, layout, isDark, isGrey, isWeak, asideInverted, headerInverted, footerInverted } = storeToRefs(setting)
-
+	const { setWatermark, clearWatermark } = useWatermark({ id: 'global_watermark_id' })
 	// 切换暗黑主题 ==> 同时修改主题颜色、侧边栏、头部颜色
 	const switchDark = () => {
 		const html = document.documentElement as HTMLElement
@@ -99,10 +100,22 @@ export const useTheme = () => {
 		}
 		setMenuTheme()
 	}
+	// 开启水印
+	const watermarkChange = () => {
+		setting.isWartermark ? setWatermark(setting.wartermarkText) : clearWatermark()
+	}
+	// 修改水印文案
+	const wartermarkTextChange = (val: string) => {
+		if (!val) return false
+		if (setting.isWartermark) {
+			setWatermark(setting.wartermarkText)
+		}
+	}
 
 	// init theme
 	const initTheme = () => {
 		switchDark()
+		watermarkChange()
 		if (isGrey.value) changeGreyOrWeak('grey', true)
 		if (isWeak.value) changeGreyOrWeak('weak', true)
 	}
@@ -124,6 +137,8 @@ export const useTheme = () => {
 		switchDark,
 		changeThemeColor,
 		changeGreyOrWeak,
+		watermarkChange,
+		wartermarkTextChange,
 		setAsideTheme,
 		setHeaderTheme,
 		setFooterTheme

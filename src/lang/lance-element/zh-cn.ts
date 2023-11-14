@@ -154,6 +154,8 @@ export default {
 				animate_fadeScale: '缩放消退',
 				animate_zoomFade: '渐变',
 				animate_zoomOut: '闪现',
+				isWartermark: '开启水印',
+				wartermarkText: '水印文案',
 				reset: '重置当前配置'
 			}
 		}

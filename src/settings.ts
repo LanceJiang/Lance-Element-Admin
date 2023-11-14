@@ -14,6 +14,10 @@ export const defaultSettingState: SettingState = {
 	isGrey: false,
 	// 色弱模式
 	isWeak: false,
+	// 开启水印
+	isWartermark: true,
+	// 水印文案
+	wartermarkText: name,
 	// 侧边栏深色
 	asideInverted: false,
 	// 头部深色
