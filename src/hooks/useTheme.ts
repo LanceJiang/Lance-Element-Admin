@@ -106,7 +106,7 @@ export const useTheme = () => {
 	}
 	// 修改水印文案
 	const wartermarkTextChange = (val: string) => {
-		if (!val) return false
+		if (!val) return clearWatermark()
 		if (setting.isWartermark) {
 			setWatermark(setting.wartermarkText)
 		}
