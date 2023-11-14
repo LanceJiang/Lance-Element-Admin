@@ -46,7 +46,7 @@ export const filterAsyncRoutes = (routes: AppRouteRecordRaw[], roles: string[], 
 				tmp.component = Layout
 			} else {
 				const component = modules[`/src/views/${tmp.component}.vue`] as any
-				console.error(component, 'component')
+				// console.error(component, 'component')
 				if (component) {
 					tmp.component = component
 				} else {
@@ -169,9 +169,9 @@ const usePermissionStore = defineStore({
 		},
 		queryMenuList(roles: string[]) {
 			return getMenuList().then((data: any) => {
-				console.error(data, 'menuList')
+				console.error(data, 'get api menuList')
 				const menuList = filterAsyncRoutes(data, roles)
-				console.warn(menuList, data, 'xxxxxxxxxxx')
+				// console.warn(menuList, data, 'xxxxxxxxxxx')
 				this.setRoutes(menuList)
 				return menuList
 			})

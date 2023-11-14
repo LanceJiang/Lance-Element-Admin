@@ -60,7 +60,7 @@ const tabsConfig = reactive({
 const activeTab = ref('noticeList')
 const total = ref(0)
 getMessage().then(res => {
-	console.error(res, 'res///')
+	console.error(res, 'getMessage api res')
 	let _total = 0
 	Object.keys(tabsConfig).map(key => {
 		if (res[key]) {
