@@ -4,7 +4,7 @@ import { useWatermark } from '@/hooks/useWatermark'
 const watermarkRef = ref()
 const textStyles = reactive({
 	text: '水印测试',
-	color: '',
+	color: '#ff0000',
 	fontSize: 12,
 	rotate: 20,
 	width: 200,

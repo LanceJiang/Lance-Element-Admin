@@ -569,10 +569,8 @@ $transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), border 0s, color 0.1
 										width: 100%;
 										transition: $transition;
 									}
-
-									//background: var(--el-color-primary-light-9);
-									background: var(--el-border-color-light);
-									//color: var(--el-color-primary-light-3);
+									//background: var(--el-border-color-lighter);
+									background: var(--el-fill-color-light);
 								}
 
 								&.is-active {
