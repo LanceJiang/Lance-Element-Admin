@@ -1,0 +1,42 @@
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["master"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Build
+        run: |
+          npm install
+          npm run build:pre
+      - name: Deploy # 将打包内容发布到 github page
+              uses: JamesIves/github-pages-deploy-action@v4.3.3
+              with:  # 自定义环境变量
+                BRANCH: gh-pages # 这个是存放打包后的分支，需要替换成你的
+                FOLDER: dist # 项目打包输出目录是dist
+                REPOSITORY_NAME: LanceJiang/Lance-Element-Admin # github page 仓库
+                TARGET_FOLDER: / # 打包的文件将放到静态服务器 / 目录下, 一般不用改
