@@ -39,4 +39,4 @@ jobs:
                 BRANCH: gh-pages # 这个是存放打包后的分支，需要替换成你的
                 FOLDER: dist # 项目打包输出目录是dist
                 REPOSITORY_NAME: LanceJiang/Lance-Element-Admin # github page 仓库
-                TARGET_FOLDER: / # 打包的文件将放到静态服务器 / 目录下, 一般不用改
+                TARGET_FOLDER: / # 打包的文件将放到静态服务器 / 目录下
