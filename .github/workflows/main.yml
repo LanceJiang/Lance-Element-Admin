@@ -32,8 +32,8 @@ jobs:
       - name: Build
         run: |
           npm install
-          npm run build
-        
+          npm run build:pre
+
       - name: Deploy # 将打包内容发布到 github page
               uses: JamesIves/github-pages-deploy-action@v4.3.3
               with:  # 自定义环境变量
