@@ -20,19 +20,27 @@ permissions:
 
 # 工作集
 jobs:
-  # 任务名称 1
-  build-and-deploy:
+  # 打包 (任务名称1)
+  build:
     # 执行平台
     runs-on: ubuntu-latest # 构建环境使用 ubuntu
     # 任务步骤
     steps:
+      # 代码仓库的内容拉取
       - name: Checkout code (检出代码)
         uses: actions/checkout@v3
+
+      # 安装 node 环境，并设置版本
+      - name: Setup Node.js (设置 node 版本)
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       # 安装依赖
       - name: Install dependencies (安装依赖)
         run: npm install
-       # 构建项目
+
+      # 构建项目
       - name: Build (构建)
         run: npm run build:pre
 
@@ -42,6 +50,14 @@ jobs:
         with:
           path: "./dist"
 
+  # 部署任务(任务名称2)
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
      # 部署 GitHub Pages
       - name: Deploy to GitHub Pages(部署到 GitHub Pages)
         uses: actions/deploy-pages@v2
