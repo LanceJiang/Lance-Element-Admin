@@ -3,7 +3,7 @@
 		<div class="login-left">
 			<div class="header">
 				<img class="logo-img" src="@/assets/icons/logo.svg" alt="logo" />
-				{{ title }}
+				<span style="z-index: 1">{{ title }}</span>
 			</div>
 			<ServerLogin class="login-left_svg" style="color: var(--el-color-primary)" />
 		</div>
@@ -244,6 +244,7 @@ $light_gray: var(--el-color-white);
 			.logo-img {
 				width: 50px;
 				margin-right: 10px;
+				z-index: 1;
 			}
 		}
 		.login-left_svg {
