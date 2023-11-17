@@ -13,9 +13,8 @@ jobs:
           persist-credentials: false
 
       - name: Install and Build # 下载依赖 打包项目
-        run: |
-          npm install
-          npm run build:pre
+      - run: npm install
+      - run: npm run build:pre
 
       - name: Deploy # 将打包内容发布到 github page
               uses: JamesIves/github-pages-deploy-action@v4.3.3
