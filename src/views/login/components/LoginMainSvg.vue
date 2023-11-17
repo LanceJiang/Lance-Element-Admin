@@ -6988,7 +6988,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 -->
 <script setup></script>
-<style scoped>
+<style scoped lang="scss">
 svg#freepik_stories-server {
 	&:not(.animated) {
 		.animable {
