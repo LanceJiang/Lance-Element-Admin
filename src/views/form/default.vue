@@ -43,7 +43,7 @@
 				<LeFormConfig
 					v-if="dialogVisible"
 					ref="configForm"
-					:forms="forms"
+					:forms="forms_copy"
 					:formConfig="formConfig"
 					:form-data="formData"
 					@submit="formSubmit"
@@ -68,10 +68,7 @@
 				v-if="dialogVisible2"
 				title="le-form-config-dialog 表单弹窗"
 				v-model="dialogVisible2"
-				:formOptions="{
-					forms,
-					formConfig
-				}"
+				:formOptions="formOptions"
 				:formData="formData"
 				@submit="formSubmit"
 			>
@@ -503,11 +500,25 @@ export default defineComponent({
 				// },
 			}
 		]
+		const formConfig = {
+			labelPosition: 'left', // right // top
+			// labelPosition: 'top',
+			labelWidth: '270px',
+			itemWidth: '100%',
+			// labelSuffix: '',
+			submitLoading: false,
+			showCancelBtn: true,
+			showResetBtn: true
+			// size: 'small'
+			// size: 'large'
+			// showFooter: false
+		}
 		const state = reactive({
 			isEdit: true,
 			formData,
 			searchParams: JSON.parse(JSON.stringify(formData)),
 			forms,
+			forms_copy: JSON.parse(JSON.stringify(forms)),
 			searchForms: forms.map(v => {
 				return {
 					...v,
@@ -515,18 +526,10 @@ export default defineComponent({
 				}
 			}),
 			queryLoading: false,
-			formConfig: {
-				labelPosition: 'left', // right // top
-				// labelPosition: 'top',
-				labelWidth: '270px',
-				itemWidth: '100%',
-				// labelSuffix: '',
-				submitLoading: false,
-				showCancelBtn: true,
-				showResetBtn: true
-				// size: 'small'
-				// size: 'large'
-				// showFooter: false
+			formConfig,
+			formOptions: {
+				forms: JSON.parse(JSON.stringify(forms)),
+				formConfig: JSON.parse(JSON.stringify(formConfig))
 			},
 			dialogVisible: false,
 			dialogVisible2: false
