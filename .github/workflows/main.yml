@@ -1,24 +1,49 @@
+# 1 工作流名称
 name: Build and Deploy
-on: # 监听 main 分支上的 push 事件
-  push:
-    branches:
-      - main
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest # 构建环境使用 ubuntu
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.3.1  
-        with:
-          persist-credentials: false
 
-      - name: Install and Build # 下载依赖 打包项目
-      - run: npm install
-      - run: npm run build
-      - name: Deploy # 将打包内容发布到 github page
-              uses: JamesIves/github-pages-deploy-action@v4.3.3
-              with:  # 自定义环境变量
-                BRANCH: gh-pages # 这个是存放打包后的分支，需要替换成你的
-                FOLDER: dist # 项目打包输出目录是dist
-                REPOSITORY_NAME: LanceJiang/Lance-Element-Admin # github page 仓库
-                TARGET_FOLDER: / # 打包的文件将放到静态服务器 / 目录下
+# 2 工作流执行名称
+run-name: ${{ github.actor }} is update repo, start building...
+# 3 触发器
+on:
+  # Runs on pushes targeting the default branch 触发推送目标默认分支
+  push:
+    branches: ["master"]
+
+  # 允许您从 Actions 选项卡手动运行此工作流
+  workflow_dispatch:
+
+# 4 设置 GITHUB_TOKEN 的权限以允许部署到 GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 工作集
+jobs:
+  # 任务名称 1
+  build-and-deploy:
+    # 执行平台
+    runs-on: ubuntu-latest # 构建环境使用 ubuntu
+    # 任务步骤
+    steps:
+      - name: Checkout code (检出代码)
+        uses: actions/checkout@v3
+
+      # 安装依赖
+      - name: Install dependencies (安装依赖)
+        run: npm install
+       # 构建项目
+      - name: Build (构建)
+        run: npm run build:pre
+
+      # 上传构建产物（actions/upload-artifact@v3 会上传工作流程中的文件）
+      - name:  Upload build artifacts (上传构建产物)
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: "./dist"
+
+     # 部署 GitHub Pages
+      - name: Deploy to GitHub Pages(部署到 GitHub Pages)
+        uses: actions/deploy-pages@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
