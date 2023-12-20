@@ -408,7 +408,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 			return arr.indexOf(value)
 		}
 		const valueKey = props.valueKey
-		debugger
 		let index = -1
 		arr.some((item, i) => {
 			if (get(item, valueKey) === get(value, valueKey)) {
