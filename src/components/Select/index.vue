@@ -134,18 +134,28 @@
 								</el-tag>
 							</div>
 						</template>
-						<div :class="[nsSelectV2.e('selected-item'), nsSelectV2.e('input-wrapper')]" :style="inputWrapperStyle">
+						<div
+							:class="[
+                nsSelectV2.e('selected-item'),
+                nsSelectV2.e('input-wrapper'),
+              ]"
+							:style="inputWrapperStyle"
+						>
 							<input
 								:id="id"
 								ref="inputRef"
 								v-model-text="states.displayInputValue"
+								:onUpdate:modelValue="onUpdateInputValue"
 								:autocomplete="autocomplete"
 								aria-autocomplete="list"
 								aria-haspopup="listbox"
 								autocapitalize="off"
 								:aria-expanded="expanded"
 								:aria-labelledby="label"
-								:class="[nsSelectV2.is(selectSize), nsSelectV2.e('combobox-input')]"
+								:class="[
+                  nsSelectV2.is(selectSize),
+                  nsSelectV2.e('combobox-input'),
+                ]"
 								:disabled="disabled"
 								role="combobox"
 								:readonly="!filterable"
@@ -153,7 +163,6 @@
 								type="text"
 								:name="name"
 								:unselectable="expanded ? 'on' : undefined"
-								@update:modelValue="onUpdateInputValue"
 								@focus="handleFocus"
 								@blur="handleBlur"
 								@input="onInput"
@@ -176,11 +185,17 @@
 						</div>
 					</div>
 					<template v-else>
-						<div :class="[nsSelectV2.e('selected-item'), nsSelectV2.e('input-wrapper')]">
+						<div
+							:class="[
+                nsSelectV2.e('selected-item'),
+                nsSelectV2.e('input-wrapper')
+              ]"
+						>
 							<input
 								:id="id"
 								ref="inputRef"
 								v-model-text="states.displayInputValue"
+								:onUpdate:modelValue="onUpdateInputValue"
 								aria-autocomplete="list"
 								aria-haspopup="listbox"
 								:aria-labelledby="label"
@@ -205,34 +220,53 @@
 								@keydown.down.stop.prevent="onKeyboardNavigate('forward')"
 								@keydown.enter.stop.prevent="onKeyboardSelect"
 								@keydown.esc.stop.prevent="handleEsc"
-								@update:modelValue="onUpdateInputValue"
 							/>
 						</div>
 						<span
 							v-if="filterable"
 							ref="calculatorRef"
 							aria-hidden="true"
-							:class="[nsSelectV2.e('selected-item'), nsSelectV2.e('input-calculator')]"
+							:class="[
+                nsSelectV2.e('selected-item'),
+                nsSelectV2.e('input-calculator')
+              ]"
 							v-text="states.displayInputValue"
 						/>
 					</template>
 					<span
 						v-if="shouldShowPlaceholder"
-						:class="[nsSelectV2.e('placeholder'), nsSelectV2.is('transparent', multiple ? modelValue.length === 0 : !hasModelValue)]"
+						:class="[
+              nsSelectV2.e('placeholder'),
+              nsSelectV2.is(
+                'transparent',
+                multiple ? modelValue.length === 0 : !hasModelValue
+              ),
+            ]"
 					>
-						{{ currentPlaceholder }}
-					</span>
+            {{ currentPlaceholder }}
+          </span>
 					<span :class="nsSelectV2.e('suffix')">
-						<el-icon v-if="iconComponent" v-show="!showClearBtn" :class="[nsSelectV2.e('caret'), nsInput.e('icon'), iconReverse]">
-							<component :is="iconComponent" />
-						</el-icon>
-						<el-icon v-if="showClearBtn && clearIcon" :class="[nsSelectV2.e('caret'), nsInput.e('icon')]" @click.prevent.stop="handleClear">
-							<component :is="clearIcon" />
-						</el-icon>
-						<el-icon v-if="validateState && validateIcon" :class="[nsInput.e('icon'), nsInput.e('validateIcon')]">
-							<component :is="validateIcon" />
-						</el-icon>
-					</span>
+            <el-icon
+							v-if="iconComponent"
+							v-show="!showClearBtn"
+							:class="[nsSelectV2.e('caret'), nsInput.e('icon'), iconReverse]"
+						>
+              <component :is="iconComponent" />
+            </el-icon>
+            <el-icon
+							v-if="showClearBtn && clearIcon"
+							:class="[nsSelectV2.e('caret'), nsInput.e('icon')]"
+							@click.prevent.stop="handleClear"
+						>
+              <component :is="clearIcon" />
+            </el-icon>
+            <el-icon
+							v-if="validateState && validateIcon"
+							:class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
+						>
+              <component :is="validateIcon" />
+            </el-icon>
+          </span>
 				</div>
 			</template>
 			<template #content>
@@ -271,16 +305,20 @@
 </template>
 
 <script lang="tsx">
-import { computed, defineComponent, provide, reactive, toRefs, vModelText } from 'vue'
+import {
+	computed,
+	defineComponent,
+	provide,
+	reactive,
+	toRefs,
+	vModelText,
+} from 'vue'
 // import { isArray } from '@element-plus/utils'
 import { isArray } from 'element-plus/es/utils/index.mjs'
 // import { ClickOutside } from '@element-plus/directives'
 import { ClickOutside } from 'element-plus/es/directives/index.mjs'
 // import ElTooltip from '@element-plus/components/tooltip'
-// import ElTooltip from 'element-plus/es/components/tooltip'
 // import ElTag from '@element-plus/components/tag'
-// import ElTag from 'element-plus/es/components/tag'
-// import ElIcon from 'element-plus/es/components/icon'
 // import ElIcon from '@element-plus/components/icon'
 import NoData from '@/components/NoData'
 // import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -316,7 +354,16 @@ export default defineComponent({
 	},
 	directives: { ClickOutside, ModelText: vModelText },
 	props: SelectProps,
-	emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur', 'update:selected_label'],
+	emits: [
+		UPDATE_MODEL_EVENT,
+		CHANGE_EVENT,
+		'remove-tag',
+		'clear',
+		'visible-change',
+		'focus',
+		'blur',
+		'update:selected_label',
+	],
 
 	setup(props, { emit }) {
 		const modelValue = computed(() => {
@@ -324,7 +371,6 @@ export default defineComponent({
 			const fallback = multiple ? [] : undefined
 			// When it is array, we check if this is multi-select.
 			// Based on the result we get
-			// if (Array.isArray(rawModelValue)) {
 			if (isArray(rawModelValue)) {
 				return multiple ? rawModelValue : fallback
 			}
