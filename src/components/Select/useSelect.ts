@@ -317,14 +317,16 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
 	// the index with current value in options
 	const indexRef = computed<number>(() => {
+		const valueKey = props.valueKey
+		const localOptions = filteredOptions.value
 		if (props.multiple) {
 			const len = (props.modelValue as []).length
 			if ((props.modelValue as Array<any>).length > 0) {
-				return filteredOptions.value.findIndex(o => o.value === props.modelValue[len - 1])
+				return localOptions.findIndex(o => o[valueKey] === props.modelValue[len - 1])
 			}
 		} else {
 			if (props.modelValue) {
-				return filteredOptions.value.findIndex(o => o.value === props.modelValue)
+				return localOptions.findIndex(o => o[valueKey] === props.modelValue)
 			}
 		}
 		return -1
@@ -350,7 +352,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 	// methods
 	const focusAndUpdatePopup = () => {
 		inputRef.value?.focus?.()
-		popper.value?.updatePopper()
+		popper.value?.updatePopper?.()
 	}
 
 	const toggleMenu = () => {
