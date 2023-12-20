@@ -330,7 +330,17 @@ import { SelectProps } from './defaults'
 // const isArray = Array.isArray
 const EmptyComponent = defineComponent({
 	name: 'EmptyComponent',
-	setup(props, {slots}) {
+	// props: {
+	// 	visible: Boolean,
+	// },
+	// emits: ['before-show', 'hide'],
+	setup(props, { emit, slots, expose }) {
+		// const popperRef = ref()
+		// const updatePopper = () => {
+		// 	console.error('test updatePopper', popperRef.value)
+		// }
+		// expose({ updatePopper })
+		// ref={popperRef}
 		return () => {
 			return <div>
 				{slots.default?.()}

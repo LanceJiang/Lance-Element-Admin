@@ -104,7 +104,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		return criteria
 	})
 
-	const iconComponent = computed(() => (props.remote && props.filterable ? '' : (props.isPopover ? ArrowUp : Search)))
+	const iconComponent = computed(() => (props.remote && props.filterable ? '' : props.isPopover ? ArrowUp : Search))
 
 	const iconReverse = computed(() => iconComponent.value && nsSelectV2.is('reverse', props.isPopover ? expanded.value : true))
 
@@ -144,8 +144,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		return item
 	}
 
-	const getLocalOption = (option) => {
-		return { ...option, le_label: getLabel(option)  }
+	const getLocalOption = option => {
+		return { ...option, le_label: getLabel(option) }
 	}
 	const local_options = computed(() => {
 		const options = props.options || []
@@ -163,7 +163,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 			}
 			return getLocalOption(v)
 		})
-
 	})
 
 	const filteredOptions = computed(() => {
@@ -259,16 +258,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 			}
 			resetInputHeight()
 			setSoftFocus()
-			/*states.query = ''
-			handleQueryChange('')
-			if (props.filterable && !props.reserveKeyword) {
-				inputRef.value.focus?.()
-				onUpdateInputValue('')
-			}
-			debugger
-			if (props.filterable) {
-				states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
-			}*/
 		}
 	}
 
@@ -308,7 +297,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 	})
 	const currentPlaceholder = computed(() => {
 		const _placeholder = props.placeholder || t('el.select.placeholder')
-		return props.multiple || isNil(props.modelValue) ? _placeholder : (props.i18n ? getLabel(states.selectedItem) : states.selectedItem?.le_label)
+		return props.multiple || isNil(props.modelValue) ? _placeholder : props.i18n ? getLabel(states.selectedItem) : states.selectedItem?.le_label
 		// return props.multiple || isNil(props.modelValue) ? _placeholder : states.selectedLabel
 	})
 
@@ -738,6 +727,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		} else {
 			states.displayInputValue = ''
 			states.previousQuery = null
+			// 非弹窗 重置筛选列表
+			if (!props.isPopover) {
+				states.inputValue = ''
+			}
 			createNewOption('')
 		}
 	})
@@ -758,24 +751,31 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 		}
 	)
 
-	if(props.multiple) {
-		watch(() => states.cachedOptions,() => {
-			const labels = props.i18n ? states.cachedOptions.map(getLabel) : states.cachedOptions.map(v => v.le_label)
-			emit('update:selected_label', labels)
-		}, {
-			immediate: true
-		})
+	if (props.multiple) {
+		watch(
+			() => states.cachedOptions,
+			() => {
+				const labels = props.i18n ? states.cachedOptions.map(getLabel) : states.cachedOptions.map(v => v.le_label)
+				emit('update:selected_label', labels)
+			},
+			{
+				immediate: true
+			}
+		)
 	} else {
-		watch(() => states.selectedItem,() => {
-			const label = props.i18n ? getLabel(states.selectedItem) : states.selectedItem?.le_label
-			states.selectedLabel = label
-			emit('update:selected_label', label)
-		}, {
-			immediate: true,
-			deep: true
-		})
+		watch(
+			() => states.selectedItem,
+			() => {
+				const label = props.i18n ? getLabel(states.selectedItem) : states.selectedItem?.le_label
+				states.selectedLabel = label
+				emit('update:selected_label', label)
+			},
+			{
+				immediate: true,
+				deep: true
+			}
+		)
 	}
-
 
 	watch(
 		() => props.options,
