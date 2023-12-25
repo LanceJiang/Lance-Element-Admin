@@ -1,25 +1,39 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "esnext",
     "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "esnext",
+    "lib": ["esnext", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
 		"types": ["vite/client", "element-plus/global"],
 
     /* Bundler mode */
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
+		/* 确保每个文件都可以安全传输，而不依赖其他导入 */
     "isolatedModules": true,
+		/* 不生成编译后的js文件 */
     "noEmit": true,
     "jsx": "preserve",
+		/* 对js文件进行编译 */
     "allowJs": true,
+		/* 检测js代码 */
+    "checkJs": true,
+		"sourceMap": true,
+		/* 不允许隐式的any */
+    "noImplicitAny": false,
+		/* 不允许不明确的类型的this */
+    "noImplicitThis": false,
+    "noImplicitReturns": false,
+		/* 严格检查空值 */
+    "strictNullChecks": false,
+    "suppressImplicitAnyIndexErrors": false,
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
 		"baseUrl": "./",
 		"paths": {
@@ -27,6 +41,12 @@
 			"@/*": ["src/*"]
 		}
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": [
+		"src/**/*.ts",
+		"src/**/*.d.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue"
+	],
+	"exclude": ["node_modules", "dist", "src/**/*.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
