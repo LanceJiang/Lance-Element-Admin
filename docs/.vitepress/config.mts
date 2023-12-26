@@ -1,5 +1,5 @@
 import { defineConfig } from "vitepress";
-
+import { mdPlugin } from './_config'
 // https://vitepress.dev/reference/site-config
 // 导航
 const nav = [
@@ -14,9 +14,8 @@ const nav = [
 	},
 	{
 		text: "组件",
-		items: [
-			{ text: "介绍", link: "/component/introduction" }
-		],
+		link: "/component/introduction",
+		activeMatch: '/component/'
 	}
 ]
 const getPackagesIntro = () => {
@@ -109,10 +108,21 @@ export default defineConfig({
 			next: "下一页"
 		}
 	},
+	markdown: {
+		config: (md) => mdPlugin(md),
+	},
+	vue: {
+		// template: {
+		// 	ssr: true,
+		// 	compilerOptions: {
+		// 		directiveTransforms: buildTransformers(),
+		// 	},
+		// },
+	},/*,
 	vite: {
 		// @vitejs/plugin-vue options
 		server: {
 			port: 5656
 		}
-	}
+	}*/
 });
