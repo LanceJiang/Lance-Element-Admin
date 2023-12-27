@@ -11,6 +11,14 @@ export function useAllowCreate(props: ISelectProps, states) {
 		return props.allowCreate && props.filterable
 	})
 
+	// const labelPaths = computed(() => {
+	// 	return (props.labelKey || 'label').split('.')
+	// })
+	//
+	// const valuePaths = computed(() => {
+	// 	return (props.valueKey || 'value').split('.')
+	// })
+
 	function hasExistingOption(query: string) {
 		const hasValue = option => option.value === query
 		return (props.options && props.options.some(hasValue)) || states.createdOptions.some(hasValue)
@@ -30,9 +38,13 @@ export function useAllowCreate(props: ISelectProps, states) {
 	function createNewOption(query: string) {
 		if (enableAllowCreateMode.value) {
 			if (query && query.length > 0 && !hasExistingOption(query)) {
+				// const [labelKey, ...labels] = labelPaths.value
+				// const [valueKey, ...values] = valuePaths.value
+
 				const newOption = {
-					value: query,
-					label: query,
+					[props.valueKey]: query,
+					[props.labelKey]: query,
+					le_label: query,
 					created: true,
 					disabled: false
 				}
