@@ -22,7 +22,7 @@ import type ElTooltip from '@element-plus/components/tooltip'
 import type { SelectProps } from './defaults'
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { Option, OptionType } from './select.types'
-// import { useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
@@ -37,8 +37,8 @@ const TAG_BASE_WIDTH = {
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 	// inject
-	const { t } = useLocale()
-	// const { t } = useI18n()
+	// const { t } = useLocale()
+	const { t } = useI18n()
 	const nsSelectV2 = useNamespace('select-v2')
 	const nsInput = useNamespace('input')
 	const { form: elForm, formItem: elFormItem } = useFormItem()
