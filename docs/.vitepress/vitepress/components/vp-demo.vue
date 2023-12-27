@@ -100,7 +100,7 @@ const copyCode = async () => {
     <div class="example">
       <VPExample :file="path" :demo="formatPathDemos[path]" />
 
-      <ElDivider style="margin: 0;" />
+      <ElDivider class="m-0" />
 
       <div class="op-btns">
 <!--        <ElTooltip

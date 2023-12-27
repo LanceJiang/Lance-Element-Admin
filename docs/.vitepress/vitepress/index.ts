@@ -10,6 +10,20 @@ import type { Component } from 'vue'
 // export default VPApp
 
 import VPDemo from './components/vp-demo.vue'
+
+// Lance-Element-Admin src 全局组件 Start
+import LeSelect from '@/components/Select/index.vue'
+import LeNoData from '@/components/NoData.vue'
+// import InputNumber from '@/components/InputNumber.vue'
+// import InputNumberRange from '@/components/InputNumberRange.vue'
+// Lance-Element-Admin src 全局组件 End
 export const globals: [string, Component][] = [
 	['VPDemo', VPDemo],
+]
+
+// Lance-Element-Admin src 全局组件
+
+export const local_components: Component[] = [
+	LeSelect,
+	LeNoData
 ]

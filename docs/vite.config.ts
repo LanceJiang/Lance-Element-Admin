@@ -9,6 +9,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 // import {
 //   docPackage,
 //   epPackage,
@@ -24,6 +25,10 @@ const alias: Alias[] = [
     find: '~/',
     replacement: `${path.resolve(__dirname, './.vitepress/vitepress')}/`,
   },
+	{
+		find: '@/',
+		replacement: `${path.resolve(__dirname, './../src')}/`,
+	}
 ]
 /*if (process.env.DOC_ENV !== 'production') {
   alias.push(
@@ -101,6 +106,13 @@ export default defineConfig(async ({ mode }) => {
       Icons({
         autoInstall: true,
       }),
+			// 使用 svg 图标
+			createSvgIconsPlugin({
+				// 指定需要缓存的图标文件夹
+				iconDirs: [path.resolve(process.cwd(), '../src/assets/icons')],
+				// 指定symbolId格式
+				symbolId: 'icon-[dir]-[name]'
+			}),
       MarkdownTransform(),
       Inspect(),
       // mkcert(),

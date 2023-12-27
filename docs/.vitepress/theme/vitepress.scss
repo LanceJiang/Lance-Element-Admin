@@ -1,8 +1,12 @@
+// 插入 lance-element-admin 的组件样式
+@import "./lance-element.scss";
 /**
  * Customize default theme styling by overriding CSS variables:
  * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
  */
-
+//@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /**
  * Colors
  *
@@ -142,4 +146,3 @@
 .DocSearch {
 	--docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
-

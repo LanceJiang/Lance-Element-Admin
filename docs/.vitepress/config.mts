@@ -14,40 +14,48 @@ const nav = [
 	},
 	{
 		text: "组件",
-		link: "/component/introduction",
+		link: "/component/LeSelect",
 		activeMatch: '/component/'
 	}
 ]
-const getPackagesIntro = () => {
 
-}
 // 侧边栏导航
-const sidebar = [
-	{
-		text: "指南",
-		items: [
-			{ text: "介绍", link: "/guide/introduction" },
-			{ text: "快速了解", link: "/guide/quick-understanding" },
-			{ text: "项目结构", link: "/guide/directory" },
-			{ text: "构建 & 部署", link: "/guide/deploy" },
-			{ text: "配置", link: "/guide/config" },
-			{ text: "路由", link: "/guide/router" },
-			{ text: "更新日志", link: "/guide/uplog" },
-		],
-	},
-	/*{
-		text: "本地依赖库",
-		collapsible: true,
-		// items: getPackagesIntro(),
-	},*/
-	{
-		text: "其它",
-		items: [
-			{ text: "常见问题", link: "/other/faq" },
-			{ text: "加入我们", link: "/other/follow" },
-		],
-	},
-]
+const sidebar = {
+	// 组件
+	'/component/': [
+		{
+			text: '组件',
+			items: [
+				{
+					text: 'LeSelect',
+					link: '/component/LeSelect',
+				},
+			],
+		},
+	],
+	// 指南
+	'/guide/': [
+		{
+			text: "指南",
+			items: [
+				{ text: "介绍", link: "/guide/introduction" },
+				{ text: "快速了解", link: "/guide/quick-understanding" },
+				{ text: "项目结构", link: "/guide/directory" },
+				{ text: "构建 & 部署", link: "/guide/deploy" },
+				{ text: "配置", link: "/guide/config" },
+				{ text: "路由", link: "/guide/router" },
+				{ text: "更新日志", link: "/guide/uplog" },
+			],
+		},
+		{
+			text: "其它",
+			items: [
+				{ text: "常见问题", link: "/other/faq" },
+				{ text: "加入我们", link: "/other/follow" },
+			],
+		},
+	]
+}
 export default defineConfig({
 	base: process.env.NODE_ENV === "production" ? "/Lance-Element-Admin-Docs/" : "/",
 	// lang: "zh-CN",
@@ -75,24 +83,6 @@ export default defineConfig({
 		nav,
 		// 侧边栏导航
 		sidebar,
-		/*sidebar: {
-			"/component/": [
-				{
-					text: "基础组件",
-					link: "/component/",
-					items: [
-						{
-							text: "Button按钮",
-							link: "/component/button"
-						},
-						{
-							text: "Icon图标",
-							link: "/component/icon"
-						}
-					]
-				}
-			]
-		},*/
 		socialLinks: [
 			{ icon: "github", link: "https://github.com/LanceJiang" }
 		],

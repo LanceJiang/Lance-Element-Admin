@@ -1,0 +1,8 @@
+// 覆盖element-plus 样式
+@import '@/styles/element-plus';
+// 重置默认样式
+@import '@/styles/reset.scss';
+// 涉及element-plus的全局样式类改造&&新增修饰
+@import '@/styles/lance-element-ui.scss';
+// 涉及lance-element-ui的全局组件样式
+@import '@/styles/lance-element-vue.scss';
