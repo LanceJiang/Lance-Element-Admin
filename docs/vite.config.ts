@@ -74,6 +74,7 @@ export default defineConfig(async ({ mode }) => {
     },
     resolve: {
       alias,
+			extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.vue', '.json'] // 默认 ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
     },
     plugins: [
 			vueJsx(),
