@@ -10,8 +10,9 @@ export default defineComponent({
 	name: 'LeInputNumberRange',
 	emits: {
 		'update:modelValue': (value: [] | {[prop: string]: any}) => true,
-		'blur': (e: Event) => true,
-		'change': (value: number|null|undefined, local_propEnd: string) => true
+		'blur': (e: Event, prop: string) => true,
+		'focus': (e: Event, prop: string) => true,
+		'change': (value: number|null|undefined, prop: string) => true
 	},
 	components: {
 		InputNumber
@@ -63,7 +64,7 @@ export default defineComponent({
 	},
 	setup(props, { attrs, slots, emit }) {
 		const { t, te } = useI18n()
-		const { prepend, append, controlsPosition, min, max, size, ...others } = attrs
+		const { prepend, append, controlsPosition, min, max, size, class: classWrap, ...others } = attrs
 		const _controlsPosition = controlsPosition ?? 'right'
 		const { prepend: slot_prepend, append: slot_append, ...childSlots } = slots
 		const inputNumberSize = size || unref(useFormSize())
@@ -127,6 +128,7 @@ export default defineComponent({
 					v-model={localModelValue.value[local_propStart]}
 					onChange={onChangeStart}
 					onBlur={event => emit('blur', event, local_propStart)}
+					onFocus={event => emit('focus', event, local_propStart)}
 					v-slots={childSlots}
 				/>
 				<span class="le-input-number-range_line">-</span>
@@ -145,6 +147,7 @@ export default defineComponent({
 					// v-model={getPropValue(localModelValue.value, local_propEnd)}
 					onChange={onChangeEnd}
 					onBlur={event => emit('blur', event, local_propEnd)}
+					ononFocus={event => emit('focus', event, local_propEnd)}
 					v-slots={childSlots}
 				/>
 				{slot_append ? slot_append() : _append}

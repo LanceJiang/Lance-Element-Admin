@@ -24,7 +24,7 @@ const Component = defineComponent({
 	setup(props, ctx) {
 		const { t } = useI18n()
 		return () => {
-			const { prefixIcon, suffixIcon, prop, controlsPosition, t_placeholder, size, placeholder, max = 999999999999999, ...local_props } = ctx.attrs
+			const { prefixIcon, suffixIcon, prop, controlsPosition, t_placeholder, size, placeholder, max = 999999999999999, class: classWrap, ...local_props } = ctx.attrs
 			const inputNumberSize = size || unref(useFormSize())
 			const _prefix = prefixIcon ? <span class="le-addon le-input-number__prefix">{prefixIcon}</span> : ''
 			const _suffix = suffixIcon ? <span class="le-addon le-input-number__suffix">{suffixIcon}</span> : ''
