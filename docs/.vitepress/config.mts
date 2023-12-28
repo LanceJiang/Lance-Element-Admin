@@ -30,6 +30,14 @@ const sidebar = {
 					text: 'LeSelect',
 					link: '/component/LeSelect',
 				},
+				{
+					text: 'LeInputNumber',
+					link: '/component/LeInputNumber',
+				},
+				{
+					text: 'LeInputNumberRange',
+					link: '/component/LeInputNumberRange',
+				},
 			],
 		},
 	],
