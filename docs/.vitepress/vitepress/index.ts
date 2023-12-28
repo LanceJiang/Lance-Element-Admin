@@ -10,6 +10,7 @@ import type { Component } from 'vue'
 // export default VPApp
 
 import VPDemo from './components/vp-demo.vue'
+import VPApiTyping from './components/globals/vp-api-typing.vue'
 
 // Lance-Element-Admin src 全局组件 Start
 import LeSelect from '@/components/Select/index.vue'
@@ -19,6 +20,7 @@ import LeNoData from '@/components/NoData.vue'
 // Lance-Element-Admin src 全局组件 End
 export const globals: [string, Component][] = [
 	['VPDemo', VPDemo],
+	['VPApiTyping', VPApiTyping],
 ]
 
 // Lance-Element-Admin src 全局组件
