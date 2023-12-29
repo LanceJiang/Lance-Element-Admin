@@ -38,6 +38,10 @@ const sidebar = {
 					text: 'LeInputNumberRange',
 					link: '/component/LeInputNumberRange',
 				},
+				{
+					text: 'LeChart 图表组件',
+					link: '/component/LeChart',
+				},
 			],
 		},
 	],

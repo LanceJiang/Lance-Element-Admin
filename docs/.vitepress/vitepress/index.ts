@@ -16,9 +16,8 @@ import VPApiTyping from './components/globals/vp-api-typing.vue'
 import LeSelect from '@/components/Select/index.vue'
 import LeInputNumber from '@/components/InputNumber.vue'
 import LeInputNumberRange from '@/components/InputNumberRange.vue'
+import LeChart from '@/components/Chart.vue'
 import LeNoData from '@/components/NoData.vue'
-// import InputNumber from '@/components/InputNumber.vue'
-// import InputNumberRange from '@/components/InputNumberRange.vue'
 // Lance-Element-Admin src 全局组件 End
 export const globals: [string, Component][] = [
 	['VPDemo', VPDemo],
@@ -31,5 +30,6 @@ export const local_components: Component[] = [
 	LeSelect,
 	LeInputNumber,
 	LeInputNumberRange,
+	LeChart,
 	LeNoData
 ]
