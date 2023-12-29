@@ -207,6 +207,8 @@
 		font-size: 12px;
 		line-height: 20px;
 		min-width: 10px;
+		box-shadow: 0 0 1px 1px var(--el-border-color-light);
+		overflow: hidden;
 		//border: 1px solid var(--el-border-color-light);
 	}
 }
