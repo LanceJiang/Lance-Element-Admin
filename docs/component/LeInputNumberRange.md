@@ -1,9 +1,9 @@
 ---
-title: LeInputNumberRange
+title: LeInputNumberRange 数字区间
 lang: zh-CN
 ---
 
-# LeInputNumberRange
+# LeInputNumberRange 数字区间
 
 基于`LeInputNumber` 扩展的 数字区间 组件
 

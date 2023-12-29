@@ -1,9 +1,9 @@
 ---
-title: LeSelect
+title: LeSelect 选择器
 lang: zh-CN
 ---
 
-# LeSelect
+# LeSelect 选择器
 
 LeSelect 选择组件是 基于Element-Plus Select V2 虚拟列表选择器的 二次开发
 

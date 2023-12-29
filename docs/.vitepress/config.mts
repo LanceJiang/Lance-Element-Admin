@@ -27,15 +27,15 @@ const sidebar = {
 			text: '组件',
 			items: [
 				{
-					text: 'LeSelect',
+					text: 'LeSelect 选择器',
 					link: '/component/LeSelect',
 				},
 				{
-					text: 'LeInputNumber',
+					text: 'LeInputNumber 数字输入框',
 					link: '/component/LeInputNumber',
 				},
 				{
-					text: 'LeInputNumberRange',
+					text: 'LeInputNumberRange 数字区间',
 					link: '/component/LeInputNumberRange',
 				},
 				{

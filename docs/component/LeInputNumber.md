@@ -1,9 +1,9 @@
 ---
-title: LeInputNumber
+title: LeInputNumber 数字输入框
 lang: zh-CN
 ---
 
-# LeInputNumber
+# LeInputNumber 数字输入框
 
 仅允许输入标准的数字值，可定义范围 基于el-input-number 扩展 支持 前后缀插槽
 
