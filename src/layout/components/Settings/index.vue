@@ -132,13 +132,13 @@
 				</div>
 
 				<div class="drawer-item">
-					<span>{{ $t('le.layout.setting.isWartermark') }}</span>
-					<el-switch v-model="isWartermark" inline-prompt @change="watermarkChange" />
+					<span>{{ $t('le.layout.setting.isWatermark') }}</span>
+					<el-switch v-model="isWatermark" inline-prompt @change="watermarkChange" />
 				</div>
 
-				<div v-show="isWartermark" class="drawer-item">
-					<span>{{ $t('le.layout.setting.wartermarkText') }}</span>
-					<el-input v-model="wartermarkText" style="width: 160px" @input="wartermarkTextChange" />
+				<div v-show="isWatermark" class="drawer-item">
+					<span>{{ $t('le.layout.setting.watermarkText') }}</span>
+					<el-input v-model="watermarkText" style="width: 160px" @input="watermarkTextChange" />
 				</div>
 
 				<el-divider class="local-divider">
@@ -166,7 +166,7 @@ import { ElMessage } from 'element-plus'
 // const isDark = useDark()
 // const toggleDark = () => useToggle(isDark)
 const { setting } = useStore()
-const { switchDark, changeGreyOrWeak, setAsideTheme, setHeaderTheme, setFooterTheme, resetTheme, watermarkChange, wartermarkTextChange } = useTheme()
+const { switchDark, changeGreyOrWeak, setAsideTheme, setHeaderTheme, setFooterTheme, resetTheme, watermarkChange, watermarkTextChange } = useTheme()
 const handle_resetTheme = () => {
 	resetTheme()
 	ElMessage.success('le.message.resetSuccess')
@@ -230,8 +230,8 @@ const {
 	animate,
 	animateMode,
 	settingsVisible,
-	isWartermark,
-	wartermarkText
+	isWatermark,
+	watermarkText
 } = storeToRefs(setting)
 
 /*

@@ -44,9 +44,9 @@ export interface SettingState {
 	// 色弱模式
 	isWeak: boolean
 	// 开启水印
-	isWartermark: boolean
+	isWatermark: boolean
 	// 水印文案
-	wartermarkText: string
+	watermarkText: string
 	// 侧边栏深色
 	asideInverted: boolean
 	// 头部深色

@@ -15,9 +15,9 @@ export const defaultSettingState: SettingState = {
 	// 色弱模式
 	isWeak: false,
 	// 开启水印
-	isWartermark: true,
+	isWatermark: true,
 	// 水印文案
-	wartermarkText: name,
+	watermarkText: name,
 	// 侧边栏深色
 	asideInverted: false,
 	// 头部深色

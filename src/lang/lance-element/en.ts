@@ -156,8 +156,8 @@ export default {
 				animate_fadeScale: 'Resizing Fade Away',
 				animate_zoomFade: 'Gradual Change',
 				animate_zoomOut: 'Flash',
-				isWartermark: 'Turn On Watermark',
-				wartermarkText: 'Watermark Copy',
+				isWatermark: 'Turn On Watermark',
+				watermarkText: 'Watermark Copy',
 				reset: 'Reset The Current Configuration'
 			}
 		}

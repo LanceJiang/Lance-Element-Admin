@@ -102,13 +102,13 @@ export const useTheme = () => {
 	}
 	// 开启水印
 	const watermarkChange = () => {
-		setting.isWartermark ? setWatermark(setting.wartermarkText) : clearWatermark()
+		setting.isWatermark ? setWatermark(setting.watermarkText) : clearWatermark()
 	}
 	// 修改水印文案
-	const wartermarkTextChange = (val: string) => {
+	const watermarkTextChange = (val: string) => {
 		if (!val) return clearWatermark()
-		if (setting.isWartermark) {
-			setWatermark(setting.wartermarkText)
+		if (setting.isWatermark) {
+			setWatermark(setting.watermarkText)
 		}
 	}
 
@@ -138,7 +138,7 @@ export const useTheme = () => {
 		changeThemeColor,
 		changeGreyOrWeak,
 		watermarkChange,
-		wartermarkTextChange,
+		watermarkTextChange,
 		setAsideTheme,
 		setHeaderTheme,
 		setFooterTheme
