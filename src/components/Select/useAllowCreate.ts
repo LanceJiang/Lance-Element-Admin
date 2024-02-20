@@ -1,9 +1,12 @@
 // @ts-nocheck
 import { computed, ref } from 'vue'
-import type { ISelectProps } from './token'
+import { useProps } from './useProps'
+import type { ISelectV2Props } from './token'
 import type { Option } from './select.types'
 
-export function useAllowCreate(props: ISelectProps, states) {
+export function useAllowCreate(props: ISelectV2Props, states) {
+	const { aliasProps, getLabel, getValue } = useProps(props)
+
 	const createOptionCount = ref(0)
 	const cachedSelectedOption = ref<Option>(null)
 
@@ -11,16 +14,8 @@ export function useAllowCreate(props: ISelectProps, states) {
 		return props.allowCreate && props.filterable
 	})
 
-	// const labelPaths = computed(() => {
-	// 	return (props.labelKey || 'label').split('.')
-	// })
-	//
-	// const valuePaths = computed(() => {
-	// 	return (props.valueKey || 'value').split('.')
-	// })
-
 	function hasExistingOption(query: string) {
-		const hasValue = option => option.value === query
+		const hasValue = option => getValue(option) === query
 		return (props.options && props.options.some(hasValue)) || states.createdOptions.some(hasValue)
 	}
 
@@ -37,16 +32,15 @@ export function useAllowCreate(props: ISelectProps, states) {
 
 	function createNewOption(query: string) {
 		if (enableAllowCreateMode.value) {
-			if (query && query.length > 0 && !hasExistingOption(query)) {
-				// const [labelKey, ...labels] = labelPaths.value
-				// const [valueKey, ...values] = valuePaths.value
-
+			if (query && query.length > 0) {
+				if (hasExistingOption(query)) {
+					return
+				}
 				const newOption = {
-					[props.valueKey]: query,
-					[props.labelKey]: query,
-					le_label: query,
+					[aliasProps.value.value]: query,
+					[aliasProps.value.label]: query,
 					created: true,
-					disabled: false
+					[aliasProps.value.disabled]: false
 				}
 				if (states.createdOptions.length >= createOptionCount.value) {
 					states.createdOptions[createOptionCount.value] = newOption
@@ -72,11 +66,11 @@ export function useAllowCreate(props: ISelectProps, states) {
 			!enableAllowCreateMode.value ||
 			!option ||
 			!option.created ||
-			(option.created && props.reserveKeyword && states.inputValue === option.label)
+			(option.created && props.reserveKeyword && states.inputValue === getLabel(option))
 		) {
 			return
 		}
-		const idx = states.createdOptions.findIndex(it => it.value === option.value)
+		const idx = states.createdOptions.findIndex(it => getValue(it) === getValue(option))
 		if (~idx) {
 			states.createdOptions.splice(idx, 1)
 			createOptionCount.value--

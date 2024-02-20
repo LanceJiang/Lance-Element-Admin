@@ -1,4 +1,4 @@
-import { computed, defineComponent, inject, ref, unref, watch } from 'vue'
+import { computed, defineComponent, inject, ref, toRaw, unref, watch } from 'vue'
 import { get } from 'lodash-unified'
 // import { isObject, isUndefined } from '@element-plus/utils'
 import { isObject, isUndefined } from 'element-plus/es/utils/index.mjs'
@@ -10,6 +10,7 @@ import { useNamespace } from 'element-plus/es/hooks/index.mjs'
 import { EVENT_CODE } from 'element-plus/es/constants/index.mjs'
 import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
+import { useProps } from './useProps'
 
 import { selectV2InjectionKey } from './token'
 
@@ -20,17 +21,19 @@ export default defineComponent({
 	name: 'ElSelectDropdown',
 
 	props: {
+		loading: Boolean,
 		data: {
 			type: Array,
 			required: true
 		},
 		hoveringIndex: Number,
-		width: Number,
-		multiple: Boolean
+		width: Number
 	},
 	setup(props, { slots, expose }) {
 		const select = inject(selectV2InjectionKey)!
 		const ns = useNamespace('select')
+		const { getLabel, getValue, getDisabled } = useProps(select.props)
+
 		const cachedHeights = ref<Array<number>>([])
 
 		const listRef = ref()
@@ -39,7 +42,7 @@ export default defineComponent({
 		watch(
 			() => size.value,
 			() => {
-				select.popper.value.updatePopper?.()
+				select.tooltipRef.value.updatePopper?.()
 			}
 		)
 
@@ -69,7 +72,7 @@ export default defineComponent({
 			return (
 				arr &&
 				arr.some(item => {
-					return get(item, valueKey) === get(target, valueKey)
+					return toRaw(get(item, valueKey)) === get(target, valueKey)
 				})
 			)
 		}
@@ -83,11 +86,10 @@ export default defineComponent({
 		}
 
 		const isItemSelected = (modelValue: any[] | any, target: Option) => {
-			const { valueKey } = select.props
 			if (select.props.multiple) {
-				return contains(modelValue, get(target, valueKey))
+				return contains(modelValue, getValue(target))
 			}
-			return isEqual(modelValue, get(target, valueKey))
+			return isEqual(modelValue, getValue(target))
 		}
 
 		const isItemDisabled = (modelValue: any[] | any, selected: boolean) => {
@@ -140,7 +142,7 @@ export default defineComponent({
 				<OptionItem
 					{...itemProps}
 					selected={isSelected}
-					disabled={item.disabled || isDisabled}
+					disabled={getDisabled(item) || isDisabled}
 					created={!!item.created}
 					hovering={isHovering}
 					item={item}
@@ -148,7 +150,7 @@ export default defineComponent({
 					onHover={onHover}
 				>
 					{{
-						default: (props: OptionItemProps) => slots.default?.(props) || <span>{props.item.le_label}</span>
+						default: (props: OptionItemProps) => slots.default?.(props) || <span>{getLabel(item)}</span>
 					}}
 				</OptionItem>
 			)
@@ -202,7 +204,7 @@ export default defineComponent({
 			const { data, width } = props
 			const { height, multiple, scrollbarAlwaysOn } = select.props
 
-			if (data.length === 0) {
+			if (slots.loading || slots.empty) {
 				return (
 					<div
 						class={ns.b('dropdown')}
@@ -210,7 +212,7 @@ export default defineComponent({
 							width: `${width}px`
 						}}
 					>
-						{slots.empty?.()}
+						{slots.loading?.() || slots.empty?.()}
 					</div>
 				)
 			}
@@ -219,6 +221,7 @@ export default defineComponent({
 
 			return (
 				<div class={[ns.b('dropdown'), ns.is('multiple', multiple)]}>
+					{slots.header?.()}
 					<List
 						ref={listRef}
 						{...unref(listProps)}
@@ -235,6 +238,7 @@ export default defineComponent({
 							default: (props: ItemProps<any>) => <Item {...props} />
 						}}
 					</List>
+					{slots.footer?.()}
 				</div>
 			)
 		}

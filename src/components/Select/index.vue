@@ -1,168 +1,119 @@
+<!-- element-plus select-v2 二次封装的 虚拟Select -->
 <template>
 	<div
 		ref="selectRef"
 		v-click-outside:[popperRef]="handleClickOutside"
-		:class="[nsSelectV2.b(), nsSelectV2.m(selectSize), 'le-select']"
+		:class="[nsSelect.b(), nsSelect.m(selectSize), 'le-select']"
+		@mouseenter="states.inputHovering = true"
+		@mouseleave="states.inputHovering = false"
 		@click.stop="toggleMenu"
-		@mouseenter="states.comboBoxHovering = true"
-		@mouseleave="states.comboBoxHovering = false"
 	>
-		<component
-			:is="isPopover ? 'ElTooltip' : 'EmptyComponent'"
-			ref="popper"
+		<!--		<component
+			:is="isPopover ? 'ElTooltip' : 'EmptyComponent'"-->
+		<el-tooltip
+			ref="tooltipRef"
 			:visible="dropdownMenuVisible"
 			:teleported="teleported"
-			:popper-class="[nsSelectV2.e('popper'), popperClass, 'le-select__popper']"
+			:popper-class="[nsSelect.e('popper'), popperClass, 'le-select__popper']"
 			:gpu-acceleration="false"
 			:stop-popper-mouse-event="false"
 			:popper-options="popperOptions"
-			:fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
+			:fallback-placements="fallbackPlacements"
 			:effect="effect"
 			:placement="placement"
 			pure
-			:transition="`${nsSelectV2.namespace.value}-zoom-in-top`"
+			:transition="`${nsSelect.namespace.value}-zoom-in-top`"
 			trigger="click"
 			:persistent="persistent"
 			@before-show="handleMenuEnter"
-			@hide="states.inputValue = states.displayInputValue"
+			@hide="states.isBeforeHide = false"
 		>
 			<template #default>
 				<div
-					ref="selectionRef"
+					ref="wrapperRef"
 					:class="[
-						nsSelectV2.e('wrapper'),
-						nsSelectV2.is('focused', states.isComposing || expanded),
-						nsSelectV2.is('hovering', states.comboBoxHovering),
-						nsSelectV2.is('filterable', filterable),
-						nsSelectV2.is('disabled', selectDisabled)
+						nsSelect.e('wrapper'),
+						nsSelect.is('focused', isFocused),
+						nsSelect.is('hovering', states.inputHovering),
+						nsSelect.is('filterable', filterable),
+						nsSelect.is('disabled', selectDisabled)
 					]"
 				>
-					<div v-if="$slots.prefix">
+					<div v-if="$slots.prefix" ref="prefixRef" :class="nsSelect.e('prefix')">
 						<slot name="prefix" />
 					</div>
-					<div v-if="multiple" :class="nsSelectV2.e('selection')">
-						<template v-if="collapseTags && modelValue.length > 0">
-							<!-- 折叠类型>展示标签 -->
-							<div v-for="item in showTagList" :key="getValueKey(item)" :class="nsSelectV2.e('selected-item')">
+					<div ref="selectionRef" :class="[nsSelect.e('selection'), nsSelect.is('near', multiple && !$slots.prefix && !!modelValue.length)]">
+						<slot v-if="multiple" name="tag">
+							<div v-for="item in showTagList" :key="getValueKey(getValue(item))" :class="nsSelect.e('selected-item')">
 								<el-tag
-									:closable="!selectDisabled && !item?.disable"
+									:closable="!selectDisabled && !getDisabled(item)"
 									:size="collapseTagSize"
-									type="info"
+									:type="tagType"
 									disable-transitions
+									:style="tagStyle"
 									@close="deleteTag($event, item)"
 								>
-									<span
-										:class="nsSelectV2.e('tags-text')"
-										:style="{
-											maxWidth: `${tagMaxWidth}px`
-										}"
-										>{{ i18n ? getLabel(item) : item?.le_label }}</span
-									>
+									<span :class="nsSelect.e('tags-text')">
+										{{ getLabel(item) }}
+									</span>
 								</el-tag>
 							</div>
-							<!-- 折叠类型>(被折叠的)更多标签 -->
-							<div :class="nsSelectV2.e('selected-item')">
-								<el-tag v-if="modelValue.length > maxCollapseTags" :closable="false" :size="collapseTagSize" type="info" disable-transitions>
-									<el-tooltip
-										v-if="collapseTagsTooltip"
-										:disabled="dropdownMenuVisible"
-										:fallback-placements="['bottom', 'top', 'right', 'left']"
-										:effect="effect"
-										placement="bottom"
-										:teleported="false"
-									>
-										<template #default>
-											<span
-												:class="nsSelectV2.e('tags-text')"
-												:style="{
-													maxWidth: `${tagMaxWidth}px`
-												}"
-												>+ {{ modelValue.length - maxCollapseTags }}</span
-											>
-										</template>
-										<template #content>
-											<div :class="nsSelectV2.e('selection')">
-												<div v-for="selected in collapseTagList" :key="getValueKey(selected)" :class="nsSelectV2.e('selected-item')">
-													<el-tag
-														:closable="!selectDisabled && !selected.disabled"
-														:size="collapseTagSize"
-														class="in-tooltip"
-														type="info"
-														disable-transitions
-														@close="deleteTag($event, selected)"
-													>
-														<span
-															:class="nsSelectV2.e('tags-text')"
-															:style="{
-																maxWidth: `${tagMaxWidth}px`
-															}"
-															>{{ i18n ? getLabel(selected) : selected?.le_label }}</span
-														>
-													</el-tag>
-												</div>
-											</div>
-										</template>
-									</el-tooltip>
-									<span
-										v-else
-										:class="nsSelectV2.e('tags-text')"
-										:style="{
-											maxWidth: `${tagMaxWidth}px`
-										}"
-										>+ {{ modelValue.length - maxCollapseTags }}</span
-									>
-								</el-tag>
-							</div>
-						</template>
 
-						<template v-else>
-							<div v-for="selected in states.cachedOptions" :key="getValueKey(selected)" :class="nsSelectV2.e('selected-item')">
-								<el-tag
-									:closable="!selectDisabled && !selected.disabled"
-									:size="collapseTagSize"
-									type="info"
-									disable-transitions
-									@close="deleteTag($event, selected)"
-								>
-									<span
-										:class="nsSelectV2.e('tags-text')"
-										:style="{
-											maxWidth: `${tagMaxWidth}px`
-										}"
-										>{{ /*getLabel(selected)*/selected?.le_label }}</span
-									>
-								</el-tag>
-							</div>
-						</template>
-						<div
-							:class="[
-                nsSelectV2.e('selected-item'),
-                nsSelectV2.e('input-wrapper'),
-              ]"
-							:style="inputWrapperStyle"
-						>
+							<el-tooltip
+								v-if="collapseTags && modelValue.length > maxCollapseTags"
+								ref="tagTooltipRef"
+								:disabled="dropdownMenuVisible || !collapseTagsTooltip"
+								:fallback-placements="['bottom', 'top', 'right', 'left']"
+								:effect="effect"
+								placement="bottom"
+								:teleported="teleported"
+							>
+								<template #default>
+									<div ref="collapseItemRef" :class="nsSelect.e('selected-item')">
+										<el-tag :closable="false" :size="collapseTagSize" :type="tagType" :style="collapseTagStyle" disable-transitions>
+											<span :class="nsSelect.e('tags-text')"> + {{ modelValue.length - maxCollapseTags }} </span>
+										</el-tag>
+									</div>
+								</template>
+								<template #content>
+									<div ref="tagMenuRef" :class="nsSelect.e('selection')">
+										<div v-for="selected in collapseTagList" :key="getValueKey(getValue(selected))" :class="nsSelect.e('selected-item')">
+											<el-tag
+												class="in-tooltip"
+												:closable="!selectDisabled && !getDisabled(selected)"
+												:size="collapseTagSize"
+												:type="tagType"
+												disable-transitions
+												@close="deleteTag($event, selected)"
+											>
+												<span :class="nsSelect.e('tags-text')">
+													{{ getLabel(selected) }}
+												</span>
+											</el-tag>
+										</div>
+									</div>
+								</template>
+							</el-tooltip>
+						</slot>
+						<div v-if="!selectDisabled" :class="[nsSelect.e('selected-item'), nsSelect.e('input-wrapper'), nsSelect.is('hidden', !filterable)]">
 							<input
-								:id="id"
+								:id="inputId"
 								ref="inputRef"
-								v-model-text="states.displayInputValue"
-								:onUpdate:modelValue="onUpdateInputValue"
+								v-model="states.inputValue"
+								:style="inputStyle"
 								:autocomplete="autocomplete"
 								aria-autocomplete="list"
 								aria-haspopup="listbox"
 								autocapitalize="off"
 								:aria-expanded="expanded"
-								:aria-labelledby="label"
-								:class="[
-                  nsSelectV2.is(selectSize),
-                  nsSelectV2.e('combobox-input'),
-                ]"
-								:disabled="disabled"
+								:aria-label="ariaLabel"
+								:class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
+								:disabled="selectDisabled"
 								role="combobox"
 								:readonly="!filterable"
 								spellcheck="false"
 								type="text"
 								:name="name"
-								:unselectable="expanded ? 'on' : undefined"
 								@focus="handleFocus"
 								@blur="handleBlur"
 								@input="onInput"
@@ -174,110 +125,35 @@
 								@keydown.enter.stop.prevent="onKeyboardSelect"
 								@keydown.esc.stop.prevent="handleEsc"
 								@keydown.delete.stop="handleDel"
+								@click.stop="toggleMenu"
 							/>
-							<span
-								v-if="filterable"
-								ref="calculatorRef"
-								aria-hidden="true"
-								:class="nsSelectV2.e('input-calculator')"
-								v-text="states.displayInputValue"
-							/>
+							<span v-if="filterable" ref="calculatorRef" aria-hidden="true" :class="nsSelect.e('input-calculator')" v-text="states.inputValue" />
+						</div>
+						<div
+							v-if="shouldShowPlaceholder"
+							:class="[
+								nsSelect.e('selected-item'),
+								nsSelect.e('placeholder'),
+								nsSelect.is('transparent', !hasModelValue || (expanded && !states.inputValue))
+							]"
+						>
+							<span>{{ currentPlaceholder }}</span>
 						</div>
 					</div>
-					<template v-else>
-						<div
-							:class="[
-                nsSelectV2.e('selected-item'),
-                nsSelectV2.e('input-wrapper')
-              ]"
-						>
-							<input
-								:id="id"
-								ref="inputRef"
-								v-model-text="states.displayInputValue"
-								:onUpdate:modelValue="onUpdateInputValue"
-								aria-autocomplete="list"
-								aria-haspopup="listbox"
-								:aria-labelledby="label"
-								:aria-expanded="expanded"
-								autocapitalize="off"
-								:autocomplete="autocomplete"
-								:class="nsSelectV2.e('combobox-input')"
-								:disabled="disabled"
-								:name="name"
-								role="combobox"
-								:readonly="!filterable"
-								spellcheck="false"
-								type="text"
-								:unselectable="expanded ? 'on' : undefined"
-								@compositionstart="handleCompositionStart"
-								@compositionupdate="handleCompositionUpdate"
-								@compositionend="handleCompositionEnd"
-								@focus="handleFocus"
-								@blur="handleBlur"
-								@input="onInput"
-								@keydown.up.stop.prevent="onKeyboardNavigate('backward')"
-								@keydown.down.stop.prevent="onKeyboardNavigate('forward')"
-								@keydown.enter.stop.prevent="onKeyboardSelect"
-								@keydown.esc.stop.prevent="handleEsc"
-							/>
-						</div>
-						<span
-							v-if="filterable"
-							ref="calculatorRef"
-							aria-hidden="true"
-							:class="[
-                nsSelectV2.e('selected-item'),
-                nsSelectV2.e('input-calculator')
-              ]"
-							v-text="states.displayInputValue"
-						/>
-					</template>
-					<span
-						v-if="shouldShowPlaceholder"
-						:class="[
-              nsSelectV2.e('placeholder'),
-              nsSelectV2.is(
-                'transparent',
-                multiple ? modelValue.length === 0 : !hasModelValue
-              ),
-            ]"
-					>
-            {{ currentPlaceholder }}
-          </span>
-					<span :class="nsSelectV2.e('suffix')">
-            <el-icon
-							v-if="iconComponent"
-							v-show="!showClearBtn"
-							:class="[nsSelectV2.e('caret'), nsInput.e('icon'), iconReverse]"
-						>
-              <component :is="iconComponent" />
-            </el-icon>
-            <el-icon
-							v-if="showClearBtn && clearIcon"
-							:class="[nsSelectV2.e('caret'), nsInput.e('icon')]"
-							@click.prevent.stop="handleClear"
-						>
-              <component :is="clearIcon" />
-            </el-icon>
-            <el-icon
-							v-if="validateState && validateIcon"
-							:class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
-						>
-              <component :is="validateIcon" />
-            </el-icon>
-          </span>
+					<div ref="suffixRef" :class="nsSelect.e('suffix')">
+						<el-icon v-if="iconComponent" v-show="!showClearBtn" :class="[nsSelect.e('caret'), nsInput.e('icon'), iconReverse]">
+							<component :is="iconComponent" />
+						</el-icon>
+						<el-icon v-if="showClearBtn && clearIcon" :class="[nsSelect.e('caret'), nsInput.e('icon')]" @click.prevent.stop="handleClear">
+							<component :is="clearIcon" />
+						</el-icon>
+						<el-icon v-if="validateState && validateIcon" :class="[nsInput.e('icon'), nsInput.e('validateIcon')]">
+							<component :is="validateIcon" />
+						</el-icon>
+					</div>
 				</div>
 			</template>
 			<template #content>
-				<div
-					v-if="multiple"
-					v-show="filteredOptions.length"
-					:class="['el-select-dropdown__item checkAll', isCheckAll ? 'selected' : indeterminateClass]"
-					@click="checkAllHandler"
-				>
-					{{ $t('le.selectAll') }}
-				</div>
 				<el-select-menu
 					ref="menuRef"
 					:data="filteredOptions"
@@ -285,34 +161,39 @@
 					:hovering-index="states.hoveringIndex"
 					:scrollbar-always-on="scrollbarAlwaysOn"
 				>
-					<template #default="scope">
-						<slot v-bind="scope">
-							{{scope.item.le_label}}
-						</slot>
+					<template v-if="$slots.header" #header>
+						<div :class="nsSelect.be('dropdown', 'header')">
+							<slot name="header" />
+						</div>
 					</template>
-					<template #empty>
-						<slot name="empty">
-							<NoData :message="emptyText" />
-							<!--							<p :class="nsSelectV2.e('empty')">
-								{{ emptyText ? emptyText : '' }}
-							</p>-->
-						</slot>
+					<template #default="scope">
+						<slot v-bind="scope" />
+					</template>
+					<template v-if="$slots.loading && loading" #loading>
+						<div :class="nsSelect.be('dropdown', 'loading')">
+							<slot name="loading" />
+						</div>
+					</template>
+					<template v-else-if="loading || filteredOptions.length === 0" #empty>
+						<div :class="nsSelect.be('dropdown', 'empty')">
+							<slot name="empty">
+								<span>{{ emptyText }}</span>
+							</slot>
+						</div>
+					</template>
+					<template v-if="$slots.footer" #footer>
+						<div :class="nsSelect.be('dropdown', 'footer')">
+							<slot name="footer" />
+						</div>
 					</template>
 				</el-select-menu>
 			</template>
-		</component>
+		</el-tooltip>
 	</div>
 </template>
 
 <script lang="tsx">
-import {
-	computed,
-	defineComponent,
-	provide,
-	reactive,
-	toRefs,
-	vModelText,
-} from 'vue'
+import { computed, defineComponent, provide, reactive, toRefs } from 'vue'
 // import { isArray } from '@element-plus/utils'
 import { isArray } from 'element-plus/es/utils/index.mjs'
 // import { ClickOutside } from '@element-plus/directives'
@@ -325,55 +206,21 @@ import NoData from '@/components/NoData'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from 'element-plus/es/constants/index.mjs'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
-import { selectV2InjectionKey } from './token'
 import { SelectProps } from './defaults'
-// const isArray = Array.isArray
-const EmptyComponent = defineComponent({
-	name: 'EmptyComponent',
-	// props: {
-	// 	visible: Boolean,
-	// },
-	// emits: ['before-show', 'hide'],
-	setup(props, { emit, slots, expose }) {
-		// const popperRef = ref()
-		// const updatePopper = () => {
-		// 	console.error('test updatePopper', popperRef.value)
-		// }
-		// expose({ updatePopper })
-		// ref={popperRef}
-		return () => {
-			return <div>
-				{slots.default?.()}
-				<div class="le-empty-popper">
-					{slots.content?.()}
-				</div>
-			</div>
-		}
-	}
-})
+import { selectV2InjectionKey } from './token'
+
 export default defineComponent({
 	// name: 'ElSelectV2',
 	name: 'LeSelect',
 	components: {
-		ElSelectMenu,
-		NoData,
-		EmptyComponent
+		ElSelectMenu
 		// ElTag,
 		// ElTooltip,
 		// ElIcon
 	},
-	directives: { ClickOutside, ModelText: vModelText },
+	directives: { ClickOutside },
 	props: SelectProps,
-	emits: [
-		UPDATE_MODEL_EVENT,
-		CHANGE_EVENT,
-		'remove-tag',
-		'clear',
-		'visible-change',
-		'focus',
-		'blur',
-		'update:selected_label',
-	],
+	emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur'],
 
 	setup(props, { emit }) {
 		const modelValue = computed(() => {
@@ -401,7 +248,7 @@ export default defineComponent({
 				height: API.popupHeight,
 				modelValue
 			}),
-			popper: API.popper,
+			tooltipRef: API.tooltipRef,
 			onSelect: API.onSelect,
 			onHover: API.onHover,
 			onKeyboardNavigate: API.onKeyboardNavigate,
