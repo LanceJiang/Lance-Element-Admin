@@ -49,6 +49,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
 		previousQuery: null,
 		previousValue: undefined,
 		selectedLabel: '',
+		selectedItem: null, // todo
 		menuVisibleOnFocus: false,
 		isBeforeHide: false
 	})
@@ -136,19 +137,42 @@ const useSelect = (props: ISelectV2Props, emit) => {
 		return null
 	})
 
+	const getLocalOption = option => {
+		return { ...option, le_label: getLabel(option) }
+	}
+	const local_options = computed(() => {
+		const options = props.options || []
+		/*props.options?.flat(Number.MAX_SAFE_INTEGER).map(v => {
+		// props.options?.map(v => {
+			v.le_label = getLabel(v)
+		})
+		return options*/
+		return options.map((v, i) => {
+			if (isArray(v.options)) {
+				return {
+					...v,
+					options: v.options.map(getLocalOption)
+				}
+			}
+			return getLocalOption(v)
+		})
+	})
+
 	const filterOptions = query => {
 		const isValidOption = (o: Option): boolean => {
 			if (props.filterable && isFunction(props.filterMethod)) return true
 			if (props.filterable && props.remote && isFunction(props.remoteMethod)) return true
 			// when query was given, we should test on the label see whether the label contains the given query
 			const regexp = new RegExp(escapeStringRegexp(query), 'i')
-			return query ? regexp.test(getLabel(o) || '') : true
+			// return query ? regexp.test(getLabel(o) || '') : true
+			return query ? regexp.test(o.le_label || '') : true
 		}
 		if (props.loading) {
 			return []
 		}
 
-		return [...states.createdOptions, ...props.options].reduce((all, item) => {
+		// return [...states.createdOptions, ...props.options].reduce((all, item) => {
+		return [...states.createdOptions, ...local_options.value].reduce((all, item) => {
 			const options = getOptions(item)
 
 			if (isArray(options)) {
@@ -157,7 +181,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
 				if (filtered.length > 0) {
 					all.push(
 						{
-							label: getLabel(item),
+							// label: getLabel(item),
+							label: item.le_label, // todo 验证(group: options)
 							isTitle: true,
 							type: 'Group'
 						},
@@ -186,6 +211,75 @@ const useSelect = (props: ISelectV2Props, emit) => {
 		})
 		return valueMap
 	})
+	const indeterminateClass = ref('')
+	// 是否全选
+	const isCheckAll = computed(() => {
+		// const { options, computedOptions, value } = this
+		// const { options, filteredOptions, modelValue } = TheCtx
+		const showVals = filteredOptions.value.map(v => v.value)
+		indeterminateClass.value = ''
+		const modelValue = props.modelValue
+		if (!Array.isArray(modelValue)) return false
+		if (props.options.length > 0 && modelValue.length > 0) {
+			if (showVals.some(v => modelValue.includes(v))) indeterminateClass.value = 'indeterminate'
+			return showVals.every(v => modelValue.includes(v))
+		}
+	})
+	// le-select 新增
+	// 全选与反选
+	const checkAllHandler = () => {
+		if (props.multiple) {
+			const localOptions = filteredOptions.value
+			const valueKey = props.valueKey
+			const localValues = localOptions.map(v => v[valueKey])
+			const selectedOptions = props.modelValue as any[]
+			let value = []
+			if (isCheckAll.value) {
+				// 取消全选
+				value = selectedOptions.filter(v => !localValues.includes(v))
+				localValues.forEach(optionValue => {
+					const itemIndex = states.cachedOptions.findIndex(option => getValueKey(option) === optionValue)
+					if (itemIndex > -1) {
+						states.cachedOptions.splice(itemIndex, 1)
+					}
+				})
+			} else {
+				// 全选
+				/*value = [...new Set((selectedOptions || []).concat(localValues))]
+				localOptions.forEach(v => {
+					const i = getValueIndex(selectedOptions, getValueKey(v))
+					if (i === -1) {
+						states.cachedOptions.push(v)
+					}
+				})*/
+				localOptions.forEach(v => {
+					const l_value = getValueKey(v)
+					const i = getValueIndex(selectedOptions, l_value)
+					if (i === -1) {
+						states.cachedOptions.push(v)
+						value.push(l_value)
+					}
+				})
+				value = selectedOptions.concat(value)
+			}
+			update(value)
+			if (states.displayInputValue.length > 0) {
+				onUpdateInputValue('')
+			}
+			resetInputHeight()
+			setSoftFocus()
+			/*states.query = ''
+			handleQueryChange('')
+			if (props.filterable && !props.reserveKeyword) {
+				inputRef.value.focus?.()
+				onUpdateInputValue('')
+			}
+			debugger
+			if (props.filterable) {
+				states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
+			}*/
+		}
+	}
 
 	const optionsAllDisabled = computed(() => filteredOptions.value.every(option => getDisabled(option)))
 
@@ -761,6 +855,8 @@ const useSelect = (props: ISelectV2Props, emit) => {
 		isFocused,
 		nsSelect,
 		nsInput,
+		// isCheckAll, // todo...
+		// indeterminateClass,
 
 		// refs items exports
 		calculatorRef,
@@ -784,6 +880,7 @@ const useSelect = (props: ISelectV2Props, emit) => {
 		collapseTagList,
 
 		// methods exports
+		checkAllHandler, // todo...
 		debouncedOnInputChange,
 		deleteTag,
 		getLabel,
