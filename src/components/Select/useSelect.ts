@@ -21,12 +21,14 @@ import { useProps } from './useProps'
 import type ElTooltip from 'element-plus/es/components/tooltip'
 import type { Option, OptionType } from './select.types'
 import type { ISelectV2Props } from './token'
+// import { useI18n } from 'vue-i18n'
 
 const MINIMUM_INPUT_WIDTH = 11
 
 const useSelect = (props: ISelectV2Props, emit) => {
 	// inject
 	const { t } = useLocale()
+	// const { t } = useI18n()
 	const nsSelect = useNamespace('select')
 	const nsInput = useNamespace('input')
 	const { form: elForm, formItem: elFormItem } = useFormItem()

@@ -8,9 +8,10 @@
 		@mouseleave="states.inputHovering = false"
 		@click.stop="toggleMenu"
 	>
-		<!--		<component
+<!--		<component
 			:is="isPopover ? 'ElTooltip' : 'EmptyComponent'"-->
-		<el-tooltip
+		<component
+			:is="isPopover ? 'ElTooltip' : 'EmptyComponent'"
 			ref="tooltipRef"
 			:visible="dropdownMenuVisible"
 			:teleported="teleported"
@@ -188,7 +189,7 @@
 					</template>
 				</el-select-menu>
 			</template>
-		</el-tooltip>
+		</component>
 	</div>
 </template>
 
@@ -208,19 +209,45 @@ import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
 import { SelectProps } from './defaults'
 import { selectV2InjectionKey } from './token'
-
+// const isArray = Array.isArray
+const EmptyComponent = defineComponent({
+	name: 'EmptyComponent',
+	// props: {
+	// 	visible: Boolean,
+	// },
+	// emits: ['before-show', 'hide'],
+	setup(props, { emit, slots, expose }) {
+		// const popperRef = ref()
+		// const updatePopper = () => {
+		// 	console.error('test updatePopper', popperRef.value)
+		// }
+		// expose({ updatePopper })
+		// ref={popperRef}
+		return () => {
+			return <div>
+				{slots.default?.()}
+				<div class="le-empty-popper">
+					{slots.content?.()}
+				</div>
+			</div>
+		}
+	}
+})
 export default defineComponent({
 	// name: 'ElSelectV2',
 	name: 'LeSelect',
 	components: {
-		ElSelectMenu
+		ElSelectMenu,
+		NoData,
+		EmptyComponent
 		// ElTag,
 		// ElTooltip,
 		// ElIcon
 	},
 	directives: { ClickOutside },
 	props: SelectProps,
-	emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur'],
+	emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'remove-tag', 'clear', 'visible-change', 'focus', 'blur',
+		'update:selected_label'],
 
 	setup(props, { emit }) {
 		const modelValue = computed(() => {

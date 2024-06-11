@@ -27,7 +27,8 @@ export default defineComponent({
 			required: true
 		},
 		hoveringIndex: Number,
-		width: Number
+		width: Number,
+		multiple: Boolean
 	},
 	setup(props, { slots, expose }) {
 		const select = inject(selectV2InjectionKey)!
@@ -152,6 +153,7 @@ export default defineComponent({
 					{{
 						default: (props: OptionItemProps) => slots.default?.(props) || <span>{getLabel(item)}</span>
 					}}
+					{/*{props.item.le_label} todo*/}
 				</OptionItem>
 			)
 		}

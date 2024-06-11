@@ -156,7 +156,7 @@ export const SearchForm = defineComponent({
 								onChange={changeAndSearch}
 								disabled={disabled}
 								placeholder={_placeholder}
-								style={getItemStyle(_itemStyle, '200px')}
+								style={getItemStyle(_itemStyle, '160px')}
 								v-slots={slots_leSelect}
 							/>
 						)
@@ -174,7 +174,7 @@ export const SearchForm = defineComponent({
 								{...formOthers}
 								v-model={searchData[prop]}
 								onChange={changeAndSearch}
-								style={getItemStyle(_itemStyle, '200px')}
+								style={getItemStyle(_itemStyle, '160px')}
 								disabled={disabled}
 								clearable={form.clearable ?? true}
 								placeholder={_placeholder}
@@ -221,7 +221,7 @@ export const SearchForm = defineComponent({
 								{...formOthers}
 								v-model={searchData[prop]}
 								onChange={changeAndSearch}
-								style={getItemStyle(_itemStyle, '200px')}
+								style={getItemStyle(_itemStyle, '160px')}
 								disabled={disabled}
 								clearable={form.clearable ?? true}
 								filterable={form.filterable ?? true}

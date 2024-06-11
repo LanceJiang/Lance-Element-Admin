@@ -39,6 +39,7 @@ export function useAllowCreate(props: ISelectV2Props, states) {
 				const newOption = {
 					[aliasProps.value.value]: query,
 					[aliasProps.value.label]: query,
+					le_label: query, // todo...
 					created: true,
 					[aliasProps.value.disabled]: false
 				}

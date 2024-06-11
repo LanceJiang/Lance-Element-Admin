@@ -211,7 +211,7 @@ export const SelectProps = buildProps({
 	 * @description size of component
 	 */
 	size: useSizeProp,
-	/*// option 是否多语言切换 todo...
+	// option 是否多语言切换 todo...
 	i18n: {
 		type: Boolean,
 		default: false
@@ -220,7 +220,7 @@ export const SelectProps = buildProps({
 	labelKey: {
 		type: String,
 		default: 'label'
-	},*/
+	},
 	/**
 	 * @description configuration options, see the following table
 	 */
@@ -272,12 +272,12 @@ export const SelectProps = buildProps({
 	ariaLabel: {
 		type: String,
 		default: undefined
-	}/*,
+	},
 	// le-select 新增 todo...
 	isPopover: {
 		type: Boolean,
 		default: true
-	}*/
+	}
 } as const)
 
 export const OptionProps = buildProps({
