@@ -10,6 +10,7 @@ import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import vueSetupExtend from 'unplugin-vue-setup-extend-plus/vite'
 // import {
 //   docPackage,
 //   epPackage,
@@ -78,6 +79,7 @@ export default defineConfig(async ({ mode }) => {
     },
     plugins: [
 			vueJsx(),
+			vueSetupExtend({}),
       // VueMacros({
       //   setupComponent: false,
       //   setupSFC: false,

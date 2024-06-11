@@ -1,17 +1,17 @@
 ---
-title: LeChart 图表组件
+title: LeSearchForm 搜索表单
 lang: zh-CN
 ---
 
-# LeChart 图表组件
+# LeSearchForm 搜索表单
 
-基于 echarts，创建的 LeChart 图表组件
+基于 element-plus & le-element-admin内部组件 创建的 LeSearchForm 配置型 搜索表单
 
 ## 基础用法
 
 :::demo
 
-LeChart/basic
+LeSearchForm/basic
 
 :::
 
@@ -19,7 +19,7 @@ LeChart/basic
 
 :::demo
 
-LeChart/comprehensive
+LeSearchForm/comprehensive
 
 :::
 
@@ -30,8 +30,8 @@ LeChart/comprehensive
 
 | 属性名            | 说明                            | 类型                                                                     | 默认值   |
 |----------------|-------------------------------|------------------------------------------------------------------------|-------|
-| width          | 图表组件宽度                        | string                                                                 | 100%  |
-| height         | 图表组件高度                        | string                                                                 | 400px |
+| width          | 搜索表单宽度                        | string                                                                 | 100%  |
+| height         | 搜索表单高度                        | string                                                                 | 400px |
 | option         | 图表配置对象                        | ^[object]`参考echarts配置: https://echarts.apache.org/zh/cheat-sheet.html` | -     |
 | is-init-option | 是否初始化图表	                      | boolean                                                                | false |
 | show-chart     | 是否展示数据图表(false: 将展示无数据)	      | boolean                                                                | true  |
@@ -48,7 +48,7 @@ LeChart/comprehensive
 | click | 选中的图表item项 | Event: (params) => any |
 
 
-## LeChart 插槽
+## LeSearchForm 插槽
 
 | 插槽名		     | 详情                      |
 |-----------|-------------------------|
@@ -59,7 +59,7 @@ LeChart/comprehensive
 | bottom_left  | `左下角`描述                 |
 | bottom_right | `右下角`描述                 |
 
-## LeChart Exposes
+## LeSearchForm Exposes
 
 | 名称	   | 说明	     | 类型         |
 | ------ |---------|------------|

@@ -17,6 +17,7 @@ import LeSelect from '@/components/Select/index.vue'
 import LeInputNumber from '@/components/InputNumber.vue'
 import LeInputNumberRange from '@/components/InputNumberRange.vue'
 import LeChart from '@/components/Chart.vue'
+import LeSearchForm from '@/components/SearchForm.vue'
 import LeNoData from '@/components/NoData.vue'
 // Lance-Element-Admin src 全局组件 End
 export const globals: [string, Component][] = [
@@ -31,5 +32,6 @@ export const local_components: Component[] = [
 	LeInputNumber,
 	LeInputNumberRange,
 	LeChart,
+	LeSearchForm,
 	LeNoData
 ]
