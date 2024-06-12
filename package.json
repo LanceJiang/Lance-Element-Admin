@@ -3,6 +3,17 @@
   "private": true,
   "version": "0.0.1",
   "description": "Vue3、TS、Element-Plus、Pinia 和 Vite",
+	"keywords": [
+		"lance-elementplus-admin",
+		"element-plus",
+		"tailwindcss",
+		"lance-admin",
+		"typescript",
+		"pinia",
+		"vue3",
+		"vite",
+		"esm"
+	],
   "author": {
     "name": "LanceJiang",
     "url": "https://github.com/LanceJiang"
