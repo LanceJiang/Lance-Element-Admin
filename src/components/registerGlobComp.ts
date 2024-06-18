@@ -14,9 +14,10 @@ import NoData from '@/components/NoData.vue'
 import Icon from '@/components/Icon.vue'
 import Select from '@/components/Select/index.vue'
 import Chart from '@/components/Chart.vue'
+import EditPopover from '@/components/EditPopover.vue'
 
 // you want register components
-const compList = [SvgIcon, InputNumber, InputNumberRange, DialogForm, FormConfig, SearchForm, LeTableColumnsPopover, DraggableNest, LeTable, NoData, Icon, Select, Chart]
+const compList = [SvgIcon, InputNumber, InputNumberRange, DialogForm, FormConfig, SearchForm, LeTableColumnsPopover, DraggableNest, LeTable, NoData, Icon, Select, Chart, EditPopover]
 
 export function registerGlobComp(app: App) {
 	Object.entries(ElementPlusIconsVue).map(([key, component]) => {

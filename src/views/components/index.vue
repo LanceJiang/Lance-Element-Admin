@@ -22,17 +22,17 @@
 		<div class="content">
 			<!--  单色样式类  -->
 			<!--也可拼接 对应icon文件夹注入的icon 文件-->
-			<SvgIcon icon-class="logo" />
-			<LeIcon icon-class="icon-logo" />
-			<span class="le-iconfont le-review"></span>
-			<LeIcon icon-class="le-checkbox_checked"></LeIcon>
-			<span class="le-iconfont le-checkbox_checked"></span>
-			<LeIcon icon-class="le-checkbox"></LeIcon>
-			<span class="le-iconfont le-checkbox"></span>
-			<LeIcon icon-class="le-radio_checked"></LeIcon>
-			<span class="le-iconfont le-radio_checked"></span>
-			<LeIcon icon-class="le-radio"></LeIcon>
-			<span class="le-iconfont le-radio"></span>
+			<SvgIcon class="mx-1" icon-class="logo" />
+			<LeIcon class="mx-1" icon-class="icon-logo" />
+			<span class="le-iconfont le-review mx-1"></span>
+			<LeIcon class="mx-1" icon-class="le-checkbox_checked"></LeIcon>
+			<span class="le-iconfont le-checkbox_checked mx-1"></span>
+			<LeIcon class="mx-1" icon-class="le-checkbox"></LeIcon>
+			<span class="le-iconfont le-checkbox mx-1"></span>
+			<LeIcon class="mx-1" icon-class="le-radio_checked"></LeIcon>
+			<span class="le-iconfont le-radio_checked mx-1"></span>
+			<LeIcon class="mx-1" icon-class="le-radio"></LeIcon>
+			<span class="le-iconfont le-radio mx-1"></span>
 			<!--  svg  -->
 			<LeIcon icon-class="le-frozen" @click="testHandler"></LeIcon>
 			<!--Table 操作 用： Icon按钮-->
@@ -89,18 +89,33 @@
 			</LeNoData>
 		</div>
 
-		<!--    <div class="common_title">ElCard Style</div>
-    <div class="content">...</div>
-    <div class="common_title">iconfont && LeIcon</div>
-    <div class="content">
-      <el-card shadow="never" class="le-card-bg picking-list" header="Picking List">
-        <template slot="header">
-          Picking List&#45;&#45;&#45;&#45;
-          <el-button type="text">Clear</el-button>
-        </template>
-        123456
-      </el-card>
-    </div>-->
+		<div class="common_title">ElCard Style</div>
+		<div class="content">
+			<el-card shadow="never" class="le-card-bg" header="清单">
+				<template #header>
+					清单----
+					<span class="le-link">Clear</span>
+				</template>
+				<div>内容区....</div>
+			</el-card>
+		</div>
+
+		<div class="common_title">LeEditPopover </div>
+		<div class="content">
+			<LeEditPopover />
+			<LeEditPopover v-model:visible="local_visible">
+				<template #reference>
+					<el-button icon="Filter" />
+				</template>
+				<div class="title">控制title</div>
+				<el-scrollbar max-height="400px">
+					<div class="content">相关业务... <el-button @click="local_visible = false" type="danger">关闭</el-button></div>
+				</el-scrollbar>
+			</LeEditPopover>
+		</div>
+
+		<div class="common_title">To Do List</div>
+		<div class="content">to do...</div>
 	</div>
 </template>
 
@@ -128,6 +143,7 @@ const dropdownOptions = ref([
 	}
 ])
 const curIcon = ref('icon-404')
+const local_visible = ref(false)
 const testHandler = () => {
 	console.error('testHandler...')
 }

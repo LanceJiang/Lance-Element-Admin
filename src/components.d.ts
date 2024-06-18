@@ -1,15 +1,17 @@
 // 全局组件类型声明
-import TableComponent from '@/components/Table/index.vue'
-import FormConfig from '@/components/FormConfig/index.vue'
-import DialogForm from '@/components/DialogForm.vue'
-import SearchForm from '@/components/SearchForm.vue'
+import LeTable from '@/components/Table/index.vue'
+import LeFormConfig from '@/components/FormConfig/index.vue'
+import LeFormConfigDialog from '@/components/FormConfigDialog.vue'
+import LeSearchForm from '@/components/SearchForm.vue'
+import LeEditPopover from '@/components/EditPopover.vue'
 
 declare module '@vue/runtime-core' {
 	export interface GlobalComponents {
-		TableComponent: typeof TableComponent
-		FormConfig: typeof FormConfig
-		DialogForm: typeof DialogForm
-		SearchForm: typeof SearchForm
+		LeTable: typeof LeTable
+		LeFormConfig: typeof LeFormConfig
+		LeFormConfigDialog: typeof LeFormConfigDialog
+		LeSearchForm: typeof LeSearchForm
+		LeEditPopover: typeof LeEditPopover
 	}
 }
 export {}

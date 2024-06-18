@@ -1,6 +1,6 @@
+@import './tailwind.scss';
 @import 'src/styles/variables.module';
 @import 'src/styles/element-plus-dark';
-@import './tailwind.scss';
 @import './mixin.scss';
 @import './transition.scss';
 @import 'src/styles/element-plus';
@@ -139,4 +139,14 @@ div:focus {
 .le-hover-effect--bg {
 	cursor: pointer;
 	@include hover-bg-opacity();
+}
+
+// 链接样式
+.le-link {
+	color: var(--el-color-primary);
+	cursor: pointer;
+	&:hover {
+		//color: var(--el-button-hover-link-text-color);
+		color: var(--el-color-primary-light-5);
+	}
 }
