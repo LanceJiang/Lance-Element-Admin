@@ -34,11 +34,11 @@
 			<LeIcon class="mx-1" icon-class="le-radio"></LeIcon>
 			<span class="le-iconfont le-radio mx-1"></span>
 			<!--  svg  -->
-			<LeIcon icon-class="le-frozen" @click="testHandler"></LeIcon>
+			<LeIcon class="mx-1" icon-class="le-frozen" @click="testHandler"></LeIcon>
 			<!--Table 操作 用： Icon按钮-->
 			<el-tooltip placement="top" :content="$t('le.btn.search')">
 				<el-button class="le-icon-button" @click="testHandler('row')">
-					<LeIcon icon-class="le-view"></LeIcon>
+					<LeIcon class="mx-1" icon-class="le-view"></LeIcon>
 				</el-button>
 			</el-tooltip>
 		</div>
