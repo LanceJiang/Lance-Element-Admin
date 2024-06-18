@@ -13,7 +13,7 @@
 	</div>
 </template>
 <script setup>
-import { onMounted, provide } from 'vue'
+import { onMounted, provide, ref } from 'vue'
 import ChildComponents from './child.vue'
 const list = ref(['JavaScript', 'HTML', 'CSS'])
 const value = ref('')

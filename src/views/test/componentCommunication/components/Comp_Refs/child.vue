@@ -8,8 +8,8 @@
 	</div>
 </template>
 <script setup>
-// ref defineExpose 输出
-import { ref, defineExpose } from 'vue'
+// ref
+import { ref } from 'vue'
 const list = ref(['JavaScript', 'HTML', 'CSS'])
 const value = ref('')
 

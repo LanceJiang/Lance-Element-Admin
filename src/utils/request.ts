@@ -31,6 +31,8 @@ const showFullPageLoadingHandler = (config: AxiosRequestConfig, cb: () => any) =
 }
 // request 拦截器
 axiosInstance.interceptors.request.use(
+	// eslint-disable-next-line
+	// @ts-ignore
 	(config: AxiosRequestConfig) => {
 		if (!config.headers) {
 			throw new Error(`Expected 'config' and 'config.headers' not to be undefined`)
@@ -59,6 +61,8 @@ axiosInstance.interceptors.request.use(
 // let testTimeOut = null
 // response 拦截器
 axiosInstance.interceptors.response.use(
+	// eslint-disable-next-line
+	// @ts-ignore
 	async (response: AxiosResponse) => {
 		const { extraConfig = {} } = response.config
 		showFullPageLoadingHandler(response.config, () => {

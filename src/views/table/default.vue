@@ -93,7 +93,7 @@
 		</LeTable>
 	</div>
 </template>
-<script lang="jsx">
+<script lang="tsx">
 import {
 	// columns,
 	tableBaseMixin
@@ -112,7 +112,7 @@ export default {
 	},
 	created() {
 		console.log('created')
-		window.form = this
+		// window.form = this
 	}
 }
 </script>

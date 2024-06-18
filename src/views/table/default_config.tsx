@@ -196,8 +196,8 @@ export const get_tabs_filterForms = () => [
 			// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
 			// 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
 			const iconValue = searchParams['leSelect_icon']
-			let showValue = ''
-			let tag = ''
+			let showValue: any = ''
+			let tag: any = ''
 			if (iconValue) {
 				const option = icon_configObj[iconValue]
 				const style = `color: ${option.color}`
@@ -421,7 +421,7 @@ export const get_tabs_filterForms = () => [
 			if (others) {
 				showValue += (showValue ? ' -and- ' : '') + `others: ${others}`
 			}
-			let tag = ''
+			let tag: any = ''
 			if (showValue) {
 				tag = (
 					<el-tag disable-transitions>

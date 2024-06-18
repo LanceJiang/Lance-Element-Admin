@@ -8,6 +8,8 @@ import request from '@/utils/request'
 export function uploadFile(file: File) {
 	const formData = new FormData()
 	formData.append('file', file)
+	// eslint-disable-next-line
+	// @ts-ignore
 	return request({
 		url: '/mail/upload',
 		method: 'post',

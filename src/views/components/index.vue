@@ -144,8 +144,8 @@ const dropdownOptions = ref([
 ])
 const curIcon = ref('icon-404')
 const local_visible = ref(false)
-const testHandler = () => {
-	console.error('testHandler...')
+const testHandler = (test: any) => {
+	console.error('testHandler...', test)
 }
 const { locale } = useI18n()
 const switchLang = () => {
