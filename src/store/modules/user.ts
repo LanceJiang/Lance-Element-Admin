@@ -50,7 +50,7 @@ const useUserStore = defineStore({
 		/**
 		 * Google验证登录
 		 */
-		googleLogin(params: any) {
+		googleLogin(params?: any) {
 			return googleLogin(params).then((data: any) => {
 				// console.error(data, 'data')
 				const token = (data || {}).token

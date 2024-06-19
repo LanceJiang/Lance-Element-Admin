@@ -1,4 +1,5 @@
-// @ts-nocheck
+/* eslint-disable */
+// @ts-ignore
 import { isArray } from '@vue/shared'
 
 import type { Option, OptionGroup } from './select.types'

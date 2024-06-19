@@ -2,6 +2,8 @@ import type { RouteRecordRaw, RouteMeta } from 'vue-router'
 // import { RoleEnum } from '@/enums/roleEnum'
 import { defineComponent } from 'vue'
 
+// eslint-disable-next-line
+// @ts-ignore
 export type Component<T = any> = ReturnType<typeof defineComponent> | (() => Promise<typeof import('*.vue')>) | (() => Promise<T>)
 
 export interface MetaProps {

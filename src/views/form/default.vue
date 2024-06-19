@@ -80,6 +80,7 @@
 	</div>
 </template>
 <script lang="tsx">
+import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
 const prefix = 'example.forms.'
 import { defineComponent, ref, reactive, toRefs, watch } from 'vue'
 import { ElMessage } from 'element-plus'
@@ -499,7 +500,7 @@ export default defineComponent({
 				// 	console.error(e, 'onInput')
 				// },
 			}
-		]
+		] as LeFormItem[]
 		const formConfig = {
 			labelPosition: 'left', // right // top
 			// labelPosition: 'top',
@@ -593,13 +594,14 @@ export default defineComponent({
 		const updateParams = () => {
 			state.queryLoading = true
 			console.warn('模拟发送请求参数', JSON.stringify(state.searchParams))
-			new Promise((r) => setTimeout(r, 1000)).then(() => {
+			new Promise(r => setTimeout(r, 1000)).then(() => {
 				console.log('模拟数据请求成功')
 				state.queryLoading = false
 			})
 		}
 		// 边听searchParams变化 更新query
-		watch(() => state.searchParams,
+		watch(
+			() => state.searchParams,
 			updateParams
 			// {
 			// 	immediate: true
@@ -609,6 +611,7 @@ export default defineComponent({
 			getDataHandler() {
 				const _form = formRef.value
 				console.error(_form, '_form')
+				// eslint-disable-next-line
 				// @ts-ignore
 				_form.getParams((error: any, params: any) => {
 					if (!error) {

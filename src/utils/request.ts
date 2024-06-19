@@ -92,7 +92,8 @@ axiosInstance.interceptors.response.use(
 		// @ts-ignore
 		const response: AxiosResponse = error.response || {}
 		const { data } = response
-		showFullPageLoadingHandler(error.config || {}, () => {
+		// eslint-disable-next-line
+		showFullPageLoadingHandler(error.config || {} as any, () => {
 			loading.close()
 		})
 		if (!error.response || !data) {

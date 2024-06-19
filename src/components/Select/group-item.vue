@@ -8,6 +8,7 @@
 </template>
 
 <script lang="ts">
+// eslint-disable-next-line
 // @ts-nocheck
 import { defineComponent } from 'vue'
 // import { useNamespace } from '@element-plus/hooks'

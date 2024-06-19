@@ -135,6 +135,8 @@ export function useColumns(opts: useColumnsOpts) {
 		if (Array.isArray(cur_children) && Array.isArray(targetColumn.children)) {
 			// console.error(JSON.stringify(cur_children), 'cur_children   targetColumn_children', JSON.stringify(targetColumn.children))
 			// children 排序
+			// eslint-disable-next-line
+			// @ts-ignore
 			localColumn.children = targetColumn.children
 				.map(_column => {
 					const findColumn = cur_children.find(l_column => l_column[localField] === _column[targetField])

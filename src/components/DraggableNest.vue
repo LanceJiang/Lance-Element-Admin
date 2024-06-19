@@ -94,7 +94,7 @@ const draggableProps = {
 }
 export type DraggableProps = ExtractPropTypes<typeof draggableProps>
 const draggableEmits = {
-	['update:modelValue']: ((value: LeTableColumnProps[]) => value),
+	['update:modelValue']: (value: LeTableColumnProps[]) => value
 	// start: (value: any) => void 0,
 	// end: (value: any) => void 0
 }

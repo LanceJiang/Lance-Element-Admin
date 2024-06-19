@@ -3,7 +3,7 @@
 		<!-- Echarts 图表 -->
 		<el-row :gutter="40" style="margin-top: 20px">
 			<el-col :sm="24" :lg="8" class="card-panel__col">
-				<BarChart style="background-color: var(--el-color-primary-light-9)" id="barChart" height="400px" width="100%" class="chart-container" />
+				<BarChart id="barChart" style="background-color: var(--el-color-primary-light-9)" height="400px" width="100%" class="chart-container" />
 			</el-col>
 			<el-col :sm="24" :lg="8" class="card-panel__col">
 				<LeChart
@@ -198,7 +198,7 @@ const getChartData2 = () => {
 		{ value: 23, name: '手机数码' }
 	]
 	// const backgroundColor = dashboardRef.value
-	const backgroundColor = dashboardRef.value && window.getComputedStyle(dashboardRef.value, null)?.getPropertyValue('background-color') || '#409eff'
+	const backgroundColor = (dashboardRef.value && window.getComputedStyle(dashboardRef.value, null)?.getPropertyValue('background-color')) || '#409eff'
 	return {
 		// backgroundColor: '#f69cd8',
 		backgroundColor,
@@ -291,7 +291,7 @@ const getChartData2 = () => {
 	}
 }
 const chartRef = ref()
-window.chartRef = chartRef
+// window.chartRef = chartRef
 const state = reactive({
 	chartLoading: false,
 	chartOption: {},
@@ -303,11 +303,11 @@ const state = reactive({
 	/*chartOption: getChartData()*/
 })
 const { chartLoading, chartOption, width, height, showChart, chartLoading2, chartOption2 } = toRefs(state)
-window.test_showChart = () => (showChart.value = !showChart.value)
+/*window.test_showChart = () => (showChart.value = !showChart.value)
 window.test_localStyle = (width_ = '100%', height_ = '600px') => {
 	width.value = width_
 	height.value = height_
-}
+}*/
 // lineChart
 new Promise(resolve => {
 	state.chartLoading = true

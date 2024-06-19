@@ -19,11 +19,12 @@ const Component = defineComponent({
 	name: 'LeCustomRender',
 	props: CustomRenderProps,
 	setup(props, ctx) {
-		const { form, params } = props
+		// const { form, params } = props
 		/*const extendsParams = {
 			form,
 			params
 		}*/
+		// eslint-disable-next-line vue/no-setup-props-destructure
 		const render = props.form?.render
 		return () => {
 			if (typeof render === 'function') {

@@ -11,7 +11,7 @@
 				</el-tooltip>
 			</div>
 		</template>
-		<el-tabs class="message-tabs" v-model="activeTab">
+		<el-tabs v-model="activeTab" class="message-tabs">
 			<el-tab-pane v-for="v of tabsConfig" :key="v.name" :name="v.name">
 				<template #label> {{ v.label }}({{ v.list.length }}) </template>
 				<template v-if="v.list.length">

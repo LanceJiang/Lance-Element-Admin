@@ -8,12 +8,6 @@ import { useFormSize } from 'element-plus'
 
 export default defineComponent({
 	name: 'LeInputNumberRange',
-	emits: {
-		'update:modelValue': (value: [] | {[prop: string]: any}) => true,
-		'blur': (e: Event, prop: string) => true,
-		'focus': (e: Event, prop: string) => true,
-		'change': (value: number|null|undefined, prop: string) => true
-	},
 	components: {
 		InputNumber
 	},
@@ -62,14 +56,20 @@ export default defineComponent({
 			default: ''
 		}
 	},
+	emits: {
+		'update:modelValue': (value: [] | { [prop: string]: any }) => true,
+		blur: (e: Event, prop: string) => true,
+		focus: (e: Event, prop: string) => true,
+		change: (value: number | null | undefined, prop: string) => true
+	},
 	setup(props, { attrs, slots, emit }) {
 		const { t, te } = useI18n()
 		const { prepend, append, controlsPosition, min, max, size, class: classWrap, ...others } = attrs
 		const _controlsPosition = controlsPosition ?? 'right'
 		const { prepend: slot_prepend, append: slot_append, ...childSlots } = slots
 		const inputNumberSize = size || unref(useFormSize())
-		const placeholderStart = te(props.placeholderStart) ? t(props.placeholderStart) : props.placeholderStart
-		const placeholderEnd = te(props.placeholderEnd) ? t(props.placeholderEnd) : props.placeholderEnd
+		const placeholderStart = te(props.placeholderStart as any) ? t(props.placeholderStart) : props.placeholderStart
+		const placeholderEnd = te(props.placeholderEnd as any) ? t(props.placeholderEnd) : props.placeholderEnd
 
 		const _prepend = prepend ? <span class="le-input-number-range_addon prepend">{prepend}</span> : ''
 		const _append = append ? <span class="le-input-number-range_addon append">{append}</span> : ''
@@ -91,7 +91,7 @@ export default defineComponent({
 					return []
 				}
 				const val = props.modelValue
-				if(!val) {
+				if (!val) {
 					emit('update:modelValue', {})
 					return {}
 				}
@@ -112,46 +112,48 @@ export default defineComponent({
 		return () => {
 			const local_propStart = propStart.value as string
 			const local_propEnd = propEnd.value as string
-			return 	<div class={`le-input-number-range le-input-number-range--${inputNumberSize}`}>
-				{slot_prepend ? slot_prepend() : _prepend}
-				<InputNumber
-					class="le-input-number-range_start"
-					size={inputNumberSize}
-					{...others}
-					min={min}
-					max={localModelValue.value[local_propEnd] ?? max}
-					precision={props.precision}
-					controlsPosition={_controlsPosition}
-					placeholder={placeholderStart}
-					style={props.itemStyle}
-					modelValue={localModelValue.value[local_propStart]}
-					v-model={localModelValue.value[local_propStart]}
-					onChange={onChangeStart}
-					onBlur={event => emit('blur', event, local_propStart)}
-					onFocus={event => emit('focus', event, local_propStart)}
-					v-slots={childSlots}
-				/>
-				<span class="le-input-number-range_line">-</span>
-				<InputNumber
-					class="le-input-number-range_end"
-					size={inputNumberSize}
-					{...others}
-					min={localModelValue.value[local_propStart] ?? min}
-					max={max}
-					precision={props.precision}
-					controlsPosition={_controlsPosition}
-					placeholder={placeholderEnd}
-					style={props.itemStyle}
-					modelValue={localModelValue.value[local_propEnd]}
-					v-model={localModelValue.value[local_propEnd]}
-					// v-model={getPropValue(localModelValue.value, local_propEnd)}
-					onChange={onChangeEnd}
-					onBlur={event => emit('blur', event, local_propEnd)}
-					ononFocus={event => emit('focus', event, local_propEnd)}
-					v-slots={childSlots}
-				/>
-				{slot_append ? slot_append() : _append}
-			</div>
+			return (
+				<div class={`le-input-number-range le-input-number-range--${inputNumberSize}`}>
+					{slot_prepend ? slot_prepend() : _prepend}
+					<InputNumber
+						class="le-input-number-range_start"
+						size={inputNumberSize}
+						{...others}
+						min={min}
+						max={localModelValue.value[local_propEnd] ?? max}
+						precision={props.precision}
+						controlsPosition={_controlsPosition}
+						placeholder={placeholderStart}
+						style={props.itemStyle}
+						modelValue={localModelValue.value[local_propStart]}
+						v-model={localModelValue.value[local_propStart]}
+						onChange={onChangeStart}
+						onBlur={event => emit('blur', event, local_propStart)}
+						onFocus={event => emit('focus', event, local_propStart)}
+						v-slots={childSlots}
+					/>
+					<span class="le-input-number-range_line">-</span>
+					<InputNumber
+						class="le-input-number-range_end"
+						size={inputNumberSize}
+						{...others}
+						min={localModelValue.value[local_propStart] ?? min}
+						max={max}
+						precision={props.precision}
+						controlsPosition={_controlsPosition}
+						placeholder={placeholderEnd}
+						style={props.itemStyle}
+						modelValue={localModelValue.value[local_propEnd]}
+						v-model={localModelValue.value[local_propEnd]}
+						// v-model={getPropValue(localModelValue.value, local_propEnd)}
+						onChange={onChangeEnd}
+						onBlur={event => emit('blur', event, local_propEnd)}
+						ononFocus={event => emit('focus', event, local_propEnd)}
+						v-slots={childSlots}
+					/>
+					{slot_append ? slot_append() : _append}
+				</div>
+			)
 		}
 	}
 })

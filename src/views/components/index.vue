@@ -100,7 +100,7 @@
 			</el-card>
 		</div>
 
-		<div class="common_title">LeEditPopover </div>
+		<div class="common_title">LeEditPopover</div>
 		<div class="content">
 			<LeEditPopover />
 			<LeEditPopover v-model:visible="local_visible">
@@ -109,7 +109,7 @@
 				</template>
 				<div class="title">控制title</div>
 				<el-scrollbar max-height="400px">
-					<div class="content">相关业务... <el-button @click="local_visible = false" type="danger">关闭</el-button></div>
+					<div class="content">相关业务... <el-button type="danger" @click="local_visible = false">关闭</el-button></div>
 				</el-scrollbar>
 			</LeEditPopover>
 		</div>
@@ -121,11 +121,11 @@
 
 <script setup name="home" lang="tsx">
 import { ref } from 'vue'
-import SearchGroup2Popover from './components/SearchGroup2Popover'
-import LeSelectDemo from './components/LeSelectDemo'
-import InputNumberDemo from './components/InputNumberDemo'
-import LeDraggableNestDemo from './components/LeDraggableNestDemo'
-import WatermarkDemo from './components/WatermarkDemo'
+import SearchGroup2Popover from './components/SearchGroup2Popover.vue'
+import LeSelectDemo from './components/LeSelectDemo.vue'
+import InputNumberDemo from './components/InputNumberDemo.vue'
+import LeDraggableNestDemo from './components/LeDraggableNestDemo.vue'
+import WatermarkDemo from './components/WatermarkDemo.vue'
 import IconPicker from '@/components/IconPicker/index.vue'
 import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import useStore from '@/store/index'

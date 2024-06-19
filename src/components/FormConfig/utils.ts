@@ -43,7 +43,7 @@ export const renderOption = function (
 }
 // (级联/LeSelect)自定义渲染
 export const optionSlot = <T>(slots: Slots, slotOption: SlotOption<T>) => {
-	let scopedSlots_option = slotOption
+	let scopedSlots_option: any = slotOption
 	if (typeof slotOption === 'string') {
 		scopedSlots_option = slots[slotOption]
 	}
@@ -54,7 +54,7 @@ export const optionSlot = <T>(slots: Slots, slotOption: SlotOption<T>) => {
 // 获取formItem label
 export const get_formSlotLabel = (slots: Slots, slotLabel: SlotOption<{ label: string }>) => {
 	if (!slotLabel) return
-	let scopedSlots_option = slotLabel
+	let scopedSlots_option: any = slotLabel
 	if (typeof slotLabel === 'string') {
 		scopedSlots_option = slots[slotLabel]
 	}

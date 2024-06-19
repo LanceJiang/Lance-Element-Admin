@@ -1,12 +1,15 @@
 import { AppRouteRecordRaw, MetaProps } from '@/router/types'
 
 /* RouteMenu */
-declare namespace RouteMenu {
-	interface Item extends AppRouteRecordRaw {
+export declare namespace RouteMenu {
+	export interface Item extends AppRouteRecordRaw {
 		component?: string | (() => Promise<unknown>)
+		// [key: string]: any
 	}
-	interface Meta extends MetaProps {
+	export interface Meta extends MetaProps {
 		test?: any
+		local_title?: string
+		[key: string]: any
 	}
 }
 
@@ -28,7 +31,7 @@ declare namespace File {
 }
 
 /* Vite */
-declare type Recordable<T = any> = Record<string, T>
+export declare type Recordable<T = any> = Record<string, T>
 
 declare interface ViteEnv {
 	VITE_USER_NODE_ENV: 'development' | 'production' | 'test'
@@ -76,7 +79,7 @@ type ObjToKeyValArray<T> = {
 declare module '*.vue' {
 	import { DefineComponent } from 'vue'
 
-	const Component: DefineComponent<{}, {}, any>
+	const Component: DefineComponent<object, object, any>
 	export default Component
 }
 

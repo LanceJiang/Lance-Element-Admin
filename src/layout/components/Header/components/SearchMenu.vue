@@ -56,7 +56,7 @@ const menuList = computed(() => {
 		}
 	})
 })
-const searchMenuList = (queryString: string, cb: () => {}) => {
+const searchMenuList = (queryString: string, cb: (list: any[]) => any) => {
 	const _menuList = queryString ? menuList.value.filter(filterNodeMethod(queryString)) : menuList.value
 	cb(_menuList)
 }

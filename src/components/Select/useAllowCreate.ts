@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 // @ts-nocheck
 import { computed, ref } from 'vue'
 import type { ISelectProps } from './token'

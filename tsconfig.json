@@ -18,6 +18,7 @@
     "jsx": "preserve",
 		/* 对js文件进行编译 */
     "allowJs": true,
+		"allowSyntheticDefaultImports": true,
 		/* 检测js代码 */
     "checkJs": true,
 		"sourceMap": true,
@@ -40,13 +41,14 @@
 			"@": ["src"],
 			"@/*": ["src/*"]
 		}
-  },
+	},
   "include": [
 		"src/**/*.ts",
 		"src/**/*.d.ts",
+		"src/types/**/*.ts",
 		"src/**/*.tsx",
 		"src/**/*.vue"
 	],
-	"exclude": ["node_modules", "dist", "src/**/*.js"],
+	"exclude": ["node_modules", "dist", "src/**/*.js", "src/**/*.jsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

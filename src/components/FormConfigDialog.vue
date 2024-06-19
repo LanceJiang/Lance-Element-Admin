@@ -38,14 +38,14 @@ export default defineComponent({
 	components: {
 		FormConfig
 	},
-	emits: formConfigDialogEmits,
 	props: formConfigDialogProps,
+	emits: formConfigDialogEmits,
 	setup(props, { emit, slots, attrs, expose }) {
 		const formConfigRef = ref(/*formConfigRef*/)
 		const changeVisible = (bool = false) => {
 			emit('update:modelValue', bool)
 		}
-		const onSubmit = (params) => {
+		const onSubmit = params => {
 			emit('submit', params)
 		}
 		expose({
@@ -66,14 +66,9 @@ export default defineComponent({
 					onClose={changeVisible}
 					onUpdate:modelValue={changeVisible}
 				>
-					{modelValue && <FormConfig
-						ref={formConfigRef}
-						{...formOptions}
-						formData={formData}
-						onSubmit={onSubmit}
-						onCancel={changeVisible}
-						v-slots={slots}
-					/>}
+					{modelValue && (
+						<FormConfig ref={formConfigRef} {...formOptions} formData={formData} onSubmit={onSubmit} onCancel={changeVisible} v-slots={slots} />
+					)}
 				</el-dialog>
 			)
 		}

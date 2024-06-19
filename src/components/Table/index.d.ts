@@ -4,8 +4,8 @@ import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/lib/co
 export type LeColumnSlots = {
 	// default?: ((scope: Record<string, any>) => any) | string
 	// header?: ((scope: Record<string, any>) => any) | string
-	default?: ((scope: { row; column; $index }) => HTMLDivElement | string) | string
-	header?: ((scope: { column; $index }) => HTMLDivElement | string) | string
+	default?: ((scope: { row; column; $index }) => JSX.Element | string | any) | string
+	header?: ((scope: { column; $index }) => JSX.Element | string | any) | string
 }
 export type LeColumnProps = {
 	// 多语言label转义字符

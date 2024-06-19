@@ -216,6 +216,7 @@
 </template>
 <script setup lang="tsx" name="SearchGroup2Popover">
 import { defineComponent, ref, toRefs, reactive, computed, watch, onMounted } from 'vue'
+import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
@@ -243,9 +244,12 @@ const searchParams = ref({
 	inputNumberRangeEnd: undefined,
 	leSelectMultipleMore_icon: [1, 3]
 })
-watch(() => searchParams.value, (params) => {
-	console.error(params, 'searchParams 更新...')
-})
+watch(
+	() => searchParams.value,
+	params => {
+		console.error(params, 'searchParams 更新...')
+	}
+)
 const formOptions = ref({
 	forms: [
 		{
@@ -324,7 +328,7 @@ const formOptions = ref({
 				option({ option, label }) {
 					const style = `color: ${option.color}`
 					return <le-icon icon-class={option.icon} style={style}></le-icon>
-				},
+				}
 			},
 			/*slotOption({ option, label }) {
 				const style = `color: ${option.color}`
@@ -653,7 +657,7 @@ const formOptions = ref({
 				}
 			]
 		}, */
-	]
+	] as LeFormItem[]
 })
 const selectedSettingSubmit = (group, dialog) => {
 	// group: searchGroup 组件实例
@@ -682,7 +686,7 @@ const selectedSettingSubmit = (group, dialog) => {
 			return items
 		}, [])
 		// 重置 formOptions.forms
-		this.formOptions.forms = defaultForms.concat(moreForms)
+		this.formOptions.forms = defaultForms.concat(moreForms) as LeFormItem[]
 
 		// group.selectedSettingVisible = false
 		group.selectedSettingVisibleChange(false)

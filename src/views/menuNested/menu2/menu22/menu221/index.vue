@@ -8,5 +8,4 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="menu221">
-</script>
+<script setup lang="ts" name="menu221"></script>

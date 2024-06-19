@@ -67,7 +67,7 @@ export const tableProps = {
 	},
 	// 当前行(高亮)
 	curRow: {
-		type: Object as PropType<{[key: string]: any}|null>,
+		type: Object as PropType<{ [key: string]: any } | null>,
 		default: null
 	}
 }
@@ -103,7 +103,7 @@ const TableComponent = defineComponent({
 	name: 'LeTable',
 	props: tableProps,
 	// 更新搜索条件, 更新列配置, table Sort 排序, table 刷新
-	emits: ['update:searchParams', 'update:checkedOptions', 'sortChange', 'refresh', 'row-click'],
+	emits: ['update:searchParams', 'update:checkedOptions', 'sortChange', 'refresh', 'row-click', 'update:curRow'],
 	setup(props, { attrs, slots, emit, expose }) {
 		const { t } = useI18n()
 		// const tableRef = ref<Table>(/*tableRef*/)
@@ -180,10 +180,10 @@ const TableComponent = defineComponent({
 			emit('update:curRow', row)
 		}
 		// 设置当前行
-		const setCurrentRow = (rowOrIndex: ({[key: string]: any}|number|null) = null, update = true) => {
+		const setCurrentRow = (rowOrIndex: { [key: string]: any } | number | null = null, update = true) => {
 			let curRowIndex = -1
 			const list = props.list
-			if(typeof rowOrIndex === 'number') {
+			if (typeof rowOrIndex === 'number') {
 				curRowIndex = rowOrIndex
 			} else if (Object.keys(rowOrIndex || {}).length) {
 				const currentRowKey = computedOptions.value.currentRowKey
@@ -197,14 +197,17 @@ const TableComponent = defineComponent({
 				tableRef.value.setCurrentRow(list[curRowIndex]) // 高亮原本被选中的数据
 			})
 		}
-		watch(() => props.list, (list) => {
-			// 高亮数据判断
-			if (Object.keys(props.curRow || {}).length) {
-				setCurrentRow(props.curRow, false)
-			}
-		}/*, {
+		watch(
+			() => props.list,
+			list => {
+				// 高亮数据判断
+				if (Object.keys(props.curRow || {}).length) {
+					setCurrentRow(props.curRow, false)
+				}
+			} /*, {
 			immediate: true
-		}*/)
+		}*/
+		)
 
 		const table_slots = {
 			empty: () => <NoData size={unref(computedOptions).size}></NoData>

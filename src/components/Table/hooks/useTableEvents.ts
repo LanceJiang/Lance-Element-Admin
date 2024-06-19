@@ -1,2 +1,1 @@
-export const useTableEvents = () => {
-}
+export const useTableEvents = () => {}

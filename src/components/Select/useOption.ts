@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 // @ts-nocheck
 import type { IOptionProps } from './token'
 

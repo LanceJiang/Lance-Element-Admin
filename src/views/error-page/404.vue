@@ -51,8 +51,8 @@ export default {
 		}
 	},
 	created() {
-		window.test = this
-		console.error(this, 'this')
+		// window.test = this
+		// console.error(this, 'this')
 	}
 }
 </script>

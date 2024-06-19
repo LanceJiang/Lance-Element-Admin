@@ -164,5 +164,4 @@ onMounted(() => {
 		border-radius: 0;
 	}
 }
-
 </style>

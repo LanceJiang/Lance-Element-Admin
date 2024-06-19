@@ -28,8 +28,8 @@ const options = ref({
 	summaryMethod: ({ columns, data }) => {
 		const sums = []
 		columns.forEach((column, index) => {
-			if(index === 0) {
-				return sums[index] = '统计' // /Total
+			if (index === 0) {
+				return (sums[index] = '统计') // /Total
 			}
 			// const values = data.map((item) => Number(item[column.property]))
 			const prop = column.property
@@ -167,5 +167,4 @@ onMounted(() => {
 		border-radius: 0;
 	}
 }
-
 </style>

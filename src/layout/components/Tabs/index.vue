@@ -186,7 +186,7 @@ const tabsDrop = () => {
 		}
 	})
 }
-window.router = router
+// window.router = router
 // Tab Click
 const tabClick = (tabItem: TabsPaneContext) => {
 	const fullPath = tabItem.props.label as string

@@ -39,13 +39,13 @@ export const SearchFormProps = {
 		default: false
 	},
 	reset: {
-		type: Function as PropType<((initSearchData: Record<string, any>) => any)>
+		type: Function as PropType<(initSearchData: Record<string, any>) => any>
 	}
 }
 export const SearchForm = defineComponent({
 	name: 'LeSearchForm',
-	emits,
 	props: SearchFormProps,
+	emits,
 	setup(props, ctx) {
 		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
@@ -89,7 +89,7 @@ export const SearchForm = defineComponent({
 		})
 		const vSlots = ctx.slots
 		const realForms = computed(() => {
-			return (props.forms || []).map((form) => {
+			return (props.forms || []).map(form => {
 				return {
 					...form,
 					le_slots: get_formSlots(vSlots, form.slots)
@@ -298,13 +298,7 @@ export const SearchForm = defineComponent({
 						)
 					// switch
 					case 'switch':
-						return <el-switch
-							{...formOthers}
-							v-model={searchData[prop]}
-							onChange={changeAndSearch}
-							style={_itemStyle}
-							disabled={disabled}
-						/>
+						return <el-switch {...formOthers} v-model={searchData[prop]} onChange={changeAndSearch} style={_itemStyle} disabled={disabled} />
 					case 'input':
 					default:
 						return (

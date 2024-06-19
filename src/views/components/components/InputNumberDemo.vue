@@ -2,19 +2,19 @@
 	<div class="common_title">LeInputNumber && LeInputNumberRange</div>
 	<div class="content">
 		{{ testNumber }}
-		<LeInputNumber style="width: 500px" disabled v-model="testNumber" :min="0" prefixIcon="#" _controlsPosition=""></LeInputNumber>
-		<LeInputNumber v-model="testNumber" :min="0" prefixIcon="#" suffixIcon="￥" size="small" _controlsPosition=""></LeInputNumber>
-		<LeInputNumber v-model="testNumber" :min="0" prefixIcon="#" size="small" _controlsPosition=""></LeInputNumber>
-		<LeInputNumber v-model="testNumber" :min="0" suffixIcon="￥" _controlsPosition=""></LeInputNumber>
-		<LeInputNumber size="small" v-model="testNumber" :min="0" prefixIcon="#" suffixIcon="￥" _controlsPosition=""></LeInputNumber>
-		<LeInputNumber v-model="testNumber" :min="0" style="width: 300px" controlsPosition="">
-			<template slot="prefix"><span class="le-addon le-input-number__prefix" style="background: #0f0">prefix</span></template>
-			<template slot="suffix"><span class="le-addon le-input-number__suffix" style="background: var(--el-color-danger)">suffix</span></template>
+		<LeInputNumber v-model="testNumber" style="width: 500px" disabled :min="0" prefix-icon="#" _controlsPosition=""></LeInputNumber>
+		<LeInputNumber v-model="testNumber" :min="0" prefix-icon="#" suffix-icon="￥" size="small" _controlsPosition=""></LeInputNumber>
+		<LeInputNumber v-model="testNumber" :min="0" prefix-icon="#" size="small" _controlsPosition=""></LeInputNumber>
+		<LeInputNumber v-model="testNumber" :min="0" suffix-icon="￥" _controlsPosition=""></LeInputNumber>
+		<LeInputNumber v-model="testNumber" size="small" :min="0" prefix-icon="#" suffix-icon="￥" _controlsPosition=""></LeInputNumber>
+		<LeInputNumber v-model="testNumber" :min="0" style="width: 300px" controls-position="">
+			<template #prefix><span class="le-addon le-input-number__prefix" style="background: #0f0">prefix</span></template>
+			<template #suffix><span class="le-addon le-input-number__suffix" style="background: var(--el-color-danger)">suffix</span></template>
 		</LeInputNumber>
 		<div>-------LeInputNumberRange--------</div>
 		{{ numberRangeParams }}<br />
-		<LeInputNumberRange v-model="numberRangeParams" v-bind="numberRangeForm" itemStyle="width: 400px">
-<!--			<template #prepend><span class="le-input-number-range_addon local_prepend" style="background: #0f0;">prepend</span></template>-->
+		<LeInputNumberRange v-model="numberRangeParams" v-bind="numberRangeForm" item-style="width: 400px">
+			<!--			<template #prepend><span class="le-input-number-range_addon local_prepend" style="background: #0f0;">prepend</span></template>-->
 			<template #append><span class="le-input-number-range_addon local_append" style="background: var(--el-color-danger)">append</span></template>
 		</LeInputNumberRange>
 	</div>
@@ -41,6 +41,4 @@ const numberRangeForm = {
 	// controlsPosition: 'right' // 默认
 }
 </script>
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

@@ -76,8 +76,8 @@ const FormConfig = defineComponent({
 		InputNumberRange,
 		LeSelect
 	},
-	emits: formConfigEmits,
 	props: FormConfigProps,
+	emits: formConfigEmits,
 	setup(props, ctx) {
 		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
@@ -117,7 +117,7 @@ const FormConfig = defineComponent({
 				const _prop = v.prop,
 					props = v.props // 绑定的其他数据
 				let defaultValue: any
-				if(v.itemType === 'inputNumberRange') defaultValue = []
+				if (v.itemType === 'inputNumberRange') defaultValue = []
 				params[_prop] = setItemData(formData[_prop], defaultValue) // 数据初始化
 				/*const itemProps = queryItemTypeKeys(v)
 				itemProps.map(prop => {
@@ -176,7 +176,7 @@ const FormConfig = defineComponent({
 				const { params, formValueFormats } = state
 				const formattedForm = {} // 最后提交后台使用的params对象
 				forms.forEach(form => {
-					const prop = form.prop
+					const prop = form.prop as string
 					if (prop) {
 						formattedForm[prop] = params[prop]
 						// // 对应的form 内部设置有 formValueFormats 函数的值做提交前的最后操作 fn(value, prop)
@@ -217,14 +217,17 @@ const FormConfig = defineComponent({
 				})
 			}
 		}
-		watch(() => props.formData, (newData, oldData) => {
-			// console.warn(JSON.stringify(newData), JSON.stringify(oldData), 'newFormData, oldFormData... 监听  formData')
-			changeFormData(newData)
-		})
+		watch(
+			() => props.formData,
+			(newData, oldData) => {
+				// console.warn(JSON.stringify(newData), JSON.stringify(oldData), 'newFormData, oldFormData... 监听  formData')
+				changeFormData(newData)
+			}
+		)
 		// 本地数据
 		const state = reactive({
 			// { params, bindProps }
-			...changeFormData(props.formData, true),
+			...changeFormData(props.formData, true)
 			/*params,
 			// 额外props 集合
 			bindProps: []*/
@@ -522,14 +525,8 @@ const FormConfig = defineComponent({
 				)
 			}
 			return (
-				<el-form
-					ref={formRef}
-					class={`le-form-config le-form-config--${size}`}
-					{...form_config}
-					size={size}
-					model={params}
-				>
-					<el-row class='form_wrap' gutter={gutter}>
+				<el-form ref={formRef} class={`le-form-config le-form-config--${size}`} {...form_config} size={size} model={params}>
+					<el-row class="form_wrap" gutter={gutter}>
 						{/*renderForms({forms: realForms.value, gutter, span})*/}
 						{realForms.value.map((form, idx) => {
 							const { span: _span, t_label, label, ...others } = form
@@ -539,12 +536,7 @@ const FormConfig = defineComponent({
 							}
 							return (
 								<el-col v-show={form.visible !== false} key={idx} span={_span ?? span}>
-									<el-form-item
-										class={form.showLabel === false ? 'hideLabel' : ''}
-										{...others}
-										label={_label}
-										v-slots={formItemSlots}
-									>
+									<el-form-item class={form.showLabel === false ? 'hideLabel' : ''} {...others} label={_label} v-slots={formItemSlots}>
 										{itemRender(form)}
 									</el-form-item>
 								</el-col>
