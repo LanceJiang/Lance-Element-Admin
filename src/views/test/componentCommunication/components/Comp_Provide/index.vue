@@ -5,7 +5,7 @@
 		<ul class="parent input-group">
 			<input v-model="value" type="text" placeholder="请输入" />
 			<div class="input-group-append">
-				<button @click="handleAdd" class="btn btn-primary" type="button">添加</button>
+				<button class="btn btn-primary" type="button" @click="handleAdd">添加</button>
 			</div>
 		</ul>
 		<!-- 子组件 -->

@@ -3,7 +3,7 @@
 		<li style="color: var(--el-color-danger)">子组件</li>
 		<input v-model="value" type="text" class="form-control" placeholder="请输入" />
 		<div class="input-group-append">
-			<button @click="handleAdd" class="btn btn-primary" type="button">添加</button>
+			<button class="btn btn-primary" type="button" @click="handleAdd">添加</button>
 		</div>
 	</div>
 </template>
