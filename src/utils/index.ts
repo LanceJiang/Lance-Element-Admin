@@ -110,13 +110,13 @@ export const objDeepMerge = (...objs: any[]) => {
 	return res
 }
 
-/**
- * 复制文字
- * @param val
- * @param sucTxt
- * @returns {boolean}
- */
-export function copyText(val: string, sucTxt = '复制成功~') {
+// /**
+//  * 复制文字
+//  * @param val
+//  * @param sucTxt
+//  * @returns {boolean}
+//  */
+/*export function copyText(val: string, sucTxt = '复制成功~') {
 	const textarea: any = document.createElement('textarea')
 	// 将该 textarea 设为 readonly 防止 iOS 下自动唤起键盘，同时将 textarea 移出可视区域
 	textarea.readOnly = 'readonly'
@@ -132,6 +132,24 @@ export function copyText(val: string, sucTxt = '复制成功~') {
 		ElMessage.success(sucTxt)
 	}
 	return res
+}*/
+
+/**
+ * 复制文字
+ * @param text
+ */
+export async function copyText(text: string) {
+	const { copy, copied, isSupported } = useClipboard(/*{ source: text }*/)
+	if (!isSupported) {
+		// 复制失败
+		ElMessage.error(t('le.message.CopyFailure'))
+	} else {
+		await copy(text)
+		if (copied.value) {
+			// message.success('复制成功~')
+			ElMessage.success(t('le.message.CopiedSuccessfully'))
+		}
+	}
 }
 
 /**
