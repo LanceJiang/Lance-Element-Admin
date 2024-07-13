@@ -84,7 +84,7 @@ import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
 const prefix = 'example.forms.'
 import { defineComponent, ref, reactive, toRefs, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-import i18n from '@/lang/index'
+import { t } from '@/utils'
 export default defineComponent({
 	name: 'FormDefault',
 	setup() {
@@ -153,7 +153,7 @@ export default defineComponent({
 				rules: [
 					{
 						required: true,
-						message: i18n.global.t('le.validate.validateEmptyTips', {
+						message: t('le.validate.validateEmptyTips', {
 							name: 'test2'// i18n.global.t(`${prefix}test2`)
 						}),
 						// message: 'validate.validateEmptyTips',

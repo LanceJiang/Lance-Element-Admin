@@ -3,7 +3,17 @@ import { ElMessage } from 'element-plus'
 // vue Storage 使用
 export { ls } from './vueStorage'
 import { get, set } from 'lodash-unified'
+import i18n from '@/lang/index'
+import { useClipboard } from '@vueuse/core'
 export type Arrayable<T> = T | T[]
+// 多语言翻译
+export const t = (key: string, ...args: any[]) => {
+	if (!i18n) return key
+	const hasKey = i18n.global.te(key)
+	// eslint-disable-next-line
+	// @ts-ignore
+	return hasKey ? i18n.global.t(key, ...args) : key
+}
 export const getPropValue = <T = any>(obj: Record<string, any>, path: Arrayable<string>, defaultValue?: any): { value: T } => {
 	return {
 		get value() {

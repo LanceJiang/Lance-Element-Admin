@@ -25,7 +25,6 @@
 <script setup lang="tsx" name="multipleHeader">
 import { ref, toRefs, reactive, computed, watch, onMounted } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import i18n from '@/lang/index'
 import { ElMessage } from 'element-plus'
 import { get_multipleHeaderList } from '@/views/table/queryApi.js'
 import { LeTableColumnProps } from '@/components/Table'

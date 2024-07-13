@@ -8,7 +8,6 @@
 <script lang="tsx" setup>
 // todo...
 import { ref, reactive, toRefs, watch } from 'vue'
-import i18n from '@/lang/index'
 const prefix = 'example.forms.'
 const queryLoading = ref(false)
 const searchParams = ref({
