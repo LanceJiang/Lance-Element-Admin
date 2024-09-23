@@ -14,12 +14,14 @@ const props = defineProps({
 const lastVersionTag = ref('')
 let isCheckingUpdates = false
 let timer: ReturnType<typeof setInterval>
+const entrance = import.meta.env.VITE_PUBLIC_PATH
 async function getVersionTag() {
 	try {
 		if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
 			return null
 		}
-		const response = await fetch('/', {
+
+		const response = await fetch(entrance, {
 			cache: 'no-cache',
 			method: 'HEAD'
 		})
@@ -78,7 +80,8 @@ function start() {
 	}
 
 	// 每 checkUpdatesInterval(默认值为5) 分钟检查一次
-	timer = setInterval(checkForUpdates, props.checkUpdatesInterval * 60 * 1000)
+	// timer = setInterval(checkForUpdates, props.checkUpdatesInterval * 60 * 1000)
+	timer = setInterval(checkForUpdates, props.checkUpdatesInterval * 20 * 1000) // todo delete
 }
 function stop() {
 	clearInterval(timer)
