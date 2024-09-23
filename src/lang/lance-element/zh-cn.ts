@@ -157,7 +157,9 @@ export default {
 				isWatermark: '开启水印',
 				watermarkText: '水印文案',
 				reset: '重置当前配置'
-			}
+			},
+			checkUpdatesTitle: '新版本可用',
+			checkUpdatesDescription: '点击刷新以获取最新版本'
 		}
 	}
 }

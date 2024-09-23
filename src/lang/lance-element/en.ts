@@ -159,7 +159,9 @@ export default {
 				isWatermark: 'Turn On Watermark',
 				watermarkText: 'Watermark Copy',
 				reset: 'Reset The Current Configuration'
-			}
+			},
+			checkUpdatesTitle: 'New Version Available',
+			checkUpdatesDescription: 'Click to Refresh and get the latest version'
 		}
 	}
 }

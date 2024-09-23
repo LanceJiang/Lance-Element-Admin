@@ -1,6 +1,8 @@
 <template>
 	<component :is="LayoutComponents[layout]" />
 	<ThemeSettings v-if="showSettings" />
+	<!-- 版本校验刷新功能 -->
+	<CheckUpdates />
 </template>
 
 <script setup lang="ts" name="layout">
@@ -12,6 +14,7 @@ import LayoutLeft from './LayoutLeft/index.vue'
 import LayoutLeftMix from './LayoutLeftMix/index.vue'
 import LayoutTop from './LayoutTop/index.vue'
 import LayoutTopMix from './LayoutTopMix/index.vue'
+import CheckUpdates from './components/CheckUpdates.vue'
 import { ThemeSettings } from '@/layout/components'
 
 const LayoutComponents: Record<LayoutType, Component> = {
