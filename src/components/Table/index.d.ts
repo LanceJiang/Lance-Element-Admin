@@ -45,13 +45,13 @@ export type Options = {
 	align?: string
 	// table 默认 column 是否允许拖动 (默认:true)
 	resizable?: boolean
-	// table 默认 column 是否允许拖动 (默认:true)
+	// columnItem 超出内容 省略号 同时添加 tooltip (默认:false)
 	showOverflowTooltip?: boolean
 	// 是否展示数据序列号 (默认:true)
 	showIndex?: boolean
 	// 展示数据序列号_label (默认:'序号')
 	indexLabel?: string
-	// table 默认 column 是否允许拖动 (默认:true)
+	// 是否加载table 分页栏 (默认:true)
 	showPagination?: boolean
 
 	// 其他
