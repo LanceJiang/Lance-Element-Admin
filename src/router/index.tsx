@@ -4,7 +4,7 @@ import useStore from '@/store'
 
 export const Layout = () => import('@/layout/index.vue')
 
-const HOME_URL = '/dashboard'
+export const HOME_URL = '/dashboard'
 
 // 参数说明: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
 // 静态路由

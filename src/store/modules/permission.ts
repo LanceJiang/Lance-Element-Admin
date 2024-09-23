@@ -4,6 +4,7 @@ import { AppRouteRecordRaw } from '@/router/types'
 import { defineStore } from 'pinia'
 // import { sysStaticRouter, noFoundRouters, constantMenuList } from '@/router'
 import { getMenuList } from '@/api/system/menu'
+import { HOME_URL } from '@/router'
 
 const modules = import.meta.glob('@/views/**/*.vue')
 export const Layout = () => import('@/layout/index.vue') // todo...
@@ -126,7 +127,15 @@ const usePermissionStore = defineStore({
 	getters: {
 		// 有效的 菜单列表
 		// showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify([...constantMenuList, ...state.menuList]))),
-		showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify(state.menuList))),
+		showMenuList: state => {
+			return [
+				// 首页
+				{
+					path: HOME_URL,
+					meta: { title: 'dashboard', icon: 'icon-homepage', affix: true }
+				}
+			].concat(getShowMenuList(JSON.parse(JSON.stringify(state.menuList))))
+		},
 		/*getShowMenuList([
 				...JSON.parse(JSON.stringify(state.menuList)),
 				// 测试

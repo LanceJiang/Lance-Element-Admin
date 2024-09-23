@@ -63,7 +63,7 @@ const useUserStore = defineStore({
 				// debugger
 				const path = redirect || '/'
 				// console.error(path, 'path query', query)
-				router.push({ path, query })
+				router.push(path)
 				return data
 			})
 		},
