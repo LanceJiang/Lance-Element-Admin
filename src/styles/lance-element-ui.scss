@@ -65,10 +65,10 @@
     &.is-disabled {
       .el-input-number__decrease,
       .el-input-number__increase {
+				color: $le-color_5;
         &:hover {
           color: $le-color_5;
         }
-        color: $le-color_5;
       }
     }
     .el-input-number__decrease,

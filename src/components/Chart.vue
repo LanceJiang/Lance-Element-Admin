@@ -430,6 +430,12 @@ export const colorBase2 = [
 		}
 
 		.overlay {
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			pointer-events: none;
 			&.overlayTopLevel {
 				pointer-events: unset;
 			}
@@ -447,13 +453,6 @@ export const colorBase2 = [
 					background: #fff;
 				}
 			}
-
-			position: absolute;
-			left: 0;
-			top: 0;
-			bottom: 0;
-			right: 0;
-			pointer-events: none;
 		}
 	}
 }

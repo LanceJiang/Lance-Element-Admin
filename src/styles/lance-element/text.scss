@@ -1,6 +1,9 @@
 @import "../variables.scss";
 // Text 样式
 .#{$prefix}text {
+	//font-size: 14px;
+	font-size: var(--el-font-size-base);
+	display: inline-flex;
 	&-wrap {
 	}
 	/*.is-line-clamp {
@@ -8,9 +11,6 @@
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}*/
-	//font-size: 14px;
-	font-size: var(--el-font-size-base);
-	display: inline-flex;
 	.action-icon {
 		margin-left: 2px;
 		padding-top: 4px;
