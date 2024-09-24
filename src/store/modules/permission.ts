@@ -127,17 +127,14 @@ const usePermissionStore = defineStore({
 	getters: {
 		// 有效的 菜单列表
 		// showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify([...constantMenuList, ...state.menuList]))),
-		showMenuList: state => {
+		showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify(state.menuList))),
+		/*showMenuList: state => {
 			return [
 				// 首页
 				{
 					path: HOME_URL,
 					meta: { title: 'dashboard', icon: 'icon-homepage', affix: true }
-				}
-			].concat(getShowMenuList(JSON.parse(JSON.stringify(state.menuList))))
-		},
-		/*getShowMenuList([
-				...JSON.parse(JSON.stringify(state.menuList)),
+				},
 				// 测试
 				{
 					path: 'dashboard',
@@ -146,8 +143,8 @@ const usePermissionStore = defineStore({
 					name: 'dashboard',
 					meta: { title: 'dashboard', icon: 'icon-homepage', affix: true }
 				}
-			])*/
-		// showMenuList: state => getShowMenuList(JSON.parse(JSON.stringify(state.routes)))
+			].concat(getShowMenuList(JSON.parse(JSON.stringify(state.menuList))))
+		},*/
 		// 菜单权限列表 ==> 扁平化之后的一维数组菜单，主要用来添加动态路由
 		showMenuListFlat() {
 			// console.error(state, 'test...', this)
