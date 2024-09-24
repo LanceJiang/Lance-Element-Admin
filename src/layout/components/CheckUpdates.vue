@@ -3,7 +3,7 @@
 </template>
 <script setup lang="tsx">
 import { onMounted, onUnmounted, ref } from 'vue'
-import { ElNotification } from 'element-plus'
+import { ElNotification, ElButton } from 'element-plus'
 import { t } from '@/utils'
 const props = defineProps({
 	checkUpdatesInterval: {
@@ -73,15 +73,14 @@ const handleNotice = versionTag => {
 		duration: 0
 	})
 }
-
+window.handleNotice = handleNotice // todo delete
 function start() {
 	if (props.checkUpdatesInterval <= 0) {
 		return
 	}
 
 	// 每 checkUpdatesInterval(默认值为5) 分钟检查一次
-	// timer = setInterval(checkForUpdates, props.checkUpdatesInterval * 60 * 1000)
-	timer = setInterval(checkForUpdates, props.checkUpdatesInterval * 20 * 1000) // todo delete
+	timer = setInterval(checkForUpdates, props.checkUpdatesInterval * 60 * 1000)
 }
 function stop() {
 	clearInterval(timer)
