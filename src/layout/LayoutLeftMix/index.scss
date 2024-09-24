@@ -30,6 +30,7 @@
       .split-list {
         flex: 1;
         .split-item {
+					--el-menu-base-level-padding: 4px;
 					&::before {
 						left: 2px;
 						right: 2px;
@@ -114,7 +115,6 @@
       padding: 0 6px;
       height: 55px;
       .logo-text {
-        //font-size: 24px;
         font-size: 15px;
         font-weight: bold;
         color: var(--el-color-primary);
