@@ -20,6 +20,7 @@
   //max-height: calc(100% - 48px);
   max-height: calc(100% - 24px);
   max-width: calc(100% - 24px);
+	min-width: 340px;
 }
 .#{$prefix}dialog {
   &.el-dialog {

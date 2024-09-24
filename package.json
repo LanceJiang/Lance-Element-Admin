@@ -1,7 +1,7 @@
 {
   "name": "Lance-Element-Admin",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Vue3、TS、Element-Plus、Pinia 和 Vite",
 	"keywords": [
 		"lance-elementplus-admin",

@@ -1,7 +1,9 @@
 @import "../layout_common";
 .#{$prefix}layout-wrap--left {
+	position: relative;
   width: 100%;
   height: 100%;
+	overflow-x: hidden;
   .#{$prefix}layout-aside {
     width: auto;
     background-color: var(--el-menu-bg-color);

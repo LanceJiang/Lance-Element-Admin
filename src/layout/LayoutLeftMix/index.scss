@@ -31,6 +31,14 @@
         flex: 1;
         .split-item {
 					--el-menu-base-level-padding: 4px;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					height: 70px;
+					line-height: unset;
+					cursor: pointer;
+					transition: all 0.3s ease;
 					&::before {
 						left: 2px;
 						right: 2px;
@@ -41,14 +49,6 @@
 							background-color: inherit;
 						}
 					}
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          height: 70px;
-					line-height: unset;
-          cursor: pointer;
-          transition: all 0.3s ease;
 					.#{$prefix}pick-icon {
 						//font-size: 18px;
 						margin-right: 0;

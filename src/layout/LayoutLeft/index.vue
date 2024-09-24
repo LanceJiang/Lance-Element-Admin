@@ -1,8 +1,8 @@
 <!-- 左侧菜单模式:left -->
 <template>
 	<el-container class="le-layout-wrap--left">
-		<el-aside class="le-layout-aside">
-			<div class="aside-box" :style="{ width: isCollapse ? '65px' : '210px' }">
+		<el-aside class="le-layout-aside transition-all-300 aside-m" :class="isCollapse ? 'aside-m--hidden' : ''">
+			<div class="aside-box transition-all-300" :style="{ width: isCollapse ? '65px' : '210px' }">
 				<div class="logo">
 					<!--          <SvgIcon class="logo-img sidebar-logo" icon-class="logo" />-->
 					<img class="logo-img" src="@/assets/icons/logo.svg" alt="logo" />
@@ -22,6 +22,11 @@
 				</el-scrollbar>
 			</div>
 		</el-aside>
+		<div
+			class="pc:hidden absolute left-0 top-0 h-full w-full bg-[rgba(0,0,0,0.2)] layout-mobile-sider-mask transition-all-300"
+			:class="isCollapse ? 'hidden' : ''"
+			@click.stop="setting.changeCollapse(true)"
+		/>
 		<el-container>
 			<el-header class="le-layout-header">
 				<ToolBarLeft />

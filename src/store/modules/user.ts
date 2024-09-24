@@ -59,7 +59,7 @@ const useUserStore = defineStore({
 
 				/*// eslint-disable-next-line
 				// @ts-ignore*/
-				const { redirect, ...query } = this.loginQuery || {}
+				const { redirect /*, ...query*/ } = this.loginQuery || {}
 				// debugger
 				const path = redirect || '/'
 				// console.error(path, 'path query', query)

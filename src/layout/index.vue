@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts" name="layout">
-import { computed, type Component } from 'vue'
+import { computed, type Component, onMounted, onUnmounted } from 'vue'
 import { LayoutType } from '@/store/interface'
 import useStore from '@/store'
 // import RightPanel from '@/components/RightPanel/index.vue'
@@ -23,9 +23,15 @@ const LayoutComponents: Record<LayoutType, Component> = {
 	topMix: LayoutTopMix,
 	top: LayoutTop
 }
-const { setting } = useStore()
-const layout = computed(() => setting.layout)
+const { setting, app } = useStore()
+const layout = computed(() => (app.isMobile ? 'left' : setting.layout))
 const showSettings = computed(() => setting.showSettings)
+onMounted(() => {
+	window.addEventListener('resize', app.updateDevice)
+})
+onUnmounted(() => {
+	window.removeEventListener('resize', app.updateDevice)
+})
 </script>
 
 <style scoped lang="scss">
