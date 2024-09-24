@@ -73,7 +73,7 @@ const handleNotice = versionTag => {
 		duration: 0
 	})
 }
-window.handleNotice = handleNotice // todo delete
+
 function start() {
 	if (props.checkUpdatesInterval <= 0) {
 		return
