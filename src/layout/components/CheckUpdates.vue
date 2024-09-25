@@ -15,6 +15,7 @@ const lastVersionTag = ref('')
 let isCheckingUpdates = false
 let timer: ReturnType<typeof setInterval>
 const entrance = import.meta.env.VITE_PUBLIC_PATH
+let last_notify = null
 async function getVersionTag() {
 	try {
 		if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
@@ -55,6 +56,8 @@ const handleNotice = versionTag => {
 		lastVersionTag.value = versionTag
 		window.location.reload()
 	}
+	if (last_notify) return
+
 	const notify = ElNotification({
 		title: t('le.layout.checkUpdatesTitle'),
 		customClass: 'le-notification--check-app',
@@ -62,7 +65,7 @@ const handleNotice = versionTag => {
 			<div>
 				{t('le.layout.checkUpdatesDescription')}
 				<div class="text-right mt-[12px]">
-					<ElButton onClick={() => notify.close()}>{t('le.btn.cancel')}</ElButton>
+					<ElButton onClick={onClose}>{t('le.btn.cancel')}</ElButton>
 					<ElButton type="primary" onClick={onOk}>
 						{t('le.refresh')}
 					</ElButton>
@@ -70,8 +73,14 @@ const handleNotice = versionTag => {
 			</div>
 		),
 		position: 'bottom-right',
-		duration: 0
+		duration: 0,
+		onClose
 	})
+	last_notify = notify
+	function onClose() {
+		notify.close()
+		last_notify = null
+	}
 }
 
 function start() {
