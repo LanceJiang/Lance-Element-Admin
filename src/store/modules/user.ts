@@ -3,7 +3,7 @@ import { UserState } from '@/types'
 import { ls } from '@/utils'
 import { login, googleLogin, logout } from '@/api/login'
 import router, { resetRouter } from '@/router'
-import md5 from 'js-md5'
+import md5 from 'md5'
 
 import avatarUrl from '@/assets/favicon.ico'
 

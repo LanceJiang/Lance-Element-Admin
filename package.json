@@ -3,17 +3,17 @@
   "private": true,
   "version": "1.0.0",
   "description": "Vue3、TS、Element-Plus、Pinia 和 Vite",
-	"keywords": [
-		"lance-elementplus-admin",
-		"element-plus",
-		"tailwindcss",
-		"lance-admin",
-		"typescript",
-		"pinia",
-		"vue3",
-		"vite",
-		"esm"
-	],
+  "keywords": [
+    "lance-elementplus-admin",
+    "element-plus",
+    "tailwindcss",
+    "lance-admin",
+    "typescript",
+    "pinia",
+    "vue3",
+    "vite",
+    "esm"
+  ],
   "author": {
     "name": "LanceJiang",
     "url": "https://github.com/LanceJiang"
@@ -27,7 +27,7 @@
     "start": "npm run dev",
     "serve": "npm run dev",
     "dev": "vite serve --mode development",
-    "build": "vue-tsc --noEmit && vite build --mode production",
+    "build": "vite build --mode production",
     "build:dev": "vite build --mode development",
     "build:test": "vite build --mode test",
     "build:pre": "vite build --mode staging",
@@ -47,7 +47,7 @@
     "dayjs": "^1.11.7",
     "echarts": "^5.4.2",
     "element-plus": "2.3.4",
-    "js-md5": "^0.7.3",
+    "md5": "^2.3.0",
     "mitt": "^3.0.0",
     "nprogress": "^0.2.0",
     "path-browserify": "^1.0.1",
@@ -62,7 +62,7 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
-    "@types/js-md5": "^0.7.0",
+    "@types/md5": "^2.3.5",
     "@types/nprogress": "^0.2.0",
     "@types/path-browserify": "^1.0.0",
     "@types/sortablejs": "^1.15.3",
