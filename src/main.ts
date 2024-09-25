@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from '@/router'
+import VueGtag from 'vue-gtag-next'
 // element plus
 import ElementPlus from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
@@ -54,4 +55,14 @@ setupGlobDirectives(app)
 // 全局方法
 app.config.globalProperties.$log = $log
 // 注册全局组件
-app.use(router).use(ElementPlus).use(i18n).use(pinia).mount('#app')
+app
+	.use(router)
+	.use(VueGtag, {
+		property: {
+			id: 'G-DTB6SG8WP1'
+		}
+	})
+	.use(ElementPlus)
+	.use(i18n)
+	.use(pinia)
+	.mount('#app')
