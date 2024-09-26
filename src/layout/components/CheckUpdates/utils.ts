@@ -45,7 +45,7 @@ export const createWorkFn = () => {
 		}
 		if (lastVersionTag !== versionTag) {
 			stop()
-			temp.postMessage({ type: 'showCheck', data: versionTag })
+			temp.postMessage({ type: 'showNotice', data: versionTag })
 		}
 	}
 
