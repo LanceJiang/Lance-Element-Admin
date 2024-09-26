@@ -14,7 +14,7 @@ import LayoutLeft from './LayoutLeft/index.vue'
 import LayoutLeftMix from './LayoutLeftMix/index.vue'
 import LayoutTop from './LayoutTop/index.vue'
 import LayoutTopMix from './LayoutTopMix/index.vue'
-import CheckUpdates from './components/CheckUpdates.vue'
+import CheckUpdates from './components/CheckUpdates/index.vue'
 import { ThemeSettings } from '@/layout/components'
 
 const LayoutComponents: Record<LayoutType, Component> = {
