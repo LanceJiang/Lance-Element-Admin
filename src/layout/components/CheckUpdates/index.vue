@@ -5,51 +5,28 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import { ElNotification, ElButton } from 'element-plus'
 import { t } from '@/utils'
-const props = defineProps({
-	checkUpdatesInterval: {
-		type: Number,
-		default: 5
-	}
-})
+import { createWorker, createWorkFn } from './utils'
 const lastVersionTag = ref('')
-let isCheckingUpdates = false
-let timer: ReturnType<typeof setInterval>
-const entrance = import.meta.env.VITE_PUBLIC_PATH
+const entrance = location.origin + import.meta.env.VITE_PUBLIC_PATH
 let last_notify = null
-async function getVersionTag() {
-	try {
-		if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-			return null
-		}
-
-		const response = await fetch(entrance, {
-			cache: 'no-cache',
-			method: 'HEAD'
-		})
-
-		return response.headers.get('etag') || response.headers.get('last-modified')
-	} catch {
-		console.error('Failed to fetch version tag')
-		return null
-	}
+const opts = {
+	intervalTime: 5000, // 0.5 * 60 * 1000, todo...
+	fetchUrl: entrance
+	// immediate: false
 }
-
-async function checkForUpdates() {
-	const versionTag = await getVersionTag()
-	if (!versionTag) {
-		return
-	}
-
-	// 首次运行时不提示更新
-	if (!lastVersionTag.value) {
-		lastVersionTag.value = versionTag
-		return
-	}
-	if (lastVersionTag.value !== versionTag && versionTag) {
-		clearInterval(timer)
-		handleNotice(versionTag)
-	}
+const worker = createWorker(createWorkFn, [])
+worker.onmessage = e => {
+	console.error(e, 'e.... 外部接收message 进行处理')
+	handleNotice('versionTag todo...')
 }
+const start = (immediate = false) => {
+	worker.postMessage({ type: 'start', data: { ...opts, immediate } })
+}
+const stop = () => {
+	console.error('启动 stop')
+	worker.postMessage({ type: 'stop' })
+}
+console.log(import.meta.env, 'import.meta.env')
 
 const handleNotice = versionTag => {
 	const onOk = () => {
@@ -83,29 +60,11 @@ const handleNotice = versionTag => {
 	}
 }
 
-function start() {
-	if (props.checkUpdatesInterval <= 0) {
-		return
-	}
-
-	// 每 checkUpdatesInterval(默认值为5) 分钟检查一次
-	timer = setInterval(checkForUpdates, props.checkUpdatesInterval * 60 * 1000)
-}
-function stop() {
-	clearInterval(timer)
-}
 function handleVisibilitychange() {
-	// console.error(isCheckingUpdates, 'isCheckingUpdates')
 	if (document.hidden) {
 		stop()
 	} else {
-		if (!isCheckingUpdates) {
-			isCheckingUpdates = true
-			checkForUpdates().finally(() => {
-				isCheckingUpdates = false
-				start()
-			})
-		}
+		start(true)
 	}
 }
 onMounted(() => {
