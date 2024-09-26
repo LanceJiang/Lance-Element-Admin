@@ -6,31 +6,26 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { ElNotification, ElButton } from 'element-plus'
 import { t } from '@/utils'
 import { createWorker, createWorkFn } from './utils'
-const lastVersionTag = ref('')
 const entrance = location.origin + import.meta.env.VITE_PUBLIC_PATH
 let last_notify = null
 const opts = {
-	intervalTime: 5000, // 0.5 * 60 * 1000, todo...
+	intervalTime: 5 * 60 * 1000, // 5min
 	fetchUrl: entrance
 	// immediate: false
 }
 const worker = createWorker(createWorkFn, [])
-worker.onmessage = e => {
-	console.error(e, 'e.... 外部接收message 进行处理')
-	handleNotice('versionTag todo...')
+worker.onmessage = (e: any) => {
+	handleNotice(e.data.data)
 }
 const start = (immediate = false) => {
 	worker.postMessage({ type: 'start', data: { ...opts, immediate } })
 }
 const stop = () => {
-	console.error('启动 stop')
 	worker.postMessage({ type: 'stop' })
 }
-console.log(import.meta.env, 'import.meta.env')
 
 const handleNotice = versionTag => {
 	const onOk = () => {
-		lastVersionTag.value = versionTag
 		window.location.reload()
 	}
 	if (last_notify) return
