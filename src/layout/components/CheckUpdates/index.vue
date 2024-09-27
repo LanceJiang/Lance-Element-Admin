@@ -14,9 +14,10 @@ const opts = {
 	// immediate: false
 }
 const worker = createWorker(createWorkFn, [])
-worker.onmessage = (e: any) => {
-	handleNotice(e.data.data)
-}
+worker.addEventListener('message', (e: any) => {
+	// e.data: {type: 'showNotice', data: 'version'}
+	if (import.meta.env.MODE === 'production') handleNotice()
+})
 const start = (immediate = false) => {
 	worker.postMessage({ type: 'start', data: { ...opts, immediate } })
 }
@@ -24,7 +25,7 @@ const stop = () => {
 	worker.postMessage({ type: 'stop' })
 }
 
-const handleNotice = versionTag => {
+const handleNotice = (/*versionTag*/) => {
 	const onOk = () => {
 		window.location.reload()
 	}
@@ -69,6 +70,7 @@ onMounted(() => {
 
 onUnmounted(() => {
 	stop()
+	worker.terminate()
 	document.removeEventListener('visibilitychange', handleVisibilitychange)
 })
 </script>

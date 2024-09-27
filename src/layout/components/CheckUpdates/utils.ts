@@ -48,27 +48,26 @@ export const createWorkFn = () => {
 			temp.postMessage({ type: 'showNotice', data: versionTag })
 		}
 	}
-
-	temp.onmessage = async (event: any) => {
+	temp.addEventListener('message', async (event: any) => {
 		// { type: 'start' | 'stop' }
 		switch (event.data.type) {
 			case 'start':
-				{
-					const data = event.data.data
-					if (data.intervalTime) opts.intervalTime = data.intervalTime
-					if (data.fetchUrl) opts.fetchUrl = data.fetchUrl
-					if (data.immediate) {
-						await doFetch()
-					}
-					if (timer) stop()
-					timer = setInterval(doFetch, opts.intervalTime)
+			{
+				const data = event.data.data
+				if (data.intervalTime) opts.intervalTime = data.intervalTime
+				if (data.fetchUrl) opts.fetchUrl = data.fetchUrl
+				if (data.immediate) {
+					await doFetch()
 				}
+				if (timer) stop()
+				timer = setInterval(doFetch, opts.intervalTime)
+			}
 				break
 			case 'stop': {
 				stop()
 				break
 			}
 		}
-	}
+	})
 	return temp
 }
