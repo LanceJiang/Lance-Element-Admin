@@ -71,7 +71,7 @@ const columns = [
 			default: ({row, column, $index}) => {
 				// console.error($index, '$index')
 				return <div>
-					<span style="padding: 0 12px;color: red;">{JSON.stringify(row)}</span><br/>
+					<span class="text-error" style="padding: 0 12px;">{JSON.stringify(row)}</span><br/>
 					(slots.default: fn)
 				</div>
 			}

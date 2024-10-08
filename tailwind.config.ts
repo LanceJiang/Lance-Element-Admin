@@ -24,6 +24,10 @@ export default {
 			'2xl': '1536px'
 		},
 		colors: {
+			primary: 'var(--el-color-primary)',
+			error: 'var(--el-color-error)',
+			warning: 'var(--el-color-warning)',
+			success: 'var(--el-color-success)'
 			// blue: '#1fb6ff',
 			// pink: '#ff49db',
 			// orange: '#ff7849',
