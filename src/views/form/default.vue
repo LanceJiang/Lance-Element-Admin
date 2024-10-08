@@ -194,8 +194,9 @@ export default defineComponent({
 					},*/
 					option({ value, label, disabled }) {
 						// console.warn(value, label, 'value, label, disabled', disabled)
-						const style = `color: red`
-						return <div style={style}>{label}</div>
+						/*const style = `color: red`
+						return <div style={style}>{label}</div>*/
+						return <div class="text-error">{label}</div>
 					},
 					// option: 'selectSlot',
 				},
