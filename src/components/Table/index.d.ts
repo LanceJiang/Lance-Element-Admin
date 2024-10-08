@@ -7,6 +7,11 @@ export type LeColumnSlots = {
 	default?: ((scope: { row; column; $index }) => JSX.Element | string | any) | string
 	header?: ((scope: { column; $index }) => JSX.Element | string | any) | string
 }
+// 用户提示msg
+export type TitleHelp = Partial<{
+	message: string | JSX.Element
+	icon: string
+}>
 export type LeColumnProps = {
 	// 多语言label转义字符
 	t_label?: string
@@ -14,6 +19,8 @@ export type LeColumnProps = {
 	slots?: LeColumnSlots
 	// 多级表头
 	children?: LeTableColumnProps[]
+	// msg 提示
+	titleHelp?: TitleHelp
 }
 /* Column */
 export type LeTableColumnProps = InstanceType<typeof ElTableColumn>['$props'] & LeColumnProps

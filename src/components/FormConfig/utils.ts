@@ -1,5 +1,5 @@
 import { Slots } from 'vue'
-import { LeFormItem, ObjectOpts, SlotOption } from '@/components/FormConfig/formConfig.types.ts'
+import { LeFormItem, SlotOption } from '@/components/FormConfig/formConfig.types.ts'
 import { t } from '@/utils'
 export const getOptions = (options: any[], form: LeFormItem) =>
 	options.map(option => {
@@ -66,7 +66,7 @@ export const get_formSlotLabel = (slots: Slots, slotLabel: SlotOption<{ label: s
 export const get_formSlots = (vSlots: Slots, slotConfig: ObjectOpts) => {
 	const slots_key = Object.keys(slotConfig || {})
 	if (!slots_key.length) {
-		return {}
+		return {} as ObjectOpts
 	}
 	const getSlot = slot => {
 		switch (typeof slot) {
@@ -79,5 +79,5 @@ export const get_formSlots = (vSlots: Slots, slotConfig: ObjectOpts) => {
 	return slots_key.reduce((obj, key) => {
 		obj[key] = getSlot(slotConfig[key])
 		return obj
-	}, {})
+	}, {}) as ObjectOpts
 }

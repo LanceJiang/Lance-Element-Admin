@@ -11,7 +11,7 @@ import CustomRender from '../CustomRender'
 // import LeSelect from 'lance-element-vue/packages/Select'
 import LeSelect from '../Select'
 import { renderOption, getOptions, get_formSlots } from './utils.ts'
-import { LeFormItem, ObjectOpts, FormConfigOpts, FormItemSlots, SlotOption } from './formConfig.types'
+import { LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from './formConfig.types'
 import { OptionItemProps } from '@/components/Select/select.types.ts'
 // import { useFormItems } from './hooks/useForm.tsx'
 export const FormConfigProps = {

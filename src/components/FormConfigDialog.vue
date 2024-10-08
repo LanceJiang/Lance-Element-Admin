@@ -1,7 +1,6 @@
 <script lang="tsx">
 import { defineComponent, ref, reactive, watch, toRefs, PropType } from 'vue'
 import FormConfig, { FormConfigProps } from './FormConfig/index.vue'
-import { ObjectOpts } from '@/components/FormConfig/formConfig.types.ts'
 
 const formConfigDialogProps = {
 	title: {

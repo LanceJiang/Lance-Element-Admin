@@ -29,7 +29,7 @@ export type ComponentType =
 export type SlotOption<T = ObjectOpts | OptionItemProps | { data: any; node: any }> = ((T) => JSX.Element | string) | string | undefined
 export type FormItemSlots = {
 	// label 自定义插槽
-	label?: (({ label: string }) => JSX.Element) | string
+	label?: ((opts: { label: string }) => JSX.Element) | string
 	/***
 	 * [option] 用于 adSelect|select|radio|cascader 类型的 下拉option 自定义扩展
 	 * adSelect: (OptionItemProps) => JSX.Element
@@ -79,9 +79,5 @@ export type LeFormItem = Partial<Omit<FormItemInstance['props'], 'render' | 'pro
 	/*** render 使用 End*/
 	// formValueFormat?: (params: any, key: string) => any // 数据提交前 转换
 	change?: (value: any, options: any[], params: ObjectOpts, propKey?: string) => any
-	[prop: string]: any
-}
-
-export type ObjectOpts = {
 	[prop: string]: any
 }

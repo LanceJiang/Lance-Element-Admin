@@ -64,7 +64,7 @@ export const columns = [
 		// 用户提示配置
 		titleHelp: {
 			icon: 'le-iconfont le-check_1', // todo 自定义icon
-			message: `<span style='background: var(--el-color-danger)'>wo的 <br/>sssssssssss</span>`
+			message: <span style='background: var(--el-color-danger)'>wo的 <br/>sssssssssss</span>
 		},
 		slots: {
 			/**

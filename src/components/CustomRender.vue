@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { LeFormItem, ObjectOpts } from '@/components/FormConfig/formConfig.types.ts'
+import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
 const CustomRenderProps = {
 	form: {
 		required: true,
