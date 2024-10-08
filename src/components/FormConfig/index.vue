@@ -21,7 +21,7 @@ export const FormConfigProps = {
 	},
 	formData: {
 		// 后台传递的初始值 对象 【后期拿操作的表单数据  请使用 submit 的params】
-		type: Object as PropType<ObjectOpts>,
+		type: Object as PropType<Recordable>,
 		default: () => ({})
 	}, // 后台传递过来的 数据
 	// form的配置项对象 参考 default_formConfig

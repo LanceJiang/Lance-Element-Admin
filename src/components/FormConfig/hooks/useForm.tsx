@@ -20,14 +20,14 @@ export type useFormItemsOpts = {
 	// props: SearchFormProps | FormConfigProps
 	// props: { forms: LeFormItem[] }
 	props: any
-	params: ObjectOpts
+	params: Recordable
 	slots: Slots
 	// tableRef: Ref
 }
-export type RenderFormItem = LeFormItem & { le_slots: ObjectOpts }
+export type RenderFormItem = LeFormItem & { le_slots: Recordable }
 export type RenderFormItemOpts = {
-	form: LeFormItem & { le_slots: ObjectOpts }
-	params: ObjectOpts
+	form: LeFormItem & { le_slots: Recordable }
+	params: Recordable
 	isEdit?: boolean
 	size?: 'large' | 'default' | 'small'
 	t?: any

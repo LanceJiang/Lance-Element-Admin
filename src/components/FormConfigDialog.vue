@@ -19,7 +19,7 @@ const formConfigDialogProps = {
 	},
 	// 初始化数据对象
 	formData: {
-		type: Object as PropType<ObjectOpts>,
+		type: Object as PropType<Recordable>,
 		default: () => ({})
 	},
 	modelValue: {

@@ -11,7 +11,7 @@ const CustomRenderProps = {
 	},
 	params: {
 		required: true,
-		type: Object as PropType<ObjectOpts>
+		type: Object as PropType<Recordable>
 	}
 }
 // 自定义渲染

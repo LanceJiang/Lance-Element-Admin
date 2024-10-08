@@ -30,27 +30,6 @@ declare namespace File {
 	type ExcelMimeType = 'application/vnd.ms-excel' | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 }
 
-/* Vite */
-export declare type Recordable<T = any> = Record<string, T>
-
-declare interface ViteEnv {
-	VITE_USER_NODE_ENV: 'development' | 'production' | 'test'
-	VITE_APP_TITLE: string
-	VITE_PORT: number
-	VITE_OPEN: boolean
-	VITE_REPORT: boolean
-	VITE_BUILD_COMPRESS: 'gzip' | 'brotli' | 'gzip,brotli' | 'none'
-	VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE: boolean
-	VITE_DROP_CONSOLE: boolean
-	VITE_PUBLIC_PATH: string
-	VITE_API_URL: string
-	VITE_PROXY: [string, string][]
-}
-
-interface ImportMetaEnv extends ViteEnv {
-	__: unknown
-}
-
 /* Generic Tools */
 type ObjToKeyValUnion<T> = {
 	[K in keyof T]: { key: K; value: T[K] }
@@ -94,7 +73,24 @@ declare global {
 		lastBuildTime: string
 	}
 
-	declare type ObjectOpts = {
-		[prop: string]: any
+	/* Vite */
+	declare type Recordable<T = any> = Record<string, T>
+
+	interface ImportMetaEnv extends ViteEnv {
+		__: unknown
+	}
+
+	declare interface ViteEnv {
+		VITE_USER_NODE_ENV: 'development' | 'production' | 'test'
+		VITE_APP_TITLE: string
+		VITE_PORT: number
+		VITE_OPEN: boolean
+		VITE_REPORT: boolean
+		VITE_BUILD_COMPRESS: 'gzip' | 'brotli' | 'gzip,brotli' | 'none'
+		VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE: boolean
+		VITE_DROP_CONSOLE: boolean
+		VITE_PUBLIC_PATH: string
+		VITE_API_URL: string
+		VITE_PROXY: [string, string][]
 	}
 }

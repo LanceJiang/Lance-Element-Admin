@@ -24,8 +24,8 @@ export const getOptions = (options: any[], form: LeFormItem) =>
  */
 export const renderOption = function (
 	// slots: Slots,
-	slotOption: SlotOption<ObjectOpts>,
-	option: ObjectOpts
+	slotOption: SlotOption<Recordable>,
+	option: Recordable
 ) {
 	if (slotOption) {
 		const scopedSlots_option = slotOption
@@ -63,10 +63,10 @@ export const get_formSlotLabel = (slots: Slots, slotLabel: SlotOption<{ label: s
 	}
 }
 // 获取formItem label
-export const get_formSlots = (vSlots: Slots, slotConfig: ObjectOpts) => {
+export const get_formSlots = (vSlots: Slots, slotConfig: Recordable) => {
 	const slots_key = Object.keys(slotConfig || {})
 	if (!slots_key.length) {
-		return {} as ObjectOpts
+		return {} as Recordable
 	}
 	const getSlot = slot => {
 		switch (typeof slot) {
@@ -79,5 +79,5 @@ export const get_formSlots = (vSlots: Slots, slotConfig: ObjectOpts) => {
 	return slots_key.reduce((obj, key) => {
 		obj[key] = getSlot(slotConfig[key])
 		return obj
-	}, {}) as ObjectOpts
+	}, {}) as Recordable
 }

@@ -98,7 +98,7 @@ const columnSlots = (column: LeTableColumnProps, $slots: Slots) => {
 
 	return local_slots
 }
-type local_columnProps = Partial<LeTableColumnProps & { le_children: any[]; le_slots: ObjectOpts }>
+type local_columnProps = Partial<LeTableColumnProps & { le_children: any[]; le_slots: Recordable }>
 export type useColumnsOpts = {
 	propsRef: LeTableProps
 	computedOptions: ComputedRef<LeTableOptions>
