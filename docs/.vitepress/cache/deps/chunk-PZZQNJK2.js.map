@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../internal/build/plugin-vue:export-helper"],
+  "sourcesContent": ["\nexport default (sfc, props) => {\n  const target = sfc.__vccOpts || sfc;\n  for (const [key, val] of props) {\n    target[key] = val;\n  }\n  return target;\n}\n"],
+  "mappings": ";AACA,IAAA,cAAe,CAAC,KAAK,UAAU;AAC7B,QAAM,SAAS,IAAI,aAAa;AAChC,aAAW,CAAC,KAAK,GAAG,KAAK,OAAO;AAC9B,WAAO,GAAG,IAAI;EAClB;AACE,SAAO;AACT;",
+  "names": []
+}

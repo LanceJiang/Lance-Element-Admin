@@ -28,4 +28,6 @@ git clone https://github.com/LanceJiang/Lance-Element-Admin.git
 pnpm i
 # 以开发模式启动项目
 pnpm dev
+// pnpm start
+// pnpm serve
 ```
