@@ -11,13 +11,13 @@ import './vitepress.scss'
 // 引入svg注册脚本
 import 'virtual:svg-icons-register'
 // 加载admin-svg icon
-	;(function () {
+;(function () {
 	const d = document
 	// const existIconVersion = [...d.querySelectorAll('.le-icon_svg')].map(v => v.getAttribute('version')).includes(version)
 	const existIconVersion = false
 	if (!existIconVersion) {
 		/** update 最新 le-iconfont(.css && .js) */
-		const origin_prefix = '//at.alicdn.com/t/c/font_4091949_h5ex5dw89e'
+		const origin_prefix = '//at.alicdn.com/t/c/font_4091949_6har76znueg'
 		const link = d.createElement('link')
 		link.rel = 'stylesheet'
 		link.type = 'text/css'
