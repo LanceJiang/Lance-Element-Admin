@@ -4,7 +4,7 @@
 
 dist
 temp
-cache/*
+/.vitepress/cache/*
 
 zh-CN
 fr-FR

@@ -3,7 +3,7 @@ import ElementPlus from 'element-plus'
 import DefaultTheme from 'vitepress/theme'
 // 国际化
 import i18n from '@/lang/index'
-import /*VPApp, */{ /*NotFound,*/ globals, local_components } from '../vitepress'
+import VPApp, { /*NotFound,*/ globals, local_components } from '../vitepress'
 import { define } from '../utils/types'
 // import 'uno.css'
 import type { Theme } from 'vitepress'
