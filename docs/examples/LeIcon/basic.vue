@@ -38,7 +38,6 @@ console.log(leIconData, 'leIconData')
 </script>
 <style scoped>
 .wrap {
-	//flex-wrap: wrap;
 }
 .le-pick-icon {
 	 /*width: 1em;
