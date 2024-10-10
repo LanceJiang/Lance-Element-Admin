@@ -63,7 +63,7 @@ const options = ['add', 'restore', 'confirm', 'save', 'cancel', 'reset'].map((t,
 }))
 const labelOptions = ['label', 'cust_label', 'i18n_label', 'obj.label']
 const curLabelKey = ref('label')
-const is_i18n = ref(true)
+const is_i18n = ref(false)
 watch(curLabelKey, (val) => {
 	is_i18n.value = val === 'i18n_label'
 })
