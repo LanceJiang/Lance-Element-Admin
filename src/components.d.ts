@@ -5,6 +5,7 @@ import LeFormConfig from '@/components/FormConfig/index.vue'
 import LeFormConfigDialog from '@/components/FormConfigDialog.vue'
 import LeSearchForm from '@/components/SearchForm.vue'
 import LeEditPopover from '@/components/EditPopover.vue'
+import MonacoEditor from '@/components/MonacoEditor'
 import { $log } from '@/utils'
 import { VueI18n } from 'vue-i18n'
 
@@ -15,6 +16,7 @@ export declare module '@vue/runtime-core' {
 		LeFormConfigDialog: typeof LeFormConfigDialog
 		LeSearchForm: typeof LeSearchForm
 		LeEditPopover: typeof LeEditPopover
+		MonacoEditor: typeof MonacoEditor
 	}
 
 	// 为 `this.$i18n...` 提供类型声明

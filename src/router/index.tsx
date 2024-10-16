@@ -89,6 +89,12 @@ export const constantRoutes: AppRouteRecordRaw[] = [
 				component: () => import('@/views/components/index.vue'),
 				name: 'comps',
 				meta: { title: 'comps', icon: 'icon-excel' }
+			},
+			{
+				path: 'monacoEditor',
+				component: () => import('@/views/components/monacoEditor.vue'),
+				name: 'monacoEditor',
+				meta: { title: 'monacoEditor', icon: 'icon-code' }
 			}
 		]
 	},

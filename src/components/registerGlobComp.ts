@@ -16,6 +16,7 @@ import Select from '@/components/Select/index.vue'
 import Chart from '@/components/Chart.vue'
 import EditPopover from '@/components/EditPopover.vue'
 import Text from '@/components/Text.vue'
+import MonacoEditor from '@/components/MonacoEditor'
 
 // you want register components
 const compList = [
@@ -33,7 +34,8 @@ const compList = [
 	Select,
 	Chart,
 	EditPopover,
-	Text
+	Text,
+	MonacoEditor
 ]
 
 export function registerGlobComp(app: App) {
