@@ -3,27 +3,33 @@
 		Forms & SearchForm
 		<div class="common_title">le-search-form</div>
 		<div class="content">
-			<LeSearchForm
-				v-model:searchData="searchParams" :forms="searchForms" :loading="queryLoading"
-			/>
+			<LeSearchForm v-model:searchData="searchParams" :forms="searchForms" :loading="queryLoading" />
 		</div>
 		<div class="common_title">le-form-config</div>
 		<div class="content">
-			<LeFormConfig :isEdit="isEdit" ref="formRef" class="local_formConfig" :formData="formData" :forms="forms" :form-config="formConfig" @submit="formSubmit">
+			<LeFormConfig
+				ref="formRef"
+				:is-edit="isEdit"
+				class="local_formConfig"
+				:form-data="formData"
+				:forms="forms"
+				:form-config="formConfig"
+				@submit="formSubmit"
+			>
 				<template #leSelectSlot="{ item }">
-					<div style="background: #a0aab7">{{ item.le_label }} {{item}}</div>
+					<div style="background: #a0aab7">{{ item.le_label }} {{ item }}</div>
 				</template>
 				<template #selectSlot="{ option, label }">
 					<div style="background: #a0aab7">{{ label }} + {{ option.value_1 }}</div>
 				</template>
-				<template #leSelect_label="{label}">
+				<template #leSelect_label="{ label }">
 					<span style="background: var(--el-color-danger); display: flex">
 						label custom: template
 						<span style="margin-left: auto; background: var(--el-color-primary); color: #fff">{{ label }}</span>
 					</span>
 				</template>
 			</LeFormConfig>
-			<div style="padding: 10px 0;">
+			<div style="padding: 10px 0">
 				通过实例操作：
 				<el-button type="primary" size="small" @click="getDataHandler">校验并获取</el-button>
 				<el-button type="primary" size="small" @click="resetDataHandler">重置</el-button>
@@ -34,9 +40,9 @@
 		<div class="content">
 			<el-button @click="dialogVisible = true">打开 弹窗</el-button>
 			<el-dialog
-				:title="'表单 嵌入 dialog'"
 				v-model="dialogVisible"
-				:closeOnClickModal="false"
+				:title="'表单 嵌入 dialog'"
+				:close-on-click-modal="false"
 				class="local_dialog le-dialog le-form-config-dialog"
 				@close="changeVisible(false)"
 			>
@@ -44,7 +50,7 @@
 					v-if="dialogVisible"
 					ref="configForm"
 					:forms="forms_copy"
-					:formConfig="formConfig"
+					:form-config="formConfig"
 					:form-data="formData"
 					@submit="formSubmit"
 					@cancel="changeVisible"
@@ -53,23 +59,49 @@
 						<div style="background: var(--el-color-primary)">{{ label }} + {{ option.value_1 }}</div>
 					</template>
 					<template #extraContent>
-<!--						若有需要可以塞入额外内容-->
-						<el-col key='extraContent' :span='24'>
-							额外内容
-						</el-col>
+						<!--						若有需要可以塞入额外内容-->
+						<el-col key="extraContent" :span="24"> 额外内容 </el-col>
 					</template>
 				</LeFormConfig>
 			</el-dialog>
+		</div>
+		<div class="common_title">le-form-config 表单 嵌入 drawer (le-drawer)</div>
+		<div class="content">
+			<el-button @click="drawerVisible = true">打开 drawer 抽屉</el-button>
+			<el-drawer v-model="drawerVisible" class="le-drawer" :title="'表单 嵌入 drawer'" size="80%">
+				<LeFormConfig
+					v-if="drawerVisible"
+					ref="configForm2"
+					:forms="forms_copy"
+					:form-config="{ ...formConfig, showFooter: false }"
+					:form-data="formData"
+					@submit="formSubmit"
+					@cancel="changeVisible"
+				>
+					<!-- 若想直接使用 上述LeFormConfig的操作 showFooter为true && 调整页面样式 -->
+					<template #leSelectSlot="{ option, label }">
+						<div style="background: var(--el-color-primary)">{{ label }} + {{ option.value_1 }}</div>
+					</template>
+					<template #extraContent>
+						<!--						若有需要可以塞入额外内容-->
+						<el-col key="extraContent" :span="24"> 额外内容 </el-col>
+					</template>
+				</LeFormConfig>
+				<template #footer>
+					<el-button class="cancel-button" @click="drawerVisible = false"> 取消 </el-button>
+					<el-button class="submit-button" type="primary" :loading="formConfig.submitLoading" @click="drawerSubmit"> 确定 </el-button>
+				</template>
+			</el-drawer>
 		</div>
 		<div class="common_title">le-form-config-dialog 表单弹窗</div>
 		<div class="content">
 			<el-button @click="dialogVisible2 = true">打开 弹窗</el-button>
 			<LeFormConfigDialog
 				v-if="dialogVisible2"
-				title="le-form-config-dialog 表单弹窗"
 				v-model="dialogVisible2"
-				:formOptions="formOptions"
-				:formData="formData"
+				title="le-form-config-dialog 表单弹窗"
+				:form-options="formOptions"
+				:form-data="formData"
 				@submit="formSubmit"
 			>
 				<template #leSelectSlot="{ option, label }">
@@ -85,6 +117,8 @@ const prefix = 'example.forms.'
 import { defineComponent, ref, reactive, toRefs, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { t } from '@/utils'
+import { cloneDeep } from 'lodash-es'
+
 export default defineComponent({
 	name: 'FormDefault',
 	setup() {
@@ -113,7 +147,7 @@ export default defineComponent({
 						// label_1: '黄金糕' + i
 						value: '选项' + i,
 						// label: '黄金糕' + i,
-						label: `${prefix}leSelect_label_${i}`,
+						label: `${prefix}leSelect_label_${i}`
 					}
 				}),
 				slots: {
@@ -121,14 +155,19 @@ export default defineComponent({
 					// label: 'leSelect_label',
 					// label render 支持
 					label({ label }) {
-						return <span style='background: var(--el-color-danger);display: flex'>label custom: fn<span style='margin-left: auto; background: var(--el-color-success)'>{ label }</span></span>
+						return (
+							<span style="background: var(--el-color-danger);display: flex">
+								label custom: fn<span style="margin-left: auto; background: var(--el-color-success)">{label}</span>
+							</span>
+						)
 					},
 					// option: 'leSelectSlot',
 					// option({ value, label, disabled }) { // select 类型处理
-					option({ item, index, disabled }){ // leSelect (基于el-select-v2 二开)
+					option({ item, index, disabled }) {
+						// leSelect (基于el-select-v2 二开)
 						const style = `color: #fff; background: var(--el-color-primary)`
 						return <div style={style}>{item.le_label} ttt</div>
-					},
+					}
 				},
 				change(...args) {
 					console.warn(...args, 'leSelect.chang args')
@@ -136,7 +175,7 @@ export default defineComponent({
 				// 原生方法 不建议使用
 				onChange(...args) {
 					console.log(args, '[原生方法 不建议使用]leSelect.onChange args')
-				},
+				}
 				// teleported: true
 				// change: methods.serviceChange
 			},
@@ -154,7 +193,7 @@ export default defineComponent({
 					{
 						required: true,
 						message: t('le.validate.validateEmptyTips', {
-							name: 'test2'// i18n.global.t(`${prefix}test2`)
+							name: 'test2' // i18n.global.t(`${prefix}test2`)
 						}),
 						// message: 'validate.validateEmptyTips',
 						trigger: 'blur'
@@ -163,14 +202,16 @@ export default defineComponent({
 				onChange: e => {
 					console.error('自定义render 配置定义了onChange 会触发....', e)
 				},
-				render: (extendsParams) => {
+				render: extendsParams => {
 					const { form, params } = extendsParams
 					// console.error(form, params, '///////////')
-					return <div style="background: var(--el-color-danger-light-3); display: flex; width: 100%;">
-						<el-input modelValue={params[form.prop]} onInput={e => (params[form.prop] = e)} placeholder="placeholder render" />
-						<span style="min-width: 130px;padding: 0 10px; text-align: center;"> -render, others -</span>
-						<el-input modelValue={params.others} onInput={e => (params.others = e)} placeholder="placeholder others" />
-					</div>
+					return (
+						<div style="background: var(--el-color-danger-light-3); display: flex; width: 100%;">
+							<el-input modelValue={params[form.prop]} onInput={e => (params[form.prop] = e)} placeholder="placeholder render" />
+							<span style="min-width: 130px;padding: 0 10px; text-align: center;"> -render, others -</span>
+							<el-input modelValue={params.others} onInput={e => (params.others = e)} placeholder="placeholder others" />
+						</div>
+					)
 					// return <el-input onChange={form.onChange} v-model={params[form.prop]} placeholder="placeholder test... 666" />
 				}
 			},
@@ -197,7 +238,7 @@ export default defineComponent({
 						/*const style = `color: red`
 						return <div style={style}>{label}</div>*/
 						return <div class="text-error">{label}</div>
-					},
+					}
 					// option: 'selectSlot',
 				},
 				itemType: 'select',
@@ -226,7 +267,7 @@ export default defineComponent({
 				// 原生方法 不建议使用
 				onChange(...args) {
 					console.log(args, '[原生方法 不建议使用]select.onChange args')
-				},
+				}
 				// change: methods.serviceChange
 			},
 			// radio
@@ -249,8 +290,13 @@ export default defineComponent({
 					option({ value, label, disabled }) {
 						// console.warn(value, label, 'value, label, disabled', disabled)
 						const style = `color: red`
-						return <div style={style}><le-icon iconClass="le-review"/>{label} <le-icon iconClass="icon-logo"/>	</div>
-					},
+						return (
+							<div style={style}>
+								<le-icon iconClass="le-review" />
+								{label} <le-icon iconClass="icon-logo" />{' '}
+							</div>
+						)
+					}
 				},
 				rules: [
 					{
@@ -265,7 +311,7 @@ export default defineComponent({
 				// 原生方法 不建议使用
 				onChange(...args) {
 					console.log(args, '[原生方法 不建议使用]radio.onChange args')
-				},
+				}
 			},
 			// cascader
 			{
@@ -310,9 +356,14 @@ export default defineComponent({
 				],
 				slots: {
 					// // option: 'cascaderSelectSlot',
-					option: ({node, data}) => {
-						return <div style="color: #f0f;"><le-icon iconClass="icon-logo"/>{data.label}</div>
-					},
+					option: ({ node, data }) => {
+						return (
+							<div style="color: #f0f;">
+								<le-icon iconClass="icon-logo" />
+								{data.label}
+							</div>
+						)
+					}
 				},
 				change(...args) {
 					console.warn(...args, 'cascader.chang args')
@@ -320,7 +371,7 @@ export default defineComponent({
 				// 原生方法 不建议使用
 				onChange(...args) {
 					console.log(args, '[原生方法 不建议使用]cascader.onChange args')
-				},
+				}
 				/*rules: [
 					{
 						required: true,
@@ -340,9 +391,17 @@ export default defineComponent({
 				itemWidth: '500px',
 				itemStyle: 'min-width: 200px',
 				class: 'inputNumber_class_class',
-			  slots: {
-					prefix: () => <span class="le-addon le-input-number__prefix" style="background: var(--el-color-success);">prefix</span>,
-					suffix: () => <span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">suffix</span>
+				slots: {
+					prefix: () => (
+						<span class="le-addon le-input-number__prefix" style="background: var(--el-color-success);">
+							prefix
+						</span>
+					),
+					suffix: () => (
+						<span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">
+							suffix
+						</span>
+					)
 					// onlyTest: () => <span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">onlyTest</span>
 				},
 				// t_label: `${prefix}test5`,
@@ -355,16 +414,20 @@ export default defineComponent({
 				},
 				change(...args) {
 					// eg: formConfig: (value: number|null|undefined, options = [], params = {})
-					if(args.length === 3) {
-						const str = ['value', 'options', 'params'].map((k, i) => {
-							return `${k}: ${JSON.stringify(args[i])}`
-						}).join('\n\n')
+					if (args.length === 3) {
+						const str = ['value', 'options', 'params']
+							.map((k, i) => {
+								return `${k}: ${JSON.stringify(args[i])}`
+							})
+							.join('\n\n')
 						return console.warn(str, '\n\nformConfig > inputNumber.change')
 					}
 					// eg: searchForm: (params = {}, options = [])
-					const str = ['params', 'options'].map((k, i) => {
-						return `${k}: ${JSON.stringify(args[i])}`
-					}).join('\n\n')
+					const str = ['params', 'options']
+						.map((k, i) => {
+							return `${k}: ${JSON.stringify(args[i])}`
+						})
+						.join('\n\n')
 					return console.warn(str, '\n\nsearchForm > inputNumber.change')
 				}
 			},
@@ -384,10 +447,26 @@ export default defineComponent({
 				// prefixIcon: 'Http://',
 				// suffixIcon: '.com',
 				slots: {
-					prepend: () => <span class="le-addon le-input-number__prefix" style="background: var(--el-color-warning);">prepend</span>,
-					append: () => <span class="le-addon le-input-number__prefix" style="background: var(--el-color-warning);">append</span>,
-					prefix: () => <span class="le-addon le-input-number__prefix" style="background: var(--el-color-success);">prefix</span>,
-					suffix: () => <span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">suffix</span>
+					prepend: () => (
+						<span class="le-addon le-input-number__prefix" style="background: var(--el-color-warning);">
+							prepend
+						</span>
+					),
+					append: () => (
+						<span class="le-addon le-input-number__prefix" style="background: var(--el-color-warning);">
+							append
+						</span>
+					),
+					prefix: () => (
+						<span class="le-addon le-input-number__prefix" style="background: var(--el-color-success);">
+							prefix
+						</span>
+					),
+					suffix: () => (
+						<span class="le-addon le-input-number__suffix" style="background: red; /*height: 45px;*/">
+							suffix
+						</span>
+					)
 				},
 				itemType: 'inputNumberRange',
 				// 原生方法 不建议使用
@@ -396,16 +475,20 @@ export default defineComponent({
 				},
 				change(...args) {
 					// eg: formConfig: (value: [min, max], options = [], params = {}, propKey: 0|1)
-					if(args.length === 4) {
-						const str = ['value', 'options', 'params', 'propKey'].map((k, i) => {
-							return `${k}: ${JSON.stringify(args[i])}`
-						}).join('\n\n')
+					if (args.length === 4) {
+						const str = ['value', 'options', 'params', 'propKey']
+							.map((k, i) => {
+								return `${k}: ${JSON.stringify(args[i])}`
+							})
+							.join('\n\n')
 						return console.warn(str, '\n\nformConfig > inputNumberRange.change')
 					}
 					// eg: searchForm: (params = {}, options = [], propKey: string)
-					const str = ['params', 'options', 'propKey'].map((k, i) => {
-						return `${k}: ${JSON.stringify(args[i])}`
-					}).join('\n\n')
+					const str = ['params', 'options', 'propKey']
+						.map((k, i) => {
+							return `${k}: ${JSON.stringify(args[i])}`
+						})
+						.join('\n\n')
 					return console.warn(str, '\n\nsearchForm > inputNumberRange.change')
 				},
 				rules: [
@@ -413,7 +496,7 @@ export default defineComponent({
 					{
 						validator: (rule: any, value: any[], callback: any) => {
 							const [start, end] = value
-							if(start < 5 || !end) return callback('start 必须大于 5, end 必须有值')
+							if (start < 5 || !end) return callback('start 必须大于 5, end 必须有值')
 							callback()
 						},
 						trigger: ['blur', 'change']
@@ -435,7 +518,7 @@ export default defineComponent({
 				// 原生方法 不建议使用
 				onChange(...args) {
 					console.log(args, '[原生方法 不建议使用]datePicker[date].onChange args')
-				},
+				}
 			},
 			// dateRange
 			{
@@ -454,7 +537,7 @@ export default defineComponent({
 				// 原生方法 不建议使用
 				onChange(...args) {
 					console.log(args, '[原生方法 不建议使用]datePicker[daterange].onChange args')
-				},
+				}
 			},
 			{
 				prop: 'switch',
@@ -466,7 +549,7 @@ export default defineComponent({
 				// 原生方法 不建议使用
 				onChange(...args) {
 					console.log(args, '[原生方法 不建议使用]switch.onChange args')
-				},
+				}
 				// checkedChildren: '开',
 				// unCheckedChildren: '关'
 			},
@@ -476,23 +559,26 @@ export default defineComponent({
 				itemType: 'input',
 				change(...args) {
 					// eg: formConfig: (value: string|undefined, options = [], params = {})
-					if(args.length === 3) {
-						const str = ['value', 'options', 'params'].map((k, i) => {
-							return `${k}: ${JSON.stringify(args[i])}`
-						}).join('\n\n')
+					if (args.length === 3) {
+						const str = ['value', 'options', 'params']
+							.map((k, i) => {
+								return `${k}: ${JSON.stringify(args[i])}`
+							})
+							.join('\n\n')
 						return console.warn(str, '\n\nformConfig > input.change')
 					}
 					// eg: searchForm: (params = {}, options = [])
-					const str = ['params', 'options'].map((k, i) => {
-						return `${k}: ${JSON.stringify(args[i])}`
-					}).join('\n\n')
+					const str = ['params', 'options']
+						.map((k, i) => {
+							return `${k}: ${JSON.stringify(args[i])}`
+						})
+						.join('\n\n')
 					return console.warn(str, '\n\nsearchForm > input.change')
-
 				},
 				// 原生方法 不建议使用
 				onChange(...args) {
 					console.log(args, '[原生方法 不建议使用]input.onChange  args')
-				},
+				}
 
 				// onFocus: e => {
 				// 	console.error(e, 'onFocus  onFocus')
@@ -520,7 +606,7 @@ export default defineComponent({
 			formData,
 			searchParams: JSON.parse(JSON.stringify(formData)),
 			forms,
-			forms_copy: JSON.parse(JSON.stringify(forms)),
+			forms_copy: cloneDeep(forms),
 			searchForms: forms.map(v => {
 				return {
 					...v,
@@ -530,10 +616,11 @@ export default defineComponent({
 			queryLoading: false,
 			formConfig,
 			formOptions: {
-				forms: JSON.parse(JSON.stringify(forms)),
+				forms: cloneDeep(forms),
 				formConfig: JSON.parse(JSON.stringify(formConfig))
 			},
 			dialogVisible: false,
+			drawerVisible: false,
 			dialogVisible2: false
 		})
 		window.test_formChange = () => {
@@ -541,7 +628,7 @@ export default defineComponent({
 			if (idx >= 0) {
 				state.forms.splice(idx, 1)
 			} else {
-				state.forms.unshift(			{
+				state.forms.unshift({
 					prop: 'leSelect', // 提交的 params 的字段
 					label: 'leSelect', // label 标签
 					itemType: 'leSelect', // form-item 类型
@@ -561,14 +648,19 @@ export default defineComponent({
 						// label: 'leSelect_label',
 						// label render 支持
 						label({ label }) {
-							return <span style='background: var(--el-color-danger);display: flex'>label custom: fn<span style='margin-left: auto; background: var(--el-color-success)'>{ label }</span></span>
+							return (
+								<span style="background: var(--el-color-danger);display: flex">
+									label custom: fn<span style="margin-left: auto; background: var(--el-color-success)">{label}</span>
+								</span>
+							)
 						},
 						// option: 'leSelectSlot',
 						// option({ value, label, disabled }) { // select 类型处理
-						option({ item, index, disabled }){ // leSelect (基于el-select-v2 二开)
+						option({ item, index, disabled }) {
+							// leSelect (基于el-select-v2 二开)
 							const style = `color: #fff; background: var(--el-color-primary)`
 							return <div style={style}>{item.le_label} ttt</div>
-						},
+						}
 					},
 					change(...args) {
 						console.warn(...args, 'leSelect.chang args')
@@ -576,10 +668,10 @@ export default defineComponent({
 					// 原生方法 不建议使用
 					onChange(...args) {
 						console.log(args, '[原生方法 不建议使用]leSelect.onChange args')
-					},
+					}
 					// teleported: true
 					// change: methods.serviceChange
-				},)
+				})
 			}
 		}
 		/*window.change_formData = (opts = {
@@ -646,14 +738,29 @@ export default defineComponent({
 					ElMessage.error('提交 成功 ')
 				}, 1000)
 			},
+			drawerSubmit() {
+				// configForm2
+				const callback = params => {
+					console.error('params', JSON.stringify(params))
+					state.formConfig.submitLoading = true
+					setTimeout(() => {
+						state.formConfig.submitLoading = false
+						state.drawerVisible = false
+						ElMessage.error('提交 成功 ')
+					}, 1000)
+				}
+				configForm2.value.submitHandler(callback)
+			},
 			changeVisible(bool = false) {
 				state.dialogVisible = bool
 			}
 		}
 		const formRef = ref()
+		const configForm2 = ref()
 		return {
 			...toRefs(state),
 			formRef,
+			configForm2,
 			...methods
 		}
 	}
