@@ -82,7 +82,8 @@ export const constantRoutes: AppRouteRecordRaw[] = [
 	{
 		path: '/components',
 		component: Layout,
-		redirect: '/index',
+		meta: { title: 'components组件' /*, icon: 'icon-table'*/ },
+		redirect: '/components/index',
 		children: [
 			{
 				path: 'index',
