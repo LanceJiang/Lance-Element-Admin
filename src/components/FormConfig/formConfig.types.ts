@@ -26,10 +26,10 @@ export type ComponentType =
 	| 'datePicker'
 	| 'switch'
 	| 'input'
-export type SlotOption<T = ObjectOpts | OptionItemProps | { data: any; node: any }> = ((T) => JSX.Element | string) | string | undefined
+export type SlotOption<T = Recordable | OptionItemProps | { data: any; node: any }> = ((T) => JSX.Element | string) | string | undefined
 export type FormItemSlots = {
 	// label 自定义插槽
-	label?: (({ label: string }) => JSX.Element) | string
+	label?: ((opts: { label: string }) => JSX.Element) | string
 	/***
 	 * [option] 用于 adSelect|select|radio|cascader 类型的 下拉option 自定义扩展
 	 * adSelect: (OptionItemProps) => JSX.Element
@@ -50,7 +50,7 @@ export type FormItemSlots = {
 }
 // formItem 配置
 // T额外申明 // FormConfig: inputNumberRange 类型的item change 会加上propKey 标注是前|后触发的change   options: 是 有options Item类型时会有具体的数组数据
-// export type LeFormItem<Change = (value: any, options: any[], params: ObjectOpts, propKey?: string) => any> = Partial<FormItemInstance['props']> & {
+// export type LeFormItem<Change = (value: any, options: any[], params: Recordable, propKey?: string) => any> = Partial<FormItemInstance['props']> & {
 
 // FormItemInstance['props']
 // export interface LeFormItem extends Partial<Omit<FormItemInstance['props'], 'render' | 'props'>> {
@@ -75,13 +75,9 @@ export type LeFormItem = Partial<Omit<FormItemInstance['props'], 'render' | 'pro
 	options?: any[] // [{label,value}]
 	/*** select || radio || cascader 使用 End*/
 	/*** render 使用 Start*/
-	render?: ((extendsParams: { form: LeFormItem; params: ObjectOpts }) => JSX.Element) | any
+	render?: ((extendsParams: { form: LeFormItem; params: Recordable }) => JSX.Element) | any
 	/*** render 使用 End*/
 	// formValueFormat?: (params: any, key: string) => any // 数据提交前 转换
-	change?: (value: any, options: any[], params: ObjectOpts, propKey?: string) => any
-	[prop: string]: any
-}
-
-export type ObjectOpts = {
+	change?: (value: any, options: any[], params: Recordable, propKey?: string) => any
 	[prop: string]: any
 }
