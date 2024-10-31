@@ -3,7 +3,7 @@ import { UserState } from '@/types'
 import { ls } from '@/utils'
 import { login, googleLogin, logout } from '@/api/login'
 import router, { resetRouter } from '@/router'
-import md5 from 'js-md5'
+import md5 from 'md5'
 
 import avatarUrl from '@/assets/favicon.ico'
 
@@ -59,11 +59,11 @@ const useUserStore = defineStore({
 
 				/*// eslint-disable-next-line
 				// @ts-ignore*/
-				const { redirect, ...query } = this.loginQuery || {}
+				const { redirect /*, ...query*/ } = this.loginQuery || {}
 				// debugger
 				const path = redirect || '/'
 				// console.error(path, 'path query', query)
-				router.push({ path, query })
+				router.push(path)
 				return data
 			})
 		},

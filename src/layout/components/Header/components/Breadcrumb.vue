@@ -1,5 +1,5 @@
 <template>
-	<div :class="['breadcrumb-box']">
+	<div :class="['breadcrumb-box flex mobile:hidden']">
 		<el-breadcrumb separator-icon="ArrowRight">
 			<transition-group name="breadcrumb">
 				<!--				<el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="item.path">-->
@@ -72,7 +72,7 @@ const onBreadcrumbClick = (item: RouteMenu.Item, index: number) => {
 
 <style scoped lang="scss">
 .breadcrumb-box {
-	display: flex;
+	//display: flex;
 	align-items: center;
 	overflow: hidden;
 	margin-left: 6px;

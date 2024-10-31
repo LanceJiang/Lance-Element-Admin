@@ -1,11 +1,11 @@
-import type { LeTableColumnProps, LeTableOptions, LeTableProps, LeColumnSlots } from '../index.d'
+import type { LeTableColumnProps, LeTableOptions, LeTableProps, LeColumnSlots, TitleHelp } from '../index.d'
 import { ComputedRef, Slots, computed, Ref, unref, watch, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getPropValue, $log } from '@/utils'
 // import { cloneDeep, isEqual } from 'lodash-es'
 
 /**针对 header 展示添加默认的slot*/
-const slotHeaderDefault = function (titleHelp: any = {}, props: any) {
+const slotHeaderDefault = function (titleHelp: TitleHelp = {}, props: any) {
 	// console.error(props, 'props.column...', titleHelp)
 	const { t } = useI18n()
 	const { t_label, label } = props.column || {}
@@ -15,8 +15,11 @@ const slotHeaderDefault = function (titleHelp: any = {}, props: any) {
 	const { message, icon } = titleHelp || {}
 	let TitleHelp: string | JSX.Element = ''
 	if (message) {
+		const slots = {
+			content: () => message
+		}
 		TitleHelp = (
-			<el-tooltip placement="top" raw-content content={message}>
+			<el-tooltip placement="top" v-slots={slots}>
 				<i class={['le-iconfont', icon || 'le-question']} />
 			</el-tooltip>
 		)
@@ -69,7 +72,7 @@ const setSlotFn = (() => {
 				le_slots[type] = fn || null
 		  }
 })()
-const columnSlots = (column: LeTableColumnProps & { titleHelp: any; slots: any }, $slots: Slots) => {
+const columnSlots = (column: LeTableColumnProps, $slots: Slots) => {
 	const local_slots: LeColumnSlots = {
 		// default: slotDefault(column)
 		default: slotDefault
@@ -95,7 +98,7 @@ const columnSlots = (column: LeTableColumnProps & { titleHelp: any; slots: any }
 
 	return local_slots
 }
-type local_columnProps = LeTableColumnProps & { le_children: any[]; le_slots: LeSlots }
+type local_columnProps = Partial<LeTableColumnProps & { le_children: any[]; le_slots: Recordable }>
 export type useColumnsOpts = {
 	propsRef: LeTableProps
 	computedOptions: ComputedRef<LeTableOptions>

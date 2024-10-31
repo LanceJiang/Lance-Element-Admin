@@ -1,2 +1,27 @@
 $header_height: 55px;
 $header_index: 2;
+
+// 小屏情况下样式
+@media (max-width: 750px) {
+	// le-layout-aside
+	.le-layout-aside {
+		&.aside-m {
+			z-index: 4;
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			//width: max-content;
+			&--hidden {
+				//width: 0;
+				left: -100%;
+				/*.aside-box {
+					width: 0;
+				}*/
+			}
+		}
+	}
+}
+.layout-mobile-sider-mask {
+	z-index: 3;
+}

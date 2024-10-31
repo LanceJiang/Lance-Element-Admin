@@ -5,6 +5,7 @@ import LeFormConfig from '@/components/FormConfig/index.vue'
 import LeFormConfigDialog from '@/components/FormConfigDialog.vue'
 import LeSearchForm from '@/components/SearchForm.vue'
 import LeEditPopover from '@/components/EditPopover.vue'
+import MonacoEditor from '@/components/MonacoEditor'
 import LeChart from '@/components/Chart.vue'
 import LeText from '@/components/Text.vue'
 import { $log } from '@/utils'
@@ -17,6 +18,7 @@ export declare module '@vue/runtime-core' {
 		LeFormConfigDialog: typeof LeFormConfigDialog
 		LeSearchForm: typeof LeSearchForm
 		LeEditPopover: typeof LeEditPopover
+		MonacoEditor: typeof MonacoEditor
 		LeChart: typeof LeChart
 		LeText: typeof LeText
 	}

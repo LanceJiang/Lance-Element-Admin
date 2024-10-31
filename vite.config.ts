@@ -45,6 +45,9 @@ export default defineConfig(({ mode /*command,*/ }: ConfigEnv): UserConfig => {
 		define: {
 			__APP_INFO__: JSON.stringify(__APP_INFO__)
 		},
+		esbuild: {
+			drop: viteEnv.VITE_DROP_CONSOLE ? ['console', 'debugger'] : []
+		},
 		css: {
 			devSourcemap: true,
 			preprocessorOptions: {

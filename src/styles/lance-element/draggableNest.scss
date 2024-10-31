@@ -1,5 +1,8 @@
 @import "../variables.scss";
 .#{$prefix}draggable-nest {
+	flex: 1;
+	width: 100%;
+	overflow-y: auto;
   .flip-list {
     transition: all 0.3s ease-in-out;
   }
@@ -25,9 +28,6 @@
     //box-shadow: 1px 1px 5px 2px rgba(0,0,0,.15);
     box-shadow: inset 0 0 6px -2px rgba(0, 0, 0, 0.15);
   }
-  flex: 1;
-  width: 100%;
-  overflow-y: auto;
   &-item {
     padding-left: 12px;
     &:hover {
@@ -49,14 +49,15 @@
         //color: rgba(0, 0, 0, 0.25);
 				color: var(--el-text-color-disabled);
         cursor: not-allowed;
+				opacity: unset;
+				box-shadow: none;
         &.ghost {
           background: unset;
         }
         & > .dragEl {
           cursor: not-allowed;
         }
-        opacity: unset;
-        box-shadow: none;
+
         .disabled_fixed {
           width: 28px;
           margin-left: auto;

@@ -220,3 +220,10 @@ export function updateNewColumns(localColumns: LeTableColumnProps[], targetColum
 		.filter(Boolean)
 }
 */
+
+// 判断是否为小屏 同 theme.screens.mobile
+export const isMobile = () => {
+	const userAgent = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+	const screenCheck = window.matchMedia('only screen and (max-width: 750px)').matches
+	return userAgent || screenCheck // window.innerWidth <= 750
+}

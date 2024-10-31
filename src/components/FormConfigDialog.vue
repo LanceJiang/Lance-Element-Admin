@@ -1,7 +1,6 @@
 <script lang="tsx">
 import { defineComponent, ref, reactive, watch, toRefs, PropType } from 'vue'
 import FormConfig, { FormConfigProps } from './FormConfig/index.vue'
-import { ObjectOpts } from '@/components/FormConfig/formConfig.types.ts'
 
 const formConfigDialogProps = {
 	title: {
@@ -20,7 +19,7 @@ const formConfigDialogProps = {
 	},
 	// 初始化数据对象
 	formData: {
-		type: Object as PropType<ObjectOpts>,
+		type: Object as PropType<Recordable>,
 		default: () => ({})
 	},
 	modelValue: {

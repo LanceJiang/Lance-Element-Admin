@@ -42,7 +42,7 @@ jobs:
 
       # 构建项目
       - name: Build (构建)
-        run: npm run build:pre
+        run: npm run build
 
       # 上传构建产物（actions/upload-artifact@v3 会上传工作流程中的文件）
       - name:  Upload build artifacts (上传构建产物)

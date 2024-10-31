@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, watch, ref, computed, PropType, CSSProperties } from 'vue'
 import { Refresh, Search } from '@element-plus/icons-vue'
-import { LeFormItem, ObjectOpts, FormConfigOpts, FormItemSlots, SlotOption } from '@/components/FormConfig/formConfig.types'
+import { LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from '@/components/FormConfig/formConfig.types'
 import InputNumber from './InputNumber'
 import InputNumberRange from './InputNumberRange'
 import CustomRender from './CustomRender'
@@ -20,7 +20,7 @@ export const SearchFormProps = {
 	// 后台传递的初始值 以及 双向绑定 对象
 	searchData: {
 		required: true,
-		type: Object as PropType<ObjectOpts>
+		type: Object as PropType<Recordable>
 	},
 	// item 修改后 自动触发搜索
 	triggerSearchAuto: {
@@ -319,7 +319,7 @@ export const SearchForm = defineComponent({
 					<div class="le-search-form-flex">
 						<el-form ref={formRef} inline={true} size="default" class="le-search-form-flex-wrap" model={searchData} {...formConfig}>
 							<el-row class="form_wrap" gutter={8}>
-								{realForms.value.map((form: SearchFormItem & { le_slots: ObjectOpts }, idx) => {
+								{realForms.value.map((form: SearchFormItem & { le_slots: Recordable }, idx) => {
 									// 通过 form.visible 控制 是否展示
 									const _label = form.t_label ? t(form.t_label) : form.label
 									const slots = {

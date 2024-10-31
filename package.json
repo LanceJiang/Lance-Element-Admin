@@ -1,19 +1,19 @@
 {
   "name": "Lance-Element-Admin",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Vue3、TS、Element-Plus、Pinia 和 Vite",
-	"keywords": [
-		"lance-elementplus-admin",
-		"element-plus",
-		"tailwindcss",
-		"lance-admin",
-		"typescript",
-		"pinia",
-		"vue3",
-		"vite",
-		"esm"
-	],
+  "keywords": [
+    "lance-elementplus-admin",
+    "element-plus",
+    "tailwindcss",
+    "lance-admin",
+    "typescript",
+    "pinia",
+    "vue3",
+    "vite",
+    "esm"
+  ],
   "author": {
     "name": "LanceJiang",
     "url": "https://github.com/LanceJiang"
@@ -27,7 +27,7 @@
     "start": "npm run dev",
     "serve": "npm run dev",
     "dev": "vite serve --mode development",
-    "build": "vue-tsc --noEmit && vite build --mode production",
+    "build": "vite build --mode production",
     "build:dev": "vite build --mode development",
     "build:test": "vite build --mode test",
     "build:pre": "vite build --mode staging",
@@ -36,9 +36,7 @@
     "lint:prettier": "prettier --write \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
     "lint:lint-staged": "lint-staged",
     "docs:start": "pnpm run -C docs start",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:build": "pnpm run -C docs build"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
@@ -47,8 +45,9 @@
     "dayjs": "^1.11.7",
     "echarts": "^5.4.2",
     "element-plus": "2.3.4",
-    "js-md5": "^0.7.3",
+    "md5": "^2.3.0",
     "mitt": "^3.0.0",
+		"monaco-editor": "^0.52.0",
     "nprogress": "^0.2.0",
     "path-browserify": "^1.0.1",
     "path-to-regexp": "^6.2.0",
@@ -56,13 +55,14 @@
     "pinia-plugin-persistedstate": "^3.1.0",
     "sortablejs": "^1.15.0",
     "vue": "^3.2.47",
+    "vue-gtag-next": "^1.14.0",
     "vue-i18n": "^9.2.2",
     "vue-ls": "^4.2.0",
     "vue-router": "^4.2.1",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
-    "@types/js-md5": "^0.7.0",
+    "@types/md5": "^2.3.5",
     "@types/nprogress": "^0.2.0",
     "@types/path-browserify": "^1.0.0",
     "@types/sortablejs": "^1.15.3",
@@ -79,7 +79,7 @@
     "postcss": "^8.4.30",
     "prettier": "^2.8.8",
     "rollup-plugin-visualizer": "^5.9.0",
-    "sass": "^1.62.1",
+    "sass": "1.75.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.4",
     "unplugin-vue-setup-extend-plus": "^1.0.0",

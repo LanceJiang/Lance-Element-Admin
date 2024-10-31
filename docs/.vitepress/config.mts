@@ -46,6 +46,10 @@ const sidebar = {
 					text: 'LeSearchForm 搜索表单',
 					link: '/component/LeSearchForm',
 				},
+				{
+					text: 'LeIcon SvgIcon',
+					link: '/component/LeIcon',
+				},
 			],
 		},
 	],

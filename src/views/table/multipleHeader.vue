@@ -3,13 +3,13 @@
 		<LeTable
 			ref="localTable"
 			v-model:searchParams="searchParams"
+			v-model:checkedOptions="tabs_checkedColumns"
 			class="local_table tabs_content-wrap"
 			:list="localList"
 			:total="total"
 			:options="options"
 			:columns="localColumns"
-			v-model:checkedOptions="tabs_checkedColumns"
-			:columnsConfig="tabs_columnsConfig"
+			:columns-config="tabs_columnsConfig"
 		>
 			<template #toolLeft>
 				<h3 style="line-height: 36px">多级表头示例</h3>
@@ -102,7 +102,7 @@ const showAll = ref(true)
 							const {row, column, $index} = args
 							// console.error($index, '$index')
 							return <div>
-								<span style="color: red;">{row[column.property]}</span><br/>
+								<span class="text-error">{row[column.property]}</span><br/>
 								(slots.default: fn)
 							</div>
 						}
@@ -138,11 +138,14 @@ const columns = [
 		label: '上报问题数',
 		minWidth: '100px',
 		fixed: 'right',
-		formatter (row, column, cellValue, index) {
-			return <div>
-				<el-link style="color: #409eff;">{cellValue}</el-link><br/>
-				(formatter)
-			</div>
+		formatter(row, column, cellValue, index) {
+			return (
+				<div>
+					<el-link style="color: #409eff;">{cellValue}</el-link>
+					<br />
+					(formatter)
+				</div>
+			)
 		}
 	},
 	{
@@ -170,14 +173,17 @@ const columns = [
 				minWidth: 200,
 				sortable: true,
 				slots: {
-					default: (args) => {
+					default: args => {
 						// console.log(args)
-						const {row, column, $index} = args
+						const { row, column, $index } = args
 						// console.error($index, '$index')
-						return <div>
-							<span style="color: red;">{row[column.property]}</span><br/>
-							(slots.default: fn)
-						</div>
+						return (
+							<div>
+								<span class="text-error">{row[column.property]}</span>
+								<br />
+								(slots.default: fn)
+							</div>
+						)
 					}
 				}
 			},

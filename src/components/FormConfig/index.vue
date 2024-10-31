@@ -11,7 +11,7 @@ import CustomRender from '../CustomRender'
 // import LeSelect from 'lance-element-vue/packages/Select'
 import LeSelect from '../Select'
 import { renderOption, getOptions, get_formSlots } from './utils.ts'
-import { LeFormItem, ObjectOpts, FormConfigOpts, FormItemSlots, SlotOption } from './formConfig.types'
+import { LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from './formConfig.types'
 import { OptionItemProps } from '@/components/Select/select.types.ts'
 // import { useFormItems } from './hooks/useForm.tsx'
 export const FormConfigProps = {
@@ -21,7 +21,7 @@ export const FormConfigProps = {
 	},
 	formData: {
 		// 后台传递的初始值 对象 【后期拿操作的表单数据  请使用 submit 的params】
-		type: Object as PropType<ObjectOpts>,
+		type: Object as PropType<Recordable>,
 		default: () => ({})
 	}, // 后台传递过来的 数据
 	// form的配置项对象 参考 default_formConfig

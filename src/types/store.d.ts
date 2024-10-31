@@ -6,6 +6,7 @@ import { /*RouteRecordRaw,*/ RouteLocationNormalized } from 'vue-router'
  */
 export interface AppState {
 	device: string
+	isMobile: boolean
 	// todo...
 	sidebar?: {
 		opened: boolean

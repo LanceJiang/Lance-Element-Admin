@@ -94,7 +94,7 @@ const localColumns = computed(() => {
 			label: '金额4(string)',
 			prop: 'amount4',
 			formatter: (row, column, cellValue) => {
-				return <div style="color: red;">{formatNumber(cellValue, 2)}</div>
+				return <div class="text-error">{formatNumber(cellValue, 2)}</div>
 			}
 		}
 	]

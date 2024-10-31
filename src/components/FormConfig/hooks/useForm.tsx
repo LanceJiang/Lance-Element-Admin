@@ -7,7 +7,7 @@ import InputNumberRange from '@/components/InputNumberRange'
 // import InputNumberRange from 'lance-element-vue/packages/InputNumberRange'
 import CustomRender from '@/components/CustomRender'
 // import CustomRender from 'lance-element-vue/packages/CustomRender'
-import { LeFormItem, ObjectOpts, SlotOption } from '@/components/FormConfig/formConfig.types.ts'
+import { LeFormItem, SlotOption } from '@/components/FormConfig/formConfig.types.ts'
 import { get_formSlots, getOptions, renderOption } from '@/components/FormConfig/utils.ts'
 // import { LeTableOptions, LeTableProps } from '@/components/Table'
 // import { SearchFormProps } from '@/components/SearchForm'
@@ -20,14 +20,14 @@ export type useFormItemsOpts = {
 	// props: SearchFormProps | FormConfigProps
 	// props: { forms: LeFormItem[] }
 	props: any
-	params: ObjectOpts
+	params: Recordable
 	slots: Slots
 	// tableRef: Ref
 }
-export type RenderFormItem = LeFormItem & { le_slots: ObjectOpts }
+export type RenderFormItem = LeFormItem & { le_slots: Recordable }
 export type RenderFormItemOpts = {
-	form: LeFormItem & { le_slots: ObjectOpts }
-	params: ObjectOpts
+	form: LeFormItem & { le_slots: Recordable }
+	params: Recordable
 	isEdit?: boolean
 	size?: 'large' | 'default' | 'small'
 	t?: any

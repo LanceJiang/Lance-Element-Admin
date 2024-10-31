@@ -16,6 +16,9 @@ export const useSettingStore = defineStore({
 	// 	tagsView
 	// }),
 	actions: {
+		changeCollapse(bool: boolean) {
+			this.isCollapse = bool
+		},
 		async changeSetting(...payload: [string, any]) {
 			const [key, value] = payload
 			switch (key) {

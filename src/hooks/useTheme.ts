@@ -9,6 +9,7 @@ import { asideTheme } from '@/styles/theme/aside'
 import { headerTheme } from '@/styles/theme/header'
 import { footerTheme } from '@/styles/theme/footer'
 import { defaultSettingState } from '@/settings.ts'
+import { isMobile } from '@/utils'
 
 /**
  * @description 全局主题 hooks
@@ -118,6 +119,9 @@ export const useTheme = () => {
 		watermarkChange()
 		if (isGrey.value) changeGreyOrWeak('grey', true)
 		if (isWeak.value) changeGreyOrWeak('weak', true)
+		setting.changeCollapse(isMobile())
+		// 判断是否是小屏 额外处理
+		/*if () {}*/
 	}
 
 	const resetTheme = () => {
