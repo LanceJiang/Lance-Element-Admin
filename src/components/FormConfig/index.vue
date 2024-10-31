@@ -307,6 +307,7 @@ const FormConfig = defineComponent({
 					placeholder,
 					t_placeholder,
 					le_slots,
+					visible,
 					...formOthers
 				} = form
 				const _options = options || []
@@ -528,20 +529,22 @@ const FormConfig = defineComponent({
 				<el-form ref={formRef} class={`le-form-config le-form-config--${size}`} {...form_config} size={size} model={params}>
 					<el-row class="form_wrap" gutter={gutter}>
 						{/*renderForms({forms: realForms.value, gutter, span})*/}
-						{realForms.value.map((form, idx) => {
-							const { span: _span, t_label, label, ...others } = form
-							const _label = t_label ? t(t_label) : label
-							const formItemSlots = {
-								label: form.le_slots.label
-							}
-							return (
-								<el-col v-show={form.visible !== false} key={idx} span={_span ?? span}>
-									<el-form-item class={form.showLabel === false ? 'hideLabel' : ''} {...others} label={_label} v-slots={formItemSlots}>
-										{itemRender(form)}
-									</el-form-item>
-								</el-col>
-							)
-						})}
+						{realForms.value
+							.filter(form => form.visible !== false)
+							.map((form, idx) => {
+								const { span: _span, t_label, label, visible, ...others } = form
+								const _label = t_label ? t(t_label) : label
+								const formItemSlots = {
+									label: form.le_slots.label
+								}
+								return (
+									<el-col key={`${form.prop}${idx}`} span={_span ?? span}>
+										<el-form-item class={form.showLabel === false ? 'hideLabel' : ''} {...others} label={_label} v-slots={formItemSlots}>
+											{itemRender(form)}
+										</el-form-item>
+									</el-col>
+								)
+							})}
 						{/** 额外的插入内容 */}
 						{ctx.slots.extraContent?.()}
 					</el-row>
