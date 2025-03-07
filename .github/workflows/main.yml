@@ -28,11 +28,11 @@ jobs:
     steps:
       # 代码仓库的内容拉取
       - name: Checkout code (检出代码)
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # 安装 node 环境，并设置版本
       - name: Setup Node.js (设置 node 版本)
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
@@ -44,9 +44,9 @@ jobs:
       - name: Build (构建)
         run: npm run build
 
-      # 上传构建产物（actions/upload-artifact@v3 会上传工作流程中的文件）
+      # 上传构建产物（actions/upload-pages-artifact@v3 会上传工作流程中的文件）
       - name:  Upload build artifacts (上传构建产物)
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: "./dist"
 
@@ -60,6 +60,6 @@ jobs:
     steps:
      # 部署 GitHub Pages
       - name: Deploy to GitHub Pages(部署到 GitHub Pages)
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
