@@ -16,16 +16,8 @@ export type FormConfigOpts = Partial<FormInstance['props']> & {
 }
 // 组件类型
 export type ComponentType =
-	| 'leSelect'
-	| 'render'
-	| 'select'
-	| 'radio'
-	| 'cascader'
-	| 'inputNumber'
-	| 'inputNumberRange'
-	| 'datePicker'
-	| 'switch'
-	| 'input'
+	// | 'leSelect'
+	'render' | 'select' | 'radio' | 'cascader' | 'inputNumber' | 'inputNumberRange' | 'datePicker' | 'switch' | 'input'
 export type SlotOption<T = Recordable | OptionItemProps | { data: any; node: any }> = ((T) => JSX.Element | string) | string | undefined
 export type FormItemSlots = {
 	// label 自定义插槽

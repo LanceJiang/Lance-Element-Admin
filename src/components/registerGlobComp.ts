@@ -12,7 +12,7 @@ import DraggableNest from '@/components/DraggableNest.vue'
 import LeTable from '@/components/Table/index.vue'
 import NoData from '@/components/NoData.vue'
 import Icon from '@/components/Icon.vue'
-import Select from '@/components/Select/index.vue'
+// import Select from '@/components/Select/index.vue'
 import Chart from '@/components/Chart.vue'
 import EditPopover from '@/components/EditPopover.vue'
 import Text from '@/components/Text.vue'
@@ -31,7 +31,7 @@ const compList = [
 	LeTable,
 	NoData,
 	Icon,
-	Select,
+	// Select,
 	Chart,
 	EditPopover,
 	Text,

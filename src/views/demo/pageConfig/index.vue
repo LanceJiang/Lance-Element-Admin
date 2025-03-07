@@ -1,15 +1,10 @@
 <template>
 	<div class="testTable column-page-wrap">
 		<!-- 公用搜索组件 -->
-		<LeSearchForm
-			ref="searchForm"
-			v-model:searchData="searchData"
-			:forms="forms"
-			:loading="tableOpts.options.loading"
-		>
-			<template #slot_label_test="{label}">
-				<div style="background: var(--el-color-danger); color:#fff;display: flex">
-					label custom: string<span style="margin-left: auto; background: var(--el-color-primary)">{{label}}</span>
+		<LeSearchForm ref="searchForm" v-model:search-data="searchData" :forms="forms" :loading="tableOpts.options.loading">
+			<template #slot_label_test="{ label }">
+				<div style="background: var(--el-color-danger); color: #fff; display: flex">
+					label custom: string<span style="margin-left: auto; background: var(--el-color-primary)">{{ label }}</span>
 				</div>
 			</template>
 		</LeSearchForm>
@@ -21,9 +16,9 @@
 		:columnsConfig="tableOpts.columnsConfig"-->
 		<LeTable
 			ref="tableRef"
-			v-model:searchParams="tableOpts.searchParams"
+			v-model:search-params="tableOpts.searchParams"
 			v-bind="tableOpts"
-			v-model:curRow="tableOpts.curRow"
+			v-model:cur-row="tableOpts.curRow"
 			v-model:checked-options="checkedColumns"
 			:columns="activeColumns"
 		>
@@ -72,8 +67,8 @@
 			v-model="visible"
 			:title="`${isCreate ? '新增' : '编辑'}配置`"
 			width="1200px"
-			:formData="activeData"
-			:formOptions="formOptions"
+			:form-data="activeData"
+			:form-options="formOptions"
 			@submit="submitHandler"
 		/>
 	</div>
@@ -91,7 +86,7 @@ import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
 const tableRef = ref()
 // window.tableRef = tableRef
 const _forms = [
-	// leSelect 单选
+	/*// leSelect 单选
 	{
 		prop: 'leSelect',
 		label: 'leSelect',
@@ -101,9 +96,9 @@ const _forms = [
 			{ value: 'leSelect_1', label: 'le_类型一' },
 			{ value: 'leSelect_2', label: 'le_类型二' }
 		]
-		/* rules: [
+		/!* rules: [
 				{ required: true, message: '请输入邮箱地址', trigger: 'blur' }
-		]*/
+		]*!/
 	},
 	// leSelect 多选
 	{
@@ -118,10 +113,10 @@ const _forms = [
 			{ value: 'leSelect_1', label: 'le_类型一' },
 			{ value: 'leSelect_2', label: 'le_类型二' }
 		]
-		/* rules: [
+		/!* rules: [
 				{ required: true, message: '请输入邮箱地址', trigger: 'blur' }
-		]*/
-	},
+		]*!/
+	},*/
 	{
 		prop: 'render',
 		label: '自定义Render',

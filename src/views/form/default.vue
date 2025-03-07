@@ -3,7 +3,7 @@
 		Forms & SearchForm
 		<div class="common_title">le-search-form</div>
 		<div class="content">
-			<LeSearchForm v-model:searchData="searchParams" :forms="searchForms" :loading="queryLoading" />
+			<LeSearchForm v-model:search-data="searchParams" :forms="searchForms" :loading="queryLoading" />
 		</div>
 		<div class="common_title">le-form-config</div>
 		<div class="content">
@@ -133,7 +133,7 @@ export default defineComponent({
 			others: 'others'
 		}
 		const forms = [
-			{
+			/*{
 				prop: 'leSelect', // 提交的 params 的字段
 				label: 'leSelect', // label 标签
 				itemType: 'leSelect', // form-item 类型
@@ -178,7 +178,7 @@ export default defineComponent({
 				}
 				// teleported: true
 				// change: methods.serviceChange
-			},
+			},*/
 			// render { render:function 必传 }
 			{
 				prop: 'render',
@@ -626,9 +626,9 @@ export default defineComponent({
 		window.test_formChange = () => {
 			const idx = state.forms.findIndex(v => v.prop === 'leSelect')
 			if (idx >= 0) {
-				state.forms.splice(idx, 1)
+				// state.forms.splice(idx, 1)
 			} else {
-				state.forms.unshift({
+				/*state.forms.unshift({
 					prop: 'leSelect', // 提交的 params 的字段
 					label: 'leSelect', // label 标签
 					itemType: 'leSelect', // form-item 类型
@@ -671,7 +671,7 @@ export default defineComponent({
 					}
 					// teleported: true
 					// change: methods.serviceChange
-				})
+				})*/
 			}
 		}
 		/*window.change_formData = (opts = {

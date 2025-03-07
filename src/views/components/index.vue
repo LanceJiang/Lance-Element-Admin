@@ -13,7 +13,7 @@
 			<div>src/locale 文字(携带 le前缀做区分): {{ $t('le.btn.add') }}</div>
 		</div>
 		<SearchGroup2Popover v-if="false" />
-		<LeSelectDemo v-if="true" />
+		<LeSelectDemo v-if="false" />
 		<InputNumberDemo v-if="true" />
 		<LeDraggableNestDemo v-if="true" />
 		<WatermarkDemo v-if="true" />

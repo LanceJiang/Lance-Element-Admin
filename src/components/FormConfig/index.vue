@@ -9,7 +9,7 @@ import InputNumberRange from '../InputNumberRange'
 // import CustomRender from 'lance-element-vue/packages/CustomRender'
 import CustomRender from '../CustomRender'
 // import LeSelect from 'lance-element-vue/packages/Select'
-import LeSelect from '../Select'
+// import LeSelect from '../Select'
 import { renderOption, getOptions, get_formSlots } from './utils.ts'
 import { LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from './formConfig.types'
 import { OptionItemProps } from '@/components/Select/select.types.ts'
@@ -73,8 +73,8 @@ const FormConfig = defineComponent({
 	components: {
 		CustomRender,
 		InputNumber,
-		InputNumberRange,
-		LeSelect
+		InputNumberRange
+		// LeSelect
 	},
 	props: FormConfigProps,
 	emits: formConfigEmits,
@@ -92,7 +92,7 @@ const FormConfig = defineComponent({
 				case 'render':
 					// /!** !!! 暂不对render类型 进行更多标签处理 *!/
 					// return []
-				case 'leSelect':
+				// case 'leSelect':
 				case 'select':
 				case 'radio':
 				case 'datePicker':
@@ -326,7 +326,7 @@ const FormConfig = defineComponent({
 				}
 				switch (itemType) {
 					/* 自定义 le 自定义Select */
-					case 'leSelect':
+					/*case 'leSelect':
 						// leSelect: 基于 element-plus el-select-v2扩展
 						const slots_leSelect = {
 							default: le_slots.option as SlotOption<OptionItemProps>
@@ -346,7 +346,7 @@ const FormConfig = defineComponent({
 								style={leStyle}
 								v-slots={slots_leSelect}
 							/>
-						)
+						)*/
 					/* 自定义 render */
 					case 'render':
 						return <CustomRender form={form} params={params} />

@@ -140,7 +140,7 @@ export const SearchForm = defineComponent({
 					}
 				}
 				switch (itemType) {
-					case 'leSelect':
+					/*case 'leSelect':
 						// leSelect: 基于 element-plus el-select-v2扩展
 						const slots_leSelect = {
 							default: le_slots.option as SlotOption<OptionItemProps>
@@ -159,7 +159,7 @@ export const SearchForm = defineComponent({
 								style={getItemStyle(_itemStyle, '200px')}
 								v-slots={slots_leSelect}
 							/>
-						)
+						)*/
 
 					// 自定义render
 					case 'render':

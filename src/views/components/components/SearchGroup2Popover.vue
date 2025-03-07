@@ -271,7 +271,7 @@ const formOptions = ref({
 			// prepend: 'Http://', // 额外form-item配置
 			// append: '.com' // 额外form-item配置
 		},
-		{
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			// isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelect_icon', // 提交的 params 的字段
@@ -285,11 +285,11 @@ const formOptions = ref({
 					return <le-icon icon-class={option.icon} style={style}></le-icon>
 				}
 			},
-			/*slotOption({ option, label }) {
+			/!*slotOption({ option, label }) {
 				// console.error(option, label, 'option, label')
 				const style = `color: ${option.color}`
 				return <le-icon icon-class={option.icon} style={style}></le-icon>
-			},*/
+			},*!/
 			// 渲染选中的特殊展示
 			tagRender({ searchParams, transLabel, deleteFn, isMore }) {
 				// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
@@ -315,8 +315,8 @@ const formOptions = ref({
 					tag
 				}
 			}
-		},
-		{
+		},*/
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelectMultipleMore_icon', // 提交的 params 的字段
@@ -330,10 +330,10 @@ const formOptions = ref({
 					return <le-icon icon-class={option.icon} style={style}></le-icon>
 				}
 			},
-			/*slotOption({ option, label }) {
+			/!*slotOption({ option, label }) {
 				const style = `color: ${option.color}`
 				return <le-icon icon-class={option.icon} style={style}></le-icon>
-			},*/
+			},*!/
 			// 渲染选中的特殊展示
 			tagRender({ searchParams, transLabel, deleteFn, isMore }) {
 				// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
@@ -361,8 +361,8 @@ const formOptions = ref({
 					tag
 				}
 			}
-		},
-		{
+		},*/
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			// isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelect', // 提交的 params 的字段
@@ -376,8 +376,8 @@ const formOptions = ref({
 					label_1: '黄金糕' + i
 				}
 			})
-		},
-		{
+		},*/
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelectMore', // 提交的 params 的字段
@@ -391,8 +391,8 @@ const formOptions = ref({
 					label_1: '黄金糕' + i
 				}
 			})
-		},
-		{
+		},*/
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			// isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelectMultiple', // 提交的 params 的字段
@@ -407,8 +407,8 @@ const formOptions = ref({
 					label_1: '黄金糕' + i
 				}
 			})
-		},
-		{
+		},*/
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelectMultipleMore', // 提交的 params 的字段
@@ -423,7 +423,7 @@ const formOptions = ref({
 					label_1: '黄金糕' + i
 				}
 			})
-		},
+		},*/
 		/* { // 可用于特殊场合中 但不支持 tagList   （支持 替代  iconTip itemType 类型）
 			// showLabel: true,
 			prop: 'render',

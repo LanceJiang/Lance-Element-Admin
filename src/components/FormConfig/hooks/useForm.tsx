@@ -1,5 +1,5 @@
 import { ComputedRef, Slots, computed, Ref, unref, watch, nextTick } from 'vue'
-import LeSelect from '@/components/Select'
+// import LeSelect from '@/components/Select'
 // import LeSelect from 'lance-element-vue/packages/Select'
 import InputNumber from '@/components/InputNumber'
 // import InputNumber from 'lance-element-vue/packages/InputNumber'
@@ -67,7 +67,7 @@ export const renderFormItem = (opts: RenderFormItemOpts) => {
 	}
 	switch (itemType) {
 		/* 自定义 le 自定义Select */
-		case 'leSelect':
+		/*case 'leSelect':
 			// leSelect: 基于 element-plus el-select-v2扩展
 			const slots_leSelect = {
 				default: le_slots.option as SlotOption<OptionItemProps>
@@ -87,7 +87,7 @@ export const renderFormItem = (opts: RenderFormItemOpts) => {
 					style={leStyle}
 					v-slots={slots_leSelect}
 				/>
-			)
+			)*/
 		/* 自定义 render */
 		case 'render':
 			return <CustomRender form={form} params={params} />

@@ -64,7 +64,12 @@ export const columns = [
 		// 用户提示配置
 		titleHelp: {
 			icon: 'le-iconfont le-check_1', // todo 自定义icon
-			message: <span style='background: var(--el-color-danger)'>wo的 <br/>sssssssssss</span>
+			message: (
+				<span style="background: var(--el-color-danger)">
+					wo的 <br />
+					sssssssssss
+				</span>
+			)
 		},
 		slots: {
 			/**
@@ -177,7 +182,7 @@ export const get_tabs_filterForms = () => [
 		// append: '.com' // 额外form-item配置
 		// placeholder: '请输入input..............' // 额外form-item配置
 	},
-	{
+	/*{
 		// visible: true, // 只要不为false 就是 展示
 		// isMore: true, // 只要不为true 就是 默认展示
 		prop: 'leSelect_icon', // 提交的 params 的字段
@@ -216,7 +221,7 @@ export const get_tabs_filterForms = () => [
 				tag
 			}
 		}
-	},
+	},*/
 	{
 		visible: true, // 只要不为false 就是 展示
 		isMore: true, // 只要不为true 就是 默认展示
@@ -226,7 +231,7 @@ export const get_tabs_filterForms = () => [
 		// prepend: 'Http://', // 额外form-item配置
 		// append: '.com' // 额外form-item配置
 	},
-	{
+	/*{
 		// visible: true, // 只要不为false 就是 展示
 		// isMore: true, // 只要不为true 就是 默认展示
 		prop: 'leSelect', // 提交的 params 的字段
@@ -248,8 +253,8 @@ export const get_tabs_filterForms = () => [
 			//   return label + '_____'
 			// }
 		}
-	},
-	{
+	},*/
+	/*{
 		// visible: true, // 只要不为false 就是 展示
 		isMore: true, // 只要不为true 就是 默认展示
 		prop: 'leSelectMore', // 提交的 params 的字段
@@ -295,7 +300,7 @@ export const get_tabs_filterForms = () => [
 				label_1: 'leSelectMore多选' + i
 			}
 		})
-	},
+	},*/
 	{
 		visible: true, // 只要不为false 就是 展示
 		isMore: false, // 只要不为true 就是 默认展示
