@@ -1,13 +1,13 @@
 import type { LeTableColumnProps, LeTableOptions, LeTableProps, LeColumnSlots, TitleHelp } from '../index.d'
 import { ComputedRef, Slots, computed, Ref, unref, watch, nextTick } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { getPropValue, $log } from '@/utils'
+// import { useI18n } from 'vue-i18n'
+import { getPropValue, t, $log } from '@/utils'
 // import { cloneDeep, isEqual } from 'lodash-es'
 
 /**针对 header 展示添加默认的slot*/
 const slotHeaderDefault = function (titleHelp: TitleHelp = {}, props: any) {
 	// console.error(props, 'props.column...', titleHelp)
-	const { t } = useI18n()
+	// const { t } = useI18n()
 	const { t_label, label } = props.column || {}
 	const label_ = t_label ? t(t_label) : label
 	// const { titleHelp, label } = props.column
@@ -106,7 +106,7 @@ export type useColumnsOpts = {
 	tableRef: Ref
 }
 export function useColumns(opts: useColumnsOpts) {
-	const { t } = useI18n()
+	// const { t } = useI18n()
 	const { propsRef, computedOptions, slots, tableRef } = opts
 	// const columnsRef = ref(unref(propsRef).columns) as unknown as Ref<LeTableColumnProps[]>
 	// console.error(propsRef, 'propsRef')
