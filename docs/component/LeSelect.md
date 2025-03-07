@@ -152,7 +152,7 @@ LeSelect/use-valueKey_labelKey
 | loading-text | 远程加载时显示的文字 | string | — | 加载中 | -->
 </span>
 
-## SelectV2 事件
+## LeSelect 事件
 
 | 名称           | 说明	                  | 参数|
 | -------------- |----------------------| --------------------------------------- |
@@ -163,7 +163,7 @@ LeSelect/use-valueKey_labelKey
 | blur           | 当选择器的输入框失去焦点时触发      | (event: FocusEvent)                     |
 | focus          | 当选择器的输入框获得焦点时触发	     | (event: FocusEvent)                     |
 
-## SelectV2 插槽
+## LeSelect 插槽
 
 | 插槽名		    | 详情                 |
 | ------- |----------------------|

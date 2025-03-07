@@ -1,7 +1,6 @@
 <script lang="tsx">
 import { defineComponent, ref, reactive, watch, toRefs, PropType } from 'vue'
 import FormConfig, { FormConfigProps } from './FormConfig/index.vue'
-import { ObjectOpts } from '@/components/FormConfig/formConfig.types.ts'
 
 const formConfigDialogProps = {
 	title: {
@@ -20,7 +19,7 @@ const formConfigDialogProps = {
 	},
 	// 初始化数据对象
 	formData: {
-		type: Object as PropType<ObjectOpts>,
+		type: Object as PropType<Recordable>,
 		default: () => ({})
 	},
 	modelValue: {
@@ -38,14 +37,14 @@ export default defineComponent({
 	components: {
 		FormConfig
 	},
-	emits: formConfigDialogEmits,
 	props: formConfigDialogProps,
+	emits: formConfigDialogEmits,
 	setup(props, { emit, slots, attrs, expose }) {
 		const formConfigRef = ref(/*formConfigRef*/)
 		const changeVisible = (bool = false) => {
 			emit('update:modelValue', bool)
 		}
-		const onSubmit = (params) => {
+		const onSubmit = params => {
 			emit('submit', params)
 		}
 		expose({
@@ -66,14 +65,9 @@ export default defineComponent({
 					onClose={changeVisible}
 					onUpdate:modelValue={changeVisible}
 				>
-					{modelValue && <FormConfig
-						ref={formConfigRef}
-						{...formOptions}
-						formData={formData}
-						onSubmit={onSubmit}
-						onCancel={changeVisible}
-						v-slots={slots}
-					/>}
+					{modelValue && (
+						<FormConfig ref={formConfigRef} {...formOptions} formData={formData} onSubmit={onSubmit} onCancel={changeVisible} v-slots={slots} />
+					)}
 				</el-dialog>
 			)
 		}

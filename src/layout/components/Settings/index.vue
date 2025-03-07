@@ -15,11 +15,11 @@
 				</div>
 				<div class="drawer-item" @click.stop="">
 					<span>{{ $t('le.layout.setting.themeGray') }}</span>
-					<el-switch v-model="isGrey" inline-prompt @change="changeGreyOrWeak('grey', $event)" />
+					<el-switch v-model="isGrey" inline-prompt @change="changeGreyOrWeak('grey', $event as boolean)" />
 				</div>
 				<div class="drawer-item" @click.stop="">
 					<span>{{ $t('le.layout.setting.themeWeak') }}</span>
-					<el-switch v-model="isWeak" inline-prompt @change="changeGreyOrWeak('weak', $event)" />
+					<el-switch v-model="isWeak" inline-prompt @change="changeGreyOrWeak('weak', $event as boolean)" />
 				</div>
 				<div class="drawer-item">
 					<span>{{ $t('le.layout.setting.sideDark') }}</span>

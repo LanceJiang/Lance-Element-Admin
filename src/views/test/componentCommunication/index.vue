@@ -100,6 +100,9 @@ export default {
 			curComponent: 'Comp_Refs'
 		}
 	},
+	created() {
+		// window.xxx = this
+	},
 	methods: {
 		switchComponent() {
 			const compName = this.curComponent
@@ -111,9 +114,6 @@ export default {
 				this.curComponent = comps[0]
 			}
 		}
-	},
-	created() {
-		window.xxx = this
 	}
 }
 </script>

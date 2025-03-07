@@ -42,6 +42,14 @@ const sidebar = {
 					text: 'LeChart 图表组件',
 					link: '/component/LeChart',
 				},
+				{
+					text: 'LeSearchForm 搜索表单',
+					link: '/component/LeSearchForm',
+				},
+				{
+					text: 'LeIcon SvgIcon',
+					link: '/component/LeIcon',
+				},
 			],
 		},
 	],

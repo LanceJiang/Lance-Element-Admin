@@ -1,11 +1,13 @@
 <template>
-	<el-config-provider :locale="locale" :size="size">
-		<router-view />
-	</el-config-provider>
+	<div :class="['app-wrapper', app.isMobile ? 'app-mobile' : 'app-pc']">
+		<el-config-provider :locale="locale" :size="size">
+			<router-view />
+		</el-config-provider>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { ElConfigProvider } from 'element-plus'
 import { ls } from '@/utils'
 import useAppStore from '@/store/modules/app'
@@ -39,4 +41,13 @@ watch(
 		immediate: true
 	}
 )
+
+onMounted(() => {
+	window.addEventListener('resize', app.updateDevice)
+	nextTick(app.updateDevice)
+})
+
+onUnmounted(() => {
+	window.removeEventListener('resize', app.updateDevice)
+})
 </script>

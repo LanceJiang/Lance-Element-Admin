@@ -1,6 +1,6 @@
 import { Slots } from 'vue'
-import { LeFormItem, ObjectOpts, SlotOption } from '@/components/FormConfig/formConfig.types.ts'
-import i18n from '@/lang/index'
+import { LeFormItem, SlotOption } from '@/components/FormConfig/formConfig.types.ts'
+import { t } from '@/utils'
 export const getOptions = (options: any[], form: LeFormItem) =>
 	options.map(option => {
 		let value = option
@@ -9,7 +9,7 @@ export const getOptions = (options: any[], form: LeFormItem) =>
 		if (typeof option === 'object') {
 			value = option[form.valueKey || 'value']
 			label = option[form.labelKey || 'label']
-			if (form.i18n) label = i18n.global.t(label)
+			if (form.i18n) label = t(label)
 			disabled = option.disabled
 		}
 		return {
@@ -24,8 +24,8 @@ export const getOptions = (options: any[], form: LeFormItem) =>
  */
 export const renderOption = function (
 	// slots: Slots,
-	slotOption: SlotOption<ObjectOpts>,
-	option: ObjectOpts
+	slotOption: SlotOption<Recordable>,
+	option: Recordable
 ) {
 	if (slotOption) {
 		const scopedSlots_option = slotOption
@@ -43,7 +43,7 @@ export const renderOption = function (
 }
 // (级联/LeSelect)自定义渲染
 export const optionSlot = <T>(slots: Slots, slotOption: SlotOption<T>) => {
-	let scopedSlots_option = slotOption
+	let scopedSlots_option: any = slotOption
 	if (typeof slotOption === 'string') {
 		scopedSlots_option = slots[slotOption]
 	}
@@ -54,7 +54,7 @@ export const optionSlot = <T>(slots: Slots, slotOption: SlotOption<T>) => {
 // 获取formItem label
 export const get_formSlotLabel = (slots: Slots, slotLabel: SlotOption<{ label: string }>) => {
 	if (!slotLabel) return
-	let scopedSlots_option = slotLabel
+	let scopedSlots_option: any = slotLabel
 	if (typeof slotLabel === 'string') {
 		scopedSlots_option = slots[slotLabel]
 	}
@@ -63,10 +63,10 @@ export const get_formSlotLabel = (slots: Slots, slotLabel: SlotOption<{ label: s
 	}
 }
 // 获取formItem label
-export const get_formSlots = (vSlots: Slots, slotConfig: ObjectOpts) => {
+export const get_formSlots = (vSlots: Slots, slotConfig: Recordable) => {
 	const slots_key = Object.keys(slotConfig || {})
 	if (!slots_key.length) {
-		return {}
+		return {} as Recordable
 	}
 	const getSlot = slot => {
 		switch (typeof slot) {
@@ -79,5 +79,5 @@ export const get_formSlots = (vSlots: Slots, slotConfig: ObjectOpts) => {
 	return slots_key.reduce((obj, key) => {
 		obj[key] = getSlot(slotConfig[key])
 		return obj
-	}, {})
+	}, {}) as Recordable
 }

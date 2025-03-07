@@ -3,7 +3,7 @@
 		父组件 (emit 渲染)<br />
 		<!-- 父组件 -->
 		<ul class="parent list-group">
-			<li class="list-group-item" v-for="i in list" :key="i">{{ i }}</li>
+			<li v-for="i in list" :key="i" class="list-group-item">{{ i }}</li>
 		</ul>
 		<!-- 子组件 -->
 		<ChildComponents @add="handleAdd"></ChildComponents>

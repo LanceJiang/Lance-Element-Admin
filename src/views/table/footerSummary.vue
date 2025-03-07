@@ -28,8 +28,8 @@ const options = ref({
 	summaryMethod: ({ columns, data }) => {
 		const sums = []
 		columns.forEach((column, index) => {
-			if(index === 0) {
-				return sums[index] = '统计' // /Total
+			if (index === 0) {
+				return (sums[index] = '统计') // /Total
 			}
 			// const values = data.map((item) => Number(item[column.property]))
 			const prop = column.property
@@ -97,7 +97,7 @@ const localColumns = computed(() => {
 			label: '金额4(string)',
 			prop: 'amount4',
 			formatter: (row, column, cellValue) => {
-				return <div style="color: red;">{formatNumber(cellValue, 2)}</div>
+				return <div class="text-error">{formatNumber(cellValue, 2)}</div>
 			}
 		}
 	]
@@ -167,5 +167,4 @@ onMounted(() => {
 		border-radius: 0;
 	}
 }
-
 </style>

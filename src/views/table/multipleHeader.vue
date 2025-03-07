@@ -3,19 +3,20 @@
 		<LeTable
 			ref="localTable"
 			v-model:searchParams="searchParams"
+			v-model:checkedOptions="tabs_checkedColumns"
 			class="local_table tabs_content-wrap"
 			:list="localList"
 			:total="total"
 			:options="options"
 			:columns="localColumns"
-			v-model:checkedOptions="tabs_checkedColumns"
-			:columnsConfig="tabs_columnsConfig"
+			:columns-config="tabs_columnsConfig"
 		>
 			<template #toolLeft>
-				<h3 style="line-height: 36px;">多级表头示例</h3>
+				<h3 style="line-height: 36px">多级表头示例</h3>
 			</template>
-			<template #validNum="{row, column}">
-				<span style="color: #e6a23c;">{{row[column.property]}}</span><br/>
+			<template #validNum="{ row, column }">
+				<span style="color: #e6a23c">{{ row[column.property] }}</span
+				><br />
 				(slots.default: string)
 			</template>
 		</LeTable>
@@ -23,10 +24,10 @@
 </template>
 <script setup lang="tsx" name="multipleHeader">
 import { ref, toRefs, reactive, computed, watch, onMounted } from 'vue'
-import { cloneDeep } from 'lodash-es';
-import i18n from '@/lang/index'
+import { cloneDeep } from 'lodash-es'
 import { ElMessage } from 'element-plus'
 import { get_multipleHeaderList } from '@/views/table/queryApi.js'
+import { LeTableColumnProps } from '@/components/Table'
 const total = ref(0)
 const list = ref([])
 const options = ref({
@@ -101,7 +102,7 @@ const showAll = ref(true)
 							const {row, column, $index} = args
 							// console.error($index, '$index')
 							return <div>
-								<span style="color: red;">{row[column.property]}</span><br/>
+								<span class="text-error">{row[column.property]}</span><br/>
 								(slots.default: fn)
 							</div>
 						}
@@ -137,11 +138,14 @@ const columns = [
 		label: '上报问题数',
 		minWidth: '100px',
 		fixed: 'right',
-		formatter (row, column, cellValue, index) {
-			return <div>
-				<el-link style="color: #409eff;">{cellValue}</el-link><br/>
-				(formatter)
-			</div>
+		formatter(row, column, cellValue, index) {
+			return (
+				<div>
+					<el-link style="color: #409eff;">{cellValue}</el-link>
+					<br />
+					(formatter)
+				</div>
+			)
 		}
 	},
 	{
@@ -169,14 +173,17 @@ const columns = [
 				minWidth: 200,
 				sortable: true,
 				slots: {
-					default: (args) => {
+					default: args => {
 						// console.log(args)
-						const {row, column, $index} = args
+						const { row, column, $index } = args
 						// console.error($index, '$index')
-						return <div>
-							<span style="color: red;">{row[column.property]}</span><br/>
-							(slots.default: fn)
-						</div>
+						return (
+							<div>
+								<span class="text-error">{row[column.property]}</span>
+								<br />
+								(slots.default: fn)
+							</div>
+						)
 					}
 				}
 			},
@@ -221,45 +228,50 @@ const tabs_columnsConfig = {
 	// 默认展示配置
 	defaultCheckedOptions: [columns[0]]
 }
-const tabs_checkedColumns = ref([columns[0], columns[3]])
+const tabs_checkedColumns = ref<LeTableColumnProps[]>([columns[0], columns[3]])
 const localColumns = computed(() => {
-	const checkedColumns = tabs_checkedColumns.value as any[]
+	const checkedColumns = tabs_checkedColumns.value as LeTableColumnProps[]
 	if (!checkedColumns.length) return columns
 	const clone_columns = cloneDeep(columns)
 	const sortColumnChildren = (localColumn, targetColumn) => {
 		const cur_children = localColumn.children
-		if(Array.isArray(cur_children) && Array.isArray(targetColumn.children)) {
+		if (Array.isArray(cur_children) && Array.isArray(targetColumn.children)) {
 			// console.error(JSON.stringify(cur_children), 'cur_children   targetColumn_children', JSON.stringify(targetColumn.children))
 			// children 排序
-			localColumn.children = targetColumn.children.map(_column => {
-				const findColumn = cur_children.find(l_column => l_column.prop === _column.prop)
-				if(findColumn) {
-					if(Array.isArray(findColumn.children)) {
-						return sortColumnChildren(findColumn, _column)
+			localColumn.children = targetColumn.children
+				.map(_column => {
+					const findColumn = cur_children.find(l_column => l_column.prop === _column.prop)
+					if (findColumn) {
+						if (Array.isArray(findColumn.children)) {
+							return sortColumnChildren(findColumn, _column)
+						}
+						return findColumn
 					}
-					return findColumn
-				}
-				return false
-			}).filter(Boolean)
+					return false
+				})
+				.filter(Boolean)
 		}
 		return localColumn
 	}
-	return checkedColumns.map(v => {
-		// 深度克隆
-		const cur = clone_columns.find(column => column.prop === v.prop)
-		if (cur) {
-			// children 内嵌处理
-			return sortColumnChildren(cur, v)
-		}
-		return false
-	})
-	.filter(Boolean)
+	return checkedColumns
+		.map(v => {
+			// 深度克隆
+			const cur = clone_columns.find(column => column.prop === v.prop)
+			if (cur) {
+				// children 内嵌处理
+				return sortColumnChildren(cur, v)
+			}
+			return false
+		})
+		.filter(Boolean) as LeTableColumnProps[]
 })
 const localTable = ref(/*localTable*/)
-watch(() => localColumns.value, () => {
-	const ELTable = localTable.value?.tableRef
-	console.log(ELTable, '获取 ELTable 测试')
-	/*if(ELTable) {
+watch(
+	() => localColumns.value,
+	() => {
+		const ELTable = localTable.value?.tableRef
+		console.log(ELTable, '获取 ELTable 测试')
+		/*if(ELTable) {
 		console.error('测试')
 		/!*
 		const table_states = ELTable.store.states
@@ -297,9 +309,10 @@ watch(() => localColumns.value, () => {
 		ELTable.store.updateColumns()
 		// ELTable.doLayout?.()*!/
 	}*/
-})
+	}
+)
 
-const testClick = (e) => {
+const testClick = e => {
 	// console.error('click 测试', e)
 	options.value.showIndex = !options.value.showIndex
 	// console.error(options.value, 'options.value')
@@ -333,9 +346,12 @@ const queryList = () => {
 			options.value.loading = false
 		})
 }
-watch(() => searchParams.value, () => {
-	queryList()
-})
+watch(
+	() => searchParams.value,
+	() => {
+		queryList()
+	}
+)
 onMounted(() => {
 	// 尝试搜索
 	searchParams.value = {
@@ -344,7 +360,6 @@ onMounted(() => {
 	}
 	// queryList()
 })
-
 </script>
 <style scoped lang="scss">
 .pageWrap {

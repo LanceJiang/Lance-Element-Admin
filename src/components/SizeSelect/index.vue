@@ -1,5 +1,5 @@
 <template>
-	<el-dropdown class="menu--size-select-wrap" trigger="hover" @command="handleSetSize">
+	<el-dropdown class="mobile:hidden menu--size-select-wrap" trigger="hover" @command="handleSetSize">
 		<div class="menu--size-select menu-item le-hover-effect--bg">
 			<LeIcon class-name="size-icon" icon-class="le-text-size" />
 		</div>

@@ -18,20 +18,26 @@ const TableColumnsPopover = defineComponent(
 			checkedList: [],
 			checkedOptions: []
 		})
-		watch(props.value, () => {
+		watch(
+			props.value,
+			() => {
 				if (state.visible) {
 					initCheckedOptions()
 				}
 			},
-		{
-			immediate: true
-		})
-		// watch(() => state.visible, bool => {
-		watch(() => state.visible, bool => {
-			if (bool) {
-				initCheckedOptions()
+			{
+				immediate: true
 			}
-		})
+		)
+		// watch(() => state.visible, bool => {
+		watch(
+			() => state.visible,
+			bool => {
+				if (bool) {
+					initCheckedOptions()
+				}
+			}
+		)
 		const initCheckedOptions = () => {
 			// 本地留存
 			const checkedOptions = (state.checkedOptions = JSON.parse(JSON.stringify(props.value || [])))
@@ -39,6 +45,7 @@ const TableColumnsPopover = defineComponent(
 			getCheckedSelectAll()
 		}
 		const onCheckAllChange = checked => {
+			// eslint-disable-next-line @typescript-eslint/no-extra-semi
 			;(checked ? onCheckAllSelect : onCheckAllClear)()
 		}
 		const onCheckAllSelect = () => {
@@ -163,69 +170,80 @@ const TableColumnsPopover = defineComponent(
 		}
 
 		const vSlots = {
-			reference: () => <span>
-				<el-tooltip placement="top" content={t('le.column')}>
-				<el-button type="default" class="icon-button button-column">
-					<Icon icon-class="le-hide_column"/>
-				</el-button>
-			</el-tooltip>
-			</span>
+			reference: () => (
+				<span>
+					<el-tooltip placement="top" content={t('le.column')}>
+						<el-button type="default" class="icon-button button-column">
+							<Icon icon-class="le-hide_column" />
+						</el-button>
+					</el-tooltip>
+				</span>
+			)
 		}
 		return () => {
-			return <el-popover
-				v-model:visible={state.visible}
-				class="le-column-wrap"
-				popper-class="le-column-popover"
-				placement="bottom-end"
-				trigger="click"
-				v-slots={vSlots}>
-				<div v-loading={state.loading} class="columns-contents">
-					<div class="title">{t('le.columnsPop.title')}</div>
-					<div class="label">{t('le.columnsPop.selected')}</div>
-					<el-checkbox v-model={state.checkAll} size="default" class="el-select-dropdown__item title" indeterminate={state.indeterminate} onChange={onCheckAllChange}>
-						{t('le.selectAll')}
-					</el-checkbox>
-					<div class="divider"/>
-					<el-scrollbar>
-						<ul class="el-scrollbar__view el-select-dropdown__list">
-							{/*暂时没有嵌套的需求 若有 后续再做调整优化 todo...*/}
-							<DraggableNest v-model={state.checkedOptions} class="draggableWrap" move={onMove} remove={deleteCheckedOptions} />
-							<NoData v-show={!state.checkedOptions.length}/>
-						</ul>
-					</el-scrollbar>
-					<div class="divider"/>
-					<div class="label">{t('le.columnsPop.options')}</div>
-					<el-scrollbar>
-						<ul class="el-scrollbar__view el-select-dropdown__list">
-							<el-checkbox-group size="default" modelValue={state.checkedList} onChange={onChange}>
-								{
-									props.columns.map(item => {
+			return (
+				<el-popover
+					v-model:visible={state.visible}
+					class="le-column-wrap"
+					popper-class="le-column-popover"
+					placement="bottom-end"
+					trigger="click"
+					v-slots={vSlots}
+				>
+					<div v-loading={state.loading} class="columns-contents">
+						<div class="title">{t('le.columnsPop.title')}</div>
+						<div class="label">{t('le.columnsPop.selected')}</div>
+						<el-checkbox
+							v-model={state.checkAll}
+							size="default"
+							class="el-select-dropdown__item title"
+							indeterminate={state.indeterminate}
+							onChange={onCheckAllChange}
+						>
+							{t('le.selectAll')}
+						</el-checkbox>
+						<div class="divider" />
+						<el-scrollbar>
+							<ul class="el-scrollbar__view el-select-dropdown__list">
+								{/*暂时没有嵌套的需求 若有 后续再做调整优化 todo...*/}
+								<DraggableNest v-model={state.checkedOptions} class="draggableWrap" move={onMove} remove={deleteCheckedOptions} />
+								<NoData v-show={!state.checkedOptions.length} />
+							</ul>
+						</el-scrollbar>
+						<div class="divider" />
+						<div class="label">{t('le.columnsPop.options')}</div>
+						<el-scrollbar>
+							<ul class="el-scrollbar__view el-select-dropdown__list">
+								<el-checkbox-group size="default" modelValue={state.checkedList} onChange={onChange}>
+									{props.columns.map(item => {
 										const label = item.t_label ? t(item.t_label) : item.label
-										return <el-checkbox
-											key={item.prop}
-											class="el-select-dropdown__item"
-											v-show={!state.checkedList.includes(item.prop)}
-											title={label}
-											label={item.prop}
-											disabled={!!item.fixed}
-										>
-											{label}
-										</el-checkbox>
-									})
-								}
-							</el-checkbox-group>
-						</ul>
-					</el-scrollbar>
-					<div class="footer">
-						<el-button size="small" onClick={handleReset}>
-							{t('le.btn.restore')}
-						</el-button>
-						<el-button type="primary" size="small" onClick={handleSubmit}>
-							{t('le.btn.save')}
-						</el-button>
+										return (
+											<el-checkbox
+												key={item.prop}
+												class="el-select-dropdown__item"
+												v-show={!state.checkedList.includes(item.prop)}
+												title={label}
+												label={item.prop}
+												disabled={!!item.fixed}
+											>
+												{label}
+											</el-checkbox>
+										)
+									})}
+								</el-checkbox-group>
+							</ul>
+						</el-scrollbar>
+						<div class="footer">
+							<el-button size="small" onClick={handleReset}>
+								{t('le.btn.restore')}
+							</el-button>
+							<el-button type="primary" size="small" onClick={handleSubmit}>
+								{t('le.btn.save')}
+							</el-button>
+						</div>
 					</div>
-				</div>
-		</el-popover>
+				</el-popover>
+			)
 		}
 	},
 	{
@@ -256,10 +274,10 @@ const TableColumnsPopover = defineComponent(
 				// 同value 配置
 				type: Array as PropType<LeTableColumnProps[]>,
 				default: null
-			},
+			}
 		},
 		emits: {
-			change: ((checkedOptions: LeTableColumnProps[]) => true)
+			change: (checkedOptions: LeTableColumnProps[]) => true
 		}
 	}
 )

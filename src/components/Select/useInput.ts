@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @ts-nocheck
 import { ref } from 'vue'
 import { isFunction } from '@vue/shared'

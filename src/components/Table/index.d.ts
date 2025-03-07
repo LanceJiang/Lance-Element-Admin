@@ -4,9 +4,14 @@ import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/lib/co
 export type LeColumnSlots = {
 	// default?: ((scope: Record<string, any>) => any) | string
 	// header?: ((scope: Record<string, any>) => any) | string
-	default?: ((scope: { row; column; $index }) => HTMLDivElement | string) | string
-	header?: ((scope: { column; $index }) => HTMLDivElement | string) | string
+	default?: ((scope: { row; column; $index }) => JSX.Element | string | any) | string
+	header?: ((scope: { column; $index }) => JSX.Element | string | any) | string
 }
+// 用户提示msg
+export type TitleHelp = Partial<{
+	message: string | JSX.Element
+	icon: string
+}>
 export type LeColumnProps = {
 	// 多语言label转义字符
 	t_label?: string
@@ -14,6 +19,8 @@ export type LeColumnProps = {
 	slots?: LeColumnSlots
 	// 多级表头
 	children?: LeTableColumnProps[]
+	// msg 提示
+	titleHelp?: TitleHelp
 }
 /* Column */
 export type LeTableColumnProps = InstanceType<typeof ElTableColumn>['$props'] & LeColumnProps
@@ -45,13 +52,13 @@ export type Options = {
 	align?: string
 	// table 默认 column 是否允许拖动 (默认:true)
 	resizable?: boolean
-	// table 默认 column 是否允许拖动 (默认:true)
+	// columnItem 超出内容 省略号 同时添加 tooltip (默认:false)
 	showOverflowTooltip?: boolean
 	// 是否展示数据序列号 (默认:true)
 	showIndex?: boolean
 	// 展示数据序列号_label (默认:'序号')
 	indexLabel?: string
-	// table 默认 column 是否允许拖动 (默认:true)
+	// 是否加载table 分页栏 (默认:true)
 	showPagination?: boolean
 
 	// 其他

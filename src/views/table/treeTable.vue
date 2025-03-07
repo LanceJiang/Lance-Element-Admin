@@ -19,6 +19,7 @@
 <script setup lang="tsx" name="treeTable">
 import { ref, toRefs, reactive, computed, watch, onMounted } from 'vue'
 import { get_treeList } from '@/views/table/queryApi.js'
+import { LeTableColumnProps } from '@/components/Table'
 const total = ref(0)
 const list = ref([])
 const selectionChange = e => {
@@ -27,7 +28,7 @@ const selectionChange = e => {
 }
 const load = (row, treeNode: unknown, resolve: (data: any) => any[]) => {
 	loadChildrenApi(row).then(res => {
-		resolve(res.data)
+		resolve(res.data as any)
 	})
 }
 const options = ref({
@@ -70,13 +71,13 @@ const columns = [
 			default: ({row, column, $index}) => {
 				// console.error($index, '$index')
 				return <div>
-					<span style="padding: 0 12px;color: red;">{JSON.stringify(row)}</span><br/>
+					<span class="text-error" style="padding: 0 12px;">{JSON.stringify(row)}</span><br/>
 					(slots.default: fn)
 				</div>
 			}
 		}
 	}*/
-]
+] as LeTableColumnProps[]
 
 // 列配置对象
 const tabs_columnsConfig = {
@@ -87,7 +88,7 @@ const tabs_columnsConfig = {
 }
 const tabs_checkedColumns = ref([columns[0]])
 const localColumns = computed(() => {
-	const checkedColumns = tabs_checkedColumns.value as any[]
+	const checkedColumns = tabs_checkedColumns.value as LeTableColumnProps[]
 	if (!checkedColumns.length) return columns
 	return checkedColumns
 		.map(v => {
@@ -101,7 +102,7 @@ const localColumns = computed(() => {
 			}
 			return false
 		})
-		.filter(Boolean)
+		.filter(Boolean) as LeTableColumnProps[]
 })
 
 // const { } = toRefs(state)

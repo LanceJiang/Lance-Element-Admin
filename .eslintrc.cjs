@@ -10,7 +10,10 @@ module.exports = {
 	parserOptions: {
 		ecmaVersion: 'latest',
 		parser: '@typescript-eslint/parser',
-		sourceType: 'module'
+		sourceType: 'module',
+		ecmaFeatures: {
+			"jsx": true
+		}
 	},
 	rules: {
 		'no-console': 'off',

@@ -3,7 +3,17 @@ import { ElMessage } from 'element-plus'
 // vue Storage 使用
 export { ls } from './vueStorage'
 import { get, set } from 'lodash-unified'
+import i18n from '@/lang/index'
+import { useClipboard } from '@vueuse/core'
 export type Arrayable<T> = T | T[]
+// 多语言翻译
+export const t = (key: string, ...args: any[]) => {
+	if (!i18n) return key
+	const hasKey = i18n.global.te(key)
+	// eslint-disable-next-line
+	// @ts-ignore
+	return hasKey ? i18n.global.t(key, ...args) : key
+}
 export const getPropValue = <T = any>(obj: Record<string, any>, path: Arrayable<string>, defaultValue?: any): { value: T } => {
 	return {
 		get value() {
@@ -100,13 +110,13 @@ export const objDeepMerge = (...objs: any[]) => {
 	return res
 }
 
-/**
- * 复制文字
- * @param val
- * @param sucTxt
- * @returns {boolean}
- */
-export function copyText(val: string, sucTxt = '复制成功~') {
+// /**
+//  * 复制文字
+//  * @param val
+//  * @param sucTxt
+//  * @returns {boolean}
+//  */
+/*export function copyText(val: string, sucTxt = '复制成功~') {
 	const textarea: any = document.createElement('textarea')
 	// 将该 textarea 设为 readonly 防止 iOS 下自动唤起键盘，同时将 textarea 移出可视区域
 	textarea.readOnly = 'readonly'
@@ -122,6 +132,24 @@ export function copyText(val: string, sucTxt = '复制成功~') {
 		ElMessage.success(sucTxt)
 	}
 	return res
+}*/
+
+/**
+ * 复制文字
+ * @param text
+ */
+export async function copyText(text: string) {
+	const { copy, copied, isSupported } = useClipboard({ legacy: true })
+	if (!isSupported) {
+		// 复制失败
+		ElMessage.error(t('le.message.CopyFailure'))
+	} else {
+		await copy(text)
+		if (copied.value) {
+			// message.success('复制成功~')
+			ElMessage.success(t('le.message.CopiedSuccessfully'))
+		}
+	}
 }
 
 /**
@@ -192,3 +220,10 @@ export function updateNewColumns(localColumns: LeTableColumnProps[], targetColum
 		.filter(Boolean)
 }
 */
+
+// 判断是否为小屏 同 theme.screens.mobile
+export const isMobile = () => {
+	const userAgent = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+	const screenCheck = window.matchMedia('only screen and (max-width: 750px)').matches
+	return userAgent || screenCheck // window.innerWidth <= 750
+}

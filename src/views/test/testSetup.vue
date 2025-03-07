@@ -7,8 +7,8 @@
 		<!-- 搜索表单 -->
 		<el-form ref="queryFormRef" :model="queryParams" :inline="true">
 			<el-form-item>
-				<el-button type="success" :icon="Plus" @click="handleAdd">新增</el-button>
-				<el-button type="danger" :icon="Delete" click="handleDelete" :disabled="multiple">删除</el-button>
+				<el-button type="success" icon="Plus" @click="handleAdd">新增</el-button>
+				<el-button type="danger" icon="Delete" click="handleDelete" :disabled="multiple">删除</el-button>
 			</el-form-item>
 
 			<el-form-item prop="name">
@@ -16,8 +16,8 @@
 			</el-form-item>
 
 			<el-form-item>
-				<el-button type="primary" :icon="Search" @click="handleQuery">搜索</el-button>
-				<el-button :icon="Refresh" @click="resetQuery">重置</el-button>
+				<el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
+				<el-button icon="Refresh" @click="resetQuery">重置</el-button>
 			</el-form-item>
 		</el-form>
 		<Child />
@@ -29,7 +29,7 @@
 <script setup lang="ts" name="testSetup">
 import { onMounted, reactive, ref, toRefs, watch, unref } from 'vue'
 import { ElForm, ElMessage, ElMessageBox } from 'element-plus'
-import { Search, Plus, Refresh, Delete } from '@element-plus/icons-vue'
+// import { Search, Plus, Refresh, Delete } from '@element-plus/icons-vue'
 import useStore from '@/store/index'
 import { useI18n } from 'vue-i18n'
 const queryFormRef = ref() // 属性名必须和元素的ref属性值一致
@@ -69,7 +69,7 @@ const modeltest = reactive({
 	b: 2,
 	c: 3
 })
-window.modeltest = modeltest
+// window.modeltest = modeltest
 console.error(modeltest, 'modeltest')
 watch(
 	() => modeltest.a,

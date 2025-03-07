@@ -11,7 +11,7 @@
 		</el-select>
 		</div>
 		<div style="background: #fafafa">
-			<p>开启 i18n: {{is_i18n ? 'true' : 'false'}}</p>
+			<p>开启 i18n(多语言): <el-switch v-model="is_i18n" /></p>
 			<p v-if="is_i18n">
 				当前语言： {{language}}
 				<el-select v-model="language">

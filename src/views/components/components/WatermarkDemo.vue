@@ -10,7 +10,7 @@ const textStyles = reactive({
 	width: 200,
 	height: 140
 })
-let watermark_obj = {}
+let watermark_obj: any = {}
 onMounted(() => {
 	watermark_obj = useWatermark({ appendEl: watermarkRef.value })
 	update_watermark()

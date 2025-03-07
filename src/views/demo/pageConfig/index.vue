@@ -14,7 +14,7 @@
 			</template>
 		</LeSearchForm>
 		<!--  LeTable 组件使用 示例：  -->
-<!--		:list="tableOpts.list"
+		<!--		:list="tableOpts.list"
 		:total="tableOpts.total"
 		:options="tableOpts.options"
 		:columns_="tableOpts.columns"
@@ -23,9 +23,9 @@
 			ref="tableRef"
 			v-model:searchParams="tableOpts.searchParams"
 			v-bind="tableOpts"
-			:columns="activeColumns"
 			v-model:curRow="tableOpts.curRow"
 			v-model:checked-options="checkedColumns"
+			:columns="activeColumns"
 		>
 			<template #toolLeft>
 				<el-button @click="toggleForm">toggle searchForms（项目类型）测试</el-button>
@@ -67,8 +67,8 @@
 			</template>
 		</LeTable>
 		<LeFormConfigDialog
-			ref="dialogRef"
 			v-if="visible"
+			ref="dialogRef"
 			v-model="visible"
 			:title="`${isCreate ? '新增' : '编辑'}配置`"
 			width="1200px"
@@ -85,7 +85,8 @@ import { getAdminList } from '@/api/demo'
 import { ElMessage } from 'element-plus'
 import { useTablePage } from '@/hooks/useTablePage'
 import i18n from '@/lang'
-import {SearchParams} from "@/components/Table";
+import { SearchParams } from '@/components/Table'
+import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
 // import { Plus, Delete } from '@element-plus/icons-vue'
 const tableRef = ref()
 // window.tableRef = tableRef
@@ -130,10 +131,10 @@ const _forms = [
 			console.error('onInput....', e)
 		},
 		onChange: e => {
-		// change: e => { // render  todo  onEvents...
+			// change: e => { // render  todo  onEvents...
 			console.error('onChange....', e)
 		},
-		render: (extendsParams) => {
+		render: extendsParams => {
 			const { form, params } = extendsParams
 			// console.error(extendsParams, 'extendsParams')
 			return <el-input v-model={params[form.prop]} placeholder="placeholder test... 666" />
@@ -143,7 +144,7 @@ const _forms = [
 				<el-input modelValue={params[form.prop]} onInput={(e) => (params[form.prop] = e)} placeholder="placeholder render"/>
 				<el-input modelValue={params.others} onInput={(e) => (params.others = e)} placeholder="placeholder others"/>
 			</div>*/
-		},
+		}
 	},
 	// select 单选
 	{
@@ -276,7 +277,7 @@ const _forms = [
 		itemType: 'inputNumberRange', // form-item 类型
 		// controlsPosition: '',
 		// itemWidth: '100px'
-		itemStyle: 'width: 120px; max-width: 120px; overflow: hidden;',
+		itemStyle: 'width: 120px; max-width: 120px; overflow: hidden;'
 		// prepend: 'Http://', // 额外form-item配置
 		// append: '.com' // 额外form-item配置
 		// placeholder: '请输入input..............' // 额外form-item配置
@@ -327,7 +328,7 @@ const _forms = [
 					</span>
 				)
 			},*/
-			label: 'slot_label_test',
+			label: 'slot_label_test'
 		},
 		// itemStyle: 'background: var(--el-color-danger)',
 		span: 8,
@@ -338,7 +339,7 @@ const _forms = [
 			console.warn('dataType change  value, options, params', value, options, params)
 		}
 	}
-]
+] as LeFormItem[]
 const labelWidth = 120
 const span = 23
 const showResetBtn = true
@@ -441,37 +442,40 @@ const columns = [
 		fixed: 'right'
 	}
 ]
-const { searchData, tableOpts, checkedColumns, activeColumns, updateParams } = useTablePage({
-	searchParams: {
-		page: 1,
-		size: 10
-	},
-	curRow: {
-		id: `id_1`,
-		google_key: Math.random() > 0.5 ? 1 : 0,
-		username: `username_1`,
-		add_time: '2020-09-09 05:20:50',
-		describe: `describe_1`,
-		status: 1,
-		phone: 1,
-		email: `demo1@com.cn`,
-		// roles: [[1, 2], [0, 1, 2], [2]][i % 3],
-		roles: []
-	},
-	// 需要展示的列
-	columns,
-	// 控制列配置
-	columnsConfig: {
+const { searchData, tableOpts, checkedColumns, activeColumns, updateParams } = useTablePage(
+	{
+		searchParams: {
+			page: 1,
+			size: 10
+		},
+		curRow: {
+			id: `id_1`,
+			google_key: Math.random() > 0.5 ? 1 : 0,
+			username: `username_1`,
+			add_time: '2020-09-09 05:20:50',
+			describe: `describe_1`,
+			status: 1,
+			phone: 1,
+			email: `demo1@com.cn`,
+			// roles: [[1, 2], [0, 1, 2], [2]][i % 3],
+			roles: []
+		},
+		// 需要展示的列
 		columns,
-		defaultCheckedOptions: columns.slice(0, 2)
-	}
-}, {
-	searchData: {
-		inputNumberRange: [1, 5]
+		// 控制列配置
+		columnsConfig: {
+			columns,
+			defaultCheckedOptions: columns.slice(0, 2)
+		}
 	},
-	queryList,
-	fetchImmediate: false,
-})
+	{
+		searchData: {
+			inputNumberRange: [1, 5]
+		},
+		queryList,
+		fetchImmediate: false
+	}
+)
 nextTick(() => {
 	// 模拟特殊情况初始化搜索数据
 	searchData.value = {
@@ -480,7 +484,7 @@ nextTick(() => {
 	}
 	// debugger
 	searchForm.value?.forceUpdateInitParams(tableOpts.searchParams)
-	window.searchForm = searchForm
+	// window.searchForm = searchForm
 })
 /*setTimeout(() => {
 	// 模拟特殊情况初始化搜索数据
@@ -548,16 +552,20 @@ checkedColumns.value = columns.slice(0, 2)
 		}
 	}).filter(Boolean)
 })*/
-watch(() => tableOpts.curRow, (v, oldv) => {
-	console.error(v, 'tableOpts.curRow')
-}, {
-	immediate: true
-})
-window.tableOpts = tableOpts
+watch(
+	() => tableOpts.curRow,
+	(v, oldv) => {
+		console.error(v, 'tableOpts.curRow')
+	},
+	{
+		immediate: true
+	}
+)
+// window.tableOpts = tableOpts
 
 nextTick(() => {
 	// console.error(searchForm.value, 'searchForm.value')
-	window.searchForm = searchForm.value
+	// window.searchForm = searchForm.value
 })
 // watch(() => tableOpts.searchParams.custName, (v, oldv) => {
 // watch(tableOpts.searchParams, (v, oldv) => {
@@ -599,7 +607,7 @@ const submitHandler = params => {
 	// const submitParams = {
 	//   ...params
 	// }
-	const addConfig = (params) =>
+	const addConfig = params =>
 		new Promise(resolve => {
 			console.warn(params, 'submit info')
 			setTimeout(() => {

@@ -7,7 +7,7 @@
 		<div class="child-wrap input-group">
 			<input v-model="value" type="text" class="form-control" placeholder="请输入" />
 			<div class="input-group-append">
-				<button @click="handleAdd" class="btn btn-primary" type="button">添加</button>
+				<button class="btn btn-primary" type="button" @click="handleAdd">添加</button>
 			</div>
 		</div>
 	</div>

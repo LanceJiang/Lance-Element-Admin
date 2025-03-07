@@ -1,0 +1,25 @@
+@import "../variables.scss";
+// Text 样式
+.#{$prefix}text {
+	//font-size: 14px;
+	font-size: var(--el-font-size-base);
+	display: inline-flex;
+	&-wrap {
+	}
+	/*.is-line-clamp {
+		display: -webkit-inline-box;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}*/
+	.action-icon {
+		margin-left: 2px;
+		padding-top: 4px;
+		//color: var(--el-color-primary);
+		color: var(--el-text-color-secondary);
+		cursor: pointer;
+		&:hover {
+			//color: var(--el-color-primary-light-5);
+			color: var(--el-color-primary);
+		}
+	}
+}

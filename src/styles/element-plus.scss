@@ -41,20 +41,20 @@
 	background-color: var(--el-table-current-row-bg-color);
 }
 
-// card 的header统一高度
+/*// card 的header统一高度
 .el-card__header {
 	height: 60px !important;
-}
+}*/
 
 // 表格表头和表体未对齐
 .el-table__header col[name='gutter'] {
 	display: table-cell !important;
 }
 .el-table {
+	//--el-table-header-bg-color: #f6faff;
+	background-color: var(--el-bg-color);
 	&.el-table--enable-row-transition .el-table__body td.el-table__cell {
 		//background-color: var(--el-bg-color);
 		transition: unset;
 	}
-	//--el-table-header-bg-color: #f6faff;
-	background-color: var(--el-bg-color);
 }

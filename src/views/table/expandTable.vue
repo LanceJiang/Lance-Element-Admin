@@ -14,7 +14,7 @@
 				<h3 style="line-height: 36px">展开行表格示例</h3>
 			</template>
 			<template #expand="{ row }">
-				<p style="background: var(--el-color-primary);">名称: {{ row.name }}</p>
+				<p style="background: var(--el-color-primary)">名称: {{ row.name }}</p>
 				<p>日期: {{ row.date }}</p>
 				<p>金额1: {{ row.amount1 }}</p>
 				<p>金额2: {{ row.amount2 }}</p>
@@ -26,11 +26,12 @@
 import { ref, toRefs, reactive, computed, watch, onMounted } from 'vue'
 import { get_priceList } from '@/views/table/queryApi.js'
 import { formatNumber } from '@/utils'
+import { LeTableColumnProps } from '@/components/Table'
 const total = ref(0)
 const list = ref([])
 const options = ref({
 	// rowKey: 'value',
-	loading: false,
+	loading: false
 	// size: 'small',
 })
 const searchParams = ref({
@@ -51,7 +52,7 @@ const columns = [
 				return <div style="color: var(--el-color-danger);">展开行</div>
 			},
 			// 两种渲染方式
-			default: 'expand',
+			default: 'expand'
 			/*default: ({row, column}) => {
 				return <><p style="background: var(--el-color-danger);">名称: { row.name }</p>
 					<p>日期: { row.date }</p>
@@ -68,7 +69,7 @@ const columns = [
 	},
 	{
 		prop: 'name',
-		label: '名称',
+		label: '名称'
 		// minWidth: '200px'
 	},
 	{
@@ -86,17 +87,17 @@ const columns = [
 		prop: 'amount2',
 		formatter: commonFormatter
 	}
-]
+] as LeTableColumnProps[]
 const tabs_columnsConfig = {
 	// 所有的 columns 配置
-	columns,
+	columns
 	// 默认展示配置
 	// defaultCheckedOptions: [columns[0]]
 }
-const tabs_checkedColumns = ref([...columns])
+const tabs_checkedColumns = ref<LeTableColumnProps[]>([...columns])
 
 const localColumns = computed(() => {
-	const checkedColumns = tabs_checkedColumns.value as any[]
+	const checkedColumns = tabs_checkedColumns.value as LeTableColumnProps[]
 	if (!checkedColumns.length) return columns
 	return checkedColumns
 		.map(v => {
@@ -110,7 +111,7 @@ const localColumns = computed(() => {
 			}
 			return false
 		})
-		.filter(Boolean)
+		.filter(Boolean) as LeTableColumnProps[]
 })
 
 // const { } = toRefs(state)

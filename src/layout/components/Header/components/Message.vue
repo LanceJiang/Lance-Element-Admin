@@ -1,5 +1,5 @@
 <template>
-	<el-popover placement="bottom" :width="310" trigger="click">
+	<el-popover placement="bottom-end" :width="320" popper-style="padding: 0px;" trigger="click">
 		<template #reference>
 			<div class="menu--message-trigger">
 				<el-tooltip :content="$t('le.message.txt')" effect="dark" placement="bottom">
@@ -11,7 +11,7 @@
 				</el-tooltip>
 			</div>
 		</template>
-		<el-tabs class="message-tabs" v-model="activeTab">
+		<el-tabs v-model="activeTab" class="message-tabs">
 			<el-tab-pane v-for="v of tabsConfig" :key="v.name" :name="v.name">
 				<template #label> {{ v.label }}({{ v.list.length }}) </template>
 				<template v-if="v.list.length">
@@ -78,13 +78,14 @@ getMessage().then(res => {
 .message-list {
 	display: flex;
 	flex-direction: column;
-	max-height: 390px;
+	max-height: 360px;
 	overflow-y: auto;
 	.message-item {
 		display: flex;
 		align-items: center;
 		padding: 8px 0;
 		border-bottom: 1px solid var(--el-border-color-light);
+		cursor: pointer;
 		&:last-child {
 			border: none;
 		}

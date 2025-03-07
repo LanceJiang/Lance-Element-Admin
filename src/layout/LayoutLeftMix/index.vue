@@ -16,7 +16,7 @@
 						@click="changeSubMenu(item)"
 					>
 						<PickerIcon v-if="item.meta?.icon" :icon-class="item.meta.icon"></PickerIcon>
-						<span class="title">{{ generateTitle(item.meta.title) }}</span>
+						<span class="text-overflow_ellipsis_line_1 title">{{ generateTitle(item.meta.title) }}</span>
 					</div>
 				</div>
 			</el-scrollbar>

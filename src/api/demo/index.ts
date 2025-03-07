@@ -48,7 +48,7 @@ export function getAdminList(data: any): AxiosPromise {
 		}
 		setTimeout(() => {
 			console.log('res', res)
-			resolve(res)
+			resolve(res as any)
 		}, 1000)
 	})
 	// return request({

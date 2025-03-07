@@ -13,6 +13,7 @@
 //@import "lance-element/searchGroup.scss";
 @import "lance-element/searchForm.scss";
 @import "lance-element/select.scss";
+@import "lance-element/text.scss";
 //@import "lance-element/dropdown.scss";
 //@import "lance-element/tabs.scss";
 
@@ -122,6 +123,59 @@
     border-color: $le-color-warning;
     background: $le-color-warning;
   }
+}
+// 公用风格 drawer
+.#{$prefix}drawer {
+	--el-drawer-padding-primary: 24px;
+	.el-drawer__header {
+		display: flex;
+		padding: 16px 24px;
+		align-items: center;
+		justify-content: space-between;
+		background-color: var(--el-color-info-light-9);
+		text-align: left;
+		/* margin-right: 0; */
+		margin-bottom: 0;
+	}
+	.el-drawer__close-btn {
+		padding: 0;
+		margin-right: -12px;
+	}
+	.el-drawer__body {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		.le-form-config {
+			//.footer {
+			//	width: calc(100% + 48px);
+			//	margin-left: -24px;
+			//	padding: 10px 24px 0 24px;
+			//}
+		}
+	}
+	.el-drawer__footer {
+		border-top: 1px solid var(--el-border-color-lighter);
+		padding: 10px var(--el-drawer-padding-primary);
+	}
+	// loading 固定样式
+	.local_loading {
+		position: absolute;
+		left: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		z-index: 999;
+		background: rgba(0, 0, 0, 0.05);
+	}
+}
+@media (max-width: 750px) {
+	.#{$prefix}drawer {
+		max-width: 100vw;
+	}
 }
 
 .#{$prefix}test {}

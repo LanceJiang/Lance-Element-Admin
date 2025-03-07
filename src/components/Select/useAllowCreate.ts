@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 // @ts-nocheck
 import { computed, ref } from 'vue'
 import { useProps } from './useProps'

@@ -1,9 +1,9 @@
 <template>
 	<el-dropdown class="menu--avatar-wrap" trigger="click">
 		<div class="menu--avatar menu-item le-hover-effect--bg">
-			<span class="nickname">{{ user.nickname || '' }}</span>
+			<span class="nickname text-overflow_ellipsis_line_1 max-w-12">{{ user.nickname || '' }}</span>
 			<img :src="user.avatar" class="user-avatar" />
-			<ArrowDown style="width: 0.6em; height: 0.6em; margin-left: 5px; font-size: 24px" />
+			<!--<ArrowDown style="width: 0.6em; height: 0.6em; margin-left: 5px; font-size: 24px" />-->
 		</div>
 
 		<template #dropdown>
@@ -55,11 +55,12 @@ function logout() {
 			font-size: 14px;
 		}
 		.user-avatar {
+			flex-shrink: 0;
 			cursor: pointer;
 			width: 26px;
 			height: 26px;
 			border-radius: 50%;
-			margin-left: 8px;
+			margin-left: 4px;
 		}
 
 		.el-icon-caret-bottom {

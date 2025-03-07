@@ -1,4 +1,4 @@
-import { GeetConfig, LoginFormData, GoogleLoginData, LoginResponseData } from '@/types'
+// import { LoginFormData, GoogleLoginData, LoginResponseData } from '@/types'
 import request from '@/utils/request'
 import { AxiosPromise } from 'axios'
 
@@ -6,7 +6,7 @@ import { AxiosPromise } from 'axios'
  * 登录
  * @param data
  */
-export function login(data: LoginFormData): AxiosPromise<LoginResponseData> {
+export function login(data: any): AxiosPromise<any> {
 	return Promise.resolve({
 		username: 'admin'
 	})
@@ -21,7 +21,7 @@ export function login(data: LoginFormData): AxiosPromise<LoginResponseData> {
  * 谷歌验证
  * @param data
  */
-export function googleLogin(data: GoogleLoginData): AxiosPromise {
+export function googleLogin(data: any): AxiosPromise {
 	return Promise.resolve({
 		token: 'admin_token'
 	})
@@ -46,7 +46,7 @@ export function logout() {
 /**
  * Geetest配置参数
  */
-export function getGeetConfig(): AxiosPromise<GeetConfig> {
+export function getGeetConfig(): AxiosPromise<any> {
 	return request({
 		url: `/passport/getgeetestconfig?t=${+new Date()}`,
 		method: 'get'

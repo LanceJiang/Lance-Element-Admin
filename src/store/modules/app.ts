@@ -2,11 +2,13 @@ import { AppState } from '@/types'
 // import { ls } from '@/utils'
 import { defineStore } from 'pinia'
 import { getLanguage } from '@/lang'
+import { isMobile } from '@/utils'
 
 const useAppStore = defineStore({
 	id: 'app',
 	state: (): AppState => ({
 		device: 'desktop',
+		isMobile: false,
 		// sidebar: {
 		// 	opened: true,
 		// 	withoutAnimation: false
@@ -16,6 +18,9 @@ const useAppStore = defineStore({
 		// size: 'small'
 	}),
 	actions: {
+		updateDevice() {
+			this.isMobile = isMobile()
+		},
 		// toggleSidebar() {
 		// 	this.sidebar.opened = !this.sidebar.opened
 		// 	this.sidebar.withoutAnimation = false

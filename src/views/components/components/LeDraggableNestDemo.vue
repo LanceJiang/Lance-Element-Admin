@@ -36,7 +36,7 @@ const onMove = ({ relatedContext, draggedContext }) => {
 	// fixed 表示 固定的项
 	return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
 }
-const update_checkedOptions = (values) => {
+const update_checkedOptions = values => {
 	console.error(JSON.stringify(values))
 }
 </script>
@@ -45,14 +45,12 @@ const update_checkedOptions = (values) => {
 	<div class="common_title">LeDraggableNest</div>
 	<div class="content">
 		<LeDraggableNest
-			style="background: var(--el-fill-color-lighter);"
 			v-model="checkedOptions"
-			@update:modelValue="update_checkedOptions"
+			style="background: var(--el-fill-color-lighter)"
 			:move="onMove"
+			@update:modelValue="update_checkedOptions"
 		/>
 	</div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

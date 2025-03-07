@@ -6,7 +6,8 @@ import { /*RouteRecordRaw,*/ RouteLocationNormalized } from 'vue-router'
  */
 export interface AppState {
 	device: string
-	sidebar: {
+	isMobile: boolean
+	sidebar?: {
 		opened: boolean
 		withoutAnimation: boolean
 	}

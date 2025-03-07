@@ -1,6 +1,5 @@
 import { reactive, ref, computed, /*getCurrentInstance,*/ unref, watch, nextTick } from 'vue'
 import { $log } from '@/utils'
-// import { ObjectOpts } from '@/components/FormConfig/formConfig.types.ts'
 import { LeTableColumnProps, LeTableProps, SearchParams } from '@/components/Table'
 type SearchData = { [prop: string]: any }
 export type UseTableConfig = {

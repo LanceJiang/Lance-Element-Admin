@@ -1,38 +1,38 @@
 @import "../variables.scss";
 // NoData 样式
 .#{$prefix}no-data {
-  &.small {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 20px 0;
+	&.small {
 		.#{$prefix}no-data__img {
 			//width: 108px;
 			font-size: 60px;
 		}
-  }
-  &.large {
-    .#{$prefix}no-data__img {
-      //font-size: 120px;
+	}
+	&.large {
+		.#{$prefix}no-data__img {
+			//font-size: 120px;
 			//width: 162px;
 			font-size: 120px;
-    }
-  }
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  &--full {
-    width: 100%;
-    height: 100%;
-  }
+		}
+	}
 
-  padding: 20px 0;
+	&--full {
+		width: 100%;
+		height: 100%;
+	}
 
-  &__img {
-    font-size: 80px;
-    pointer-events: none;
-  }
+	&__img {
+		font-size: 80px;
+		pointer-events: none;
+	}
 
-  .message {
-    color: $le-color_4;
-    line-height: initial;
+	.message {
+		color: $le-color_4;
+		line-height: initial;
 		font-size: 12px;
-  }
+	}
 }

@@ -261,6 +261,8 @@ export default defineComponent({
 			return multiple ? fallback : rawModelValue
 		})
 
+		// eslint-disable-next-line
+		// @ts-ignore
 		const API = useSelect(
 			reactive({
 				...toRefs(props),

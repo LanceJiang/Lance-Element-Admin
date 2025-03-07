@@ -4,7 +4,7 @@ import useStore from '@/store'
 
 export const Layout = () => import('@/layout/index.vue')
 
-const HOME_URL = '/dashboard'
+export const HOME_URL = '/dashboard'
 
 // 参数说明: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
 // 静态路由
@@ -82,13 +82,20 @@ export const constantRoutes: AppRouteRecordRaw[] = [
 	{
 		path: '/components',
 		component: Layout,
-		redirect: '/index',
+		meta: { title: 'components组件' /*, icon: 'icon-table'*/ },
+		redirect: '/components/index',
 		children: [
 			{
 				path: 'index',
 				component: () => import('@/views/components/index.vue'),
 				name: 'comps',
 				meta: { title: 'comps', icon: 'icon-excel' }
+			},
+			{
+				path: 'monacoEditor',
+				component: () => import('@/views/components/monacoEditor.vue'),
+				name: 'monacoEditor',
+				meta: { title: 'monacoEditor', icon: 'icon-code' }
 			}
 		]
 	},

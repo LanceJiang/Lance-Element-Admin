@@ -22,23 +22,23 @@
 		<div class="content">
 			<!--  单色样式类  -->
 			<!--也可拼接 对应icon文件夹注入的icon 文件-->
-			<SvgIcon icon-class="logo" />
-			<LeIcon icon-class="icon-logo" />
-			<span class="le-iconfont le-review"></span>
-			<LeIcon icon-class="le-checkbox_checked"></LeIcon>
-			<span class="le-iconfont le-checkbox_checked"></span>
-			<LeIcon icon-class="le-checkbox"></LeIcon>
-			<span class="le-iconfont le-checkbox"></span>
-			<LeIcon icon-class="le-radio_checked"></LeIcon>
-			<span class="le-iconfont le-radio_checked"></span>
-			<LeIcon icon-class="le-radio"></LeIcon>
-			<span class="le-iconfont le-radio"></span>
+			<SvgIcon class="mx-1" icon-class="logo" />
+			<LeIcon class="mx-1" icon-class="icon-logo" />
+			<span class="le-iconfont le-review mx-1"></span>
+			<LeIcon class="mx-1" icon-class="le-checkbox_checked"></LeIcon>
+			<span class="le-iconfont le-checkbox_checked mx-1"></span>
+			<LeIcon class="mx-1" icon-class="le-checkbox"></LeIcon>
+			<span class="le-iconfont le-checkbox mx-1"></span>
+			<LeIcon class="mx-1" icon-class="le-radio_checked"></LeIcon>
+			<span class="le-iconfont le-radio_checked mx-1"></span>
+			<LeIcon class="mx-1" icon-class="le-radio"></LeIcon>
+			<span class="le-iconfont le-radio mx-1"></span>
 			<!--  svg  -->
-			<LeIcon icon-class="le-frozen" @click="testHandler"></LeIcon>
+			<LeIcon class="mx-1" icon-class="le-frozen" @click="testHandler"></LeIcon>
 			<!--Table 操作 用： Icon按钮-->
 			<el-tooltip placement="top" :content="$t('le.btn.search')">
 				<el-button class="le-icon-button" @click="testHandler('row')">
-					<LeIcon icon-class="le-view"></LeIcon>
+					<LeIcon class="mx-1" icon-class="le-view"></LeIcon>
 				</el-button>
 			</el-tooltip>
 		</div>
@@ -89,28 +89,43 @@
 			</LeNoData>
 		</div>
 
-		<!--    <div class="common_title">ElCard Style</div>
-    <div class="content">...</div>
-    <div class="common_title">iconfont && LeIcon</div>
-    <div class="content">
-      <el-card shadow="never" class="le-card-bg picking-list" header="Picking List">
-        <template slot="header">
-          Picking List&#45;&#45;&#45;&#45;
-          <el-button type="text">Clear</el-button>
-        </template>
-        123456
-      </el-card>
-    </div>-->
+		<div class="common_title">ElCard Style</div>
+		<div class="content">
+			<el-card shadow="never" class="le-card-bg" header="清单">
+				<template #header>
+					清单----
+					<span class="le-link">Clear</span>
+				</template>
+				<div>内容区....</div>
+			</el-card>
+		</div>
+
+		<div class="common_title">LeEditPopover</div>
+		<div class="content">
+			<LeEditPopover />
+			<LeEditPopover v-model:visible="local_visible">
+				<template #reference>
+					<el-button icon="Filter" />
+				</template>
+				<div class="title">控制title</div>
+				<el-scrollbar max-height="400px">
+					<div class="content">相关业务... <el-button type="danger" @click="local_visible = false">关闭</el-button></div>
+				</el-scrollbar>
+			</LeEditPopover>
+		</div>
+
+		<div class="common_title">To Do List</div>
+		<div class="content">to do...</div>
 	</div>
 </template>
 
 <script setup name="home" lang="tsx">
 import { ref } from 'vue'
-import SearchGroup2Popover from './components/SearchGroup2Popover'
-import LeSelectDemo from './components/LeSelectDemo'
-import InputNumberDemo from './components/InputNumberDemo'
-import LeDraggableNestDemo from './components/LeDraggableNestDemo'
-import WatermarkDemo from './components/WatermarkDemo'
+import SearchGroup2Popover from './components/SearchGroup2Popover.vue'
+import LeSelectDemo from './components/LeSelectDemo.vue'
+import InputNumberDemo from './components/InputNumberDemo.vue'
+import LeDraggableNestDemo from './components/LeDraggableNestDemo.vue'
+import WatermarkDemo from './components/WatermarkDemo.vue'
 import IconPicker from '@/components/IconPicker/index.vue'
 import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import useStore from '@/store/index'
@@ -128,8 +143,9 @@ const dropdownOptions = ref([
 	}
 ])
 const curIcon = ref('icon-404')
-const testHandler = () => {
-	console.error('testHandler...')
+const local_visible = ref(false)
+const testHandler = (test: any) => {
+	console.error('testHandler...', test)
 }
 const { locale } = useI18n()
 const switchLang = () => {

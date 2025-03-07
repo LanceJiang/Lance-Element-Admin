@@ -10,7 +10,7 @@ const tPrefix = 'example.table.'
  *  leTable slots.default: ({row, column, (index...)}){ return <element> } 为方便 le(Vxe)Table 之间 slots共用 建议使用 return [<element>] 兼容table间的公用
  *  leVxeTable slots.default: ({row, column, (rowIndex, $rowIndex, columnIndex, $columnIndex, _columnIndex)}){ return [<element>]}
  */
-const slot_user = (scope) => {
+const slot_user = scope => {
 	// console.error('slot_user', scope)
 	// $rowIndex 指 vxeTable Cell  $index 指 elTable Cell
 	// if (scope.$rowIndex === 0 || scope.$index === 0) console.error(scope, 'slot_user scope 第一条数据') // todo
@@ -64,7 +64,7 @@ export const columns = [
 		// 用户提示配置
 		titleHelp: {
 			icon: 'le-iconfont le-check_1', // todo 自定义icon
-			message: `<span style='background: var(--el-color-danger)'>wo的 <br/>sssssssssss</span>`
+			message: <span style='background: var(--el-color-danger)'>wo的 <br/>sssssssssss</span>
 		},
 		slots: {
 			/**
@@ -85,7 +85,7 @@ export const columns = [
 			// console.error(maybeRow, 'maybeRow ', others, 'others')
 			// const row = maybeRow.row || maybeRow
 			// return <span style="background: var(--el-color-danger);">{'orderNo: formatter: ' + row.orderNo}</span>
-			return others[1]// cellValue
+			return others[1] // cellValue
 		}
 	},
 	{
@@ -196,8 +196,8 @@ export const get_tabs_filterForms = () => [
 			// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
 			// 当前搜索的数据源  转译后的formLabel 删除tag的处理函数 当前渲染请求是否来自更多筛选的展示(true 可知不需要请求 tag, 可针对性优化)
 			const iconValue = searchParams['leSelect_icon']
-			let showValue = ''
-			let tag = ''
+			let showValue: any = ''
+			let tag: any = ''
 			if (iconValue) {
 				const option = icon_configObj[iconValue]
 				const style = `color: ${option.color}`
@@ -401,7 +401,7 @@ export const get_tabs_filterForms = () => [
 		prop: 'render',
 		label: '自定义Render',
 		itemType: 'render',
-		render: (extendsParams) => {
+		render: extendsParams => {
 			console.error(extendsParams, 'extendsParams')
 			const { form, params } = extendsParams
 			// console.error(params, 'params')
@@ -421,7 +421,7 @@ export const get_tabs_filterForms = () => [
 			if (others) {
 				showValue += (showValue ? ' -and- ' : '') + `others: ${others}`
 			}
-			let tag = ''
+			let tag: any = ''
 			if (showValue) {
 				tag = (
 					<el-tag disable-transitions>
@@ -649,7 +649,7 @@ export const tableBaseMixin = {
 		tabs_filterParams: 'updateParams'
 	},
 	created() {
-		window.test = this
+		// window.test = this
 		this.tabs_key = 'ui_tableDefault_0'
 		// this.tabs_queryTableConfig()
 		// 是否请求接口根据相关业务确定 todo...

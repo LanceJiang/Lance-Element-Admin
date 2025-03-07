@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, watch, ref, computed, PropType, CSSProperties } from 'vue'
 import { Refresh, Search } from '@element-plus/icons-vue'
-import { LeFormItem, ObjectOpts, FormConfigOpts, FormItemSlots, SlotOption } from '@/components/FormConfig/formConfig.types'
+import { LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from '@/components/FormConfig/formConfig.types'
 import InputNumber from './InputNumber'
 import InputNumberRange from './InputNumberRange'
 import CustomRender from './CustomRender'
@@ -20,7 +20,7 @@ export const SearchFormProps = {
 	// 后台传递的初始值 以及 双向绑定 对象
 	searchData: {
 		required: true,
-		type: Object as PropType<ObjectOpts>
+		type: Object as PropType<Recordable>
 	},
 	// item 修改后 自动触发搜索
 	triggerSearchAuto: {
@@ -39,13 +39,13 @@ export const SearchFormProps = {
 		default: false
 	},
 	reset: {
-		type: Function as PropType<((initSearchData: Record<string, any>) => any)>
+		type: Function as PropType<(initSearchData: Record<string, any>) => any>
 	}
 }
 export const SearchForm = defineComponent({
 	name: 'LeSearchForm',
-	emits,
 	props: SearchFormProps,
+	emits,
 	setup(props, ctx) {
 		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
@@ -89,7 +89,7 @@ export const SearchForm = defineComponent({
 		})
 		const vSlots = ctx.slots
 		const realForms = computed(() => {
-			return (props.forms || []).map((form) => {
+			return (props.forms || []).map(form => {
 				return {
 					...form,
 					le_slots: get_formSlots(vSlots, form.slots)
@@ -109,7 +109,7 @@ export const SearchForm = defineComponent({
 			const { searchData, formConfig = {}, triggerSearchAuto } = props
 			let warpClass = 'le-search-form-container labelStyle'
 			const getItemStyle = (itemStyle, defaultWidth) => {
-				return itemStyle + ((/width\:/g).test(itemStyle) ? '' : `;width:${defaultWidth}`)
+				return itemStyle + (/width\:/g.test(itemStyle) ? '' : `;width:${defaultWidth}`)
 			}
 			const itemRender = (form, _label) => {
 				// 申明: onChange 会导致(类input) change后触发两次(组件定义一次,原生change一次) 对组件定义进行过滤,仅留原生触发,组件触发onChange 用change 替代
@@ -163,10 +163,7 @@ export const SearchForm = defineComponent({
 
 					// 自定义render
 					case 'render':
-						return <CustomRender
-							form={form}
-							params={searchData}
-						/>
+						return <CustomRender form={form} params={searchData} />
 					// 下拉框
 					case 'select':
 						return (
@@ -298,13 +295,7 @@ export const SearchForm = defineComponent({
 						)
 					// switch
 					case 'switch':
-						return <el-switch
-							{...formOthers}
-							v-model={searchData[prop]}
-							onChange={changeAndSearch}
-							style={_itemStyle}
-							disabled={disabled}
-						/>
+						return <el-switch {...formOthers} v-model={searchData[prop]} onChange={changeAndSearch} style={_itemStyle} disabled={disabled} />
 					case 'input':
 					default:
 						return (
@@ -325,7 +316,7 @@ export const SearchForm = defineComponent({
 					<div class="le-search-form-flex">
 						<el-form ref={formRef} inline={true} size="default" class="le-search-form-flex-wrap" model={searchData} {...formConfig}>
 							<el-row class="form_wrap" gutter={8}>
-								{realForms.value.map((form: SearchFormItem & { le_slots: ObjectOpts }, idx) => {
+								{realForms.value.map((form: SearchFormItem & { le_slots: Recordable }, idx) => {
 									// 通过 form.visible 控制 是否展示
 									const _label = form.t_label ? t(form.t_label) : form.label
 									const slots = {
@@ -351,21 +342,11 @@ export const SearchForm = defineComponent({
 							</el-row>
 						</el-form>
 						<div class="action-wrap">
-							<el-button
-								size="default"
-								plain
-								icon={Refresh}
-								disabled={props.loading}
-								onClick={local_resetHandler}>
-								{ t('le.btn.reset') }
+							<el-button size="default" plain icon={Refresh} disabled={props.loading} onClick={local_resetHandler}>
+								{t('le.btn.reset')}
 							</el-button>
-							<el-button
-								size="default"
-								type="primary"
-								loading={props.loading}
-								icon={Search}
-								onClick={searchHandler}>
-								{ t('le.btn.search') }
+							<el-button size="default" type="primary" loading={props.loading} icon={Search} onClick={searchHandler}>
+								{t('le.btn.search')}
 							</el-button>
 						</div>
 					</div>

@@ -6,13 +6,13 @@ export type FormConfigOpts = Partial<FormInstance['props']> & {
 	itemWidth?: string // 默认的formItem类型宽度(eg: input/select/radio...)
 	itemStyle?: string // 额外的的formItem类型样式[注:width 会被 itemWidth 覆盖](eg: input/select/radio...)
 	span?: number // 默认的formItem 对应的 col 外壳 span 配置
-	showFooter: boolean // 是否展示 底部操作集
-	submitBtnText: string // footer下的 提交按钮 text
-	submitLoading: boolean // footer下的 提交按钮 loading
-	showCancelBtn: boolean // footer下的 取消按钮 是否显示
-	cancelBtnText: string // footer下的 取消按钮 text
-	showResetBtn: boolean // footer下的 重置按钮 是否显示
-	resetBtnText: string // footer下的 重置按钮 text
+	showFooter?: boolean // 是否展示 底部操作集
+	submitBtnText?: string // footer下的 提交按钮 text
+	submitLoading?: boolean // footer下的 提交按钮 loading
+	showCancelBtn?: boolean // footer下的 取消按钮 是否显示
+	cancelBtnText?: string // footer下的 取消按钮 text
+	showResetBtn?: boolean // footer下的 重置按钮 是否显示
+	resetBtnText?: string // footer下的 重置按钮 text
 }
 // 组件类型
 export type ComponentType =
@@ -26,15 +26,15 @@ export type ComponentType =
 	| 'datePicker'
 	| 'switch'
 	| 'input'
-export type SlotOption<T = ObjectOpts | OptionItemProps | { data: any; node: any }> = ((T) => HTMLDivElement | string) | string | undefined
+export type SlotOption<T = Recordable | OptionItemProps | { data: any; node: any }> = ((T) => JSX.Element | string) | string | undefined
 export type FormItemSlots = {
 	// label 自定义插槽
-	label?: (({ label: string }) => HTMLDivElement) | string
+	label?: ((opts: { label: string }) => JSX.Element) | string
 	/***
 	 * [option] 用于 adSelect|select|radio|cascader 类型的 下拉option 自定义扩展
-	 * adSelect: (OptionItemProps) => HTMLDivElement
-	 * select|radio: ({ label, value, disabled }) => HTMLDivElement
-	 * cascader: ({data, node}) => HTMLDivElement   !!!!不可使用i18n进行转义
+	 * adSelect: (OptionItemProps) => JSX.Element
+	 * select|radio: ({ label, value, disabled }) => JSX.Element
+	 * cascader: ({data, node}) => JSX.Element   !!!!不可使用i18n进行转义
 	 */
 	option?: SlotOption
 
@@ -50,8 +50,11 @@ export type FormItemSlots = {
 }
 // formItem 配置
 // T额外申明 // FormConfig: inputNumberRange 类型的item change 会加上propKey 标注是前|后触发的change   options: 是 有options Item类型时会有具体的数组数据
-// export type LeFormItem<Change = (value: any, options: any[], params: ObjectOpts, propKey?: string) => any> = Partial<FormItemInstance['props']> & {
-export type LeFormItem = Partial<FormItemInstance['props']> & {
+// export type LeFormItem<Change = (value: any, options: any[], params: Recordable, propKey?: string) => any> = Partial<FormItemInstance['props']> & {
+
+// FormItemInstance['props']
+// export interface LeFormItem extends Partial<Omit<FormItemInstance['props'], 'render' | 'props'>> {
+export type LeFormItem = Partial<Omit<FormItemInstance['props'], 'render' | 'props'>> & {
 	t_label?: string // 多语言转义 (() => Promise<unknown>)
 	t_placeholder?: string // 多语言转义
 	// 当前Item渲染额外数据字段集
@@ -72,13 +75,9 @@ export type LeFormItem = Partial<FormItemInstance['props']> & {
 	options?: any[] // [{label,value}]
 	/*** select || radio || cascader 使用 End*/
 	/*** render 使用 Start*/
-	render?: ({ form: LeFormItem, params: ObjectOpts }) => HTMLDivElement
+	render?: ((extendsParams: { form: LeFormItem; params: Recordable }) => JSX.Element) | any
 	/*** render 使用 End*/
 	// formValueFormat?: (params: any, key: string) => any // 数据提交前 转换
-	change?: (value: any, options: any[], params: ObjectOpts, propKey?: string) => any
-	[prop: string]: any
-}
-
-export type ObjectOpts = {
+	change?: (value: any, options: any[], params: Recordable, propKey?: string) => any
 	[prop: string]: any
 }

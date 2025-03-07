@@ -7,6 +7,7 @@
 		margin-bottom: 12px;
 		padding: 10px 12px;
 		padding-top: 0;
+		border-radius: var(--el-border-radius-base);
 		&.labelStyle {
 			.#{$prefix}search-form-flex-wrap {
 				.el-form-item {
@@ -80,12 +81,17 @@
 	}
 	&-flex {
 		display: flex;
+		align-items: flex-start;
 		.action-wrap {
 			//padding-left: 12px;
 			margin-top: 10px;
-			/*display: inline-flex;
-			//margin-top: 10px;
-			vertical-align: middle;*/
+			display: inline-flex;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+			gap: 10px;
+			.el-button + .el-button {
+				margin-left: 0;
+			}
 			.el-button--default {
 				padding: 8px;
 			}

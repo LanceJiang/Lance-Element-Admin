@@ -77,7 +77,11 @@
 				</div>
 			</template>
 			<!-- 操作 -->
-			<template #action="{ row }">
+			<template
+				#action="{
+					/*row*/
+				}"
+			>
 				<el-tooltip placement="top" :content="$t('example.table.user')">
 					<el-button class="le-icon-button">
 						<LeIcon icon-class="le-view"></LeIcon>
@@ -93,7 +97,7 @@
 		</LeTable>
 	</div>
 </template>
-<script lang="jsx">
+<script lang="tsx">
 import {
 	// columns,
 	tableBaseMixin
@@ -101,7 +105,6 @@ import {
 
 const prefix = 'example.forms.'
 // import { ref } from 'vue'
-import i18n from '@/lang/index'
 
 export default {
 	name: 'TableDefault',
@@ -112,7 +115,7 @@ export default {
 	},
 	created() {
 		console.log('created')
-		window.form = this
+		// window.form = this
 	}
 }
 </script>

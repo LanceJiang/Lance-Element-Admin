@@ -136,6 +136,7 @@ function moveToCurrentTag() {
 		}
 		for (const tag of tags) {
 			if ((tag.to as TagView).path === route.path) {
+				// eslint-disable-next-line @typescript-eslint/no-extra-semi
 				;(scrollPaneRef.value as any).value.moveToTarget(tag)
 				// when query is different then update
 				if ((tag.to as TagView).fullPath !== route.fullPath) {

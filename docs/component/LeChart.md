@@ -5,7 +5,7 @@ lang: zh-CN
 
 # LeChart 图表组件
 
-基于 echarts，创建的 LeChart 图标组件
+基于 echarts，创建的 LeChart 图表组件
 
 ## 基础用法
 

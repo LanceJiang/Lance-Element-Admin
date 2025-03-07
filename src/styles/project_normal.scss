@@ -47,3 +47,68 @@ body {
 ::-webkit-scrollbar-thumb{border-radius:6px;background-color:rgba(0,0,0,0.1);box-shadow:0 0 0 #fff inset,0 0 0 #fff inset,0 0 0 rgba(255,255,255,0.9) inset,0 0 0 rgba(255,255,255,0.9) inset}
 ::-webkit-scrollbar-thumb:hover{background-color:rgba(0,0,0,0.4)}
 ::-webkit-scrollbar-thumb:active{background:rgba(0,0,0,0.6)}
+
+// 带触发器(collapsed) 的 外壳样式
+.aside-wrap {
+	--bezier: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	position: relative;
+	z-index: 1;
+	margin-right: 28px;
+	transition: all var(--bezier);
+	height: 100%;
+	//width: max-content;
+	&--collapsed {
+		// todo
+	}
+	// 触发器
+	.trigger-bar {
+		cursor: pointer;
+		height: 72px;
+		width: 28px;
+		position: absolute;
+		top: calc(50% - 28px);
+		right: -28px;
+		.bar__top,
+		.bar__bottom {
+			position: absolute;
+			width: 4px;
+			border-radius: 2px;
+			height: 38px;
+			left: 12px;
+			/*	transition:
+				background-color .3s var(--n-bezier),
+				transform .3s var(--n-bezier);*/
+			//transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			//transition: background-color var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
+			transition: background-color var(--bezier), transform var(--bezier);
+			background-color: var(--el-color-info-light-5);
+		}
+		.bar__bottom {
+			position: absolute;
+			top: 34px;
+		}
+
+		&:hover {
+			.bar__top,
+			.bar__bottom {
+				background-color: var(--el-color-info-light-3);
+			}
+			.bar__top {
+				transform: rotate(12deg) scale(1.15) translateY(-2px);
+			}
+			.bar__bottom {
+				transform: rotate(-12deg) scale(1.15) translateY(2px);
+			}
+		}
+		&.trigger-bar--collapsed {
+			&:hover {
+				.bar__top {
+					transform: rotate(-12deg) scale(1.15) translateY(-2px);
+				}
+				.bar__bottom {
+					transform: rotate(12deg) scale(1.15) translateY(2px);
+				}
+			}
+		}
+	}
+}

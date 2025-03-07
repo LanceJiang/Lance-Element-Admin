@@ -11,7 +11,7 @@ import CustomRender from '../CustomRender'
 // import LeSelect from 'lance-element-vue/packages/Select'
 import LeSelect from '../Select'
 import { renderOption, getOptions, get_formSlots } from './utils.ts'
-import { LeFormItem, ObjectOpts, FormConfigOpts, FormItemSlots, SlotOption } from './formConfig.types'
+import { LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from './formConfig.types'
 import { OptionItemProps } from '@/components/Select/select.types.ts'
 // import { useFormItems } from './hooks/useForm.tsx'
 export const FormConfigProps = {
@@ -21,7 +21,7 @@ export const FormConfigProps = {
 	},
 	formData: {
 		// 后台传递的初始值 对象 【后期拿操作的表单数据  请使用 submit 的params】
-		type: Object as PropType<ObjectOpts>,
+		type: Object as PropType<Recordable>,
 		default: () => ({})
 	}, // 后台传递过来的 数据
 	// form的配置项对象 参考 default_formConfig
@@ -76,8 +76,8 @@ const FormConfig = defineComponent({
 		InputNumberRange,
 		LeSelect
 	},
-	emits: formConfigEmits,
 	props: FormConfigProps,
+	emits: formConfigEmits,
 	setup(props, ctx) {
 		const { t } = useI18n()
 		const formRef = ref(/*formRef*/)
@@ -117,7 +117,7 @@ const FormConfig = defineComponent({
 				const _prop = v.prop,
 					props = v.props // 绑定的其他数据
 				let defaultValue: any
-				if(v.itemType === 'inputNumberRange') defaultValue = []
+				if (v.itemType === 'inputNumberRange') defaultValue = []
 				params[_prop] = setItemData(formData[_prop], defaultValue) // 数据初始化
 				/*const itemProps = queryItemTypeKeys(v)
 				itemProps.map(prop => {
@@ -176,7 +176,7 @@ const FormConfig = defineComponent({
 				const { params, formValueFormats } = state
 				const formattedForm = {} // 最后提交后台使用的params对象
 				forms.forEach(form => {
-					const prop = form.prop
+					const prop = form.prop as string
 					if (prop) {
 						formattedForm[prop] = params[prop]
 						// // 对应的form 内部设置有 formValueFormats 函数的值做提交前的最后操作 fn(value, prop)
@@ -217,14 +217,17 @@ const FormConfig = defineComponent({
 				})
 			}
 		}
-		watch(() => props.formData, (newData, oldData) => {
-			// console.warn(JSON.stringify(newData), JSON.stringify(oldData), 'newFormData, oldFormData... 监听  formData')
-			changeFormData(newData)
-		})
+		watch(
+			() => props.formData,
+			(newData, oldData) => {
+				// console.warn(JSON.stringify(newData), JSON.stringify(oldData), 'newFormData, oldFormData... 监听  formData')
+				changeFormData(newData)
+			}
+		)
 		// 本地数据
 		const state = reactive({
 			// { params, bindProps }
-			...changeFormData(props.formData, true),
+			...changeFormData(props.formData, true)
 			/*params,
 			// 额外props 集合
 			bindProps: []*/
@@ -304,6 +307,7 @@ const FormConfig = defineComponent({
 					placeholder,
 					t_placeholder,
 					le_slots,
+					visible,
 					...formOthers
 				} = form
 				const _options = options || []
@@ -522,34 +526,25 @@ const FormConfig = defineComponent({
 				)
 			}
 			return (
-				<el-form
-					ref={formRef}
-					class={`le-form-config le-form-config--${size}`}
-					{...form_config}
-					size={size}
-					model={params}
-				>
-					<el-row class='form_wrap' gutter={gutter}>
+				<el-form ref={formRef} class={`le-form-config le-form-config--${size}`} {...form_config} size={size} model={params}>
+					<el-row class="form_wrap" gutter={gutter}>
 						{/*renderForms({forms: realForms.value, gutter, span})*/}
-						{realForms.value.map((form, idx) => {
-							const { span: _span, t_label, label, ...others } = form
-							const _label = t_label ? t(t_label) : label
-							const formItemSlots = {
-								label: form.le_slots.label
-							}
-							return (
-								<el-col v-show={form.visible !== false} key={idx} span={_span ?? span}>
-									<el-form-item
-										class={form.showLabel === false ? 'hideLabel' : ''}
-										{...others}
-										label={_label}
-										v-slots={formItemSlots}
-									>
-										{itemRender(form)}
-									</el-form-item>
-								</el-col>
-							)
-						})}
+						{realForms.value
+							.filter(form => form.visible !== false)
+							.map((form, idx) => {
+								const { span: _span, t_label, label, visible, ...others } = form
+								const _label = t_label ? t(t_label) : label
+								const formItemSlots = {
+									label: form.le_slots.label
+								}
+								return (
+									<el-col key={`${form.prop}${idx}`} span={_span ?? span}>
+										<el-form-item class={form.showLabel === false ? 'hideLabel' : ''} {...others} label={_label} v-slots={formItemSlots}>
+											{itemRender(form)}
+										</el-form-item>
+									</el-col>
+								)
+							})}
 						{/** 额外的插入内容 */}
 						{ctx.slots.extraContent?.()}
 					</el-row>

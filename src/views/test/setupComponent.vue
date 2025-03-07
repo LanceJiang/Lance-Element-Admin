@@ -44,15 +44,13 @@ export default defineComponent({
 		/*{labels}<br/>
 			{msg}<br/>*/
 		return () => {
-			return (
-				<div style="background: var(--el-color-danger)">
+			return <div style="background: var(--el-color-danger)" >
 					{JSON.stringify(props)}
 					<br />
 					{/*{labels}<br/>
 				{msg}<br/>*/}
 					<el-input v-model={testValue.value}></el-input>
 				</div>
-			)
 		}
 	}
 })

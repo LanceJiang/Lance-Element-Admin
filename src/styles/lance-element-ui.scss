@@ -20,6 +20,7 @@
   //max-height: calc(100% - 48px);
   max-height: calc(100% - 24px);
   max-width: calc(100% - 24px);
+	min-width: 340px;
 }
 .#{$prefix}dialog {
   &.el-dialog {
@@ -65,10 +66,10 @@
     &.is-disabled {
       .el-input-number__decrease,
       .el-input-number__increase {
+				color: $le-color_5;
         &:hover {
           color: $le-color_5;
         }
-        color: $le-color_5;
       }
     }
     .el-input-number__decrease,
@@ -153,14 +154,14 @@
     border-radius: 6px;
   }
 
-  &.is-disabled.is-plain {
+  /*&.is-disabled.is-plain {
     border-color: #B3D5FE;
     color: #B3D5FE;
     &:hover, &:focus{
       border-color: #B3D5FE;
       color: #B3D5FE;
     }
-  }
+  }*/
 
   // 若需要重置样式 todo...
   //&:focus {
@@ -180,4 +181,8 @@
   //max-width: 20%;
   word-break: break-word;
 }
-
+/*@media (max-width: 750px) {
+	.el-drawer {
+		width: 90vw;
+	}
+}*/

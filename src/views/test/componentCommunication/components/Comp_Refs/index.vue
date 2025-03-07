@@ -3,7 +3,7 @@
 		父组件 (通过ref 拿值)<br />
 		<!-- 父组件 -->
 		<ul class="parent list-group">
-			<li class="list-group-item" v-for="i in childRef ? childRef.list : []" :key="i">{{ i }}</li>
+			<li v-for="i in childRef ? childRef.list : []" :key="i" class="list-group-item">{{ i }}</li>
 		</ul>
 		<!-- 子组件 ref的值与<script>中的保持一致 -->
 		<ChildComponents ref="childRef"></ChildComponents>
@@ -16,7 +16,7 @@ import ChildComponents from './child.vue'
 const childRef = ref(null)
 onMounted(() => {
 	console.error(childRef, 'childRef')
-	window.childRef = childRef
+	// window.childRef = childRef
 	// list.value = childRef.list
 })
 </script>
