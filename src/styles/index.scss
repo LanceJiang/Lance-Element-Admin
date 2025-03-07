@@ -31,7 +31,8 @@ body {
 	font-weight: 700;
 }*/
 
-#app {
+#app,
+.app-wrapper {
 	height: 100%;
 }
 
@@ -124,6 +125,8 @@ div:focus {
 	display: -webkit-box; // 作为弹性伸缩盒子模型显示。
 	-webkit-box-orient: vertical; // 设置伸缩盒子的子元素排列方式--从上到下垂直排列
 	-webkit-line-clamp: $line; // 显示的行
+	-webkit-box-orient: vertical;
+	word-break: break-all;
 }
 .text-overflow_ellipsis_line_1 {
 	@include text-overflow_ellipsis_line(1);
@@ -150,5 +153,17 @@ div:focus {
 	&:hover {
 		//color: var(--el-button-hover-link-text-color);
 		color: var(--el-color-primary-light-5);
+	}
+}
+// 用于 类似 toolLeft 内嵌多个 el-button 排版 小屏兼容
+.btn-actions-flex-gap {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	gap: 8px 12px;
+	.el-button {
+		& + .el-button {
+			margin-left: 0;
+		}
 	}
 }

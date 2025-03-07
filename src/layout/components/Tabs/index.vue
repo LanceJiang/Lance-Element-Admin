@@ -181,7 +181,7 @@ const tabsDrop = () => {
 			tagsView.setViews(tabsList)
 		},
 		onMove(event: any) {
-			console.log(event.related, 'onMove', event.relatedRect)
+			// console.log(event.related, 'onMove', event.relatedRect)
 			return event.related.className.indexOf('is-closable') !== -1
 		}
 	})
@@ -206,7 +206,6 @@ const tabClick = (tabItem: TabsPaneContext) => {
 
 // Remove Tab
 const tabRemove = (path: TabPaneName) => {
-	console.error('tabRemove', path)
 	const curTab = tabsMenuList.value.find(v => v.path === path)
 	tagsView.delView(curTab).then((res: any) => {
 		// if (isActive(curTab)) {

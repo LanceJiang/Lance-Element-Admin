@@ -8,7 +8,7 @@ import { menuTheme } from '@/styles/theme/menu'
 import { asideTheme } from '@/styles/theme/aside'
 import { headerTheme } from '@/styles/theme/header'
 import { footerTheme } from '@/styles/theme/footer'
-import { defaultSettingState } from '@/settings.ts'
+import { defaultSettingState } from '@/settings'
 import { isMobile } from '@/utils'
 
 /**

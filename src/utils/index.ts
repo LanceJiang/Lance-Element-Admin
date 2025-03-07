@@ -139,7 +139,7 @@ export const objDeepMerge = (...objs: any[]) => {
  * @param text
  */
 export async function copyText(text: string) {
-	const { copy, copied, isSupported } = useClipboard(/*{ source: text }*/)
+	const { copy, copied, isSupported } = useClipboard({ legacy: true })
 	if (!isSupported) {
 		// 复制失败
 		ElMessage.error(t('le.message.CopyFailure'))

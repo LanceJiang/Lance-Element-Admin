@@ -6,32 +6,33 @@
 	justify-content: center;
 	align-items: center;
 	padding: 20px 0;
-  &.small {
+	&.small {
 		.#{$prefix}no-data__img {
 			//width: 108px;
 			font-size: 60px;
 		}
-  }
-  &.large {
-    .#{$prefix}no-data__img {
-      //font-size: 120px;
+	}
+	&.large {
+		.#{$prefix}no-data__img {
+			//font-size: 120px;
 			//width: 162px;
 			font-size: 120px;
-    }
-  }
-  &--full {
-    width: 100%;
-    height: 100%;
-  }
+		}
+	}
 
-  &__img {
-    font-size: 80px;
-    pointer-events: none;
-  }
+	&--full {
+		width: 100%;
+		height: 100%;
+	}
 
-  .message {
-    color: $le-color_4;
-    line-height: initial;
+	&__img {
+		font-size: 80px;
+		pointer-events: none;
+	}
+
+	.message {
+		color: $le-color_4;
+		line-height: initial;
 		font-size: 12px;
-  }
+	}
 }
