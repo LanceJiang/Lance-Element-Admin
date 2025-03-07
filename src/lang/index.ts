@@ -35,12 +35,14 @@ export const getLanguage = () => {
 	if (language) {
 		return language
 	}*/
-	// 浏览器使用语言
-	const language = navigator.language.toLowerCase()
-	const locales = Object.keys(messages)
-	for (const locale of locales) {
-		if (language.indexOf(locale) > -1) {
-			return locale
+	if (typeof window !== 'undefined') {
+		// 浏览器使用语言
+		const language = navigator.language.toLowerCase()
+		const locales = Object.keys(messages)
+		for (const locale of locales) {
+			if (language.indexOf(locale) > -1) {
+				return locale
+			}
 		}
 	}
 	return 'zh-cn'

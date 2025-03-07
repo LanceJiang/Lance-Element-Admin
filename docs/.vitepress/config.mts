@@ -128,11 +128,14 @@ export default defineConfig({
 		// 		directiveTransforms: buildTransformers(),
 		// 	},
 		// },
-	},/*,
+	},
 	vite: {
-		// @vitejs/plugin-vue options
+		/*// @vitejs/plugin-vue options
 		server: {
 			port: 5656
+		}*/
+		build: {
+			ssr: false
 		}
-	}*/
+	}
 });
