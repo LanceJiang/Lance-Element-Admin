@@ -7,7 +7,7 @@ import InputNumberRange from './InputNumberRange'
 import CustomRender from './CustomRender'
 import { useI18n } from 'vue-i18n'
 import { getOptions, renderOption, get_formSlots } from '@/components/FormConfig/utils.ts'
-import { OptionItemProps } from '@/components/Select/select.types.ts'
+// import { OptionItemProps } from '@/components/Select/select.types.ts'
 
 const emits = ['update:searchData']
 export type SearchFormItem = LeFormItem

@@ -13,7 +13,7 @@ import { get_formSlots, getOptions, renderOption } from '@/components/FormConfig
 // import { SearchFormProps } from '@/components/SearchForm'
 // import { FormConfigProps } from '../index.vue'
 import { useI18n } from 'vue-i18n'
-import { OptionItemProps } from '@/components/Select/select.types.ts'
+// import { OptionItemProps } from '@/components/Select/select.types.ts'
 export type FormType = 'FormConfig' | 'SearchForm'
 export type SearchFormItem = LeFormItem
 export type useFormItemsOpts = {

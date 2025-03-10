@@ -2,7 +2,7 @@
 import { ElMessage } from 'element-plus'
 // vue Storage 使用
 export { ls } from './vueStorage'
-import { get, set } from 'lodash-unified'
+import { get, set } from 'lodash-es'
 import i18n from '@/lang/index'
 import { useClipboard } from '@vueuse/core'
 export type Arrayable<T> = T | T[]
