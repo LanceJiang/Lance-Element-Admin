@@ -59,7 +59,7 @@ export const $log = (function () {
  * @desc 函数防抖
  * @param func 函数
  * @param wait 延迟毫秒数
- * @param immediate true/false (是/否)即执行
+ * @param immediate boolean 立即执行
  */
 export function debounce(func: () => any, wait: number, immediate?: boolean) {
 	let timeout: any
@@ -70,21 +70,37 @@ export function debounce(func: () => any, wait: number, immediate?: boolean) {
 		const context = this
 		const args: any = arguments
 		/* eslint-enable */
+		if (immediate && !timeout) func.apply(context, args)
 		if (timeout) clearTimeout(timeout)
-		if (immediate) {
-			const callNow = !timeout
-			timeout = setTimeout(() => {
-				timeout = null
-			}, wait)
-			if (callNow) func.apply(context, args)
-		} else {
-			timeout = setTimeout(function () {
-				func.apply(context, args)
-			}, wait)
+		timeout = setTimeout(function () {
+			func.apply(context, args)
+		}, wait)
+	}
+}
+/**
+ * @desc 函数节流
+ * @param func 函数
+ * @param wait number 延迟毫秒数
+ * @param immediate boolean 立即执行
+ */
+export function throttle(func: () => any, wait: number, immediate?: boolean) {
+	let t_start = 0
+	return function () {
+		/* eslint-disable */
+		// @ts-ignore
+		const args: any = arguments
+		/* eslint-enable */
+		if (!t_start) {
+			t_start = +new Date()
+			if (immediate) func.apply(this, args)
+		}
+		const t_end = +new Date()
+		if (t_end - t_start >= wait) {
+			func.apply(this, args)
+			t_start = t_end
 		}
 	}
 }
-
 /**
  * 深层数据的集合进行有机合并
  * @param objs 需要合并的 对象集合 （后面的覆盖前面的参数）
