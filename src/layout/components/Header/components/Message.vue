@@ -1,5 +1,5 @@
 <template>
-	<el-popover placement="bottom-end" :width="320" popper-style="padding: 0px;" trigger="click">
+	<el-popover placement="bottom-end" :width="320" popper-style="padding: 0px 12px;" trigger="click">
 		<template #reference>
 			<div class="menu--message-trigger">
 				<el-tooltip :content="$t('le.message.txt')" effect="dark" placement="bottom">
