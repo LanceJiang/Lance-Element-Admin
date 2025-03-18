@@ -12,6 +12,14 @@
 			<div>local文字: {{ $t('route.dashboard') }}</div>
 			<div>src/locale 文字(携带 le前缀做区分): {{ $t('le.btn.add') }}</div>
 		</div>
+		<LeText class="w-[100px]" value="我是文字我是文字我是文字我是文字我是文字我是文字" copy> </LeText>
+		<LeText
+			class="w-[150px]"
+			line-clamp="2"
+			value="我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字"
+			copy
+		>
+		</LeText>
 		<SearchGroup2Popover v-if="false" />
 		<LeSelectDemo v-if="false" />
 		<InputNumberDemo v-if="true" />

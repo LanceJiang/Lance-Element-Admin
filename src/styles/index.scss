@@ -125,7 +125,6 @@ div:focus {
 	display: -webkit-box; // 作为弹性伸缩盒子模型显示。
 	-webkit-box-orient: vertical; // 设置伸缩盒子的子元素排列方式--从上到下垂直排列
 	-webkit-line-clamp: $line; // 显示的行
-	-webkit-box-orient: vertical;
 	word-break: break-all;
 }
 .text-overflow_ellipsis_line_1 {
