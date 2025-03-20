@@ -70,11 +70,13 @@ export function debounce(func: () => any, wait: number, immediate?: boolean) {
 		const context = this
 		const args: any = arguments
 		/* eslint-enable */
-		if (immediate && !timeout) func.apply(context, args)
+		const bool = !timeout
+		if (immediate && bool) func.apply(context, args)
 		if (timeout) clearTimeout(timeout)
 		timeout = setTimeout(function () {
 			func.apply(context, args)
 		}, wait)
+		if (bool) clearTimeout(timeout)
 	}
 }
 /**
@@ -162,6 +164,7 @@ export async function copyText(text: string) {
 	} else {
 		await copy(text)
 		if (copied.value) {
+			// 4d
 			// message.success('复制成功~')
 			ElMessage.success(t('le.message.CopiedSuccessfully'))
 		}
