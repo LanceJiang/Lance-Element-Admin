@@ -42,7 +42,24 @@ export function getAdminList(data: any): AxiosPromise {
 					phone: [15012341203, 18958586868, ''][i % 3],
 					email: `demo${i}@com.cn`,
 					// roles: [[1, 2], [0, 1, 2], [2]][i % 3],
-					roles: [[roles[1], roles[2]], [roles[0], roles[1], roles[2]], [roles[2]]][i % 3]
+					roles: [[roles[1], roles[2]], [roles[0], roles[1], roles[2]], [roles[2]]][i % 3],
+					price_ary: [
+						{
+							date: '2024-01-01',
+							min: '100',
+							max: '500'
+						},
+						{
+							date: '2024-02-01',
+							min: '80',
+							max: '300'
+						},
+						{
+							date: '2024-03-01',
+							min: '90',
+							max: '390'
+						}
+					]
 				}
 			})
 		}

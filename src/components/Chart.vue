@@ -21,7 +21,7 @@
 		<div class="chart-wrap">
 			<div ref="elRef" class="chart-container" />
 			<div class="overlay" :class="{ overlayTopLevel: noData }">
-				<slot name="overlay" :noData="noData">
+				<slot name="overlay" :no-data="noData">
 					<NoData class="chart_noData" :class="{ chart_noData_show: noData }" size="small" message="暂无数据" />
 				</slot>
 			</div>
@@ -287,7 +287,7 @@ export const ChartComponent = defineComponent({
 				if (chartRef.value) {
 					localLoading.value = false
 					// chartRef.value.hideLoading()
-					console.log(option, 'option .................')
+					// console.log(option, 'option .................')
 					chartRef.value.setOption(option)
 				}
 			}
