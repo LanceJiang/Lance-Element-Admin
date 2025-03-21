@@ -2,6 +2,7 @@ import type { LeTableColumnProps, LeTableOptions, LeTableProps, LeColumnSlots, T
 import { ComputedRef, Slots, computed, Ref, unref, watch, nextTick } from 'vue'
 // import { useI18n } from 'vue-i18n'
 import { getPropValue, t, $log } from '@/utils'
+import Text from '@/components/Text.vue'
 // import { cloneDeep, isEqual } from 'lodash-es'
 
 /**针对 header 展示添加默认的slot*/
@@ -28,9 +29,7 @@ const slotHeaderDefault = function (titleHelp: TitleHelp = {}, props: any) {
 	// todo...
 	return (
 		<div class="slot_title-wrap">
-			<el-tooltip placement="top" content={label_}>
-				<span class="label">{label_}</span>
-			</el-tooltip>
+			<Text placement="top" value={label_} />
 			{TitleHelp}
 		</div>
 	)

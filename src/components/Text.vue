@@ -1,15 +1,17 @@
 <template>
-	<section class="le-text-wrap" ref="textTooltipRef">
-		<el-tooltip v-if="value" :visible="isShowTooltip" :placement="placement">
+	<section ref="textTooltipRef" class="le-text-wrap">
+		<el-tooltip v-if="value" v-bind="$attrs" :visible="isShowTooltip" :placement="placement">
 			<template #content>
-				<span>{{ value }}</span>
+				<slot name="content">
+					<span>{{ value }}</span>
+				</slot>
 			</template>
 			<div class="le-text" @mouseover="handleElTooltip" @mouseleave="isShowTooltip = false">
 				<slot>
 					<el-text v-bind="textProps" class="text-overflow_ellipsis_line_2" :style="textStyle">{{ value }}</el-text>
 				</slot>
 				<!-- 复制按钮 -->
-				<el-icon class="action-icon" v-if="copy">
+				<el-icon v-if="copy" class="action-icon">
 					<DocumentCopy @click.stop="copyText(value)" />
 				</el-icon>
 			</div>
