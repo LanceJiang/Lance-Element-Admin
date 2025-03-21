@@ -116,7 +116,7 @@ export const columns = [
 			default: 'action'
 		},
 		fixed: 'right',
-		minWidth: '150px'
+		width: '150px'
 	}
 ]
 

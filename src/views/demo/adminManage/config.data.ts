@@ -145,7 +145,7 @@ export const columns: LeTableColumnProps[] = [
 		prop: 'operation',
 		label: '操作',
 		fixed: 'right',
-		minWidth: 140,
+		width: 140,
 		slots: {
 			default: '操作'
 		}
