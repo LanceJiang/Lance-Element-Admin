@@ -287,7 +287,7 @@ export const ChartComponent = defineComponent({
 				if (chartRef.value) {
 					localLoading.value = false
 					// chartRef.value.hideLoading()
-					console.log(option, 'option .................')
+					// console.log(option, 'option .................')
 					chartRef.value.setOption(option)
 				}
 			}

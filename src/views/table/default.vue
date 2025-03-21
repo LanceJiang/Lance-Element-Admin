@@ -77,11 +77,7 @@
 				</div>
 			</template>
 			<!-- 操作 -->
-			<template
-				#action="{
-					/*row*/
-				}"
-			>
+			<template #action="{ row }">
 				<el-tooltip placement="top" :content="$t('example.table.user')">
 					<el-button class="le-icon-button">
 						<LeIcon icon-class="le-view"></LeIcon>

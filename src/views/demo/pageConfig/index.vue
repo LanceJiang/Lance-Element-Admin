@@ -1,15 +1,10 @@
 <template>
 	<div class="testTable column-page-wrap">
 		<!-- 公用搜索组件 -->
-		<LeSearchForm
-			ref="searchForm"
-			v-model:searchData="searchData"
-			:forms="forms"
-			:loading="tableOpts.options.loading"
-		>
-			<template #slot_label_test="{label}">
-				<div style="background: var(--el-color-danger); color:#fff;display: flex">
-					label custom: string<span style="margin-left: auto; background: var(--el-color-primary)">{{label}}</span>
+		<LeSearchForm ref="searchForm" v-model:searchData="searchData" :forms="forms" :loading="tableOpts.options.loading">
+			<template #slot_label_test="{ label }">
+				<div style="background: var(--el-color-danger); color: #fff; display: flex">
+					label custom: string<span style="margin-left: auto; background: var(--el-color-primary)">{{ label }}</span>
 				</div>
 			</template>
 		</LeSearchForm>
@@ -48,6 +43,17 @@
 					</el-icon>
 				</el-button>
 			</template>
+			<template #toolRight>
+				<el-button type="primary" @click="addHandler">
+					toolRight
+					<el-icon class="btn-icon">
+						<Plus />
+					</el-icon>
+				</el-button>
+			</template>
+			<template #top>
+				<div class="p-[10px] mb-[10px]" style="background-color: rgb(248 113 113)">顶部自定义插槽#top</div>
+			</template>
 			<template #testHeader="{ column }">
 				<!-- 如果是自己定义header 时 需要自己添加 header的相关填充 -->
 				<div class="slot_title-wrap">
@@ -63,6 +69,15 @@
 					value:{{ row[column.property] }}
 					<br />
 					index: {{ $index }}
+				</div>
+			</template>
+			<template #图表="{ row }">
+				<LeChart v-if="row.chartOption_price" width="120px" height="38px" :option="row.chartOption_price" is-init-option />
+				<div v-else style="height: 30px" />
+			</template>
+			<template #操作="{ row, column, $index }">
+				<div>
+					<el-button icon="delete" />
 				</div>
 			</template>
 		</LeTable>
@@ -87,6 +102,7 @@ import { useTablePage } from '@/hooks/useTablePage'
 import i18n from '@/lang'
 import { SearchParams } from '@/components/Table'
 import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
+import { colorBase1 } from '@/components/Chart.vue'
 // import { Plus, Delete } from '@element-plus/icons-vue'
 const tableRef = ref()
 // window.tableRef = tableRef
@@ -374,6 +390,7 @@ const queryList = () => {
 		.then((data: any) => {
 			const { total, data: list } = data
 			tableOpts.total = total
+			list.map(v => (v.chartOption_price = getChartOption_price(v.price_ary)))
 			// list.push({})
 			tableOpts.list = list
 		})
@@ -408,7 +425,13 @@ const columns = [
 		sortable: true,
 		minWidth: 100,
 		titleHelp: {
-			message: 'todo:我是问号提示测试'
+			// message: 'todo:我是问号提示测试',
+			message: (
+				<span style="background: var(--el-color-danger)">
+					我是自定义 <br />
+					提示提示
+				</span>
+			)
 		},
 		slots: {
 			// header: 'testDefault',
@@ -424,7 +447,7 @@ const columns = [
 	{
 		prop: 'describe',
 		label: '备注信息',
-		width: 100,
+		minWidth: 100,
 		slots: {
 			header: '备注信息header'
 			// default: '备注信息default',
@@ -436,10 +459,26 @@ const columns = [
 		}
 	},
 	{
+		prop: 'email',
+		label: '邮箱',
+		minWidth: 200
+	},
+	{
+		prop: 'price_ary',
+		label: '趋势图',
+		minWidth: 150,
+		slots: {
+			default: '图表'
+		}
+	},
+	{
 		prop: 'action',
 		label: '操作',
 		width: 100,
-		fixed: 'right'
+		fixed: 'right',
+		slots: {
+			default: '操作'
+		}
 	}
 ]
 const { searchData, tableOpts, checkedColumns, activeColumns, updateParams } = useTablePage(
@@ -497,7 +536,7 @@ nextTick(() => {
 	window.searchForm = searchForm
 })*/
 // 选中的columns
-checkedColumns.value = columns.slice(0, 2)
+checkedColumns.value = columns.slice(-3)
 /*const tableOpts = reactive({
 	searchParams: {
 		page: 1,
