@@ -3,7 +3,7 @@
 		<!-- 公用搜索组件 -->
 		<LeSearchForm v-model:searchData="searchData" :forms="searchForms" :loading="tableOpts.options.loading" />
 		<!-- 公用Table组件 -->
-		<LeTable v-model:searchParams="tableOpts.searchParams" v-bind="tableOpts">
+		<LeTable v-model:searchParams="tableOpts.searchParams" v-bind="tableOpts" v-model:checked-options="checkedColumns" :columns="activeColumns">
 			<template #toolLeft>
 				<el-button type="primary" size="default" @click="addItem">
 					新增<el-icon><Plus /></el-icon>
@@ -217,7 +217,7 @@ const queryList = () => {
 			tableOpts.options.loading = false // 更改加载中的 loading值
 		})
 }
-const { tableOpts, searchData } = useTablePage(
+const { tableOpts, checkedColumns, activeColumns, searchData } = useTablePage(
 	{
 		// 搜索数据
 		searchParams: {
@@ -230,6 +230,11 @@ const { tableOpts, searchData } = useTablePage(
 			loading: false,
 			showIndex: true,
 			size: 'small'
+		},
+		// 控制列配置
+		columnsConfig: {
+			columns,
+			defaultCheckedOptions: columns.slice(0, 2)
 		}
 	},
 	{
@@ -244,6 +249,8 @@ const { tableOpts, searchData } = useTablePage(
 		queryList
 	}
 )
+// 模拟后端请求获取的 选中的columns
+checkedColumns.value = columns.slice(-3)
 /*const getRequestParams = () => {
 	const { dateRange, ...opts } = tableOpts?.searchParams || {}
 	// 时间区间
@@ -259,7 +266,6 @@ const { tableOpts, searchData } = useTablePage(
 	}
 	return state.query
 }*/
-
 const { dialog, activeData } = toRefs(state)
 const submitHandler = params => {
 	dialog.value.formOptions.formConfig.submitLoading = true

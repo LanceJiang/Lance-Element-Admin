@@ -473,6 +473,7 @@ const { searchData, tableOpts, checkedColumns, activeColumns, updateParams } = u
 			page: 1,
 			size: 10
 		},
+		// 当前选中数据
 		curRow: {
 			id: `id_1`,
 			google_key: Math.random() > 0.5 ? 1 : 0,
