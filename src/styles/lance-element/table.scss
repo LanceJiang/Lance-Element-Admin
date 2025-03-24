@@ -272,6 +272,7 @@
       height: 17px;
       vertical-align: unset;
 			min-width: 14px;
+			flex-shrink: 0;
       //transform: translateY(3px);
     }
     .sort-caret {

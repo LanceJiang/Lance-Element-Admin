@@ -71,10 +71,6 @@
 					index: {{ $index }}
 				</div>
 			</template>
-			<template #图表="{ row }">
-				<LeChart v-if="row.chartOption_price" width="120px" height="38px" :option="row.chartOption_price" is-init-option />
-				<div v-else style="height: 30px" />
-			</template>
 			<template #操作="{ row, column, $index }">
 				<div>
 					<el-button icon="delete" />
@@ -102,7 +98,6 @@ import { useTablePage } from '@/hooks/useTablePage'
 import i18n from '@/lang'
 import { SearchParams } from '@/components/Table'
 import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
-import { colorBase1 } from '@/components/Chart.vue'
 // import { Plus, Delete } from '@element-plus/icons-vue'
 const tableRef = ref()
 // window.tableRef = tableRef
@@ -390,7 +385,6 @@ const queryList = () => {
 		.then((data: any) => {
 			const { total, data: list } = data
 			tableOpts.total = total
-			list.map(v => (v.chartOption_price = getChartOption_price(v.price_ary)))
 			// list.push({})
 			tableOpts.list = list
 		})
@@ -462,14 +456,6 @@ const columns = [
 		prop: 'email',
 		label: '邮箱',
 		minWidth: 200
-	},
-	{
-		prop: 'price_ary',
-		label: '趋势图',
-		minWidth: 150,
-		slots: {
-			default: '图表'
-		}
 	},
 	{
 		prop: 'action',

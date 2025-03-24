@@ -1,4 +1,4 @@
-import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
+import { LeFormItem } from '@/components/FormConfig/formConfig.types'
 import { LeTableColumnProps } from '@/components/Table'
 
 // 状态枚举
@@ -27,6 +27,10 @@ const rolesOptions = [
 		value: 2
 	}
 ]
+export const rolesOptions_config = rolesOptions.reduce((res: any, { label, value }) => {
+	res[value] = label
+	return res
+}, [])
 export const forms: LeFormItem[] = [
 	{
 		prop: 'username',
@@ -68,13 +72,13 @@ export const forms: LeFormItem[] = [
 export const search_forms: LeFormItem[] = [
 	{
 		prop: 'search_word',
-		label: '查询用户名/手机号/邮箱',
+		label: '邮箱',
 		itemType: 'input',
 		itemWidth: '230px'
 	},
 	{
-		prop: 'search_google_key',
-		label: '是否绑定谷歌验证器',
+		prop: 'google_key',
+		label: '绑定状态',
 		itemType: 'select',
 		itemWidth: '230px',
 		options: [
@@ -100,7 +104,13 @@ export const columns: LeTableColumnProps[] = [
 	{
 		prop: 'username',
 		label: '用户名',
-		minWidth: 120
+		minWidth: 120,
+		fixed: 'left',
+		slots: {
+			default({ row }) {
+				return <le-text value={row.username} copy />
+			}
+		}
 	},
 	{
 		prop: 'phone',
@@ -114,10 +124,10 @@ export const columns: LeTableColumnProps[] = [
 	},
 	{
 		prop: 'google_key',
-		label: '谷歌验证状态',
+		label: '绑定状态',
 		width: 120,
 		slots: {
-			default: '谷歌验证状态'
+			default: '绑定状态'
 		}
 	},
 	{
@@ -142,10 +152,27 @@ export const columns: LeTableColumnProps[] = [
 		minWidth: 180
 	},
 	{
+		prop: 'describe',
+		label: '描述',
+		minWidth: 160,
+		slots: {
+			default: '描述'
+		}
+	},
+	{
+		prop: 'price_ary',
+		label: '趋势图',
+		width: 150,
+		slots: {
+			default: '图表'
+		},
+		fixed: 'right'
+	},
+	{
 		prop: 'operation',
 		label: '操作',
 		fixed: 'right',
-		width: 140,
+		width: 150,
 		slots: {
 			default: '操作'
 		}

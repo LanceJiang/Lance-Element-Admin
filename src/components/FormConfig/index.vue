@@ -50,7 +50,7 @@ const default_formConfig: FormConfigOpts = {
 	// footer下的 提交按钮loading
 	submitLoading: false,
 	// footer下的 取消按钮 是否显示
-	showCancelBtn: false,
+	showCancelBtn: true,
 	// footer下的 取消按钮 text
 	cancelBtnText: 'le.btn.cancel',
 	// footer下的 重置按钮 是否显示
@@ -507,15 +507,15 @@ const FormConfig = defineComponent({
 			const createFooter = () => {
 				return (
 					<div class="footer">
-						{showCancelBtn && (
-							<el-button class="cancel-button" size={size} onClick={cancelHandler}>
-								{t(cancelBtnText)}
-							</el-button>
-						)}
 						<div class="right-actions">
 							{showResetBtn && (
 								<el-button class="reset-button" plain size={size} onClick={resetHandler.bind(null, undefined)}>
 									{t(resetBtnText)}
+								</el-button>
+							)}
+							{showCancelBtn && (
+								<el-button class="cancel-button" size={size} onClick={cancelHandler}>
+									{t(cancelBtnText)}
 								</el-button>
 							)}
 							<el-button class="submit-button" type="primary" size={size} loading={submitLoading} onClick={submitHandler}>
@@ -548,7 +548,7 @@ const FormConfig = defineComponent({
 						{/** 额外的插入内容 */}
 						{ctx.slots.extraContent?.()}
 					</el-row>
-					{showFooter && createFooter()}
+					{showFooter && isEdit && createFooter()}
 				</el-form>
 			)
 		}
