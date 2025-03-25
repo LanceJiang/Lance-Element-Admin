@@ -9,6 +9,12 @@
 					新增<el-icon><Plus /></el-icon>
 				</el-button>
 			</template>
+			<template #toolRight>
+				<el-button type="primary"> toolRight </el-button>
+			</template>
+			<template #top>
+				<div class="p-[10px] mb-[10px]" style="background-color: rgb(248 113 113)">顶部自定义插槽#top</div>
+			</template>
 			<template #绑定状态="{ row }">
 				<el-switch :active-value="1" :inactive-value="0" :loading="row.loading" v-model="row.google_key" @click="changGooGleKey(row)" />
 			</template>

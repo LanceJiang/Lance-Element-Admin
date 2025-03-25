@@ -1,13 +1,12 @@
 <script lang="tsx">
-import { defineComponent, watch, ref, computed, PropType, CSSProperties } from 'vue'
+import { defineComponent, watch, ref, computed, PropType } from 'vue'
 import { Refresh, Search } from '@element-plus/icons-vue'
-import { LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from '@/components/FormConfig/formConfig.types'
-import InputNumber from './InputNumber'
-import InputNumberRange from './InputNumberRange'
-import CustomRender from './CustomRender'
+import { LeFormItem, FormConfigOpts, SlotOption } from '@/components/FormConfig/formConfig.types'
+import InputNumber from './InputNumber.vue'
+import InputNumberRange from './InputNumberRange.vue'
+import CustomRender from './CustomRender.vue'
 import { useI18n } from 'vue-i18n'
-import { getOptions, renderOption, get_formSlots } from '@/components/FormConfig/utils.ts'
-import { OptionItemProps } from '@/components/Select/select.types.ts'
+import { getOptions, renderOption, get_formSlots } from '@/components/FormConfig/utils'
 
 const emits = ['update:searchData']
 export type SearchFormItem = LeFormItem
@@ -96,14 +95,7 @@ export const SearchForm = defineComponent({
 				}
 			})
 		})
-		// const gutter = 8
-		// const colStyle = computed(() => {
-		// 	const styles: CSSProperties = {}
-		// 	if (gutter) {
-		// 		styles.paddingLeft = styles.paddingRight = `${gutter / 2}px`
-		// 	}
-		// 	return styles
-		// })
+
 		// render渲染
 		return () => {
 			const { searchData, formConfig = {}, triggerSearchAuto } = props
@@ -324,16 +316,7 @@ export const SearchForm = defineComponent({
 									}
 									return (
 										<el-col v-show={form.visible !== false} key={idx} span={form.span ?? 1024}>
-											<el-form-item
-												// class={`${form.showLabel === false ? 'hideLabel' : ''} el-col el-col-${form.span}`}
-												// v-show={form.visible !== false}
-												// style={colStyle.value}
-												// key={idx}
-												class={form.showLabel === false ? 'hideLabel' : ''}
-												{...form}
-												label={_label}
-												v-slots={slots}
-											>
+											<el-form-item class={form.showLabel === false ? 'hideLabel' : ''} {...form} label={_label} v-slots={slots}>
 												{itemRender(form, _label)}
 											</el-form-item>
 										</el-col>

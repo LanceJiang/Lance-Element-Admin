@@ -109,6 +109,9 @@ export const columns: LeTableColumnProps[] = [
 		slots: {
 			default({ row }) {
 				return <le-text value={row.username} copy />
+			},
+			header() {
+				return <el-button>用户名按钮</el-button>
 			}
 		}
 	},

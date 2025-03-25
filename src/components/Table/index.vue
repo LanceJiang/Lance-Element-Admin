@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, PropType, computed, unref, watch, onMounted, ref, nextTick } from 'vue'
+import { defineComponent, PropType, computed, unref, watch, ref, nextTick } from 'vue'
 import { LeTableColumnProps, LeTableOptions, SearchParams, LeTableProps } from './index.d'
 import NoData from '@/components/NoData.vue'
 import Icon from '@/components/Icon.vue'
@@ -104,9 +104,8 @@ const TableComponent = defineComponent({
 	props: tableProps,
 	// 更新搜索条件, 更新列配置, table Sort 排序, table 刷新
 	emits: ['update:searchParams', 'update:checkedOptions', 'sortChange', 'refresh', 'row-click', 'update:curRow'],
-	setup(props, { attrs, slots, emit, expose }) {
+	setup(props, { slots, emit, expose }) {
 		const { t } = useI18n()
-		// const tableRef = ref<Table>(/*tableRef*/)
 		const tableRef = ref(/*tableRef*/)
 		const isFullscreen = ref(false)
 		// 切换全屏
@@ -161,14 +160,11 @@ const TableComponent = defineComponent({
 				...props.options
 			} as LeTableOptions
 			// 高亮当前
+			// eslint-disable-next-line
+			// @ts-ignore
 			res.currentRowKey = res.currentRowKey ?? res.rowKey
 			return res
 		})
-		/*const getProps = computed(() => {
-			return {
-				...props,
-			} as LeTableProps
-		})*/
 		// 更新选中列配置
 		const checkedOptionsChange = checkedOptions => {
 			// console.error(checkedOptions, 'checkedOptions checkedOptionsChange')
@@ -199,14 +195,12 @@ const TableComponent = defineComponent({
 		}
 		watch(
 			() => props.list,
-			list => {
+			() => {
 				// 高亮数据判断
 				if (Object.keys(props.curRow || {}).length) {
 					setCurrentRow(props.curRow, false)
 				}
-			} /*, {
-			immediate: true
-		}*/
+			}
 		)
 
 		const table_slots = {
