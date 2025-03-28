@@ -63,18 +63,23 @@ export const $log = (function () {
  */
 export function debounce(func: () => any, wait: number, immediate?: boolean) {
 	let timeout: any
-
+	const _clear = () => {
+		clearTimeout(timeout)
+		timeout = null
+	}
 	return function () {
 		/* eslint-disable */
 		// @ts-ignore
 		const context = this
 		const args: any = arguments
 		/* eslint-enable */
-		if (immediate && !timeout) func.apply(context, args)
-		if (timeout) clearTimeout(timeout)
+		const bool = !timeout
+		if (immediate && bool) func.apply(context, args)
+		if (timeout) _clear()
 		timeout = setTimeout(function () {
 			func.apply(context, args)
 		}, wait)
+		if (bool) _clear()
 	}
 }
 /**

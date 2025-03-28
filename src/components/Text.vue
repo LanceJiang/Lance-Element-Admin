@@ -1,6 +1,6 @@
 <template>
 	<section ref="textTooltipRef" class="le-text-wrap">
-		<el-tooltip v-if="value" v-bind="$attrs" :visible="isShowTooltip" :placement="placement">
+		<el-tooltip popper-class="le-text-popper" v-if="value" v-bind="$attrs" :visible="isShowTooltip" :placement="placement">
 			<template #content>
 				<slot name="content">
 					<span>{{ value }}</span>

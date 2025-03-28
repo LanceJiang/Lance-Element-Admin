@@ -16,9 +16,9 @@
 		:columnsConfig="tableOpts.columnsConfig"-->
 		<LeTable
 			ref="tableRef"
-			v-model:search-params="tableOpts.searchParams"
+			v-model:searchParams="tableOpts.searchParams"
 			v-bind="tableOpts"
-			v-model:cur-row="tableOpts.curRow"
+			v-model:curRow="tableOpts.curRow"
 			v-model:checked-options="checkedColumns"
 			:columns="activeColumns"
 		>
@@ -80,6 +80,11 @@
 					<el-button icon="delete" />
 				</div>
 			</template>
+			<template #操作="{ row, column, $index }">
+				<div>
+					<el-button icon="delete" />
+				</div>
+			</template>
 		</LeTable>
 		<LeFormConfigDialog
 			v-if="visible"
@@ -87,8 +92,8 @@
 			v-model="visible"
 			:title="`${isCreate ? '新增' : '编辑'}配置`"
 			width="1200px"
-			:form-data="activeData"
-			:form-options="formOptions"
+			:formData="activeData"
+			:formOptions="formOptions"
 			@submit="submitHandler"
 		/>
 	</div>
@@ -586,6 +591,7 @@ const { searchData, tableOpts, checkedColumns, activeColumns, updateParams } = u
 			page: 1,
 			size: 10
 		},
+		// 当前选中数据
 		curRow: {
 			id: `id_1`,
 			google_key: Math.random() > 0.5 ? 1 : 0,
@@ -635,7 +641,7 @@ nextTick(() => {
 	window.searchForm = searchForm
 })*/
 // 选中的columns
-checkedColumns.value = columns.slice(-2)
+checkedColumns.value = columns.slice(-3)
 /*const tableOpts = reactive({
 	searchParams: {
 		page: 1,

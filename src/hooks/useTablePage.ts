@@ -1,4 +1,4 @@
-import { reactive, ref, computed, /*getCurrentInstance,*/ unref, watch, nextTick } from 'vue'
+import { reactive, ref, computed, unref, watch, nextTick } from 'vue'
 import { $log } from '@/utils'
 import { LeTableColumnProps, LeTableProps, SearchParams } from '@/components/Table'
 type SearchData = { [prop: string]: any }
@@ -34,10 +34,6 @@ export const useTablePage = (tableProps: Partial<LeTableProps> = {}, config: Par
 		total: 0,
 		list: [],
 		columns: [],
-		/*columnsConfig: {
-			columns: [],
-			defaultCheckedOptions: []
-		}*/
 		...tableProps,
 		searchParams: {
 			page: 1,
@@ -75,8 +71,6 @@ export const useTablePage = (tableProps: Partial<LeTableProps> = {}, config: Par
 			})
 			.filter(Boolean)
 	})
-	/*const instance = getCurrentInstance()
-	console.error(instance, 'instance.proxy')*/
 	watch(
 		() => searchData.value,
 		() => {
@@ -86,21 +80,8 @@ export const useTablePage = (tableProps: Partial<LeTableProps> = {}, config: Par
 			immediate: localConfig.fetchImmediate
 		}
 	)
-	// watch(() => tableOpts.searchParams.custName, (v, oldv) => {
-	// watch(tableOpts.searchParams, (v, oldv) => {
-	watch(
-		() => tableOpts.searchParams,
-		// (v, oldV) => {
-		/*() => {
-			nextTick(() => {
-				localConfig.queryList?.()
-			})
-		},*/
-		localConfig.queryList,
-		{
-			// immediate: localConfig.fetchImmediate
-		}
-	)
+
+	watch(() => tableOpts.searchParams, localConfig.queryList)
 	return {
 		tableOpts,
 		checkedColumns,

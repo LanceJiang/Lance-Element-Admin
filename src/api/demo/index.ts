@@ -1,6 +1,8 @@
 // import request from '@/utils/request'
 import { AxiosPromise } from 'axios'
-
+const getRandomNum = (max: number = 0, min: number = 0) => {
+	return Math.floor(Math.random() * max + 1) + min
+}
 /**
  * 获取管理员列表
  * @data
@@ -13,51 +15,44 @@ export function getAdminList(data: any): AxiosPromise {
 	if (page * size > orderTotal) {
 		length = orderTotal - base
 	}
-	const roles = [
-		{
-			name: '超级管理员',
-			id: 0
-		},
-		{
-			name: '管理员',
-			id: 1
-		},
-		{
-			name: '成员',
-			id: 2
-		}
-	]
 	return new Promise(resolve => {
 		const res = {
 			total: orderTotal,
 			data: Array.from({ length: length }).map((_, _i) => {
 				const i = base + _i
+				const rolesId = [0, 1, 2]
+				const roles = [...new Set(Array.from({ length: getRandomNum(3) }).map(_ => rolesId[getRandomNum(2)]))]
+				const num = getRandomNum(500)
 				return {
 					id: `id_${i}`,
 					google_key: Math.random() > 0.5 ? 1 : 0,
-					username: `username_${i}`,
+					username: `lanceJiang_${i}`,
 					add_time: '2020-09-09 05:20:50',
-					describe: `describe_${i}`,
+					describe: `我是描述我是描述我是描述内容内容内容内容描述内容内容内容内容描述内容内容内容内容内容内容内容内容内容_${i}`,
 					status: [0, 1, 2][i % 3],
-					phone: [15012341203, 18958586868, ''][i % 3],
-					email: `demo${i}@com.cn`,
-					// roles: [[1, 2], [0, 1, 2], [2]][i % 3],
-					roles: [[roles[1], roles[2]], [roles[0], roles[1], roles[2]], [roles[2]]][i % 3],
+					phone: [15012341203, 18958586868, ''][getRandomNum(2)],
+					email: `lanceJiang${i}@gmail.com`,
+					roles,
 					price_ary: [
 						{
-							date: '2024-01-01',
-							min: '100',
-							max: '500'
+							date: '2024-12-01',
+							min: 100 + num,
+							max: 100 + num
 						},
 						{
-							date: '2024-02-01',
-							min: '80',
-							max: '300'
+							date: '2025-01-01',
+							min: 40 + num,
+							max: 80 + num
 						},
 						{
-							date: '2024-03-01',
-							min: '90',
-							max: '390'
+							date: '2025-02-01',
+							min: 90 + num,
+							max: 160 + num
+						},
+						{
+							date: '2025-03-01',
+							min: 60 + num,
+							max: 90 + num
 						}
 					]
 				}

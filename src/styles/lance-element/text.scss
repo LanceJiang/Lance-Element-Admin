@@ -13,13 +13,31 @@
 	}*/
 	.action-icon {
 		margin-left: 2px;
-		padding-top: 4px;
+		padding-top: 6px;
 		//color: var(--el-color-primary);
 		color: var(--el-text-color-secondary);
 		cursor: pointer;
 		&:hover {
 			//color: var(--el-color-primary-light-5);
 			color: var(--el-color-primary);
+		}
+	}
+	&-popper.el-popper {
+		padding: 6px 10px;
+		font-size: var(--el-font-size-small);
+		width: max-content;
+		max-width: 300px;
+		box-shadow: var(--el-box-shadow);
+		//box-shadow: var(--el-box-shadow-light);
+		background: var(--el-bg-color);
+		//color: var(--el-text-color-primary);
+		color: var(--el-text-color-regular);
+		//border-color: transparent;
+		border: 0;
+		.el-popper__arrow::before {
+			//border-color: var(--el-bg-color);
+			border: 0;
+			background: var(--el-bg-color);
 		}
 	}
 }
