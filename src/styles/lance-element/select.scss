@@ -1,9 +1,10 @@
 @use "../variables.scss" as *;
 // LeSelect 样式
+/*
 .#{$prefix}select,
 .#{$prefix}select__popper {
   // 非弹窗类型专用样式
-  /*&--view {
+  !*&--view {
     display: block;
     margin-bottom: -5px;
     .el-select-dropdown {
@@ -30,7 +31,7 @@
         max-width: 46px;
       }
     }
-  }*/
+  }*!
   .el-select-dropdown__list {
     //padding-top: 0;
     padding: 0;
@@ -47,7 +48,7 @@
     flex-wrap: unset;
     overflow-x: hidden;
   }
-	/*.el-select-dropdown__option-item {
+	!*.el-select-dropdown__option-item {
 		font-size: var(--el-select-font-size);
 		padding: 0 32px 0 20px;
 		position: relative;
@@ -73,7 +74,7 @@
 		box-sizing: border-box;
 		cursor: pointer;
 	}
-	*/
+	*!
 
 	// 单选
 	.el-select-dropdown__item,.el-select-dropdown__option-item {
@@ -134,7 +135,7 @@
 			}
 		}
 	}
-  /*.el-select-dropdown .el-select-dropdown__item {
+  !*.el-select-dropdown .el-select-dropdown__item {
     //padding-left: 40px;
     //padding-right: 20px;
     padding-left: 28px;
@@ -181,7 +182,7 @@
         //border: 0;
       }
     }*!
-  }*/
+  }*!
 	// 多选
   .el-select-dropdown.is-multiple .el-select-dropdown__item,
   .el-select-dropdown.is-multiple .el-select-dropdown__option-item {
@@ -212,3 +213,4 @@
 		//border: 1px solid var(--el-border-color-light);
 	}
 }
+*/

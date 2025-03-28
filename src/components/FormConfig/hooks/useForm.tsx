@@ -66,28 +66,6 @@ export const renderFormItem = (opts: RenderFormItemOpts) => {
 		}
 	}
 	switch (itemType) {
-		/* 自定义 le 自定义Select */
-		/*case 'leSelect':
-			// leSelect: 基于 element-plus el-select-v2扩展
-			const slots_leSelect = {
-				default: le_slots.option as SlotOption<OptionItemProps>
-			}
-			const leStyle = _itemStyle + (/width\:/g.test(_itemStyle) ? '' : ';width: 200px')
-			return (
-				<LeSelect
-					{...formOthers}
-					options={_options}
-					v-model={params[prop]}
-					isPopover={formOthers.isPopover ?? true}
-					// 通过teleport插入到body (popper-append-to-body popperAppendToBody已弃用)
-					teleported={formOthers.teleported ?? true}
-					onChange={formatterChange}
-					size={_size ?? size}
-					placeholder={_placeholder}
-					style={leStyle}
-					v-slots={slots_leSelect}
-				/>
-			)*/
 		/* 自定义 render */
 		case 'render':
 			return <CustomRender form={form} params={params} />

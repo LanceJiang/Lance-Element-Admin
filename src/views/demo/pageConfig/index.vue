@@ -107,37 +107,6 @@ import { colorBase1 } from '@/components/Chart.vue'
 const tableRef = ref()
 // window.tableRef = tableRef
 const _forms = [
-	/*// leSelect 单选
-	{
-		prop: 'leSelect',
-		label: 'leSelect',
-		itemType: 'leSelect',
-		// span: 8,
-		options: [
-			{ value: 'leSelect_1', label: 'le_类型一' },
-			{ value: 'leSelect_2', label: 'le_类型二' }
-		]
-		/!* rules: [
-				{ required: true, message: '请输入邮箱地址', trigger: 'blur' }
-		]*!/
-	},
-	// leSelect 多选
-	{
-		prop: 'leSelect多选',
-		label: 'leSelect多选',
-		// itemStyle: 'background: var(--el-color-danger); width: 500px',
-		// itemWidth: '300px',
-		itemType: 'leSelect',
-		multiple: true,
-		// span: 8,
-		options: [
-			{ value: 'leSelect_1', label: 'le_类型一' },
-			{ value: 'leSelect_2', label: 'le_类型二' }
-		]
-		/!* rules: [
-				{ required: true, message: '请输入邮箱地址', trigger: 'blur' }
-		]*!/
-	},*/
 	{
 		prop: 'render',
 		label: '自定义Render',

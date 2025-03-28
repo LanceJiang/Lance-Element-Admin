@@ -9,7 +9,7 @@
 			:options="options"
 			:columns="localColumns"
 			:columns-config="tabs_columnsConfig"
-			@sortChange="testSortChange"
+			@sort-change="testSortChange"
 		>
 			<!--			@update:checkedOptions="tabs_updateCheckedColumns"-->
 			<template #toolLeft>
@@ -34,9 +34,6 @@
 						>
 							<i slot="suffix" class="el-input__icon el-icon-search" @click="updateParams"/>
 						</el-input>
-					</template>
-					<template #leSelectSlot="{option, label}">
-						<div style="background: #A0AAB7;">{{label}} + {{ option.value_1 }}</div>
 					</template>
 				</le-search-group>-->
 			</template>

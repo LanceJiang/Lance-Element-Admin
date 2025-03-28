@@ -4,7 +4,7 @@
 		:predefine="predefineColors"
 		class="theme-picker"
 		popper-class="theme-picker-dropdown"
-		@update:modelValue="changeThemeColor"
+		@update:model-value="changeThemeColor"
 	/>
 </template>
 

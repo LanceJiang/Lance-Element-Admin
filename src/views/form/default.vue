@@ -22,12 +22,6 @@
 				<template #selectSlot="{ option, label }">
 					<div style="background: #a0aab7">{{ label }} + {{ option.value_1 }}</div>
 				</template>
-				<template #leSelect_label="{ label }">
-					<span style="background: var(--el-color-danger); display: flex">
-						label custom: template
-						<span style="margin-left: auto; background: var(--el-color-primary); color: #fff">{{ label }}</span>
-					</span>
-				</template>
 			</LeFormConfig>
 			<div style="padding: 10px 0">
 				通过实例操作：
@@ -55,9 +49,6 @@
 					@submit="formSubmit"
 					@cancel="changeVisible"
 				>
-					<template #leSelectSlot="{ option, label }">
-						<div style="background: var(--el-color-primary)">{{ label }} + {{ option.value_1 }}</div>
-					</template>
 					<template #extraContent>
 						<!--						若有需要可以塞入额外内容-->
 						<el-col key="extraContent" :span="24"> 额外内容 </el-col>
@@ -79,9 +70,6 @@
 					@cancel="changeVisible"
 				>
 					<!-- 若想直接使用 上述LeFormConfig的操作 showFooter为true && 调整页面样式 -->
-					<template #leSelectSlot="{ option, label }">
-						<div style="background: var(--el-color-primary)">{{ label }} + {{ option.value_1 }}</div>
-					</template>
 					<template #extraContent>
 						<!--						若有需要可以塞入额外内容-->
 						<el-col key="extraContent" :span="24"> 额外内容 </el-col>
@@ -104,9 +92,6 @@
 				:form-data="formData"
 				@submit="formSubmit"
 			>
-				<template #leSelectSlot="{ option, label }">
-					<div style="background: var(--el-color-danger)">{{ label }} + {{ option.value_1 }}</div>
-				</template>
 			</LeFormConfigDialog>
 		</div>
 	</div>
@@ -133,52 +118,6 @@ export default defineComponent({
 			others: 'others'
 		}
 		const forms = [
-			/*{
-				prop: 'leSelect', // 提交的 params 的字段
-				label: 'leSelect', // label 标签
-				itemType: 'leSelect', // form-item 类型
-				// labelKey: 'label_1',
-				// valueKey: 'value_1',
-				// isPopover: false,
-				i18n: true, // 多语言切换
-				options: Array.from({ length: 4 }).map((_, i) => {
-					return {
-						// value_1: '选项' + i,
-						// label_1: '黄金糕' + i
-						value: '选项' + i,
-						// label: '黄金糕' + i,
-						label: `${prefix}leSelect_label_${i}`
-					}
-				}),
-				slots: {
-					// label template 支持
-					// label: 'leSelect_label',
-					// label render 支持
-					label({ label }) {
-						return (
-							<span style="background: var(--el-color-danger);display: flex">
-								label custom: fn<span style="margin-left: auto; background: var(--el-color-success)">{label}</span>
-							</span>
-						)
-					},
-					// option: 'leSelectSlot',
-					// option({ value, label, disabled }) { // select 类型处理
-					option({ item, index, disabled }) {
-						// leSelect (基于el-select-v2 二开)
-						const style = `color: #fff; background: var(--el-color-primary)`
-						return <div style={style}>{item.le_label} ttt</div>
-					}
-				},
-				change(...args) {
-					console.warn(...args, 'leSelect.chang args')
-				},
-				// 原生方法 不建议使用
-				onChange(...args) {
-					console.log(args, '[原生方法 不建议使用]leSelect.onChange args')
-				}
-				// teleported: true
-				// change: methods.serviceChange
-			},*/
 			// render { render:function 必传 }
 			{
 				prop: 'render',
