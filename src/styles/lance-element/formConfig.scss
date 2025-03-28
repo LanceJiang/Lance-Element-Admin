@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@use "../variables.scss" as *;
 // FormConfig 样式
 .#{$prefix}form-config {
   .form_wrap {

@@ -1,16 +1,16 @@
-@import './tailwind.scss';
-@import 'src/styles/variables.module';
-@import 'src/styles/element-plus-dark';
-@import './mixin.scss';
-@import './transition.scss';
-@import 'src/styles/element-plus';
-@import './sidebar.scss';
-@import './reset.scss';
-@import './project_normal.scss';
+@use './tailwind.scss';
+@use 'src/styles/variables.module' as *;
+@use './mixins.scss' as *;
+@use 'src/styles/element-plus-dark';
+@use './transition.scss';
+@use 'src/styles/element-plus';
+@use './sidebar.scss';
+@use './reset.scss';
+@use './project_normal.scss';
 // 涉及element-plus的全局样式类改造&&新增修饰
-@import './lance-element-ui.scss';
+@use './lance-element-ui.scss';
 // 涉及lance-element-ui的全局组件样式
-@import './lance-element-vue.scss';
+@use './lance-element-vue.scss';
 html {
 	height: 100%;
 	box-sizing: border-box;
@@ -24,7 +24,6 @@ body {
 	text-rendering: optimizeLegibility;
 	//font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
 	font-size: 12px;
-	//overflow-x: auto;
 }
 
 /*label {
@@ -154,6 +153,7 @@ div:focus {
 		color: var(--el-color-primary-light-5);
 	}
 }
+
 // 用于 类似 toolLeft 内嵌多个 el-button 排版 小屏兼容
 .btn-actions-flex-gap {
 	display: flex;

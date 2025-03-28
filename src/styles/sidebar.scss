@@ -1,4 +1,5 @@
-@import "mixins";
+@use "./variables.scss" as *;
+@use "mixins";
 $menu-item-height: 42px;
 :root {
 	--el-menu-item-height: 42px;
@@ -58,7 +59,7 @@ $active_color: var(--el-menu-active-color);
 	}
 	.el-menu-item,
 	.el-sub-menu__title {
-		@include hover-bg-opacity(8px, $active_color);
+		@include mixins.hover-bg-opacity(8px, $active_color);
 	}
 	.el-sub-menu__title{
 /*		height: $menu-item-height;

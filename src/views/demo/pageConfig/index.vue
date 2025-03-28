@@ -487,7 +487,6 @@ const getChartOption_price = (chart: any[]) => {
 // table列表数据请求
 const queryList = () => {
 	const { options } = tableOpts
-	// console.error('测试....')
 	options.loading = true
 	console.log('搜索参数： ', JSON.stringify(tableOpts.searchParams))
 	getAdminList(tableOpts.searchParams)
@@ -505,7 +504,6 @@ const queryList = () => {
 // table 参数
 const columns = [
 	{
-		// prop: 'name',
 		prop: 'username',
 		label: '角色',
 		// resizable:false,
@@ -529,7 +527,6 @@ const columns = [
 		sortable: true,
 		minWidth: 100,
 		titleHelp: {
-			// message: 'todo:我是问号提示测试',
 			message: (
 				<span style="background: var(--el-color-danger)">
 					我是自定义 <br />
@@ -545,7 +542,6 @@ const columns = [
 			// console.log(row, column, 'row, column');
 			/** 若在内部用到jsx写法 需要在 script 新增 lang 为 jsx || tsx */
 			return <div style="background: #f0f;">${row.name || '- 66666 -'}</div>
-			// return row.name || '- 66666 -'
 		}
 	},
 	{
@@ -640,7 +636,7 @@ nextTick(() => {
 	searchForm.value.forceUpdateInitParams(tableOpts.searchParams)
 	window.searchForm = searchForm
 })*/
-// 选中的columns
+// 模拟从api获取到选中的columns
 checkedColumns.value = columns.slice(-3)
 /*const tableOpts = reactive({
 	searchParams: {
@@ -705,23 +701,7 @@ watch(
 		immediate: true
 	}
 )
-// window.tableOpts = tableOpts
 
-nextTick(() => {
-	// console.error(searchForm.value, 'searchForm.value')
-	// window.searchForm = searchForm.value
-})
-// watch(() => tableOpts.searchParams.custName, (v, oldv) => {
-// watch(tableOpts.searchParams, (v, oldv) => {
-/*watch(
-	() => tableOpts.searchParams,
-	(v, oldv) => {
-		queryList()
-	},
-	{
-		immediate: true
-	}
-)*/
 const addHandler = () => {
 	isCreate.value = true
 	activeData.value = {}

@@ -52,7 +52,7 @@ export default defineConfig(({ mode /*command,*/ }: ConfigEnv): UserConfig => {
 			devSourcemap: true,
 			preprocessorOptions: {
 				scss: {
-					additionalData: `@import "@/styles/variables.scss";`
+					additionalData: `@use "@/styles/variables.scss" as *;`
 				}
 			}
 		},

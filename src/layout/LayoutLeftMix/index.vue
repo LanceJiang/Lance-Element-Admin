@@ -104,5 +104,5 @@ const changeSubMenu = (item: RouteMenu.Item) => {
 </script>
 
 <style lang="scss">
-@import './index.scss';
+@use './index.scss';
 </style>

@@ -68,5 +68,5 @@ const handleClickMenu = (subItem: RouteMenu.Item) => {
 </script>
 
 <style lang="scss">
-@import './index.scss';
+@use './index.scss';
 </style>

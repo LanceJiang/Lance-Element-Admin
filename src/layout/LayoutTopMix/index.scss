@@ -1,4 +1,5 @@
-@import "../layout_common";
+@use "@/styles/variables.scss" as *;
+@use "../layout_common" as *;
 .#{$prefix}layout-wrap--topMix {
   width: 100%;
   height: 100%;

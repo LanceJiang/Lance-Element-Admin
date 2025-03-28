@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@use "../variables.scss" as *;
 .#{$prefix}draggable-nest {
 	flex: 1;
 	width: 100%;

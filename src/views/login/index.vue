@@ -213,7 +213,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/mixins.scss';
+@use '@/styles/mixins.scss' as *;
 //$light_gray: var(--el-input-icon-color);
 //$light_gray: #fff;
 $light_gray: var(--el-color-white);

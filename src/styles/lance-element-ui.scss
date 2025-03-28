@@ -1,5 +1,5 @@
 /* lance-element-ui: 涉及element-plus的全局样式类改造&&新增修饰 */
-@import "variables.scss";
+@use "variables.scss" as *;
 // 覆盖默认的 element-plus 样式
 
 .el-form-item__label {
