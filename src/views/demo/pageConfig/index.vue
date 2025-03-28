@@ -16,9 +16,9 @@
 		:columnsConfig="tableOpts.columnsConfig"-->
 		<LeTable
 			ref="tableRef"
-			v-model:searchParams="tableOpts.searchParams"
+			v-model:search-params="tableOpts.searchParams"
 			v-bind="tableOpts"
-			v-model:curRow="tableOpts.curRow"
+			v-model:cur-row="tableOpts.curRow"
 			v-model:checked-options="checkedColumns"
 			:columns="activeColumns"
 		>
@@ -80,11 +80,6 @@
 					<el-button icon="delete" />
 				</div>
 			</template>
-			<template #操作="{ row, column, $index }">
-				<div>
-					<el-button icon="delete" />
-				</div>
-			</template>
 		</LeTable>
 		<LeFormConfigDialog
 			v-if="visible"
@@ -92,8 +87,8 @@
 			v-model="visible"
 			:title="`${isCreate ? '新增' : '编辑'}配置`"
 			width="1200px"
-			:formData="activeData"
-			:formOptions="formOptions"
+			:form-data="activeData"
+			:form-options="formOptions"
 			@submit="submitHandler"
 		/>
 	</div>
@@ -624,7 +619,6 @@ nextTick(() => {
 	}
 	// debugger
 	searchForm.value?.forceUpdateInitParams(tableOpts.searchParams)
-	// window.searchForm = searchForm
 })
 /*setTimeout(() => {
 	// 模拟特殊情况初始化搜索数据
