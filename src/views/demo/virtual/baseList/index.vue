@@ -32,6 +32,8 @@
 	</div>
 </template>
 <script setup lang="tsx">
+// 线上单独方位地址: https://code.juejin.cn/pen/7498560281003196470
+
 import { ref } from 'vue'
 const data = new Array(500).fill(0).map((_, i) => i) // 模拟真实数据
 const viewHeight = ref(400) // 可视容器高度
