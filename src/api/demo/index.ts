@@ -1,6 +1,6 @@
 // import request from '@/utils/request'
 import { AxiosPromise } from 'axios'
-const getRandomNum = (max: number = 0, min: number = 0) => {
+const getRandomNum = (max = 0, min = 0) => {
 	return Math.floor(Math.random() * max + 1) + min
 }
 /**
@@ -8,7 +8,7 @@ const getRandomNum = (max: number = 0, min: number = 0) => {
  * @data
  */
 export function getAdminList(data: any): AxiosPromise {
-	const orderTotal = 99
+	const orderTotal = 6999
 	const { page, size } = data
 	let length = size
 	const base = (page - 1) * size
