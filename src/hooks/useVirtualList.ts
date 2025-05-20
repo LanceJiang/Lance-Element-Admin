@@ -8,14 +8,11 @@ interface Config {
 	translateContainer: string // 用于偏移的元素选择器
 	itemContainer: string // 列表项选择器
 	itemHeight: number // 列表项高度
-	size: number // 每次渲染数据量
 }
 
 type HtmlElType = HTMLElement | null
-console.log('useVirtualList...................................')
 
 export default function useVirtualList(config: Config) {
-	console.log('useVirtualList11111111111111111111111')
 	// 获取元素
 	let actualHeightContainerEl: HtmlElType = null,
 		translateContainerEl: HtmlElType = null,
@@ -40,7 +37,11 @@ export default function useVirtualList(config: Config) {
 			dataSource = newVla
 
 			// 计算需要渲染的数据
-			updateRenderData(0)
+			nextTick(() => {
+				const el = document.querySelector(config.scrollContainer)
+				if (el) el.scrollTop = 0
+				updateRenderData(0)
+			})
 		}
 	)
 
@@ -85,7 +86,7 @@ export default function useVirtualList(config: Config) {
 			if (!resizeObserver) {
 				resizeObserver = new ResizeObserver(handleResize)
 			}
-			console.error(resizeObserver, 'resizeObserver')
+			// console.error(resizeObserver, 'resizeObserver')
 
 			// 清除旧观察并设置新观察
 			resizeObserver.disconnect()
@@ -99,7 +100,7 @@ export default function useVirtualList(config: Config) {
 	}
 	// 新增 resize 处理函数
 	const handleResize: ResizeObserverCallback = entries => {
-		console.log('handleResize', entries)
+		console.log('handleResize', entries, RenderedItemsCache, 'RenderedItemsCache')
 		entries.forEach(entry => {
 			const target = entry.target as HTMLElement
 			const index = target.dataset.index
@@ -131,7 +132,13 @@ export default function useVirtualList(config: Config) {
 		console.log(scrollTop, 'scrollTop  updateRenderData')
 		let startIndex = 0
 		let offsetHeight = 0
+		let endIndex = 0
 
+		// 获取容器可视区域高度
+		const containerHeight = scrollContainerEl?.clientHeight || 0
+		let currentHeight = 0
+
+		// 计算起始索引
 		for (let i = 0; i < dataSource.length; i++) {
 			offsetHeight += getItemHeightFromCache(i)
 
@@ -141,8 +148,22 @@ export default function useVirtualList(config: Config) {
 			}
 		}
 
-		// 计算得出的渲染数据
-		actualRenderData.value = dataSource.slice(startIndex, startIndex + config.size)
+		// 计算结束索引
+		for (let i = startIndex; i < dataSource.length; i++) {
+			currentHeight += getItemHeightFromCache(i)
+			// 额外渲染2个作为缓冲
+			if (currentHeight > containerHeight) {
+				endIndex = i
+				break
+			}
+		}
+
+		// 如果没有找到合适的结束索引，则使用数据源长度
+		if (endIndex === 0) {
+			endIndex = dataSource.length
+		}
+		// 计算得出的渲染数据(建立2条数据缓冲)
+		actualRenderData.value = dataSource.slice(startIndex, endIndex + 2)
 
 		// 缓存最新的列表项高度
 		updateRenderedItemCache(startIndex)
