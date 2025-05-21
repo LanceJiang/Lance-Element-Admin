@@ -20,7 +20,6 @@ export default function useVirtualList(config: Config) {
 
 	let resizeObserver: ResizeObserver | null = null
 	onMounted(() => {
-		console.log('useVirtualList  onMounted')
 		actualHeightContainerEl = document.querySelector(config.actualHeightContainer)
 		scrollContainerEl = document.querySelector(config.scrollContainer)
 		translateContainerEl = document.querySelector(config.translateContainer)
@@ -51,7 +50,7 @@ export default function useVirtualList(config: Config) {
 		dataSource.forEach((_, i) => {
 			actualHeight += getItemHeightFromCache(i)
 		})
-		console.log(actualHeight, 'actualHeight')
+		// console.log(actualHeight, 'actualHeight')
 		actualHeightContainerEl!.style.height = actualHeight + 'px'
 	}
 
@@ -129,7 +128,7 @@ export default function useVirtualList(config: Config) {
 
 	// 更新实际渲染数据
 	const updateRenderData = (scrollTop: number) => {
-		console.log(scrollTop, 'scrollTop  updateRenderData')
+		// console.log(scrollTop, 'scrollTop  updateRenderData')
 		let startIndex = 0
 		let offsetHeight = 0
 		let endIndex = 0
