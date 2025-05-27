@@ -58,7 +58,6 @@ export default defineComponent({
 
 		// 计算当前应该渲染的数据
 		const computeVisibleData = computed(() => {
-			console.log(reactData.value.scrollYStore.startIndex, reactData.value.scrollYStore.endIndex)
 			if (props.virtualYConfig.enabled) {
 				return props.data.slice(reactData.value.scrollYStore.startIndex, reactData.value.scrollYStore.endIndex)
 			}
@@ -81,8 +80,7 @@ export default defineComponent({
 				const rowHeight = props.virtualYConfig.rowHeight
 				const startIndex = Math.floor(scrollTop / rowHeight)
 				const visibleSize = Math.ceil(clientHeight / rowHeight)
-				// 额外渲染 10 行作为缓冲
-				const endIndex = Math.min(startIndex + visibleSize + 10 /*props.virtualYConfig.bufferSize*/, props.data.length)
+				const endIndex = Math.min(startIndex + visibleSize + (props.virtualYConfig.bufferSize || 0), props.data.length)
 				reactData.value.scrollYStore = {
 					startIndex,
 					endIndex,
@@ -136,7 +134,7 @@ export default defineComponent({
 							{computeVisibleData.value.map((row, index) => (
 								<tr class="vxe-body--row" key={row.id || index}>
 									{props.columns.map(column => (
-										<td class="vxe-body--column" key={column.field} style={{ width: column.width }}>
+										<td class="vxe-body--column" key={column.field}>
 											<div class="vxe-cell">{column.render ? column.render(row) : row[column.field]}</div>
 										</td>
 									))}
@@ -165,7 +163,7 @@ export default defineComponent({
 							<tfoot>
 								<tr class="vxe-footer--row">
 									{props.columns.map(column => (
-										<td class="vxe-footer--column" key={column.field} style={{ width: column.width }}>
+										<td class="vxe-footer--column" key={column.field}>
 											<div class="vxe-cell">{column.footerRender ? column.footerRender() : ''}</div>
 										</td>
 									))}
