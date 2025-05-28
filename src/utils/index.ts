@@ -14,7 +14,11 @@ export const t = (key: string, ...args: any[]) => {
 	// @ts-ignore
 	return hasKey ? i18n.global.t(key, ...args) : key
 }
-export const getPropValue = <T = any>(obj: Record<string, any>, path: Arrayable<string>, defaultValue?: any): { value: T } => {
+export const getPropValue = <T = any>(
+	obj: Record<string, any>,
+	path: Arrayable<string>,
+	defaultValue?: any
+): { value: T } => {
 	return {
 		get value() {
 			return get(obj, path, defaultValue)
@@ -88,7 +92,7 @@ export function debounce(func: () => any, wait: number, immediate?: boolean) {
  * @param wait number 延迟毫秒数
  * @param immediate boolean 立即执行
  */
-export function throttle(func: () => any, wait: number, immediate?: boolean) {
+export function throttle(func: (e: any) => any, wait: number, immediate?: boolean) {
 	let t_start = 0
 	return function () {
 		/* eslint-disable */

@@ -1,6 +1,6 @@
 // import request from '@/utils/request'
 import { AxiosPromise } from 'axios'
-const getRandomNum = (max = 0, min = 0) => {
+const getRandomNum = (max = 0, min = 0): number => {
 	return Math.floor(Math.random() * max + 1) + min
 }
 /**
@@ -28,7 +28,7 @@ export function getAdminList(data: any): AxiosPromise {
 					google_key: Math.random() > 0.5 ? 1 : 0,
 					username: `lanceJiang_${i}`,
 					add_time: '2020-09-09 05:20:50',
-					describe: `我是描述我是描述我是描述内容内容内容内容描述内容内容内容内容描述内容内容内容内容内容内容内容内容内容_${i}`,
+					describe: `${'我是描述我是描述我是描述内容内容内容内容内容内容内容内容-'.repeat(getRandomNum(5))}_${i}`,
 					status: [0, 1, 2][i % 3],
 					phone: [15012341203, 18958586868, ''][getRandomNum(2)],
 					email: `lanceJiang${i}@gmail.com`,
