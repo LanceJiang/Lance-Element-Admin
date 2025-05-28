@@ -1,7 +1,15 @@
 // VxeTable.tsx
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, h } from 'vue'
 import '../styles/vxeTable.scss'
-
+type Column = {
+	field: string
+	title: string
+	width?: number
+	// td渲染
+	render?: (row: Record<string, any>) => {}
+	// 底部td渲染
+	footerRender?: () => {}
+}
 export default defineComponent({
 	name: 'VxeTable',
 	props: {
@@ -12,7 +20,7 @@ export default defineComponent({
 		},
 		// 列配置
 		columns: {
-			type: Array,
+			type: Array as () => Column[],
 			default: () => []
 		},
 		// 是否显示表头
@@ -25,9 +33,16 @@ export default defineComponent({
 			type: Boolean,
 			default: false
 		},
-		// 虚拟滚动配置
+		// 虚拟滚动相关配置
 		virtualYConfig: {
-			type: Object,
+			type: Object as () => {
+				// 开启虚拟滚动
+				enabled: boolean
+				// td行高
+				rowHeight: 40
+				// 缓冲数量
+				bufferSize: 10
+			},
 			default: () => ({
 				enabled: true,
 				rowHeight: 40,
