@@ -1,14 +1,13 @@
 <template>
 	<div class="column-page-wrap">
-		<div style="height: 400px">
-			<Simple_VxeTable :columns="columns" :data="tableData" :svirtual-y-config="{ enabled: false }" show-footer />
-		</div>
+		<!--		style="height: 400px"-->
+		<!--		<div style="padding: 12px; height: 100%">-->
+		<SimpleVxeTable :columns="columns" :data="tableData" show-footer />
+		<!--		</div>-->
 	</div>
 </template>
 <script setup lang="tsx">
-import SimpleVxeTable from './components/table/index'
-import { Simple_VxeTable } from './components/table/index'
-import { ref } from 'vue'
+import { SimpleVxeTable } from './components/table/index'
 const tableData = Array.from({ length: 1000 }).map((_, index) => {
 	return {
 		id: index + 1,
@@ -60,6 +59,11 @@ const columns = [
 		}
 	}
 ]
+const virtualYConfig = {
+	enabled: true,
+	rowHeight: 40,
+	bufferSize: 10
+}
 </script>
 
 <style scoped lang="scss"></style>
