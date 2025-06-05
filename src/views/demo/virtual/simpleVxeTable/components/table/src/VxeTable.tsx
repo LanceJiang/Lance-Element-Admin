@@ -1,21 +1,21 @@
 // VxeTable.tsx
-import { defineComponent, ref, computed, h } from 'vue'
+import { defineComponent, ref, computed, watch, nextTick, h } from 'vue'
 import '../styles/vxeTable.scss'
 type Column = {
 	field: string
 	title: string
 	width?: number
 	// td渲染
-	render?: (row: Record<string, any>) => {}
+	render?: (row: Record<string, any>) => any
 	// 底部td渲染
-	footerRender?: () => {}
+	footerRender?: () => any
 }
 export default defineComponent({
 	name: 'VxeTable',
 	props: {
 		// 数据源
 		data: {
-			type: Array,
+			type: Array as () => { id: string }[],
 			default: () => []
 		},
 		// 列配置
@@ -51,11 +51,12 @@ export default defineComponent({
 		}
 	},
 	setup(props, { slots }) {
+		const refBodyScroll = ref<HTMLElement | any>()
 		// 响应式数据
 		const reactData = ref({
 			scrollYStore: {
 				startIndex: 0,
-				endIndex: 1000,
+				endIndex: 0,
 				visibleSize: 0,
 				scrollTop: 0
 			} /*,
@@ -137,7 +138,7 @@ export default defineComponent({
 		const renderBody = () => {
 			return (
 				// <div class="vxe-table--body-wrapper">
-				<div class="vxe-table--body-inner-wrapper" ref="refBodyScroll" onScroll={handleScroll}>
+				<div class="vxe-table--body-inner-wrapper" ref={el => (refBodyScroll.value = el)} onScroll={handleScroll}>
 					<div class="vxe-body--y-space" style={{ height: `${computeTotalHeight.value}px` }}></div>
 					<table class="vxe-table--body" style={computeVisibleStyle.value}>
 						<colgroup>
@@ -189,6 +190,21 @@ export default defineComponent({
 				</div>
 			)
 		}
+
+		watch(
+			() => props.data,
+			() => {
+				nextTick(() => {
+					// 触发事件
+					// 创建一个新的 Event 对象
+					const event = new Event('scroll')
+					refBodyScroll.value?.dispatchEvent(event)
+				})
+			},
+			{
+				immediate: true
+			}
+		)
 
 		// 主渲染函数
 		const renderVN = () => {
