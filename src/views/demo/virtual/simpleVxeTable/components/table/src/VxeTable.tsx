@@ -39,9 +39,9 @@ export default defineComponent({
 				// 开启虚拟滚动
 				enabled: boolean
 				// td行高
-				rowHeight: 40
+				rowHeight: number
 				// 缓冲数量
-				bufferSize: 10
+				bufferSize: number
 			},
 			default: () => ({
 				enabled: true,
@@ -96,9 +96,10 @@ export default defineComponent({
 				const rowHeight = props.virtualYConfig.rowHeight
 				const startIndex = Math.floor(scrollTop / rowHeight)
 				const visibleSize = Math.ceil(clientHeight / rowHeight)
-				const endIndex = Math.min(startIndex + visibleSize + (props.virtualYConfig.bufferSize || 0), props.data.length)
+				const bufferSize = props.virtualYConfig.bufferSize || 0
+				const endIndex = Math.min(startIndex + visibleSize + bufferSize, props.data.length)
 				reactData.value.scrollYStore = {
-					startIndex,
+					startIndex: startIndex - bufferSize > 0 ? startIndex - bufferSize : 0,
 					endIndex,
 					visibleSize,
 					scrollTop
