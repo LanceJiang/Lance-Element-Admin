@@ -10,14 +10,14 @@
 // dialog覆盖样式
 // <el-dialog class="le-dialog"/>
 %el-dialog {
-  position: absolute;
-  margin: 0 !important;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  overflow: hidden;
+  /*position: absolute;
   border-radius: 6px;
-  //max-height: calc(100% - 48px);
+  //max-height: calc(100% - 48px);*/
+	margin: 0;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	overflow: hidden;
   max-height: calc(100% - 24px);
   max-width: calc(100% - 24px);
 	min-width: 340px;
