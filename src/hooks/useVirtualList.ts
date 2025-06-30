@@ -28,6 +28,18 @@ export default function useVirtualList(config: Config) {
 
 	// 数据源，便于后续直接访问
 	let dataSource: any[] = []
+	// 前缀高度缓存，prefixHeights[i]表示前i个元素的累计高度
+	let prefixHeights: number[] = [0]
+
+	// 计算前缀高度数组
+	const computePrefixHeights = () => {
+		prefixHeights = [0]
+		let sum = 0
+		for (let i = 0; i < dataSource.length; i++) {
+			sum += getItemHeightFromCache(i)
+			prefixHeights.push(sum)
+		}
+	}
 
 	// 数据源发生变动
 	watch(
@@ -35,6 +47,7 @@ export default function useVirtualList(config: Config) {
 		newVla => {
 			// 更新数据源
 			dataSource = newVla
+			computePrefixHeights()
 
 			// 计算需要渲染的数据
 			nextTick(() => {
@@ -106,6 +119,7 @@ export default function useVirtualList(config: Config) {
 			const index = target.dataset.index
 			if (index) {
 				RenderedItemsCache[index] = target.offsetHeight
+				computePrefixHeights()
 				updateActualHeight()
 			}
 		})
@@ -129,47 +143,59 @@ export default function useVirtualList(config: Config) {
 
 	// 更新实际渲染数据
 	const updateRenderData = (scrollTop: number) => {
-		console.log(scrollTop, 'scrollTop  updateRenderData')
-		let startIndex = 0
-		let offsetHeight = 0
-		let endIndex = 0
-
 		// 获取容器可视区域高度
 		const containerHeight = scrollContainerEl?.clientHeight || 0
-		let currentHeight = 0
+		const bufferSize = 3
 
-		// 计算起始索引
-		for (let i = 0; i < dataSource.length; i++) {
-			offsetHeight += getItemHeightFromCache(i)
+		// 二分法查找起始索引
+		let startIndex = 0
+		if (prefixHeights.length > 1) {
+			let low = 0
+			let high = prefixHeights.length - 1
+			startIndex = dataSource.length // 默认值
 
-			if (offsetHeight >= scrollTop) {
-				startIndex = i
-				break
+			while (low <= high) {
+				const mid = Math.floor((low + high) / 2)
+				if (prefixHeights[mid] >= scrollTop) {
+					startIndex = mid - 1
+					high = mid - 1
+				} else {
+					low = mid + 1
+				}
+			}
+
+			startIndex = Math.max(0, Math.min(startIndex, dataSource.length - 1))
+		}
+
+		// 应用顶部缓冲区
+		startIndex = Math.max(0, startIndex - bufferSize)
+
+		// 二分法查找结束索引
+		const targetHeight = prefixHeights[startIndex + 1] + containerHeight
+		let endIndex = dataSource.length
+		let low = startIndex + 1
+		let high = prefixHeights.length - 1
+
+		while (low <= high) {
+			const mid = Math.floor((low + high) / 2)
+			if (prefixHeights[mid] > targetHeight) {
+				endIndex = mid - 1
+				high = mid - 1
+			} else {
+				low = mid + 1
 			}
 		}
 
-		// 计算结束索引
-		for (let i = startIndex; i < dataSource.length; i++) {
-			currentHeight += getItemHeightFromCache(i)
-			// 额外渲染2个作为缓冲
-			if (currentHeight > containerHeight) {
-				endIndex = i
-				break
-			}
-		}
+		// 应用底部缓冲区
+		endIndex = Math.min(endIndex + bufferSize, dataSource.length)
 
-		// 如果没有找到合适的结束索引，则使用数据源长度
-		if (endIndex === 0) {
-			endIndex = dataSource.length
-		}
-		// 计算得出的渲染数据(建立2条数据缓冲)
-		actualRenderData.value = dataSource.slice(startIndex, endIndex + 2)
-
-		// 缓存最新的列表项高度
+		// 更新渲染数据
+		actualRenderData.value = dataSource.slice(startIndex, endIndex)
 		updateRenderedItemCache(startIndex)
 
-		// 更新偏移值
-		updateOffset(offsetHeight - getItemHeightFromCache(startIndex))
+		// 计算精确偏移
+		const totalOffset = prefixHeights[startIndex]
+		updateOffset(totalOffset)
 	}
 
 	// 更新偏移值
