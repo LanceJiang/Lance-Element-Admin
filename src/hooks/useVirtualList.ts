@@ -143,6 +143,7 @@ export default function useVirtualList(config: Config) {
 
 	// 更新实际渲染数据
 	const updateRenderData = (scrollTop: number) => {
+
 		// 获取容器可视区域高度
 		const containerHeight = scrollContainerEl?.clientHeight || 0
 		const bufferSize = config.bufferSize ?? 3
