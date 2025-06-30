@@ -8,6 +8,7 @@ interface Config {
 	translateContainer: string // 用于偏移的元素选择器
 	itemContainer: string // 列表项选择器
 	itemHeight: number // 列表项高度
+	bufferSize: number // 缓冲size个数(默认3个)
 }
 
 type HtmlElType = HTMLElement | null
@@ -20,7 +21,6 @@ export default function useVirtualList(config: Config) {
 
 	let resizeObserver: ResizeObserver | null = null
 	onMounted(() => {
-		console.log('useVirtualList  onMounted')
 		actualHeightContainerEl = document.querySelector(config.actualHeightContainer)
 		scrollContainerEl = document.querySelector(config.scrollContainer)
 		translateContainerEl = document.querySelector(config.translateContainer)
@@ -64,7 +64,7 @@ export default function useVirtualList(config: Config) {
 		dataSource.forEach((_, i) => {
 			actualHeight += getItemHeightFromCache(i)
 		})
-		console.log(actualHeight, 'actualHeight')
+		// console.log(actualHeight, 'actualHeight')
 		actualHeightContainerEl!.style.height = actualHeight + 'px'
 	}
 
@@ -113,7 +113,7 @@ export default function useVirtualList(config: Config) {
 	}
 	// 新增 resize 处理函数
 	const handleResize: ResizeObserverCallback = entries => {
-		console.log('handleResize', entries, RenderedItemsCache, 'RenderedItemsCache')
+		// console.log('handleResize', entries, RenderedItemsCache, 'RenderedItemsCache')
 		entries.forEach(entry => {
 			const target = entry.target as HTMLElement
 			const index = target.dataset.index
@@ -145,7 +145,7 @@ export default function useVirtualList(config: Config) {
 	const updateRenderData = (scrollTop: number) => {
 		// 获取容器可视区域高度
 		const containerHeight = scrollContainerEl?.clientHeight || 0
-		const bufferSize = 3
+		const bufferSize = config.bufferSize ?? 3
 
 		// 二分法查找起始索引
 		let startIndex = 0
@@ -167,9 +167,6 @@ export default function useVirtualList(config: Config) {
 			startIndex = Math.max(0, Math.min(startIndex, dataSource.length - 1))
 		}
 
-		// 应用顶部缓冲区
-		startIndex = Math.max(0, startIndex - bufferSize)
-
 		// 二分法查找结束索引
 		const targetHeight = prefixHeights[startIndex + 1] + containerHeight
 		let endIndex = dataSource.length
@@ -186,6 +183,8 @@ export default function useVirtualList(config: Config) {
 			}
 		}
 
+		// 应用顶部缓冲区
+		startIndex = Math.max(0, startIndex - bufferSize)
 		// 应用底部缓冲区
 		endIndex = Math.min(endIndex + bufferSize, dataSource.length)
 
@@ -209,7 +208,6 @@ export default function useVirtualList(config: Config) {
 		if (animationFrameId) {
 			cancelAnimationFrame(animationFrameId)
 		}
-		console.log('scroll.....', e)
 		animationFrameId = requestAnimationFrame(() => {
 			// 渲染正确的数据
 			updateRenderData(e.target.scrollTop)
@@ -217,7 +215,7 @@ export default function useVirtualList(config: Config) {
 	}
 	// 注册滚动事件
 	onMounted(() => {
-		console.warn(scrollContainerEl, 'scrollContainerEl')
+		// console.warn(scrollContainerEl, 'scrollContainerEl')
 		scrollContainerEl?.addEventListener('scroll', handleScroll)
 	})
 
