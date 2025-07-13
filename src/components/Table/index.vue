@@ -87,7 +87,7 @@ const default_tableConfig = {
 
 	// 额外table参数
 	loading: false, // 是否展示 tableLoading
-	multipleSelect: false, // 是否多选 table
+	multipleSelect: false, // 是否多选 table 控制多选请使用: selectable: (row, index) => boolean 配置
 	rowKey: 'id', // 根据 该值 查找当前页面数据是否包含当前数据 添加 多选被选中的状态
 	// currentRowKey: 'id', // 根据 该值 查找当前页面数据是否包含当前数据 添加 高亮状态(不传 默认继承rowKey)
 	// align: 'center', // columnItem 对齐方式
@@ -267,7 +267,6 @@ const TableComponent = defineComponent({
 								// 组件内单独封装 事件
 								onSortChange={tableSortChange}
 								onRowClick={onRowClick}
-								// onSelectionChange={this.handleSelectionChange}
 								v-slots={table_slots}
 							>
 								{localColumns.value.map(renderColumn)}

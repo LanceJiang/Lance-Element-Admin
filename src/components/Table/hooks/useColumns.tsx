@@ -201,6 +201,7 @@ export function useColumns(opts: useColumnsOpts) {
 			_columns.push({
 				prop: 'leTable_selection',
 				type: 'selection',
+				selectable: unref(computedOptions).selectable,
 				showOverflowTooltip: false,
 				resizable: false,
 				// align: 'center',
