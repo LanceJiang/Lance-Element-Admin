@@ -44,6 +44,8 @@ export type Options = {
 	loading?: boolean
 	// 是否多选类型 (默认:false)
 	multipleSelect?: boolean
+	// 多选类型|是否允许选择 (默认:true)
+	selectable?: (row, index) => boolean
 	// 多选类型|(currentRowKey当前行选中key)选中标记唯一key (默认:'id') 【table $prop属性之一】
 	rowKey?: (row) => any | string
 	// 根据 该值 查找当前页面数据是否包含当前数据 添加 高亮状态 (默认:'id')
