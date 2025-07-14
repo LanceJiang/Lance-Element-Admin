@@ -1,6 +1,6 @@
 <template>
 	<section ref="textTooltipRef" class="le-text-wrap">
-		<el-tooltip popper-class="le-text-popper" v-if="value" v-bind="$attrs" :visible="isShowTooltip" :placement="placement">
+		<el-tooltip v-if="value" popper-class="le-text-popper" v-bind="$attrs" :visible="isShowTooltip" :placement="placement">
 			<template #content>
 				<slot name="content">
 					<span>{{ value }}</span>
@@ -72,7 +72,7 @@ const textTooltipRef = ref()
 const visible = ref(false)
 const isShowTooltip = ref(false)
 function handleElTooltip(e: any): void {
-	const base: number = textTooltipRef.value.clientHeight
+	const base: number = textTooltipRef.value?.clientHeight
 	isShowTooltip.value = e.target.scrollHeight > base
 }
 </script>
