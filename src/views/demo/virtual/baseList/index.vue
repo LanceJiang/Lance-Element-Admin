@@ -13,7 +13,7 @@
 			<div
 				class="item-container"
 				:style="{
-					transform: 'translateY(' + scrollTop + 'px)'
+					transform: `translateY(${scrollTop}px)`
 				}"
 			>
 				<!-- 具体渲染数据 -->
