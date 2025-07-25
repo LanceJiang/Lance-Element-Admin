@@ -14,11 +14,7 @@ export const t = (key: string, ...args: any[]) => {
 	// @ts-ignore
 	return hasKey ? i18n.global.t(key, ...args) : key
 }
-export const getPropValue = <T = any>(
-	obj: Record<string, any>,
-	path: Arrayable<string>,
-	defaultValue?: any
-): { value: T } => {
+export const getPropValue = <T = any>(obj: Record<string, any>, path: Arrayable<string>, defaultValue?: any): { value: T } => {
 	return {
 		get value() {
 			return get(obj, path, defaultValue)
@@ -251,4 +247,24 @@ export const isMobile = () => {
 	const userAgent = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 	const screenCheck = window.matchMedia('only screen and (max-width: 750px)').matches
 	return userAgent || screenCheck // window.innerWidth <= 750
+}
+
+/**
+ * @param leftSeconds 剩余时间戳（秒）
+ * @returns { d, h, m, s }
+ */
+export const getRemainingSecondsInfo = (leftSeconds: number) => {
+	if (!leftSeconds) return { s: 0 }
+	let t = leftSeconds
+	const s = t % 60
+	t = (t - s) / 60
+	if (t < 1) return { s }
+	const m = t % 60
+	t = (t - m) / 60
+	if (t < 1) return { m, s }
+	const h = t % 24
+	t = (t - h) / 24
+	if (t < 1) return { h, m, s }
+	const d = t
+	return { d, h, m, s }
 }
