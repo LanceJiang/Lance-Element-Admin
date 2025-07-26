@@ -248,6 +248,34 @@ export const isMobile = () => {
 	const screenCheck = window.matchMedia('only screen and (max-width: 750px)').matches
 	return userAgent || screenCheck // window.innerWidth <= 750
 }
+// 接口请求走缓存
+export const queryApiCacheWrap = (apiPromise: () => Promise<any>, minute = 30) => {
+	let dateNum = 0
+	let isError = false
+	let _resolve: (data: any) => any = () => {}
+	let fetchData = new Promise(resolve => {
+		_resolve = resolve
+	})
+	return async () => {
+		// 上次请求失败 || 未请求 || 时长间隔超过 (minute:30)min 分钟
+		if (isError || !dateNum || +new Date() - dateNum > 1000 * 60 * minute) {
+			dateNum = +new Date()
+			fetchData = new Promise(resolve => {
+				_resolve = resolve
+			})
+			apiPromise()
+				.then(res => {
+					_resolve(res)
+				})
+				.catch(e => {
+					// console.error(e, 'error')
+					isError = true
+					return Promise.reject(e)
+				})
+		}
+		return fetchData
+	}
+}
 
 /**
  * @param leftSeconds 剩余时间戳（秒）
