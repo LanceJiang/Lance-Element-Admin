@@ -1,30 +1,33 @@
 // cancelAnimationFrame
 export const cancelAnimationFrame = window.cancelAnimationFrame
 // 使用 requestAnimationFrame 模拟 setTimeout 和 setInterval
-export function rafTimeout(fn: () => void, delay = 0, interval = false): object {
+export function rafTimeout(callback: () => void, delay = 0, interval = false): object {
 	const requestAnimationFrame = typeof window !== 'undefined' ? window.requestAnimationFrame : () => {}
-	let start: any = null
+	let start = performance.now()
 	const raf = {
 		// 引用类型保存，方便获取 requestAnimationFrame()方法返回的 ID.
-		id: requestAnimationFrame(timeElapse)
+		id: requestAnimationFrame(loop)
 	}
-	function timeElapse(timestamp: number) {
-		/*
+	function loop(timestamp: number) {
+		/**
 			timestamp参数：与performance.now()的返回值相同，它表示requestAnimationFrame() 开始去执行回调函数的时刻
 		*/
-		if (!start) start = timestamp
 
 		const elapsed = timestamp - start
 		if (elapsed >= delay) {
-			fn() // 执行目标函数func
-			// cancelRaf(raf)
+			callback() // 执行目标函数func
+			if (interval) {
+				start = timestamp
+				raf.id = requestAnimationFrame(loop)
+			}
+			/*// cancelRaf(raf)
 			if (interval) {
 				// 使用间歇调用
 				start = null
-				raf.id = requestAnimationFrame(timeElapse)
-			}
+				raf.id = requestAnimationFrame(loop)
+			}*/
 		} else {
-			raf.id = requestAnimationFrame(timeElapse)
+			raf.id = requestAnimationFrame(loop)
 		}
 	}
 
