@@ -45,25 +45,25 @@ function updateCountdown(minusSeconds = 0) {
 	// stopCountdown()
 	const next_leftSeconds = leftSeconds.value - minusSeconds
 	if (next_leftSeconds > 0) {
-		const { day, hour, minute, seconds } = getRemainingSecondsInfo(next_leftSeconds)
-		const hms = `${doubleNumStr(hour || 0)}:${doubleNumStr(minute || 0)}:${doubleNumStr(seconds || 0)}`
+		const { d, h, m, s } = getRemainingSecondsInfo(next_leftSeconds)
+		const hms = `${doubleNumStr(h || 0)}:${doubleNumStr(m || 0)}:${doubleNumStr(s || 0)}`
 
 		isExpired.value = false
 		leftSeconds.value = next_leftSeconds
-		leftDay.value = day
+		leftDay.value = d
 		leftHMS.value = hms
 		if (props.update) {
 			Object.assign(props.record, {
 				local_isExpired: false,
 				local_leftSeconds: next_leftSeconds,
-				local_leftDay: day,
+				local_leftDay: d,
 				local_leftHMS: hms
 			})
 			/* emit('update:record', {
         ...props.record,
         local_isExpired: false,
         local_leftSeconds: next_leftSeconds,
-        local_leftDay: day,
+        local_leftDay: d,
         local_leftHMS: hms,
       }) */
 		}
