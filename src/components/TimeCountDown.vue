@@ -23,10 +23,6 @@ interface DateInfo extends Recordable {
 	local_leftDay?: number
 	local_leftHMS?: string
 }
-/* // 定义事件发射
-const emit = defineEmits<{
-  (e: 'update:record', value: DateInfo): void
-}>() */
 
 // 定时器引用
 let countdownTimer: { id?: number } | null = null
@@ -59,13 +55,6 @@ function updateCountdown(minusSeconds = 0) {
 				local_leftDay: d,
 				local_leftHMS: hms
 			})
-			/* emit('update:record', {
-        ...props.record,
-        local_isExpired: false,
-        local_leftSeconds: next_leftSeconds,
-        local_leftDay: d,
-        local_leftHMS: hms,
-      }) */
 		}
 
 		countdownTimer = rafTimeout(() => {
@@ -84,11 +73,6 @@ function updateCountdown(minusSeconds = 0) {
 				local_isExpired: true,
 				local_leftSeconds: next_leftSeconds
 			})
-			/* emit('update:record', {
-        ...props.record,
-        local_isExpired: true,
-        local_leftSeconds: next_leftSeconds,
-      }) */
 		}
 	}
 }
@@ -140,7 +124,7 @@ onUnmounted(() => {
 <template>
 	<div class="countdown-container">
 		<slot v-bind="{ leftDay, leftHMS, isExpired, leftSeconds }">
-			<div v-if="leftSeconds" class="expired-text">已过期</div>
+			<div v-if="isExpired" class="expired-text">已过期</div>
 			<div v-else class="countdown-content">
 				<span v-if="leftDay" class="countdown-item">{{ leftDay }}天</span>
 				<span class="countdown-item">{{ leftHMS }}</span>
@@ -156,14 +140,6 @@ onUnmounted(() => {
 		background: rgba(250, 173, 20, 0.1);
 		padding: 2px 8px;
 		border-radius: 4px;
-	}
-
-	.countdown-content {
-		.countdown-item {
-			padding: 0 2px;
-			min-width: 24px;
-			text-align: center;
-		}
 	}
 }
 </style>
