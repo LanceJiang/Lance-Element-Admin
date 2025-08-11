@@ -20,12 +20,6 @@ export function rafTimeout(callback: () => void, delay = 0, interval = false): o
 				start = timestamp
 				raf.id = requestAnimationFrame(loop)
 			}
-			/*// cancelRaf(raf)
-			if (interval) {
-				// 使用间歇调用
-				start = null
-				raf.id = requestAnimationFrame(loop)
-			}*/
 		} else {
 			raf.id = requestAnimationFrame(loop)
 		}
