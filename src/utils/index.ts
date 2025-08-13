@@ -295,6 +295,78 @@ export const queryApiCacheWrap = (apiPromise: () => Promise<any>, minute = 30) =
 }
 
 /**
+ * 公用下载
+ * @param path:string
+ * @param fileName:string
+ * @param showMsg:boolean
+ */
+export function commonDownload(path: string, fileName?: string, showMsg = true) {
+	if (!path) {
+		return Promise.reject('no file path')
+	}
+	// const key = `msg_k_${+new Date()}`
+	return new Promise((resolve, reject) => {
+		if (showMsg)
+			ElMessage({
+				type: 'warning',
+				message: '下载中...',
+				icon: 'el-icon-loading',
+				duration: 0
+			})
+		// if (showMsg) message.loading({ content: '下载中...', key, duration: 0 })
+		const xhr = new XMLHttpRequest()
+		const url = path // `${location.protocol}${path.replace(/https?:/g, '')}`
+		xhr.open('GET', url, true)
+		xhr.responseType = 'blob'
+		xhr.send()
+		xhr.onload = function (e: any) {
+			const response = this.response // || { type: 'text/html' } // xhr
+			const status = this.status
+			// console.log('file status', status)
+			if (status >= 200 && status <= 304) {
+				// console.warn(`文件大小: ${response.size / 1024}kb`)
+				const fileReader = new FileReader()
+				fileReader.readAsDataURL(response)
+				fileReader.onload = function () {
+					const a = document.createElement('a')
+					a.style.display = 'none'
+					a.href = this.result as string
+					// 设置文件名 fileName
+					a.download = fileName || url.replace(/.*\/(.*\..*)/g, '$1')
+					document.body.appendChild(a)
+					a.click()
+					document.body.removeChild(a)
+				}
+				// if (showMsg) message.success({ content: '下载完成', key, duration: 1 })
+				if (showMsg)
+					ElMessage({
+						type: 'success',
+						message: '下载完成',
+						duration: 1000
+					})
+				resolve(response)
+			} else {
+				// 读取失败
+				reject(e.target)
+			}
+		}
+		xhr.onerror = function (e) {
+			// console.error('链接获取文件失败', e)
+			reject(e.target)
+		}
+	}).catch(e => {
+		// if (showMsg) message.error({ content: '下载失败', key, duration: 1 })
+		if (showMsg)
+			ElMessage({
+				type: 'error',
+				message: '下载失败',
+				duration: 1000
+			})
+		return Promise.reject(e)
+	})
+}
+
+/**
  * @param leftSeconds 剩余时间戳（秒）
  * @returns { d, h, m, s }
  */
