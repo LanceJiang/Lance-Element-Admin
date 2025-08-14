@@ -14,7 +14,7 @@ export const t = (key: string, ...args: any[]) => {
 	// @ts-ignore
 	return hasKey ? i18n.global.t(key, ...args) : key
 }
-export const getPropValue = <T = any>(obj: Record<string, any>, path: Arrayable<string>, defaultValue?: any): { value: T } => {
+export const getPropValue = <T = any,>(obj: Record<string, any>, path: Arrayable<string>, defaultValue?: any): { value: T } => {
 	return {
 		get value() {
 			return get(obj, path, defaultValue)
