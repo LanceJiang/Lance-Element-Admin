@@ -192,5 +192,22 @@
 	}
 }
 
+// loading-旋转
+.action-spin {
+	-webkit-animation: loadingCircle 1s infinite linear;
+	animation: loadingCircle 1s infinite linear;
+}
+@keyframes loadingCircle {
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+@-webkit-keyframes loadingCircle {
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
 .#{$prefix}test {}
 /* --------引用 lance-element-ui 根据ui/产品 用于项目的默认样式 End-------- */
