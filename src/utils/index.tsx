@@ -1,5 +1,6 @@
 // 工具函数集合
 import { ElMessage } from 'element-plus'
+import Icon from '@/components/Icon.vue'
 // vue Storage 使用
 export { ls } from './vueStorage'
 import { get, set } from 'lodash-es'
@@ -304,15 +305,17 @@ export function commonDownload(path: string, fileName?: string, showMsg = true) 
 	if (!path) {
 		return Promise.reject('no file path')
 	}
+	let msgEl: any = null
 	// const key = `msg_k_${+new Date()}`
 	return new Promise((resolve, reject) => {
-		if (showMsg)
-			ElMessage({
+		if (showMsg) {
+			msgEl = ElMessage({
 				type: 'warning',
 				message: '下载中...',
-				icon: 'el-icon-loading',
+				icon: <Icon class="action-spin" iconClass="le-loading" />,
 				duration: 0
 			})
+		}
 		// if (showMsg) message.loading({ content: '下载中...', key, duration: 0 })
 		const xhr = new XMLHttpRequest()
 		const url = path // `${location.protocol}${path.replace(/https?:/g, '')}`
@@ -338,12 +341,14 @@ export function commonDownload(path: string, fileName?: string, showMsg = true) 
 					document.body.removeChild(a)
 				}
 				// if (showMsg) message.success({ content: '下载完成', key, duration: 1 })
-				if (showMsg)
+				if (showMsg) {
+					msgEl?.close()
 					ElMessage({
 						type: 'success',
 						message: '下载完成',
 						duration: 1000
 					})
+				}
 				resolve(response)
 			} else {
 				// 读取失败
@@ -356,12 +361,15 @@ export function commonDownload(path: string, fileName?: string, showMsg = true) 
 		}
 	}).catch(e => {
 		// if (showMsg) message.error({ content: '下载失败', key, duration: 1 })
-		if (showMsg)
+		if (showMsg) {
 			ElMessage({
 				type: 'error',
 				message: '下载失败',
 				duration: 1000
 			})
+			msgEl?.close()
+		}
+
 		return Promise.reject(e)
 	})
 }
