@@ -117,14 +117,15 @@ div:focus {
 	white-space: nowrap;
 }
 @mixin text-overflow_ellipsis_line($line: 2) {
-	white-space: normal;
-	text-overflow: -o-ellipsis-lastline;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	display: -webkit-box; // 作为弹性伸缩盒子模型显示。
-	-webkit-box-orient: vertical; // 设置伸缩盒子的子元素排列方式--从上到下垂直排列
-	-webkit-line-clamp: $line; // 显示的行
+	overflow: hidden;
+	text-overflow: -o-ellipsis-lastline;
+	text-overflow: ellipsis;
 	word-break: break-all;
+	white-space: normal;
+	-webkit-line-clamp: $line; // 显示的行
+	line-clamp: $line;
+	-webkit-box-orient: vertical; // 设置伸缩盒子的子元素排列方式--从上到下垂直排列
 }
 .text-overflow_ellipsis_line_1 {
 	@include text-overflow_ellipsis_line(1);
