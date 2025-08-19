@@ -2,6 +2,14 @@
 	<div class="flex-column-page-wrap pageWrap">
 		Home
 		<div class="common_title">多语言 使用</div>
+		<div
+			class="le-link"
+			@click="
+				commonDownload('https://gooles.oss-cn-hongkong.aliyuncs.com/%E9%87%87%E8%B4%AD%E8%AE%A2%E5%8D%95%E5%90%88%E5%90%8C-CG2025079710003.pdf')
+			"
+		>
+			模拟链接下载
+		</div>
 		<div class="content">
 			<el-button size="small" @click="switchLang">
 				lang: 切换
@@ -136,6 +144,7 @@ import IconPicker from '@/components/IconPicker/index.vue'
 import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import useStore from '@/store/index'
 import { useI18n } from 'vue-i18n'
+import { commonDownload } from '@/utils'
 // import i18n from '@/lang'
 const dropdownValue = ref()
 const dropdownOptions = ref([
