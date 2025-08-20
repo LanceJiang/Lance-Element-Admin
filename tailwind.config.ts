@@ -25,11 +25,11 @@ export default {
 			// => @media (min-width: 1536px) { ... }
 		},
 		colors: {
-			primary: 'var(--el-color-primary)',
-			error: 'var(--el-color-error)',
-			warning: 'var(--el-color-warning)',
-			success: 'var(--el-color-success)'
-			// blue: '#1fb6ff',
+			/*primary: 'var(--el-color-primary)',*/
+			error: '#f56c6c', // 'var(--el-color-error)',
+			warning: '#e6a23c', // 'var(--el-color-warning)',
+			success: '#67c23a', // 'var(--el-color-success)',
+			blue: '#1fb6ff'
 			// pink: '#ff49db',
 			// orange: '#ff7849',
 			// green: '#13ce66',
