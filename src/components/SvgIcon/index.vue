@@ -8,6 +8,11 @@
 import { computed } from 'vue'
 
 const props = defineProps({
+	/**
+	 * 设置的前缀:
+	 * 默认本地: icon => `icon-${xxx}`
+	 * 用到 iconfont的字体: le => `le-${xxx}`
+	 */
 	prefix: {
 		type: String,
 		default: 'icon'
@@ -22,7 +27,11 @@ const props = defineProps({
 	}
 })
 
-const symbolId = computed(() => `#${props.prefix}-${props.iconClass}`)
+const symbolId = computed(() => {
+	const prefix = props.prefix
+	if (prefix) return `#${prefix}-${props.iconClass}`
+	return `#${props.iconClass}`
+})
 </script>
 
 <style scoped lang="scss">
