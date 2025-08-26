@@ -1,11 +1,12 @@
 <template>
-	<svg aria-hidden="true" class="svg-icon">
+	<svg aria-hidden="true" :class="`svg-icon ${spin ? 'action-spin' : ''}`" :style="getStyle">
 		<use :xlink:href="symbolId" :fill="color" />
 	</svg>
 </template>
 
 <script setup lang="ts" name="SvgIcon">
 import { computed } from 'vue'
+import type { CSSProperties } from 'vue'
 
 const props = defineProps({
 	/**
@@ -24,6 +25,15 @@ const props = defineProps({
 	color: {
 		type: String,
 		default: ''
+	},
+	// 是否旋转
+	spin: {
+		type: Boolean,
+		default: false
+	},
+	size: {
+		type: [String, Number],
+		default: ''
 	}
 })
 
@@ -31,6 +41,15 @@ const symbolId = computed(() => {
 	const prefix = props.prefix
 	if (prefix) return `#${prefix}-${props.iconClass}`
 	return `#${props.iconClass}`
+})
+
+const getStyle = computed((): CSSProperties => {
+	const { size } = props
+	let fontSize = `${size}`
+	if (+size) fontSize = `${size}px`
+	return {
+		fontSize
+	}
 })
 </script>
 
