@@ -2,13 +2,15 @@
 	<div class="flex-column-page-wrap pageWrap">
 		Home
 		<div class="common_title">多语言 使用</div>
-		<div
-			class="le-link"
-			@click="
-				commonDownload('https://gooles.oss-cn-hongkong.aliyuncs.com/%E9%87%87%E8%B4%AD%E8%AE%A2%E5%8D%95%E5%90%88%E5%90%8C-CG2025079710003.pdf')
-			"
-		>
-			模拟链接下载
+		<div>
+			<span
+				class="le-link"
+				@click="
+					commonDownload('https://gooles.oss-cn-hongkong.aliyuncs.com/%E9%87%87%E8%B4%AD%E8%AE%A2%E5%8D%95%E5%90%88%E5%90%8C-CG2025079710003.pdf')
+				"
+			>
+				模拟链接下载
+			</span>
 		</div>
 		<div class="content">
 			<el-button size="small" @click="switchLang">
@@ -33,21 +35,45 @@
 		<LeDraggableNestDemo v-if="true" />
 		<WatermarkDemo v-if="true" />
 
-		<div class="common_title">le-iconfont && LeIcon</div>
+		<div class="common_title">le-iconfont && SvgIcon(iconfont/icons) && LeIcon</div>
 		<div class="content">
 			<!--  单色样式类  -->
 			<!--也可拼接 对应icon文件夹注入的icon 文件-->
-			<SvgIcon class="mx-1" icon-class="logo" />
-			<LeIcon class="mx-1" icon-class="icon-logo" />
-			<span class="le-iconfont le-review mx-1"></span>
-			<LeIcon class="mx-1" icon-class="le-checkbox_checked"></LeIcon>
-			<span class="le-iconfont le-checkbox_checked mx-1"></span>
-			<LeIcon class="mx-1" icon-class="le-checkbox"></LeIcon>
-			<span class="le-iconfont le-checkbox mx-1"></span>
-			<LeIcon class="mx-1" icon-class="le-radio_checked"></LeIcon>
-			<span class="le-iconfont le-radio_checked mx-1"></span>
-			<LeIcon class="mx-1" icon-class="le-radio"></LeIcon>
-			<span class="le-iconfont le-radio mx-1"></span>
+			<div class="bg-[red]">
+				<LeIcon class="mx-1" icon-class="le-view"></LeIcon>
+				<SvgIcon class="mx-1" icon-class="le-view" prefix=""></SvgIcon>
+				<SvgIcon class="mx-1" icon-class="log"></SvgIcon>
+				---
+				<LeIcon class="localCls" icon-class="ep:view" />
+				<LeIcon class="localCls" icon-class="le-view" />
+			</div>
+			<span class="bg-[yellow]">
+				le-iconfont
+				<span class="le-iconfont le-review mx-1"></span>
+				<span class="le-iconfont le-checkbox_checked mx-1"></span>
+				<span class="le-iconfont le-checkbox mx-1"></span>
+				<span class="le-iconfont le-radio_checked mx-1"></span>
+				<span class="le-iconfont le-radio mx-1"></span>
+			</span>
+			<span class="bg-[pink] text-[16px]">
+				SvgIcon
+				<SvgIcon class="mx-1" icon-class="logo" />
+				<SvgIcon class="mx-1" icon-class="404" />
+				<!-- iconfont 定义的 svg -->
+				<SvgIcon class="text-error mx-1" prefix="" icon-class="le-loading" spin />
+			</span>
+			<span class="bg-[green] text-[16px]">
+				LeIcon
+				<!--icons-->
+				<LeIcon class="mx-1" icon-class="icon-logo" />
+				<LeIcon class="mx-1" icon-class="icon-404" />
+				<!-- iconfont 定义的 svg -->
+				<LeIcon class="text-error mx-1" icon-class="le-loading" spin />
+				<LeIcon class="mx-1" icon-class="le-checkbox"></LeIcon>
+				<!-- iconfont 定义的 svg icon-name: 参考 https://icon-sets.iconify.design/ -->
+				<LeIcon class="mx-1" icon-class="svg-spinners:wind-toy"></LeIcon>
+			</span>
+
 			<!--  svg  -->
 			<LeIcon class="mx-1" icon-class="le-frozen" @click="testHandler"></LeIcon>
 			<!--Table 操作 用： Icon按钮-->

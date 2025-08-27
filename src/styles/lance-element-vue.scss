@@ -193,7 +193,7 @@
 }
 
 // loading-旋转
-.action-spin {
+.action-spin, .action-spin svg {
 	-webkit-animation: loadingCircle 1s infinite linear;
 	animation: loadingCircle 1s infinite linear;
 }

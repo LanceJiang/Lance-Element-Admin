@@ -44,7 +44,7 @@
     "axios": "^1.4.0",
     "dayjs": "^1.11.7",
     "echarts": "^5.4.2",
-    "element-plus": "^2.9.0",
+    "element-plus": "^2.9.7",
     "lodash-es": "^4.17.21",
     "md5": "^2.3.0",
     "mitt": "^3.0.0",
@@ -63,6 +63,7 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
+    "@purge-icons/generated": "^0.10.0",
     "@types/md5": "^2.3.5",
     "@types/nprogress": "^0.2.0",
     "@types/path-browserify": "^1.0.0",
@@ -88,6 +89,7 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-html": "^3.2.0",
+    "vite-plugin-purge-icons": "^0.10.0",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue-tsc": "^1.6.5"
   },
