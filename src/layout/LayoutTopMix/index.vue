@@ -4,7 +4,7 @@
 		<el-header class="le-layout-header">
 			<div class="header-lf mask-image">
 				<div class="logo">
-					<!--          <SvgIcon class="logo-img sidebar-logo" icon-class="logo" />-->
+					<!--          <SvgIcon class="logo-img sidebar-logo" icon="logo" />-->
 					<img class="logo-img" src="@/assets/icons/logo.svg" alt="logo" />
 					<span :title="title" class="logo-text text-overflow_ellipsis">{{ title }}</span>
 				</div>

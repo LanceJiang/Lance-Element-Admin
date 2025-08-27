@@ -312,7 +312,7 @@ export function commonDownload(path: string, fileName?: string, showMsg = true) 
 			msgEl = ElMessage({
 				type: 'warning',
 				message: '下载中...',
-				icon: <Icon class="action-spin" iconClass="le-loading" />,
+				icon: <Icon class="action-spin" icon="le-loading" />,
 				duration: 0
 			})
 		}

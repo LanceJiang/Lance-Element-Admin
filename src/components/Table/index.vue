@@ -234,13 +234,13 @@ const TableComponent = defineComponent({
 								{/* 刷新 */}
 								<el-tooltip placement="top" content={t('le.refresh')}>
 									<el-button class="icon-button button-refresh" onClick={refreshHandler}>
-										<Icon iconClass="le-refresh" />
+										<Icon icon="le-refresh" />
 									</el-button>
 								</el-tooltip>
 								{/* 全屏 */}
 								<el-tooltip placement="top" content={t(isFullscreen.value ? 'le.exitFullscreen' : 'le.fullscreen')}>
 									<el-button class="icon-button button-screen" onClick={toggleFullscreen}>
-										<Icon iconClass={isFullscreen.value ? 'le-suoxiao' : 'le-fangda'} />
+										<Icon icon={isFullscreen.value ? 'le-suoxiao' : 'le-fangda'} />
 									</el-button>
 								</el-tooltip>
 								{/* columns过滤 */}

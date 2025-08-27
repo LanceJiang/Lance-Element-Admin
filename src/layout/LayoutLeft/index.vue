@@ -4,7 +4,7 @@
 		<el-aside class="le-layout-aside transition-all-300 aside-m" :class="isCollapse ? 'aside-m--hidden' : ''">
 			<div class="aside-box transition-all-300" :style="{ width: isCollapse ? '65px' : '210px' }">
 				<div class="logo">
-					<!--          <SvgIcon class="logo-img sidebar-logo" icon-class="logo" />-->
+					<!--          <SvgIcon class="logo-img sidebar-logo" icon="logo" />-->
 					<img class="logo-img" src="@/assets/icons/logo.svg" alt="logo" />
 					<span v-show="!isCollapse" class="text-overflow_ellipsis logo-text" :title="title">{{ title }}</span>
 				</div>

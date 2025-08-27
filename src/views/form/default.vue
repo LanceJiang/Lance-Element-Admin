@@ -231,8 +231,8 @@ export default defineComponent({
 						const style = `color: red`
 						return (
 							<div style={style}>
-								<le-icon iconClass="le-review" />
-								{label} <le-icon iconClass="icon-logo" />{' '}
+								<le-icon icon="le-review" />
+								{label} <le-icon icon="icon-logo" />{' '}
 							</div>
 						)
 					}
@@ -298,7 +298,7 @@ export default defineComponent({
 					option: ({ node, data }) => {
 						return (
 							<div style="color: #f0f;">
-								<le-icon iconClass="icon-logo" />
+								<le-icon icon="icon-logo" />
 								{data.label}
 							</div>
 						)

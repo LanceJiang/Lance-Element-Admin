@@ -5,7 +5,7 @@
 				<!--				<el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="item.path">-->
 				<el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="item.path">
 					<div class="el-breadcrumb__inner is-link" @click="onBreadcrumbClick(item, index)">
-						<PickerIcon v-if="setting.breadcrumbIcon && item.meta?.icon" :icon-class="item.meta.icon" class="breadcrumb-icon" />
+						<PickerIcon v-if="setting.breadcrumbIcon && item.meta?.icon" :icon="item.meta.icon" class="breadcrumb-icon" />
 						<span class="breadcrumb-title">{{ generateTitle(item.meta.title) }}</span>
 					</div>
 				</el-breadcrumb-item>

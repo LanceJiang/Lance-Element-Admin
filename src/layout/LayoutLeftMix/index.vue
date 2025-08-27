@@ -3,7 +3,7 @@
 	<el-container class="le-layout-wrap--leftMix">
 		<div class="le-layout-aside-split">
 			<div class="logo">
-				<!--          <SvgIcon class="logo-img sidebar-logo" icon-class="logo" />-->
+				<!--          <SvgIcon class="logo-img sidebar-logo" icon="logo" />-->
 				<img class="logo-img" src="@/assets/icons/logo.svg" alt="logo" />
 			</div>
 			<el-scrollbar>
@@ -15,7 +15,7 @@
 						:class="{ 'split-active': splitActive === item.path || `/${splitActive.split('/')[1]}` === item.path }"
 						@click="changeSubMenu(item)"
 					>
-						<PickerIcon v-if="item.meta?.icon" :icon-class="item.meta.icon"></PickerIcon>
+						<PickerIcon v-if="item.meta?.icon" :icon="item.meta.icon"></PickerIcon>
 						<span class="text-overflow_ellipsis_line_1 title">{{ generateTitle(item.meta.title) }}</span>
 					</div>
 				</div>

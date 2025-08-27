@@ -27,7 +27,7 @@
 					>
 						<template #prefix>
 							<span class="svg-container">
-								<svg-icon icon-class="user" />
+								<svg-icon icon="user" />
 							</span>
 						</template>
 					</el-input>
@@ -48,7 +48,7 @@
 					>
 						<template #prefix>
 							<span class="svg-container">
-								<svg-icon icon-class="password" />
+								<svg-icon icon="password" />
 							</span>
 						</template>
 					</el-input>

@@ -1,7 +1,7 @@
 <template>
 	<el-dropdown class="menu--lang-select-wrap" trigger="hover" @command="handleSetLanguage">
 		<div class="menu--lang-select menu-item le-hover-effect--bg">
-			<LeIcon :icon-class="`le-lang_${language}`" />
+			<LeIcon :icon="`le-lang_${language}`" />
 		</div>
 		<template #dropdown>
 			<el-dropdown-menu>

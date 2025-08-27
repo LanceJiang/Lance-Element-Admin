@@ -35,7 +35,7 @@
 						:content="$t('le.btn.reset')"
 					>
 						<el-button size='small' @click='$message.warning("触发 reset 方法")'>
-							<le-icon icon-class="le-clear" />
+							<le-icon icon="le-clear" />
 						</el-button>
 					</el-tooltip>
 					<el-tooltip
@@ -43,7 +43,7 @@
 						:content="$t('le.btn.confirm')"
 					>
 						<el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-							<le-icon icon-class="le-confirm" />
+							<le-icon icon="le-confirm" />
 						</el-button>
 					</el-tooltip>
 				</div>
@@ -70,10 +70,10 @@
 
 				<div class="le-popover&#45;&#45;select_footer">
 					<el-button size='small' @click='$message.warning("触发 reset 方法")'>
-						<le-icon icon-class="le-clear" />
+						<le-icon icon="le-clear" />
 					</el-button>
 					<el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-						<le-icon icon-class="le-confirm" />
+						<le-icon icon="le-confirm" />
 					</el-button>
 				</div>
 			</LePopover>
@@ -99,10 +99,10 @@
 
 				<div class="le-popover&#45;&#45;select_footer">
 					<el-button size='small' @click='$message.warning("触发 reset 方法")'>
-						<le-icon icon-class="le-clear" />
+						<le-icon icon="le-clear" />
 					</el-button>
 					<el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-						<le-icon icon-class="le-confirm" />
+						<le-icon icon="le-confirm" />
 					</el-button>
 				</div>
 			</LePopover>
@@ -113,7 +113,7 @@
 						:content="$t('le.filter.filterLabel')"
 					>
 						<el-button @click='triggerFilter'>
-							<le-icon icon-class="le-filter"/>
+							<le-icon icon="le-filter"/>
 						</el-button>
 					</el-tooltip>
 				</span>
@@ -154,7 +154,7 @@
 					:content="$t('le.btn.reset')"
 				>
 					<el-button size='small' @click='$message.warning("触发 reset 方法")'>
-						<le-icon icon-class="le-clear" />
+						<le-icon icon="le-clear" />
 					</el-button>
 				</el-tooltip>
 				<el-tooltip
@@ -162,7 +162,7 @@
 					:content="$t('le.btn.confirm')"
 				>
 					<el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-						<le-icon icon-class="le-confirm" />
+						<le-icon icon="le-confirm" />
 					</el-button>
 				</el-tooltip>
 			</div>
@@ -282,13 +282,13 @@ const formOptions = ref({
 				option({ option, label }) {
 					// console.error(option, label, 'option, label')
 					const style = `color: ${option.color}`
-					return <le-icon icon-class={option.icon} style={style}></le-icon>
+					return <le-icon icon={option.icon} style={style}></le-icon>
 				}
 			},
 			/!*slotOption({ option, label }) {
 				// console.error(option, label, 'option, label')
 				const style = `color: ${option.color}`
-				return <le-icon icon-class={option.icon} style={style}></le-icon>
+				return <le-icon icon={option.icon} style={style}></le-icon>
 			},*!/
 			// 渲染选中的特殊展示
 			tagRender({ searchParams, transLabel, deleteFn, isMore }) {
@@ -300,7 +300,7 @@ const formOptions = ref({
 				if (iconValue) {
 					const option = icon_configObj[iconValue]
 					const style = `color: ${option.color}`
-					showValue = <le-icon icon-class={option.icon} style={style}></le-icon>
+					showValue = <le-icon icon={option.icon} style={style}></le-icon>
 					// isMore请求 无需生成 tag
 					if (isMore) return { showValue }
 					tag = (
@@ -327,12 +327,12 @@ const formOptions = ref({
 			slots: {
 				option({ option, label }) {
 					const style = `color: ${option.color}`
-					return <le-icon icon-class={option.icon} style={style}></le-icon>
+					return <le-icon icon={option.icon} style={style}></le-icon>
 				}
 			},
 			/!*slotOption({ option, label }) {
 				const style = `color: ${option.color}`
-				return <le-icon icon-class={option.icon} style={style}></le-icon>
+				return <le-icon icon={option.icon} style={style}></le-icon>
 			},*!/
 			// 渲染选中的特殊展示
 			tagRender({ searchParams, transLabel, deleteFn, isMore }) {
@@ -345,7 +345,7 @@ const formOptions = ref({
 					const options = Array.isArray(iconValue) ? iconValue.map(v => icon_configObj[v]) : [icon_configObj[iconValue]]
 					showValue = options.map(option => {
 						const style = `color: ${option.color}`
-						return <le-icon icon-class={option.icon} style={style}></le-icon>
+						return <le-icon icon={option.icon} style={style}></le-icon>
 					})
 					// isMore请求 无需生成 tag
 					if (isMore) return { showValue }

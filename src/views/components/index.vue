@@ -15,8 +15,8 @@
 		<div class="content">
 			<el-button size="small" @click="switchLang">
 				lang: 切换
-				<LeIcon icon-class="le-frozen" />
-				<LeIcon icon-class="le-warning" />
+				<LeIcon icon="le-frozen" />
+				<LeIcon icon="le-warning" />
 				{{ $i18n.locale }}
 			</el-button>
 			<div>local文字: {{ $t('route.dashboard') }}</div>
@@ -40,12 +40,12 @@
 			<!--  单色样式类  -->
 			<!--也可拼接 对应icon文件夹注入的icon 文件-->
 			<div class="bg-[red]">
-				<LeIcon class="mx-1" icon-class="le-view"></LeIcon>
-				<SvgIcon class="mx-1" icon-class="le-view" prefix=""></SvgIcon>
-				<SvgIcon class="mx-1" icon-class="log"></SvgIcon>
+				<LeIcon class="mx-1" icon="le-view"></LeIcon>
+				<SvgIcon class="mx-1" icon="le-view" prefix=""></SvgIcon>
+				<SvgIcon class="mx-1" icon="log"></SvgIcon>
 				---
-				<LeIcon class="localCls" icon-class="ep:view" />
-				<LeIcon class="localCls" icon-class="le-view" />
+				<LeIcon class="localCls" icon="ep:view" />
+				<LeIcon class="localCls" icon="le-view" />
 			</div>
 			<span class="bg-[yellow]">
 				le-iconfont
@@ -57,29 +57,29 @@
 			</span>
 			<span class="bg-[pink] text-[16px]">
 				SvgIcon
-				<SvgIcon class="mx-1" icon-class="logo" />
-				<SvgIcon class="mx-1" icon-class="404" />
+				<SvgIcon class="mx-1" icon="logo" />
+				<SvgIcon class="mx-1" icon="404" />
 				<!-- iconfont 定义的 svg -->
-				<SvgIcon class="text-error mx-1" prefix="" icon-class="le-loading" spin />
+				<SvgIcon class="text-error mx-1" prefix="" icon="le-loading" spin />
 			</span>
 			<span class="bg-[green] text-[16px]">
 				LeIcon
 				<!--icons-->
-				<LeIcon class="mx-1" icon-class="icon-logo" />
-				<LeIcon class="mx-1" icon-class="icon-404" />
+				<LeIcon class="mx-1" icon="icon-logo" />
+				<LeIcon class="mx-1" icon="icon-404" />
 				<!-- iconfont 定义的 svg -->
-				<LeIcon class="text-error mx-1" icon-class="le-loading" spin />
-				<LeIcon class="mx-1" icon-class="le-checkbox"></LeIcon>
+				<LeIcon class="text-error mx-1" icon="le-loading" spin />
+				<LeIcon class="mx-1" icon="le-checkbox"></LeIcon>
 				<!-- iconfont 定义的 svg icon-name: 参考 https://icon-sets.iconify.design/ -->
-				<LeIcon class="mx-1" icon-class="svg-spinners:wind-toy"></LeIcon>
+				<LeIcon class="mx-1" icon="svg-spinners:wind-toy"></LeIcon>
 			</span>
 
 			<!--  svg  -->
-			<LeIcon class="mx-1" icon-class="le-frozen" @click="testHandler"></LeIcon>
+			<LeIcon class="mx-1" icon="le-frozen" @click="testHandler"></LeIcon>
 			<!--Table 操作 用： Icon按钮-->
 			<el-tooltip placement="top" :content="$t('le.btn.search')">
 				<el-button class="le-icon-button" @click="testHandler('row')">
-					<LeIcon class="mx-1" icon-class="le-view"></LeIcon>
+					<LeIcon class="mx-1" icon="le-view"></LeIcon>
 				</el-button>
 			</el-tooltip>
 		</div>
@@ -120,7 +120,7 @@
 			<IconPicker v-model="curIcon" />
 			<div style="margin: 6px 0">
 				当前选中的 PickerIcon 为：
-				<PickerIcon style="color: var(--el-color-danger); font-size: 24px" :icon-class="curIcon || 'Grid'" />
+				<PickerIcon style="color: var(--el-color-danger); font-size: 24px" :icon="curIcon || 'Grid'" />
 			</div>
 		</div>
 		<div class="common_title">暂无数据 LeNoData</div>

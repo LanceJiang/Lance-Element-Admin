@@ -6,7 +6,7 @@
 					<template #label>
 						<!--@click="tabClick2(item)"-->
 						<div class="le-tabs__item" @contextmenu.prevent="openDropMenu(item, $event)">
-							<PickerIcon v-if="tabsIcon && item.meta?.icon" class="tabs-icon" :icon-class="item.meta.icon" />
+							<PickerIcon v-if="tabsIcon && item.meta?.icon" class="tabs-icon" :icon="item.meta.icon" />
 							{{ generateTitle(item.title) }}
 						</div>
 					</template>
@@ -14,28 +14,28 @@
 			</el-tabs>
 			<ul v-show="dropVisible" ref="dropdownMenu" :style="`left: ${dropLeft}px; top: ${dropTop}px`" class="local-contextmenu el-dropdown-menu">
 				<li class="el-dropdown-menu__item" @click="contentMaximizeChange">
-					<le-icon icon-class="icon-fullscreen"></le-icon>
+					<le-icon icon="icon-fullscreen"></le-icon>
 					<span>{{ $t('le.tabs.opts.contentMax') }}</span>
 				</li>
 				<li class="el-dropdown-menu__item" @click="refreshSelectedTag(selectedTag)">
-					<le-icon icon-class="icon-refresh"></le-icon>
+					<le-icon icon="icon-refresh"></le-icon>
 					<span>{{ $t('le.refresh') }}</span>
 				</li>
 				<li role="separator" class="el-dropdown-menu__item--divided"></li>
 				<li class="el-dropdown-menu__item" @click="closeOtherTags">
-					<le-icon icon-class="icon-close_other" style="transform: rotate(90deg)"></le-icon>
+					<le-icon icon="icon-close_other" style="transform: rotate(90deg)"></le-icon>
 					<span>{{ $t('le.tabs.opts.closeOther') }}</span>
 				</li>
 				<li v-if="!isFirstView" class="el-dropdown-menu__item" @click="closeSideTags('left')">
-					<le-icon icon-class="icon-close_left"></le-icon>
+					<le-icon icon="icon-close_left"></le-icon>
 					<span>{{ $t('le.tabs.opts.closeOther') }}</span>
 				</li>
 				<li v-if="!isLastView" class="el-dropdown-menu__item" @click="closeSideTags('right')">
-					<le-icon icon-class="icon-close_right"></le-icon>
+					<le-icon icon="icon-close_right"></le-icon>
 					<span>{{ $t('le.tabs.opts.closeRight') }}</span>
 				</li>
 				<li class="el-dropdown-menu__item" @click="closeAllTags">
-					<le-icon icon-class="icon-close_all"></le-icon>
+					<le-icon icon="icon-close_all"></le-icon>
 					<span>{{ $t('le.tabs.opts.closeAll') }}</span>
 				</li>
 			</ul>
@@ -48,27 +48,27 @@
 				<template #dropdown>
 					<el-dropdown-menu>
 						<el-dropdown-item @click="contentMaximizeChange">
-							<le-icon icon-class="icon-fullscreen"></le-icon>
+							<le-icon icon="icon-fullscreen"></le-icon>
 							<span>{{ $t('le.tabs.opts.contentMax') }}</span>
 						</el-dropdown-item>
 						<el-dropdown-item @click="refreshSelectedTag(selectedTag)">
-							<le-icon icon-class="icon-refresh"></le-icon>
+							<le-icon icon="icon-refresh"></le-icon>
 							<span>{{ $t('le.refresh') }}</span>
 						</el-dropdown-item>
 						<el-dropdown-item divided @click="closeOtherTags">
-							<le-icon icon-class="icon-close_other" style="transform: rotate(90deg)"></le-icon>
+							<le-icon icon="icon-close_other" style="transform: rotate(90deg)"></le-icon>
 							<span>{{ $t('le.tabs.opts.closeOther') }}</span>
 						</el-dropdown-item>
 						<el-dropdown-item v-if="!isFirstView" @click="closeSideTags('left')">
-							<le-icon icon-class="icon-close_left"></le-icon>
+							<le-icon icon="icon-close_left"></le-icon>
 							<span>{{ $t('le.tabs.opts.closeOther') }}</span>
 						</el-dropdown-item>
 						<el-dropdown-item v-if="!isLastView" @click="closeSideTags('right')">
-							<le-icon icon-class="icon-close_right"></le-icon>
+							<le-icon icon="icon-close_right"></le-icon>
 							<span>{{ $t('le.tabs.opts.closeRight') }}</span>
 						</el-dropdown-item>
 						<el-dropdown-item @click="closeAllTags">
-							<le-icon icon-class="icon-close_all"></le-icon>
+							<le-icon icon="icon-close_all"></le-icon>
 							<span>{{ $t('le.tabs.opts.closeAll') }}</span>
 						</el-dropdown-item>
 					</el-dropdown-menu>

@@ -1,6 +1,6 @@
 <template>
 	<div class="le-maximize-quit" @click="maximizeQuit">
-		<LeIcon class="icon_quit" iconClass="icon-back"></LeIcon>
+		<LeIcon class="icon_quit" icon="icon-back"></LeIcon>
 	</div>
 </template>
 

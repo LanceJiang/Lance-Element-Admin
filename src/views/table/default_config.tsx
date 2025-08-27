@@ -193,7 +193,7 @@ export const get_tabs_filterForms = () => [
 			option({ option, label }) {
 				// console.error(option, label, 'option, label')
 				const style = `color: ${option.color}`
-				return <le-icon icon-class={option.icon} style={style}></le-icon>
+				return <le-icon icon={option.icon} style={style}></le-icon>
 			}
 		},
 		// 渲染选中的特殊展示
@@ -206,7 +206,7 @@ export const get_tabs_filterForms = () => [
 			if (iconValue) {
 				const option = icon_configObj[iconValue]
 				const style = `color: ${option.color}`
-				showValue = <le-icon icon-class={option.icon} style={style}></le-icon>
+				showValue = <le-icon icon={option.icon} style={style}></le-icon>
 				// isMore请求 无需生成 tag
 				if (isMore) return { showValue }
 				tag = (

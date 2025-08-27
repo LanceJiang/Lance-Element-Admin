@@ -3,7 +3,7 @@
 	<el-container class="le-layout-wrap--top">
 		<el-header class="le-layout-header">
 			<div class="logo">
-				<!--          <SvgIcon class="logo-img sidebar-logo" icon-class="logo" />-->
+				<!--          <SvgIcon class="logo-img sidebar-logo" icon="logo" />-->
 				<img class="logo-img" src="@/assets/icons/logo.svg" alt="logo" />
 				<span class="logo-text text-overflow_ellipsis" :title="title">{{ title }}</span>
 			</div>
@@ -17,7 +17,7 @@
 						:index="subItem.path + 'el-sub-menu'"
 					>
 						<template #title>
-							<PickerIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+							<PickerIcon v-if="subItem.meta.icon" :icon="subItem.meta.icon" />
 							<span>{{ generateTitle(subItem.meta?.title) }}</span>
 						</template>
 						<SubMenu :menu-list="subItem.children" />
@@ -29,7 +29,7 @@
 						:index="subItem.path"
 						@click="handleClickMenu(subItem)"
 					>
-						<PickerIcon v-if="subItem.meta.icon" :icon-class="subItem.meta.icon" />
+						<PickerIcon v-if="subItem.meta.icon" :icon="subItem.meta.icon" />
 						<template #title>
 							<span>{{ generateTitle(subItem.meta?.title) }}</span>
 						</template>

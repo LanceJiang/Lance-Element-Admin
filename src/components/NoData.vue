@@ -1,6 +1,6 @@
 <template>
 	<div :class="['le-no-data', size, isFull ? 'le-no-data--full' : '']" @click="$emit('click')">
-		<Icon v-if="isShow" icon-class="le-no_data" class="le-no-data__img" />
+		<Icon v-if="isShow" icon="le-no_data" class="le-no-data__img" />
 		<div class="message" v-html="message || $t('le.noData')" />
 		<!-- 额外处理 -->
 		<slot name="extraContent" />
