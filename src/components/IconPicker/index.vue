@@ -3,7 +3,7 @@
 		<template #append>
 			<el-popover v-model:visible="visible" popper-class="le-icon-picker_popover" placement="bottom-end" trigger="click">
 				<template #reference>
-					<PickerIcon class="icon-selected" :icon-class="currentSelect || 'Grid'" />
+					<PickerIcon class="icon-selected" :icon="currentSelect || 'Grid'" />
 				</template>
 				<el-input v-model="searchValue" placeholder="搜索图标" clearable @clear="searchIconsHandler" @input="searchIconsHandler">
 					<template #prepend>
@@ -22,7 +22,7 @@
 								:class="`item ${item === currentSelect_name ? 'active' : ''}`"
 								@click="updateIcon(item)"
 							>
-								<PickerIcon class="local_icon" :icon-class="`${curIconType}${item}`" />
+								<PickerIcon class="local_icon" :icon="`${curIconType}${item}`" />
 								<span class="text text-overflow_ellipsis_line_2">{{ item }}</span>
 							</div>
 						</template>

@@ -18,7 +18,7 @@ const props = defineProps({
 		type: String,
 		default: 'icon'
 	},
-	iconClass: {
+	icon: {
 		type: String,
 		required: false
 	},
@@ -39,8 +39,8 @@ const props = defineProps({
 
 const symbolId = computed(() => {
 	const prefix = props.prefix
-	if (prefix) return `#${prefix}-${props.iconClass}`
-	return `#${props.iconClass}`
+	if (prefix) return `#${prefix}-${props.icon}`
+	return `#${props.icon}`
 })
 
 const getStyle = computed((): CSSProperties => {

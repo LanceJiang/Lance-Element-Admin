@@ -1,5 +1,5 @@
 <template>
-	<SvgIcon v-if="isSvgIcon" prefix="" :icon-class="iconClass" :color="color" :spin="spin" />
+	<SvgIcon v-if="isSvgIcon" prefix="" :icon="icon" :color="color" :spin="spin" />
 	<span v-else ref="elRef" :class="`le-icon ${spin ? 'action-spin' : ''}`" :style="getWrapStyle"></span>
 </template>
 
@@ -8,7 +8,7 @@ import { computed, nextTick, ref, watch, onMounted, CSSProperties } from 'vue'
 import Iconify from '@purge-icons/generated'
 import SvgIcon from './SvgIcon/index.vue'
 const props = defineProps({
-	iconClass: {
+	icon: {
 		type: String,
 		require: true
 	},
@@ -29,11 +29,11 @@ const props = defineProps({
 
 const isSvgIcon = computed(() => {
 	// 判断是否是svg图标
-	const _class = props.iconClass
+	const icon = props.icon
 	// 1. `icon-${xxx}` 本地svg-icon
 	// 2. `le-${xxx}` iconfont 定义的 svg
-	return ['icon-', 'le-'].some(prefix => _class.startsWith(prefix))
-	// return !props.iconClass.includes(':')
+	return ['icon-', 'le-'].some(prefix => icon.startsWith(prefix))
+	// return !props.icon.includes(':')
 })
 const elRef = ref(null)
 const getWrapStyle = computed((): CSSProperties => {
@@ -53,7 +53,7 @@ const update = async () => {
 	const el = elRef.value
 	if (!el) return
 	await nextTick()
-	const icon = props.iconClass
+	const icon = props.icon
 	const svg = Iconify.renderSVG(icon, {})
 	if (svg) {
 		el.textContent = ''
@@ -66,7 +66,7 @@ const update = async () => {
 		el.appendChild(span)
 	}
 }
-watch(() => props.iconClass, update, {
+watch(() => props.icon, update, {
 	flush: 'post'
 })
 onMounted(update)
