@@ -37,17 +37,8 @@
 
 		<div class="common_title">le-iconfont && SvgIcon(iconfont/icons) && LeIcon</div>
 		<div class="content">
-			<!--  单色样式类  -->
-			<!--也可拼接 对应icon文件夹注入的icon 文件-->
-			<div class="bg-[red]">
-				<LeIcon class="mx-1" icon="le-view"></LeIcon>
-				<SvgIcon class="mx-1" icon="le-view" prefix=""></SvgIcon>
-				<SvgIcon class="mx-1" icon="log"></SvgIcon>
-				---
-				<LeIcon class="localCls" icon="ep:view" />
-				<LeIcon class="localCls" icon="le-view" />
-			</div>
 			<span class="bg-[yellow]">
+				<!--  单色样式类  -->
 				le-iconfont
 				<span class="le-iconfont le-review mx-1"></span>
 				<span class="le-iconfont le-checkbox_checked mx-1"></span>
