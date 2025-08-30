@@ -1,5 +1,5 @@
-// import type { UploadFile, UploadProps } from 'ant-design-vue'
-import type { UploadProps, UploadUserFile } from 'element-plus'
+import type { UploadFile, UploadStatus } from 'element-plus'
+
 export interface Props {
 	value: UploadFile[]
 	// 接受的文件类型
@@ -24,7 +24,6 @@ export interface Props {
 	fileType: 'all' | 'image' | 'fileExt'
 	// 文件上传大小限制(MB)
 	fileLimit: number
-	showUploadList: boolean | UploadProps['showUploadList']
 	text: string
 	uploadUrl: string
 	// 提示
@@ -34,12 +33,10 @@ export interface Props {
 	multiple: boolean
 	disabled: boolean
 	removeConfirm: boolean
-	// ??? todo
-	buttonVisible: boolean
-	size?: 'small' | 'default'
+	size?: 'small' | 'default' | 'large'
 }
 
-export type EmitStatus = 'uploading' | 'done' | 'error'
+export type EmitStatus = UploadStatus // 'uploading' | 'success' | 'fail' // 'ready'
 
 export interface UploadEmits {
 	change: [value: UploadFile[]]
