@@ -1,5 +1,5 @@
 <template>
-	<SvgIcon v-if="isSvgIcon" prefix="" :icon="icon" :color="color" :spin="spin" />
+	<SvgIcon v-if="isSvgIcon" class="le-icon" prefix="" :icon="icon" :color="color" :spin="spin" />
 	<span v-else ref="elRef" :class="`le-icon ${spin ? 'action-spin' : ''}`" :style="getWrapStyle"></span>
 </template>
 
