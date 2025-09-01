@@ -10,6 +10,7 @@ import SearchForm from './SearchForm.vue'
 import LeTableColumnsPopover from '@/components/Table/components/TableColumnsPopover.vue'
 import DraggableNest from '@/components/DraggableNest.vue'
 import LeTable from '@/components/Table/index.vue'
+import LeTableAction from '@/components/Table/TableAction.vue'
 import NoData from '@/components/NoData.vue'
 import Icon from '@/components/Icon.vue'
 // import Select from '@/components/Select/index.vue'
@@ -29,6 +30,7 @@ const compList = [
 	LeTableColumnsPopover,
 	DraggableNest,
 	LeTable,
+	LeTableAction,
 	NoData,
 	Icon,
 	// Select,

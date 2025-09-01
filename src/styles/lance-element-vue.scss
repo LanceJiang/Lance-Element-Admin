@@ -27,22 +27,33 @@
 
 // 纯icon button 样式
 .#{$prefix}icon-button {
-	//font-size: 16px;
-	font-size: 14px;
+	font-size: 16px;
 	padding: 0;
 	border-radius: 6px;
 	font-weight: 400;
-	height: 32px;
-	width: 32px;
+	height: 26px;
+	width: 26px;
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
+	//color: $le-color_3;
 	border: none;
-	color: $le-color_3;
 	background: transparent;
+	&-wrap {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 4px;
+		.el-button + .el-button {
+			margin-left: 0;
+		}
+		.divider {
+			margin: 0;
+		}
+	}
 	&:hover {
 		background: $le-border-color_3;
-		color: $le-color_3;
+		//color: $le-color_3;
 	}
 }
 

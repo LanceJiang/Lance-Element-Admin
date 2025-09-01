@@ -1,5 +1,7 @@
 import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/lib/components/table'
 // import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/es/components/table'
+import type { ElTooltip } from 'element-plus/lib/components/tooltip'
+import type { ElPopconfirm } from 'element-plus/lib/components/popconfirm'
 
 export type LeColumnSlots = {
 	// default?: ((scope: Record<string, any>) => any) | string
@@ -105,4 +107,23 @@ export type RenderScope<T> = {
 	$index: number
 	column: TableColumnCtx<T>
 	[key: string]: any
+}
+
+export type TooltipProps = InstanceType<typeof ElTooltip>['$props']
+export type PopConfirm = InstanceType<typeof ElPopconfirm>['$props'] & {
+	confirm: Fn
+	cancel?: Fn
+}
+export interface LeActionItem extends Recordable {
+	// tooltip 提示
+	tooltip?: string | TooltipProps
+	// 业务控制是否显示
+	ifShow?: boolean | ((action: ActionItem) => boolean)
+	icon?: string
+	color?: string
+	colorClass?: string
+	disabled?: boolean
+	onClick?: Fn
+	// popconfirm
+	popconfirm?: PopConfirm
 }

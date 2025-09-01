@@ -167,3 +167,17 @@ div:focus {
 		}
 	}
 }
+
+// 普通列表增删改的通用样式表
+.primary-color {
+	color: var(--el-color-primary); // 使用变量设置填充颜色
+}
+.success-color {
+	color: var(--el-color-success);
+}
+.warning-color {
+	color: var(--el-color-warning);
+}
+.danger-color {
+	color: var(--el-color-danger);
+}
