@@ -23,7 +23,7 @@
 				<div class="p-[10px] mb-[10px]" style="background-color: rgb(248 113 113)">顶部自定义插槽#top</div>
 			</template>
 			<template #绑定状态="{ row }">
-				<el-switch v-model="row.google_key" :active-value="1" :inactive-value="0" :loading="row.loading" @click="changGooGleKey(row)" />
+				<el-switch v-model="row.google_key" :active-value="1" :inactive-value="0" :loading="row.loading" @click="handleDel(row)" />
 			</template>
 			<template #账号状态="{ row }">
 				<el-tag :type="['success', 'warning', 'error'][row.status]">
@@ -44,7 +44,8 @@
 				<LeText :value="row.describe" line-clamp="5" />
 			</template>
 			<template #操作="{ row }">
-				<div class="btn-actions-flex-gap">
+				<LeTableAction :actions="rowTableActions(row)" />
+				<!--<div class="btn-actions-flex-gap">
 					<el-tooltip placement="top" content="查看">
 						<el-button class="local_btn" icon="View" @click="changeItem(row)"></el-button>
 					</el-tooltip>
@@ -52,15 +53,14 @@
 						<el-button class="local_btn" type="primary" icon="Edit" @click="changeItem(row, true)" />
 					</el-tooltip>
 					<el-tooltip placement="top" content="删除">
-						<el-button class="local_btn" type="danger" icon="Delete" @click.prevent="changGooGleKey(row)" />
+						<el-button class="local_btn" type="danger" icon="Delete" @click.prevent="handleDel(row)" />
 					</el-tooltip>
-				</div>
+				</div>-->
 			</template>
 		</LeTable>
 		<!-- 编辑表单弹窗 -->
 		<LeFormConfigDialog
 			v-if="dialog.visible"
-			ref="dialogRef"
 			v-model="dialog.visible"
 			v-bind="dialog"
 			:form-data="activeData"
@@ -318,13 +318,11 @@ const submitHandler = params => {
 			dialog.value.formOptions.formConfig.submitLoading = false
 		})
 }
-const dialogRef = ref()
 const addItem = () => {
 	activeData.value = {}
 	dialog.value.isCreate = true
 	dialog.value.formOptions.isEdit = true
 	dialog.value.visible = true
-	// window.dialogRef = dialogRef // 测试ref
 }
 
 const changeItem = (value: any, isEdit = false) => {
@@ -334,7 +332,7 @@ const changeItem = (value: any, isEdit = false) => {
 	dialog.value.formOptions.isEdit = isEdit
 	dialog.value.visible = true
 }
-const changGooGleKey = (row: Recordable) => {
+const handleDel = (row: Recordable) => {
 	ElMessage({
 		message: '操作成功!',
 		type: 'success'
@@ -371,6 +369,35 @@ const changGooGleKey = (row: Recordable) => {
 				console.log('取消')
 			})
 	}*/
+}
+// actions
+const rowTableActions = (row: any) => {
+	return [
+		{
+			tooltip: '查看',
+			icon: 'le-view',
+			// colorClass: 'text-blue-500',
+			onClick: changeItem.bind(null, row)
+		},
+		{
+			tooltip: '修改',
+			icon: 'le-edit',
+			// colorClass: 'text-orange-500'
+			colorClass: 'warning-color',
+			onClick: changeItem.bind(null, row, true)
+		},
+		{
+			tooltip: '删除',
+			icon: 'le-delete',
+			// colorClass: 'text-red-500',
+			colorClass: 'danger-color',
+			// onClick: handleDel.bind(null, row),
+			popconfirm: {
+				title: '确认删除嘛？',
+				confirm: handleDel.bind(null, row)
+			}
+		}
+	]
 }
 </script>
 
