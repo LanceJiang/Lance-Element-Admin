@@ -1,5 +1,5 @@
 <script lang="tsx" setup>
-import type { UploadFile, UploadRawFile } from 'element-plus'
+import type { UploadFile, UploadRawFile, UploadInstance } from 'element-plus'
 import { ElIcon, ElMessageBox, ElProgress, ElUpload } from 'element-plus'
 import { computed, ref, useAttrs } from 'vue'
 import type { EmitStatus } from './index'
@@ -89,7 +89,7 @@ const prefixCls = `le-upload`
 const attrs = useAttrs()
 const headers = getHeaders()
 // refs
-const uploadRef = ref()
+const uploadRef = ref<UploadInstance>()
 // 是否达到了最大上传数量
 const isMaxCount = computed(() => props.maxCount > 0 && props.value?.length >= props.maxCount)
 // 合并 props 和 attrs
@@ -197,14 +197,12 @@ function getFileIdx(file: UploadFile, fileList: UploadFile[]): number {
 function handleChange(file: UploadFile, fileList: UploadFile[]) {
 	const status = file.status
 	// 文件刚上传时 emit('uploading')
-	// if (status === 'uploading' && !file.percent)
 	if (status === 'uploading' && !file.percentage) emit('fileChange', file, 'uploading')
 
 	if (['done', 'error'].includes(status as string)) {
 		const idx = getFileIdx(file, fileList)
 		if (idx === -1) return
 		// 成功处理
-		// if (file.status === 'done') {
 		if (file.status === 'success') {
 			const { code, data, msg } = file.response
 			let emitStatus: EmitStatus = 'success'

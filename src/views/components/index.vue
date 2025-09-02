@@ -30,6 +30,7 @@
 			copy
 		>
 		</LeText>
+		<Upload />
 		<SearchGroup2Popover v-if="false" />
 		<InputNumberDemo v-if="true" />
 		<LeDraggableNestDemo v-if="true" />
@@ -153,6 +154,7 @@
 
 <script setup name="home" lang="tsx">
 import { ref } from 'vue'
+import Upload from './components/Upload.vue'
 import SearchGroup2Popover from './components/SearchGroup2Popover.vue'
 import InputNumberDemo from './components/InputNumberDemo.vue'
 import LeDraggableNestDemo from './components/LeDraggableNestDemo.vue'
