@@ -6,6 +6,7 @@ import type { EmitStatus } from './index'
 import { commonDownload, t } from '@/utils'
 import LeIcon from '@/components/Icon.vue'
 import { ElMessage } from 'element-plus'
+import { createImgPreview } from '@/components/Preview/index'
 import { getHeaders } from '@/utils/request'
 import { getFileExt, isImageByExt } from '@/utils/file'
 
@@ -230,8 +231,7 @@ function handleChange(file: UploadFile, fileList: UploadFile[]) {
 // 预览文件、图片
 function handlePreview(file) {
 	if (file.type?.indexOf('image') >= 0 || isImageByExt(file.url)) {
-		console.error('图片', file.url)
-		// createImgPreview({ imageList: [file.url], maskClosable: true })
+		createImgPreview({ imageList: [file.url], maskClosable: true })
 	} else {
 		window.open(file.url)
 	}
