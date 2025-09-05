@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, watch, ref, computed, PropType } from 'vue'
 import { Refresh, Search } from '@element-plus/icons-vue'
-import { LeFormItem, FormConfigOpts, SlotOption } from '@/components/FormConfig/formConfig.types'
+import { LeFormItem, FormConfigOpts, SlotOption } from '@/components/FormConfig'
 import InputNumber from './InputNumber.vue'
 import InputNumberRange from './InputNumberRange.vue'
 import CustomRender from './CustomRender.vue'

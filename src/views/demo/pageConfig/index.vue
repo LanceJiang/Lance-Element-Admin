@@ -101,7 +101,7 @@ import { ElMessage } from 'element-plus'
 import { useTablePage } from '@/hooks/useTablePage'
 import i18n from '@/lang'
 import { SearchParams } from '@/components/Table'
-import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
+import { LeFormItem } from '@/components/FormConfig'
 import { colorBase1 } from '@/components/Chart.vue'
 // import { Plus, Delete } from '@element-plus/icons-vue'
 const tableRef = ref()

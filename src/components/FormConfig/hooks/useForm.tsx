@@ -1,14 +1,11 @@
 import { ComputedRef, Slots, computed, Ref, unref, watch, nextTick } from 'vue'
 // import LeSelect from '@/components/Select'
 // import LeSelect from 'lance-element-vue/packages/Select'
-import InputNumber from '@/components/InputNumber'
-// import InputNumber from 'lance-element-vue/packages/InputNumber'
-import InputNumberRange from '@/components/InputNumberRange'
-// import InputNumberRange from 'lance-element-vue/packages/InputNumberRange'
-import CustomRender from '@/components/CustomRender'
-// import CustomRender from 'lance-element-vue/packages/CustomRender'
-import { LeFormItem, SlotOption } from '@/components/FormConfig/formConfig.types.ts'
-import { get_formSlots, getOptions, renderOption } from '@/components/FormConfig/utils.ts'
+import InputNumber from '@/components/InputNumber.vue'
+import InputNumberRange from '@/components/InputNumberRange.vue'
+import CustomRender from '@/components/CustomRender.vue'
+import { LeFormItem, SlotOption } from '@/components/FormConfig/index.d'
+import { get_formSlots, getOptions, renderOption } from '@/components/FormConfig/utils'
 // import { LeTableOptions, LeTableProps } from '@/components/Table'
 // import { SearchFormProps } from '@/components/SearchForm'
 // import { FormConfigProps } from '../index.vue'
@@ -54,7 +51,7 @@ export const renderFormItem = (opts: RenderFormItemOpts) => {
 	const _options = options || []
 	const _itemStyle = unref(itemStyle) + form_itemStyle + (itemWidth ? `;width: ${itemWidth}` : '')
 	const _placeholder = t_placeholder ? t(t_placeholder) : placeholder
-	let disabled = form.disabled
+	let disabled: boolean = form.disabled
 	if (disabled === undefined) {
 		disabled = isEdit === false
 	}
@@ -132,7 +129,6 @@ export const renderFormItem = (opts: RenderFormItemOpts) => {
 				<InputNumber
 					class="rate100"
 					{...formOthers}
-					slots={le_slots}
 					v-model={params[prop]}
 					onChange={formatterChange}
 					style={_itemStyle}

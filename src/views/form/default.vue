@@ -97,7 +97,7 @@
 	</div>
 </template>
 <script lang="tsx">
-import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
+import { LeFormItem } from '@/components/FormConfig'
 const prefix = 'example.forms.'
 import { defineComponent, ref, reactive, toRefs, watch } from 'vue'
 import { ElMessage } from 'element-plus'

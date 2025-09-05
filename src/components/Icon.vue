@@ -35,7 +35,7 @@ const isSvgIcon = computed(() => {
 	return ['icon-', 'le-'].some(prefix => icon.startsWith(prefix))
 	// return !props.icon.includes(':')
 })
-const elRef = ref(null)
+const elRef = ref<HTMLElement>(null)
 const getWrapStyle = computed((): CSSProperties => {
 	const { size, color } = props
 	let fs = size

@@ -2,14 +2,12 @@
 import { defineComponent, watch, computed, ref, reactive, unref, PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 // import { t } from 'lance-element-vue/src/locale'
-// import InputNumber from 'lance-element-vue/packages/InputNumber'
-import InputNumber from '../InputNumber'
-// import InputNumberRange from 'lance-element-vue/packages/InputNumberRange'
-import InputNumberRange from '../InputNumberRange'
-// import CustomRender from 'lance-element-vue/packages/CustomRender'
-import CustomRender from '../CustomRender'
-import { renderOption, getOptions, get_formSlots } from './utils.ts'
-import { LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from './formConfig.types'
+import InputNumber from '../InputNumber.vue'
+import InputNumberRange from '../InputNumberRange.vue'
+import CustomRender from '../CustomRender.vue'
+import { renderOption, getOptions, get_formSlots } from './utils'
+import { FormInstance, LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from './index'
+
 // import { OptionItemProps } from '@/components/Select/select.types.ts'
 // import { useFormItems } from './hooks/useForm.tsx'
 export const FormConfigProps = {
@@ -77,7 +75,7 @@ const FormConfig = defineComponent({
 	emits: formConfigEmits,
 	setup(props, ctx) {
 		const { t } = useI18n()
-		const formRef = ref(/*formRef*/)
+		const formRef = ref<FormInstance>(/*formRef*/)
 		/*const queryItemTypeKeys = form => {
 			const { prop, itemType } = form
 			switch (itemType) {

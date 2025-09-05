@@ -68,7 +68,7 @@ const textStyle = computed((): string => {
 	const lineClamp = +props.lineClamp || 1
 	return `line-clamp: ${lineClamp}; -webkit-line-clamp: ${lineClamp}`
 })
-const textTooltipRef = ref()
+const textTooltipRef = ref<HTMLElement>()
 const visible = ref(false)
 const isShowTooltip = ref(false)
 function handleElTooltip(e: any): void {

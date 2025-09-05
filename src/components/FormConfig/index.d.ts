@@ -73,3 +73,5 @@ export type LeFormItem = Partial<Omit<FormItemInstance['props'], 'render' | 'pro
 	change?: (value: any, options: any[], params: Recordable, propKey?: string) => any
 	[prop: string]: any
 }
+
+export { FormInstance }

@@ -216,7 +216,7 @@
 </template>
 <script setup lang="tsx" name="SearchGroup2Popover">
 import { defineComponent, ref, toRefs, reactive, computed, watch, onMounted } from 'vue'
-import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
+import { LeFormItem } from '@/components/FormConfig/index.d'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 

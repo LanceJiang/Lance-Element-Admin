@@ -9,7 +9,7 @@
 	>
 		<template #reference>
 			<slot name="reference">
-				<el-button icon="Edit" />
+				<el-button class="le-icon-button" icon="Edit" />
 			</slot>
 		</template>
 		<div class="le-edit-popper_content-wrap">
