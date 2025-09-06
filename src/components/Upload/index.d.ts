@@ -29,7 +29,7 @@ export interface Props {
 	// 提示
 	tips?: string
 	// 提示
-	maxCount?: number
+	limit?: number
 	multiple: boolean
 	disabled: boolean
 	removeConfirm: boolean

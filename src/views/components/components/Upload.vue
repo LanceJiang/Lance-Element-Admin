@@ -19,7 +19,7 @@ const fileOpts = ref({
 	action: uploadUrl,
 	// disabled: true,
 	// accept: '*'
-	// maxCount: 2,
+	limit: 2,
 	// fileType: 'image',
 	fileType: 'fileExt',
 	// listType: 'text',
@@ -152,9 +152,9 @@ function handleChange(file, fileList) {
 <template>
 	<div class="p-2">
 		<div class="common_title">ElUpload</div>
-		<UploadEl v-bind="fileOpts" :value="fileValue32" @file-change="fileChange" />
-		<UploadEl v-bind="fileOpts" size="default" :value="fileValue32" @file-change="fileChange" />
-		<UploadEl v-bind="fileOpts" size="small" :value="fileValue32" @file-change="fileChange" />
+		<UploadEl v-bind="fileOpts" v-model:value="fileValue32" :value="fileValue32" @file-change="fileChange" />
+		<UploadEl v-bind="fileOpts" v-model:value="fileValue32" size="default" :value="fileValue32" @file-change="fileChange" />
+		<UploadEl v-bind="fileOpts" v-model:value="fileValue32" size="small" :value="fileValue32" @file-change="fileChange" />
 
 		<div class="">
 			<div class="bg-[red]">ElUpload</div>

@@ -1,6 +1,6 @@
 <script lang="tsx" setup>
-import type { UploadFile, UploadRawFile, UploadInstance } from 'element-plus'
-import { ElIcon, ElMessageBox, ElProgress, ElUpload } from 'element-plus'
+import type { UploadFile, UploadRawFile, UploadInstance, UploadProps } from 'element-plus'
+import { ElIcon, ElMessageBox, ElProgress, ElUpload, UploadUserFile } from 'element-plus'
 import { computed, ref, useAttrs } from 'vue'
 import type { EmitStatus } from './index'
 import { commonDownload, t } from '@/utils'
@@ -8,7 +8,7 @@ import LeIcon from '@/components/Icon.vue'
 import { ElMessage } from 'element-plus'
 import { createImgPreview } from '@/components/Preview/index'
 import { getHeaders } from '@/utils/request'
-import { getFileExt, isImageByExt } from '@/utils/file'
+import { getFileExt, getUid, isImageByExt } from '@/utils/file'
 
 defineOptions({ name: 'LeUpload' })
 
@@ -60,7 +60,7 @@ const props = defineProps({
 		type: String
 	},
 	// 最大上传数量
-	maxCount: {
+	limit: {
 		type: Number
 	},
 	multiple: {
@@ -92,7 +92,7 @@ const headers = getHeaders()
 // refs
 const uploadRef = ref<UploadInstance>()
 // 是否达到了最大上传数量
-const isMaxCount = computed(() => props.maxCount > 0 && props.value?.length >= props.maxCount)
+const isLimit = computed(() => props.limit > 0 && props.value?.length >= props.limit)
 // 合并 props 和 attrs
 const bindProps = computed(() => {
 	const bind: any = Object.assign({ name: 'file' }, props, attrs)
@@ -198,13 +198,13 @@ function getFileIdx(file: UploadFile, fileList: UploadFile[]): number {
 function handleChange(file: UploadFile, fileList: UploadFile[]) {
 	const status = file.status
 	// 文件刚上传时 emit('uploading')
-	if (status === 'uploading' && !file.percentage) emit('fileChange', file, 'uploading')
+	if (status === 'ready') emit('fileChange', file, 'uploading')
 
-	if (['done', 'error'].includes(status as string)) {
+	if (['success', 'fail'].includes(status as string)) {
 		const idx = getFileIdx(file, fileList)
 		if (idx === -1) return
 		// 成功处理
-		if (file.status === 'success') {
+		if (status === 'success') {
 			const { code, data, msg } = file.response
 			let emitStatus: EmitStatus = 'success'
 			// 错误处理 code !== 200: 有错误
@@ -218,16 +218,46 @@ function handleChange(file: UploadFile, fileList: UploadFile[]) {
 			emit('fileChange', file, emitStatus)
 		} else {
 			// 失败
-			if (file.status === 'fail') {
-				ElMessage.error(t('le.el.upload.uploadErrorTip', [file.name]))
-				emit('fileChange', file, 'fail')
-			}
+			ElMessage.error(t('le.el.upload.uploadErrorTip', [file.name]))
+			emit('fileChange', file, 'fail')
 			fileList.splice(idx, 1)
 		}
 	}
 	emitValue(fileList)
 }
-
+// 超出限制时 钩子函数
+const handleExceed: UploadProps['onExceed'] = (files: File[], uploadFiles: UploadUserFile[]) => {
+	ElMessage.warning(`The limit is 3, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length} totally`)
+	/*uploadRef.value.clearFiles()
+	if (props.limit === 1) {
+		uploadRef.value.clearFiles()
+		const file = files[0] as UploadRawFile
+		file.uid = getUid()
+		uploadRef.value!.handleStart(file)
+	} else {
+	}*/
+	// 选中的文件数
+	const selectedNum = files.length
+	// 可以新增的最大文件数
+	const addNum = props.limit - selectedNum
+	if (addNum <= 0) {
+		// 超过最大上传数量 清空已上传文件
+		uploadRef.value.clearFiles()
+		// 保留 后面选中的数据
+		files.splice(0, Math.abs(addNum))
+	} else {
+		// 可以保留的 已上传文件
+		const leftNum = uploadFiles.length - addNum
+		if (leftNum > 0) uploadFiles.splice(0, leftNum)
+	}
+	files.forEach(_file => {
+		const file = _file as UploadRawFile
+		file.uid = getUid()
+		uploadRef.value!.handleStart(file)
+	})
+	// 如果有文件 则提交上传
+	if (files.length) uploadRef.value!.submit()
+}
 // 预览文件、图片
 function handlePreview(file) {
 	if (file.type?.indexOf('image') >= 0 || isImageByExt(file.url)) {
@@ -250,7 +280,7 @@ defineExpose({
 </script>
 
 <template>
-	<div :class="`${prefixCls}-container ${prefixCls}-container--${size}`">
+	<div :class="`${prefixCls}-container ${prefixCls}-container--${isLimit ? 'limit' : 'normal'} ${prefixCls}-container--${size}`">
 		<slot name="tips">
 			<div v-if="tips" class="tip my-7px text-12px text-#8a8886">
 				{{ tips }}
@@ -264,19 +294,20 @@ defineExpose({
 			:before-upload="bindProps.beforeUpload || defaultBeforeUpload"
 			:file-list="value"
 			:before-remove="beforeRemove"
+			:on-exceed="handleExceed"
 			@change="handleChange"
 		>
 			<!-- @preview="handlePreview" -->
 			<slot>
 				<template v-if="isPictureCard">
-					<div v-if="!isMaxCount" class="text-center">
+					<div class="text-center">
 						<LeIcon size="18" icon="ant-design:plus-outlined" />
 						<div class="ant-upload-text">
 							{{ text }}
 						</div>
 					</div>
 				</template>
-				<el-button v-else :disabled="isMaxCount || disabled">
+				<el-button v-else :disabled="isLimit || disabled">
 					<LeIcon size="18" icon="ant-design:upload-outlined" />
 					<span>{{ text }}</span>
 				</el-button>
@@ -639,6 +670,18 @@ $prefix-cls: '#{$prefix}upload';
 							}
 						}
 					}
+				}
+			}
+		}
+	}
+	// 超出limit 限制
+	&--limit {
+		.el-upload-list {
+			// listType: picture-card
+			&--picture-card {
+				// 上传按钮 禁用 隐藏
+				.el-upload.el-upload--picture-card {
+					display: none;
 				}
 			}
 		}
