@@ -1,7 +1,7 @@
 <template>
-	<el-input v-model="currentSelect" class="le-icon-picker" :disabled="disabled" clearable placeholder="请输入图标名称">
+	<el-input v-model="currentSelect" :class="prefixCls" :disabled="disabled" clearable placeholder="请输入图标名称">
 		<template #append>
-			<el-popover v-model:visible="visible" popper-class="le-icon-picker_popover" placement="bottom-end" trigger="click">
+			<el-popover v-model:visible="visible" :popper-class="`${prefixCls}_popover`" placement="bottom-end" trigger="click">
 				<template #reference>
 					<PickerIcon class="icon-selected" :icon="currentSelect || 'Grid'" />
 				</template>
@@ -37,9 +37,12 @@
 <script setup lang="ts">
 import PickerIcon from './PickerIcon.vue'
 // import svgIcons from 'virtual:svg-icons-names'
-import { iconTypeOptions } from './iconsData.ts'
+import { iconTypeOptions } from './iconsData'
 import { useDebounceFn } from '@vueuse/core'
 import { ref, watch, watchEffect, computed } from 'vue'
+import { useNamespace } from '@/hooks/useNameSpace'
+const { prefixCls } = useNamespace('icon-picker')
+
 const props = defineProps({
 	modelValue: {
 		type: String,

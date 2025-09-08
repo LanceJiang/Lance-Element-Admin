@@ -1,5 +1,5 @@
 <template>
-	<div ref="monacoRef" :style="{ height }" :class="['le-monaco-editor', { 'is-disabled': disabled }]" />
+	<div ref="monacoRef" :style="{ height }" :class="[prefixCls, { 'is-disabled': disabled }]" />
 </template>
 <script setup lang="ts">
 import * as monaco from 'monaco-editor'
@@ -7,6 +7,7 @@ import * as monaco from 'monaco-editor'
 import { ref, shallowRef, watch, onMounted, onBeforeUnmount } from 'vue'
 // 解决vite Monaco提示错误
 import editWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import { useNamespace } from '@/hooks/useNameSpace'
 
 self.MonacoEnvironment = {
 	getWorkerUrl: function (moduleId, label) {
@@ -55,6 +56,8 @@ const props = defineProps({
 const emits = defineEmits(['update:modelValue', 'change', 'editorDidMount'])
 const monacoRef = ref<HTMLElement>()
 const editor = shallowRef()
+const { prefixCls } = useNamespace('monaco-editor')
+
 const _getValue = () => {
 	return editor.value?.getValue()
 }
@@ -117,7 +120,8 @@ defineExpose({
 })
 </script>
 <style lang="scss">
-.le-monaco-editor {
+//.le-monaco-editor {
+.#{$prefix}monaco-editor {
 	width: 100%;
 	height: 100%;
 	min-height: 160px;

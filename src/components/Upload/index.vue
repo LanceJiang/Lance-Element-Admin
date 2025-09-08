@@ -9,6 +9,7 @@ import { ElMessage } from 'element-plus'
 import { createImgPreview } from '@/components/Preview/index'
 import { getHeaders } from '@/utils/request'
 import { getFileExt, getUid, isImageByExt } from '@/utils/file'
+import { useNamespace } from '@/hooks/useNameSpace'
 
 defineOptions({ name: 'LeUpload' })
 
@@ -86,7 +87,9 @@ const emit = defineEmits<{
 	'update:value': [value: UploadFile[]]
 	fileChange: [file: UploadFile, status: EmitStatus]
 }>()
-const prefixCls = `le-upload`
+const { prefixCls } = useNamespace('upload')
+console.error(prefixCls, 'prefixCls')
+
 const attrs = useAttrs()
 const headers = getHeaders()
 // refs

@@ -7,6 +7,7 @@ import TableColumnsPopover from './components/TableColumnsPopover.vue'
 import { createTableContext } from './hooks/useTableContext'
 import { useColumns, useColumnsOpts } from './hooks/useColumns'
 import { useI18n } from 'vue-i18n'
+import { useNamespace } from '@/hooks/useNameSpace'
 
 export const tableProps = {
 	// 数据列表
@@ -106,6 +107,8 @@ const TableComponent = defineComponent({
 	emits: ['update:searchParams', 'update:checkedOptions', 'sortChange', 'refresh', 'row-click', 'update:curRow'],
 	setup(props, { slots, emit, expose }) {
 		const { t } = useI18n()
+		const { b, prefixCls } = useNamespace('table-warp')
+
 		const tableRef = ref(/*tableRef*/)
 		const isFullscreen = ref(false)
 		// 切换全屏
@@ -220,7 +223,7 @@ const TableComponent = defineComponent({
 		return () => {
 			const { list, total, searchParams, columnsConfig, checkedOptions } = props
 			return (
-				<div class={`le-table-warp ${unref(isFullscreen) ? 'le-table-warp-maximize' : ''}`}>
+				<div class={`${prefixCls} ${b(unref(isFullscreen) ? 'maximize' : '')}`}>
 					<div class="tableBody">
 						{/* 工具栏 */}
 						<div class="toolBarWrap">

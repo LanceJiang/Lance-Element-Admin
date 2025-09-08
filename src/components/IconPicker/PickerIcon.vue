@@ -1,5 +1,6 @@
 <script setup lang="ts" name="PickerIcon">
 import { computed } from 'vue'
+import { useNamespace } from '@/hooks/useNameSpace'
 const props = defineProps({
 	icon: {
 		type: String,
@@ -10,6 +11,7 @@ const props = defineProps({
 		default: ''
 	}
 })
+const { prefixCls } = useNamespace('pick-icon')
 const icon = computed(() => {
 	const _icon = props.icon || ''
 	let type = {
@@ -39,9 +41,9 @@ const colorStyle = computed(() => {
 
 <template>
 	<template v-if="icon.type === 'element'">
-		<component :is="icon.component" class="le-pick-icon" :style="colorStyle" />
+		<component :is="icon.component" :class="prefixCls" :style="colorStyle" />
 	</template>
-	<LeIcon v-else :icon="icon.component" class="le-pick-icon" :color="color" />
+	<LeIcon v-else :icon="icon.component" :class="prefixCls" :color="color" />
 </template>
 
 <style scoped lang="scss">

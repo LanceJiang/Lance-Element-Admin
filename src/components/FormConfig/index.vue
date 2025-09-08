@@ -7,9 +7,12 @@ import InputNumberRange from '../InputNumberRange.vue'
 import CustomRender from '../CustomRender.vue'
 import { renderOption, getOptions, get_formSlots } from './utils'
 import { FormInstance, LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from './index'
+import { useNamespace } from '@/hooks/useNameSpace'
 
 // import { OptionItemProps } from '@/components/Select/select.types.ts'
 // import { useFormItems } from './hooks/useForm.tsx'
+const { prefixCls } = useNamespace('form')
+
 export const FormConfigProps = {
 	forms: {
 		type: Array as PropType<LeFormItem[]>,
@@ -499,7 +502,7 @@ const FormConfig = defineComponent({
 				)
 			}
 			return (
-				<el-form ref={formRef} class={`le-form-config le-form-config--${size}`} {...form_config} size={size} model={params}>
+				<el-form ref={formRef} class={`${prefixCls}-config ${prefixCls}-config--${size}`} {...form_config} size={size} model={params}>
 					<el-row class="form_wrap" gutter={gutter}>
 						{/*renderForms({forms: realForms.value, gutter, span})*/}
 						{realForms.value

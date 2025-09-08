@@ -28,7 +28,6 @@ export interface Props {
 	uploadUrl: string
 	// 提示
 	tips?: string
-	// 提示
 	limit?: number
 	multiple: boolean
 	disabled: boolean
