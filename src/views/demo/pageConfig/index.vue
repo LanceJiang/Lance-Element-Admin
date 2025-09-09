@@ -75,10 +75,8 @@
 				<LeChart v-if="row.chartOption_price" width="120px" height="38px" :option="row.chartOption_price" is-init-option />
 				<div v-else style="height: 30px" />
 			</template>
-			<template #操作="{ row, column, $index }">
-				<div>
-					<el-button icon="delete" />
-				</div>
+			<template #操作="{ row }">
+				<LeTableAction :actions="rowTableActions(row)" />
 			</template>
 		</LeTable>
 		<LeFormConfigDialog
@@ -715,6 +713,28 @@ const submitHandler = params => {
 		.finally(() => {
 			formOptions.value.formConfig.submitLoading = false
 		})
+}
+const rowTableActions = (row: any) => {
+	return [
+		{
+			tooltip: '删除',
+			icon: 'le-delete',
+			// colorClass: 'text-red-500',
+			colorClass: 'danger-color',
+			// onClick: handleDel.bind(null, row),
+			popconfirm: {
+				title: '确认删除嘛？',
+				confirm: () => {
+					// console.error('删除成功')
+					ElMessage({
+						message: '操作成功!',
+						type: 'success'
+					})
+					updateParams()
+				}
+			}
+		}
+	]
 }
 </script>
 
