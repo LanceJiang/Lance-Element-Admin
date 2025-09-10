@@ -8,7 +8,7 @@ interface Config {
 	translateContainer: string // 用于偏移的元素选择器
 	itemContainer: string // 列表项选择器
 	itemHeight: number // 列表项高度
-	bufferSize: number // 缓冲size个数(默认3个)
+	bufferSize?: number // 缓冲size个数(默认3个)
 }
 
 type HtmlElType = HTMLElement | null
@@ -143,7 +143,6 @@ export default function useVirtualList(config: Config) {
 
 	// 更新实际渲染数据
 	const updateRenderData = (scrollTop: number) => {
-
 		// 获取容器可视区域高度
 		const containerHeight = scrollContainerEl?.clientHeight || 0
 		const bufferSize = config.bufferSize ?? 3
