@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'
 import { ElIcon, ElUpload } from 'element-plus'
 import { ElMessage } from 'element-plus'
 
-import UploadEl from '@/components/Upload/index.vue'
+import LeUpload from '@/components/Upload/index.vue'
 
 import { getHeaders } from '@/utils/request'
 
@@ -152,9 +152,9 @@ function handleChange(file, fileList) {
 <template>
 	<div class="p-2">
 		<div class="common_title">ElUpload</div>
-		<UploadEl v-bind="fileOpts" v-model:value="fileValue32" :value="fileValue32" @file-change="fileChange" />
-		<UploadEl v-bind="fileOpts" v-model:value="fileValue32" size="default" :value="fileValue32" @file-change="fileChange" />
-		<UploadEl v-bind="fileOpts" v-model:value="fileValue32" size="small" :value="fileValue32" @file-change="fileChange" />
+		<LeUpload v-bind="fileOpts" v-model:value="fileValue32" :value="fileValue32" @file-change="fileChange" />
+		<LeUpload v-bind="fileOpts" v-model:value="fileValue32" size="default" :value="fileValue32" @file-change="fileChange" />
+		<LeUpload v-bind="fileOpts" v-model:value="fileValue32" size="small" :value="fileValue32" @file-change="fileChange" />
 
 		<div class="">
 			<div class="bg-[red]">ElUpload</div>

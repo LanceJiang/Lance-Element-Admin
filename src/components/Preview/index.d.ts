@@ -26,6 +26,17 @@ export interface Props {
 	maskClosable: boolean
 	rememberState: boolean
 }
+export interface ImageViewerProps {
+	urlList: string[]
+	initialIndex?: number
+	hideOnClickModal?: boolean
+	showProgress?: boolean
+	infinite?: boolean
+	zoomRate?: number
+	minScale?: number
+	maxScale?: number
+	instance: ImageViewerProps
+}
 
 export interface PreviewActions {
 	resume: () => void

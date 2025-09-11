@@ -102,9 +102,13 @@ const bindProps = computed(() => {
 	// console.log(bind, 'bind.......')
 	/* biz:这个属性用于控制文件上传的业务路径 */
 	bind.data = { biz: 'temp', ...bind.data }
-	if (bind.fileType === 'image' && !bind.listType) {
-		// picture text picture-card
-		bind.listType = 'picture-card'
+	if (!bind.listType) {
+		if (bind.fileType === 'image') {
+			// picture text picture-card
+			bind.listType = 'picture-card'
+		} else {
+			bind.listType = 'text'
+		}
 	}
 	if (bind.listType === 'picture-card' && !bind.accept) bind.accept = 'image/*'
 	// 用于 渲染自定义图标
@@ -264,7 +268,8 @@ const handleExceed: UploadProps['onExceed'] = (files: File[], uploadFiles: Uploa
 // 预览文件、图片
 function handlePreview(file) {
 	if (file.type?.indexOf('image') >= 0 || isImageByExt(file.url)) {
-		createImgPreview({ imageList: [file.url], maskClosable: true })
+		// createImgPreview({ imageList: [file.url], maskClosable: true })
+		createImgPreview({ urlList: [file.url] })
 	} else {
 		window.open(file.url)
 	}
@@ -285,9 +290,7 @@ defineExpose({
 <template>
 	<div :class="`${prefixCls}-container ${prefixCls}-container--${isLimit ? 'limit' : 'normal'} ${prefixCls}-container--${size}`">
 		<slot name="tips">
-			<div v-if="tips" class="tip my-7px text-12px text-#8a8886">
-				{{ tips }}
-			</div>
+			<div v-if="tips" class="tip my-7px text-12px text-#8a8886">{{ tips }}</div>
 		</slot>
 		<ElUpload
 			ref="uploadRef"
