@@ -303,7 +303,6 @@ defineExpose({
 			:on-exceed="handleExceed"
 			@change="handleChange"
 		>
-			<!-- @preview="handlePreview" -->
 			<slot>
 				<template v-if="isPictureCard">
 					<div class="text-center">
@@ -318,62 +317,32 @@ defineExpose({
 					<span>{{ text }}</span>
 				</el-button>
 			</slot>
-			<!-- 自定义file 渲染: 目前仅针对 picture-card 做自定义渲染 -->
-			<!--     v-if="$slots.file || isPictureCard"     -->
+			<!-- 自定义file 渲染 -->
 			<template #file="{ file, index }">
 				<slot name="file" :file="file" :index="index">
 					<!-- picture/picture-card 图片渲染 -->
-					<div
-						v-if="bindProps.listType === 'picture' || /*file.status !== 'uploading' &&*/ bindProps.listType === 'picture-card'"
-						class="el-upload-list__item-thumbnail-wrap"
-					>
+					<div v-if="bindProps.listType === 'picture' || bindProps.listType === 'picture-card'" class="el-upload-list__item-thumbnail-wrap">
 						<component :is="bindProps.iconRender({ file })" />
 					</div>
-					<!--              <img
-											v-if="
-						listType === 'picture' ||
-						(file.status !== 'uploading' && listType === 'picture-card')
-					"
-											:class="nsUpload.be('list', 'item-thumbnail')"
-											:src="file.url"
-											:crossorigin="crossorigin"
-											alt=""
-							/> -->
-					<!-- el-upload-list__item-thumbnail -->
-
-					<!--           常规文件渲染 todo... -->
+					<!-- 非 picture-card 文件渲染 -->
 					<div v-if="file.status === 'uploading' || bindProps.listType !== 'picture-card'" class="el-upload-list__item-info">
 						<a class="el-upload-list__item-name" @click.prevent="handlePreview(file)">
 							<div v-if="bindProps.listType === 'text'" class="el-upload-upload-text-icon">
 								<component :is="bindProps.iconRender({ file })" />
 							</div>
-							<!-- todo delete
-							<el-icon class="el-icon&#45;&#45;document">
-								&lt;!&ndash;                        <Document /> &ndash;&gt;
-								<LeIcon icon="ep:document" />
-							</el-icon> -->
 							<span class="el-upload-list__item-file-name" :title="file.name">
 								{{ file.name }}
 							</span>
 						</a>
-						<!--            <el-progress
-							v-if="file.status === 'uploading'"
-							:type="bindProps.listType === 'picture-card' ? 'circle' : 'line'"
-							:stroke-width="bindProps.listType === 'picture-card' ? 6 : 2"
-							:percentage="+file.percentage"
-							:style="bindProps.listType === 'picture-card' ? '' : 'margin-top: 0.5rem'"
-						/> -->
 						<el-progress v-if="file.status === 'uploading'" type="line" :stroke-width="2" :percentage="+file.percentage" />
 					</div>
 					<!-- 文件-状态 -->
 					<label class="el-upload-list__item-status-label">
 						<el-icon v-if="bindProps.listType === 'text'" class="el-icon--upload-success el-icon--circle-check">
 							<LeIcon icon="ep:circle-check" />
-							<!-- <circle-check /> -->
 						</el-icon>
 						<el-icon v-else-if="['picture-card', 'picture'].includes(bindProps.listType)" class="el-icon--upload-success el-icon--check">
 							<LeIcon icon="ep:check" />
-							<!-- <Check /> -->
 						</el-icon>
 					</label>
 					<div class="el-upload-list__item-actions">
@@ -382,8 +351,7 @@ defineExpose({
 						<!-- action.删除 -->
 						<LeIcon v-if="!disabled" class="action action--close" icon="ep:close" @click="handleRemove(file)" />
 					</div>
-					<!--  todo -->
-					<i v-if="!disabled" class="el-icon--close-tip">按 delete 键可删除</i>
+					<i v-if="!disabled" class="el-icon--close-tip">{{ t('el.upload.deleteTip') }}</i>
 					<!-- picture-card actions -->
 					<div v-if="bindProps.listType === 'picture-card'" class="el-upload-list__item-actions actions--picture-card">
 						<!-- 查看 -->
@@ -438,7 +406,6 @@ $prefix-cls: '#{$prefix}upload';
 				}
 				.el-upload-list__item-actions {
 					opacity: 0;
-					//padding-right: 16px;
 					padding-right: 2px;
 				}
 			}
@@ -451,10 +418,6 @@ $prefix-cls: '#{$prefix}upload';
 					&-wrap img {
 						width: 70px;
 						height: 70px;
-						//position: static;
-						//display: block;
-						//width: 100%;
-						//height: 1;
 					}
 					&-wrap {
 						// 自定义小图标
@@ -528,9 +491,6 @@ $prefix-cls: '#{$prefix}upload';
 		&__item {
 			display: flex;
 			align-items: center;
-			/*.el-upload-list__item-info {
-				margin-left: 0;
-			}*/
 			&-thumbnail {
 				&-wrap,
 				&-wrap img {
@@ -557,32 +517,24 @@ $prefix-cls: '#{$prefix}upload';
 		}
 		&__item-actions {
 			display: inline-flex;
-			// todo...
 			.action {
 				width: 16px;
-				//margin: 0 4px;
 				font-size: 16px;
 				margin: 0 2px;
 				cursor: pointer;
 				transition: all 0.3s;
 				&:hover {
-					//background-color: rgba(0, 0, 0, 0.06);
-					//background-color: #f00;
 					color: var(--el-color-primary);
 					opacity: 1;
 				}
 			}
 			.el-icon {
 				width: 16px;
-				//margin: 0 4px;
 				font-size: 16px;
-				//padding: 0 6px;
 				margin: 0 2px;
 				cursor: pointer;
 				transition: all 0.3s;
 				&:hover {
-					//background-color: rgba(0, 0, 0, 0.06);
-					//background-color: #f00;
 					color: var(--el-color-primary);
 					opacity: 1;
 				}
@@ -625,34 +577,14 @@ $prefix-cls: '#{$prefix}upload';
 			&--picture-card {
 				gap: 4px;
 				.el-upload-list__item {
-					//margin: 0 4px 4px 0;
-					//padding: 0;
-					/*overflow: hidden;
-					&-name {
-						padding: 0 2px !important;
-						bottom: 2px !important;
-					}*/
 					&-thumbnail {
 						&-wrap {
 							.le-icon {
 								font-size: 30px;
 							}
 						}
-						//line-height: 52px !important;
 						//.anticon {}
 					}
-					/*&-progress {
-						bottom: 2px !important;
-						padding-inline: 2px !important;
-					}
-					&-actions {
-						.anticon {
-							margin: 0 !important;
-						}
-						.ant-btn {
-							width: 16px;
-						}
-					}*/
 				}
 				.el-upload--picture-card {
 					--el-upload-picture-card-size: 52px;
