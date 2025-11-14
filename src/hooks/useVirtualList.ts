@@ -1,5 +1,6 @@
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import type { Ref } from 'vue'
+import { useWindowSizeFn } from '@/hooks/useWindowSizeFn'
 // import { throttle } from '@/utils'
 interface Config {
 	data: Ref<any[]> // 数据源
@@ -20,6 +21,19 @@ export default function useVirtualList(config: Config) {
 		scrollContainerEl: HtmlElType = null
 
 	let resizeObserver: ResizeObserver | null = null
+	// 缓存已渲染元素的高度
+	const RenderedItemsCache: { [key: number]: { height: number; updated: boolean } } = {}
+	// 重置高度updated标记
+	function resetHeightUpdated() {
+		// RenderedItemsCache = {}
+		Object.keys(RenderedItemsCache).forEach(key => {
+			if (RenderedItemsCache[key]) {
+				RenderedItemsCache[key].updated = false
+			}
+		})
+	}
+	// 宽|高 变化 标记updated重置
+	useWindowSizeFn(resetHeightUpdated)
 	onMounted(() => {
 		actualHeightContainerEl = document.querySelector(config.actualHeightContainer)
 		scrollContainerEl = document.querySelector(config.scrollContainer)
@@ -53,6 +67,7 @@ export default function useVirtualList(config: Config) {
 			nextTick(() => {
 				const el = document.querySelector(config.scrollContainer)
 				if (el) el.scrollTop = 0
+				resetHeightUpdated()
 				updateRenderData(0)
 			})
 		}
@@ -68,30 +83,8 @@ export default function useVirtualList(config: Config) {
 		actualHeightContainerEl!.style.height = actualHeight + 'px'
 	}
 
-	// 缓存已渲染元素的高度
-	const RenderedItemsCache: any = {}
-
 	// 更新已渲染列表项的缓存高度
 	const updateRenderedItemCache = (index: number) => {
-		/* // 当所有元素的实际高度更新完毕，就不需要重新计算高度
-		const shouldUpdate = Object.keys(RenderedItemsCache).length < dataSource.length
-		if (!shouldUpdate) return
-
-		nextTick(() => {
-			// 获取所有列表项元素
-			const Items: HTMLElement[] = Array.from(document.querySelectorAll(config.itemContainer))
-
-			// 进行缓存
-			Items.forEach(el => {
-				if (!RenderedItemsCache[index]) {
-					RenderedItemsCache[index] = el.offsetHeight
-				}
-				index++
-			})
-
-			// 更新实际高度
-			updateActualHeight()
-		}) */
 		nextTick(() => {
 			const items = Array.from(document.querySelectorAll(config.itemContainer)) as HTMLElement[]
 
@@ -117,8 +110,9 @@ export default function useVirtualList(config: Config) {
 		entries.forEach(entry => {
 			const target = entry.target as HTMLElement
 			const index = target.dataset.index
+			// console.error(index, 'handleResize index')
 			if (index) {
-				RenderedItemsCache[index] = target.offsetHeight
+				RenderedItemsCache[index] = { height: target.offsetHeight, updated: true }
 				computePrefixHeights()
 				updateActualHeight()
 			}
@@ -126,20 +120,21 @@ export default function useVirtualList(config: Config) {
 	}
 	// 提取的缓存更新方法
 	const updateSingleItemCache = (el: HTMLElement, index: number) => {
-		if (!RenderedItemsCache[index]) {
-			RenderedItemsCache[index] = el.offsetHeight
+		if (!RenderedItemsCache[index] || !RenderedItemsCache[index].updated) {
+			RenderedItemsCache[index] = { height: el.offsetHeight, updated: true }
 			el.dataset.index = index.toString() // 添加索引标识
 		}
 	}
 
 	// 获取缓存高度，无缓存，取配置项的 itemHeight
 	const getItemHeightFromCache = (index: number | string) => {
-		const val = RenderedItemsCache[index]
+		const val = RenderedItemsCache[index]?.height
 		return val === void 0 ? config.itemHeight : val
 	}
 
 	// 实际渲染的数据
 	const actualRenderData: Ref<any[]> = ref([])
+	const startIdx = ref(0)
 
 	// 更新实际渲染数据
 	const updateRenderData = (scrollTop: number) => {
@@ -190,6 +185,7 @@ export default function useVirtualList(config: Config) {
 
 		// 更新渲染数据
 		actualRenderData.value = dataSource.slice(startIndex, endIndex)
+		startIdx.value = startIndex
 		updateRenderedItemCache(startIndex)
 
 		// 计算精确偏移
@@ -213,7 +209,7 @@ export default function useVirtualList(config: Config) {
 			updateRenderData(e.target.scrollTop)
 		})
 	}
-	// 注册滚动事件
+
 	onMounted(() => {
 		// console.warn(scrollContainerEl, 'scrollContainerEl')
 		scrollContainerEl?.addEventListener('scroll', handleScroll)
@@ -226,5 +222,5 @@ export default function useVirtualList(config: Config) {
 		resizeObserver = null
 	})
 
-	return { actualRenderData }
+	return { actualRenderData, startIdx }
 }
