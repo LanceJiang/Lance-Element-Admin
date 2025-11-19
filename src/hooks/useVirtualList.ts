@@ -55,6 +55,15 @@ export default function useVirtualList(config: Config) {
 		}
 	}
 
+	const scrollTopReset = async (nextTick_ = true) => {
+		// 计算需要渲染的数据
+		if (nextTick_) await nextTick()
+		const el = document.querySelector(config.scrollContainer)
+		if (el) el.scrollTop = 0
+		resetHeightUpdated()
+		updateRenderData(0)
+	}
+
 	// 数据源发生变动
 	watch(
 		() => config.data.value,
@@ -62,14 +71,7 @@ export default function useVirtualList(config: Config) {
 			// 更新数据源
 			dataSource = newVla
 			computePrefixHeights()
-
-			// 计算需要渲染的数据
-			nextTick(() => {
-				const el = document.querySelector(config.scrollContainer)
-				if (el) el.scrollTop = 0
-				resetHeightUpdated()
-				updateRenderData(0)
-			})
+			scrollTopReset()
 		}
 	)
 
@@ -209,18 +211,21 @@ export default function useVirtualList(config: Config) {
 			updateRenderData(e.target.scrollTop)
 		})
 	}
-
-	onMounted(() => {
-		// console.warn(scrollContainerEl, 'scrollContainerEl')
+	const handleOpen = async () => {
+		scrollTopReset()
 		scrollContainerEl?.addEventListener('scroll', handleScroll)
-	})
-
-	// 移除滚动事件
-	onBeforeUnmount(() => {
+	}
+	const handleClose = async () => {
+		scrollTopReset(false)
 		scrollContainerEl?.removeEventListener('scroll', handleScroll)
 		resizeObserver?.disconnect()
 		resizeObserver = null
-	})
+	}
 
-	return { actualRenderData, startIdx }
+	onMounted(handleOpen)
+
+	// 移除滚动事件
+	onBeforeUnmount(handleClose)
+
+	return { actualRenderData, startIdx, handleClose, handleOpen }
 }
