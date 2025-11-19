@@ -62,6 +62,8 @@ export type Options = {
 	showIndex?: boolean
 	// 展示数据序列号_label (默认:'序号')
 	indexLabel?: string
+	// 展示数据序列号_label (默认:'序号')
+	generateIndex?: (index: number) => number
 	// 是否加载table 分页栏 (默认:true)
 	showPagination?: boolean
 

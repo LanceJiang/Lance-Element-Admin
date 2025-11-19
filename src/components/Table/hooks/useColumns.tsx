@@ -192,7 +192,7 @@ export function useColumns(opts: useColumnsOpts) {
 				label: unref(computedOptions).indexLabel,
 				showOverflowTooltip: true,
 				resizable: true,
-				index: generateIndex,
+				index: unref(computedOptions).generateIndex || generateIndex,
 				width: '50px',
 				fixed: 'left'
 			})
