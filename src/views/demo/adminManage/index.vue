@@ -4,10 +4,10 @@
 		<LeSearchForm v-model:search-data="searchData" :forms="searchForms" :loading="tableOpts.options.loading" />
 		<!-- 公用Table组件 -->
 		<LeTable
-			v-model:search-params="tableOpts.searchParams"
 			v-bind="tableOpts"
+			v-model:search-params="tableOpts.searchParams"
 			v-model:checked-options="checkedColumns"
-			:list="actualRenderData"
+			:list="curList"
 			:columns="activeColumns"
 		>
 			<template #toolLeft>
@@ -17,7 +17,15 @@
 				</el-button>
 			</template>
 			<template #toolRight>
-				<el-button type="primary">toolRight</el-button>
+				<el-switch
+					:model-value="isVirtualList"
+					inline-prompt
+					active-text="开"
+					inactive-text="关"
+					:loading="tableOpts.options.loading"
+					@change="switchVirtualList"
+					>切换虚拟滚动列表</el-switch
+				>
 			</template>
 			<template #top>
 				<div class="p-[10px] mb-[10px]" style="background-color: rgb(248 113 113)">顶部自定义插槽#top</div>
@@ -239,14 +247,17 @@ const { tableOpts, checkedColumns, activeColumns, searchData } = useTablePage(
 		// 搜索数据
 		searchParams: {
 			page: 1,
-			size: 20
+			// size: 20
+			size: 50
 		},
 		columns,
 		options: {
 			// showOverflowTooltip: false,
 			loading: false,
 			showIndex: true,
-			size: 'small'
+			size: 'small',
+			generateIndex,
+			pageSizes: [50, 100, 500, 1000]
 		},
 		// 控制列配置
 		columnsConfig: {
@@ -270,7 +281,7 @@ const { tableOpts, checkedColumns, activeColumns, searchData } = useTablePage(
 const list = computed(() => {
 	return tableOpts.list
 })
-const { actualRenderData } = useVirtualList({
+const { actualRenderData, startIdx, handleOpen, handleClose } = useVirtualList({
 	data: list, // 列表项数据
 	// itemHeight: 100,
 	itemHeight: 46,
@@ -280,6 +291,31 @@ const { actualRenderData } = useVirtualList({
 	actualHeightContainer: '.le-table-warp .el-scrollbar__view', // 渲染实际高度的容器
 	translateContainer: '.le-table-warp .el-table__body' // 需要偏移的目标元素
 })
+const isVirtualList = ref(true)
+const curList = computed(() => {
+	return isVirtualList.value ? actualRenderData.value : list.value
+})
+const switchVirtualList = bool => {
+	tableOpts.options.loading = true
+	if (!bool) {
+		startIdx.value = 0
+		handleClose()
+	} else {
+		handleOpen()
+	}
+	isVirtualList.value = bool
+	setTimeout(() => {
+		tableOpts.options.loading = false
+	}, 30)
+}
+function generateIndex(index: number) {
+	const { size, page = 1 } = tableOpts.searchParams || {}
+	let _index = ++index + startIdx.value
+	if (size) {
+		_index = size * (page - 1) + _index
+	}
+	return _index
+}
 /*console.log('useVirtualList', actualRenderData)
 watch(actualRenderData, () => {
 	console.error(actualRenderData.value, 'actualRenderData')
