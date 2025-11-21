@@ -75,17 +75,7 @@
 			</template>
 			<!-- 操作 -->
 			<template #action="{ row }">
-				<el-tooltip placement="top" :content="$t('example.table.user')">
-					<el-button class="le-icon-button">
-						<LeIcon icon-class="le-view"></LeIcon>
-					</el-button>
-				</el-tooltip>
-				<el-button class="le-icon-button">
-					<LeIcon icon-class="le-hide_column"></LeIcon>
-				</el-button>
-				<el-button class="le-icon-button" disabled>
-					<LeIcon icon-class="le-hide_column"></LeIcon>
-				</el-button>
+				<LeTableAction :actions="rowTableActions(row)" />
 			</template>
 		</LeTable>
 	</div>

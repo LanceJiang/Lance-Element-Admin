@@ -711,6 +711,26 @@ export const tableBaseMixin = {
 				searchParams.others = ''
 				// searchParams.render = 'render reset.........'
 			}
+		},
+		rowTableActions(row) {
+			return [
+				{
+					tooltip: '客户',
+					icon: 'le-view',
+					onClick: () => {
+						console.error('click view 客户', row)
+					}
+				},
+				{
+					tooltip: '测试',
+					icon: 'le-hide_column'
+				},
+				{
+					tooltip: '测试-禁用',
+					icon: 'le-hide_column',
+					disabled: true
+				}
+			]
 		}
 	}
 }
