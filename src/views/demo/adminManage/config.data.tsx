@@ -1,4 +1,4 @@
-import { LeFormItem } from '@/components/FormConfig/formConfig.types'
+import { LeFormItem } from '@/components/FormConfig'
 import { LeTableColumnProps } from '@/components/Table'
 
 // 状态枚举

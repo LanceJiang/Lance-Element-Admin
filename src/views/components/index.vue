@@ -2,11 +2,21 @@
 	<div class="flex-column-page-wrap pageWrap">
 		Home
 		<div class="common_title">多语言 使用</div>
+		<div>
+			<span
+				class="le-link"
+				@click="
+					commonDownload('https://gooles.oss-cn-hongkong.aliyuncs.com/%E9%87%87%E8%B4%AD%E8%AE%A2%E5%8D%95%E5%90%88%E5%90%8C-CG2025079710003.pdf')
+				"
+			>
+				模拟链接下载
+			</span>
+		</div>
 		<div class="content">
 			<el-button size="small" @click="switchLang">
 				lang: 切换
-				<LeIcon icon-class="le-frozen" />
-				<LeIcon icon-class="le-warning" />
+				<LeIcon icon="le-frozen" />
+				<LeIcon icon="le-warning" />
 				{{ $i18n.locale }}
 			</el-button>
 			<div>local文字: {{ $t('route.dashboard') }}</div>
@@ -20,33 +30,48 @@
 			copy
 		>
 		</LeText>
+		<Upload />
 		<SearchGroup2Popover v-if="false" />
-		<LeSelectDemo v-if="true" />
 		<InputNumberDemo v-if="true" />
 		<LeDraggableNestDemo v-if="true" />
 		<WatermarkDemo v-if="true" />
 
-		<div class="common_title">le-iconfont && LeIcon</div>
+		<div class="common_title">le-iconfont && SvgIcon(iconfont/icons) && LeIcon</div>
 		<div class="content">
-			<!--  单色样式类  -->
-			<!--也可拼接 对应icon文件夹注入的icon 文件-->
-			<SvgIcon class="mx-1" icon-class="logo" />
-			<LeIcon class="mx-1" icon-class="icon-logo" />
-			<span class="le-iconfont le-review mx-1"></span>
-			<LeIcon class="mx-1" icon-class="le-checkbox_checked"></LeIcon>
-			<span class="le-iconfont le-checkbox_checked mx-1"></span>
-			<LeIcon class="mx-1" icon-class="le-checkbox"></LeIcon>
-			<span class="le-iconfont le-checkbox mx-1"></span>
-			<LeIcon class="mx-1" icon-class="le-radio_checked"></LeIcon>
-			<span class="le-iconfont le-radio_checked mx-1"></span>
-			<LeIcon class="mx-1" icon-class="le-radio"></LeIcon>
-			<span class="le-iconfont le-radio mx-1"></span>
+			<span class="bg-[yellow]">
+				<!--  单色样式类  -->
+				le-iconfont
+				<span class="le-iconfont le-review mx-1"></span>
+				<span class="le-iconfont le-checkbox_checked mx-1"></span>
+				<span class="le-iconfont le-checkbox mx-1"></span>
+				<span class="le-iconfont le-radio_checked mx-1"></span>
+				<span class="le-iconfont le-radio mx-1"></span>
+			</span>
+			<span class="bg-[pink] text-[16px]">
+				SvgIcon
+				<SvgIcon class="mx-1" icon="logo" />
+				<SvgIcon class="mx-1" icon="404" />
+				<!-- iconfont 定义的 svg -->
+				<SvgIcon class="text-error mx-1" prefix="" icon="le-loading" spin />
+			</span>
+			<span class="bg-[green] text-[16px]">
+				LeIcon
+				<!--icons-->
+				<LeIcon class="mx-1" icon="icon-logo" />
+				<LeIcon class="mx-1" icon="icon-404" />
+				<!-- iconfont 定义的 svg -->
+				<LeIcon class="text-error mx-1" icon="le-loading" spin />
+				<LeIcon class="mx-1" icon="le-checkbox"></LeIcon>
+				<!-- iconfont 定义的 svg icon-name: 参考 https://icon-sets.iconify.design/ -->
+				<LeIcon class="mx-1" icon="svg-spinners:wind-toy"></LeIcon>
+			</span>
+
 			<!--  svg  -->
-			<LeIcon class="mx-1" icon-class="le-frozen" @click="testHandler"></LeIcon>
+			<LeIcon class="mx-1" icon="le-frozen" @click="testHandler"></LeIcon>
 			<!--Table 操作 用： Icon按钮-->
 			<el-tooltip placement="top" :content="$t('le.btn.search')">
 				<el-button class="le-icon-button" @click="testHandler('row')">
-					<LeIcon class="mx-1" icon-class="le-view"></LeIcon>
+					<LeIcon class="mx-1" icon="le-view"></LeIcon>
 				</el-button>
 			</el-tooltip>
 		</div>
@@ -87,7 +112,7 @@
 			<IconPicker v-model="curIcon" />
 			<div style="margin: 6px 0">
 				当前选中的 PickerIcon 为：
-				<PickerIcon style="color: var(--el-color-danger); font-size: 24px" :icon-class="curIcon || 'Grid'" />
+				<PickerIcon style="color: var(--el-color-danger); font-size: 24px" :icon="curIcon || 'Grid'" />
 			</div>
 		</div>
 		<div class="common_title">暂无数据 LeNoData</div>
@@ -129,8 +154,8 @@
 
 <script setup name="home" lang="tsx">
 import { ref } from 'vue'
+import Upload from './components/Upload.vue'
 import SearchGroup2Popover from './components/SearchGroup2Popover.vue'
-import LeSelectDemo from './components/LeSelectDemo.vue'
 import InputNumberDemo from './components/InputNumberDemo.vue'
 import LeDraggableNestDemo from './components/LeDraggableNestDemo.vue'
 import WatermarkDemo from './components/WatermarkDemo.vue'
@@ -138,6 +163,7 @@ import IconPicker from '@/components/IconPicker/index.vue'
 import PickerIcon from '@/components/IconPicker/PickerIcon.vue'
 import useStore from '@/store/index'
 import { useI18n } from 'vue-i18n'
+import { commonDownload } from '@/utils'
 // import i18n from '@/lang'
 const dropdownValue = ref()
 const dropdownOptions = ref([

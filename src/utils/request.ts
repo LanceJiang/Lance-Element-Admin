@@ -93,7 +93,7 @@ axiosInstance.interceptors.response.use(
 		const response: AxiosResponse = error.response || {}
 		const { data } = response
 		// eslint-disable-next-line
-		showFullPageLoadingHandler(error.config || {} as any, () => {
+		showFullPageLoadingHandler(error.config || ({} as any), () => {
 			loading.close()
 		})
 		if (!error.response || !data) {
@@ -132,6 +132,18 @@ export default axiosInstance
 // 用于 数据 取消上次请求绑定 使用
 export const CancelToken = axios.CancelToken
 
+export function getHeaders() {
+	const headers: Recordable = {
+		// // Authorization: `Bearer ${}`,
+		// 'Accept-Language': 'zh-CN',
+	}
+	const token = ls.get('token')
+	// 让每个请求携带自定义token 请根据实际情况自行修改
+	if (token) {
+		headers['Authorization'] = `Bearer ${token}`
+	}
+	return headers
+}
 // import request from '@/utils/request'
 //
 // //列表

@@ -9,6 +9,7 @@ import path from 'path'
 import pkg from './package.json'
 import dayjs from 'dayjs'
 import { wrapperEnv } from './build/getEnv'
+import purgeIcons from 'vite-plugin-purge-icons'
 
 const { dependencies, devDependencies, name, version } = pkg
 const __APP_INFO__ = {
@@ -52,7 +53,7 @@ export default defineConfig(({ mode /*command,*/ }: ConfigEnv): UserConfig => {
 			devSourcemap: true,
 			preprocessorOptions: {
 				scss: {
-					additionalData: `@import "@/styles/variables.scss";`
+					additionalData: `@use "@/styles/variables.scss" as *;`
 				}
 			}
 		},
@@ -88,7 +89,8 @@ export default defineConfig(({ mode /*command,*/ }: ConfigEnv): UserConfig => {
 				iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
 				// 指定symbolId格式
 				symbolId: 'icon-[dir]-[name]'
-			})
+			}),
+			purgeIcons()
 		]
 	}
 })

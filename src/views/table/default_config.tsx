@@ -116,7 +116,7 @@ export const columns = [
 			default: 'action'
 		},
 		fixed: 'right',
-		minWidth: '150px'
+		width: '150px'
 	}
 ]
 
@@ -182,7 +182,7 @@ export const get_tabs_filterForms = () => [
 		// append: '.com' // 额外form-item配置
 		// placeholder: '请输入input..............' // 额外form-item配置
 	},
-	{
+	/*{
 		// visible: true, // 只要不为false 就是 展示
 		// isMore: true, // 只要不为true 就是 默认展示
 		prop: 'leSelect_icon', // 提交的 params 的字段
@@ -193,7 +193,7 @@ export const get_tabs_filterForms = () => [
 			option({ option, label }) {
 				// console.error(option, label, 'option, label')
 				const style = `color: ${option.color}`
-				return <le-icon icon-class={option.icon} style={style}></le-icon>
+				return <le-icon icon={option.icon} style={style}></le-icon>
 			}
 		},
 		// 渲染选中的特殊展示
@@ -206,7 +206,7 @@ export const get_tabs_filterForms = () => [
 			if (iconValue) {
 				const option = icon_configObj[iconValue]
 				const style = `color: ${option.color}`
-				showValue = <le-icon icon-class={option.icon} style={style}></le-icon>
+				showValue = <le-icon icon={option.icon} style={style}></le-icon>
 				// isMore请求 无需生成 tag
 				if (isMore) return { showValue }
 				tag = (
@@ -221,7 +221,7 @@ export const get_tabs_filterForms = () => [
 				tag
 			}
 		}
-	},
+	},*/
 	{
 		visible: true, // 只要不为false 就是 展示
 		isMore: true, // 只要不为true 就是 默认展示
@@ -231,7 +231,7 @@ export const get_tabs_filterForms = () => [
 		// prepend: 'Http://', // 额外form-item配置
 		// append: '.com' // 额外form-item配置
 	},
-	{
+	/*{
 		// visible: true, // 只要不为false 就是 展示
 		// isMore: true, // 只要不为true 就是 默认展示
 		prop: 'leSelect', // 提交的 params 的字段
@@ -253,8 +253,8 @@ export const get_tabs_filterForms = () => [
 			//   return label + '_____'
 			// }
 		}
-	},
-	{
+	},*/
+	/*{
 		// visible: true, // 只要不为false 就是 展示
 		isMore: true, // 只要不为true 就是 默认展示
 		prop: 'leSelectMore', // 提交的 params 的字段
@@ -300,7 +300,7 @@ export const get_tabs_filterForms = () => [
 				label_1: 'leSelectMore多选' + i
 			}
 		})
-	},
+	},*/
 	{
 		visible: true, // 只要不为false 就是 展示
 		isMore: false, // 只要不为true 就是 默认展示
@@ -711,6 +711,26 @@ export const tableBaseMixin = {
 				searchParams.others = ''
 				// searchParams.render = 'render reset.........'
 			}
+		},
+		rowTableActions(row) {
+			return [
+				{
+					tooltip: '客户',
+					icon: 'le-view',
+					onClick: () => {
+						console.error('click view 客户', row)
+					}
+				},
+				{
+					tooltip: '测试',
+					icon: 'le-hide_column'
+				},
+				{
+					tooltip: '测试-禁用',
+					icon: 'le-hide_column',
+					disabled: true
+				}
+			]
 		}
 	}
 }

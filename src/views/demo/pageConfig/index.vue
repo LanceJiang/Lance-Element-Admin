@@ -1,7 +1,7 @@
 <template>
 	<div class="testTable column-page-wrap">
 		<!-- 公用搜索组件 -->
-		<LeSearchForm ref="searchForm" v-model:searchData="searchData" :forms="forms" :loading="tableOpts.options.loading">
+		<LeSearchForm ref="searchForm" v-model:search-data="searchData" :forms="forms" :loading="tableOpts.options.loading">
 			<template #slot_label_test="{ label }">
 				<div style="background: var(--el-color-danger); color: #fff; display: flex">
 					label custom: string<span style="margin-left: auto; background: var(--el-color-primary)">{{ label }}</span>
@@ -16,9 +16,9 @@
 		:columnsConfig="tableOpts.columnsConfig"-->
 		<LeTable
 			ref="tableRef"
-			v-model:searchParams="tableOpts.searchParams"
+			v-model:search-params="tableOpts.searchParams"
 			v-bind="tableOpts"
-			v-model:curRow="tableOpts.curRow"
+			v-model:cur-row="tableOpts.curRow"
 			v-model:checked-options="checkedColumns"
 			:columns="activeColumns"
 		>
@@ -71,10 +71,12 @@
 					index: {{ $index }}
 				</div>
 			</template>
-			<template #操作="{ row, column, $index }">
-				<div>
-					<el-button icon="delete" />
-				</div>
+			<template #图表="{ row }">
+				<LeChart v-if="row.chartOption_price" width="120px" height="38px" :option="row.chartOption_price" is-init-option />
+				<div v-else style="height: 30px" />
+			</template>
+			<template #操作="{ row }">
+				<LeTableAction :actions="rowTableActions(row)" />
 			</template>
 		</LeTable>
 		<LeFormConfigDialog
@@ -83,8 +85,8 @@
 			v-model="visible"
 			:title="`${isCreate ? '新增' : '编辑'}配置`"
 			width="1200px"
-			:formData="activeData"
-			:formOptions="formOptions"
+			:form-data="activeData"
+			:form-options="formOptions"
 			@submit="submitHandler"
 		/>
 	</div>
@@ -97,42 +99,12 @@ import { ElMessage } from 'element-plus'
 import { useTablePage } from '@/hooks/useTablePage'
 import i18n from '@/lang'
 import { SearchParams } from '@/components/Table'
-import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
+import { LeFormItem } from '@/components/FormConfig'
+import { colorBase1 } from '@/components/Chart.vue'
 // import { Plus, Delete } from '@element-plus/icons-vue'
 const tableRef = ref()
 // window.tableRef = tableRef
 const _forms = [
-	// leSelect 单选
-	{
-		prop: 'leSelect',
-		label: 'leSelect',
-		itemType: 'leSelect',
-		// span: 8,
-		options: [
-			{ value: 'leSelect_1', label: 'le_类型一' },
-			{ value: 'leSelect_2', label: 'le_类型二' }
-		]
-		/* rules: [
-				{ required: true, message: '请输入邮箱地址', trigger: 'blur' }
-		]*/
-	},
-	// leSelect 多选
-	{
-		prop: 'leSelect多选',
-		label: 'leSelect多选',
-		// itemStyle: 'background: var(--el-color-danger); width: 500px',
-		// itemWidth: '300px',
-		itemType: 'leSelect',
-		multiple: true,
-		// span: 8,
-		options: [
-			{ value: 'leSelect_1', label: 'le_类型一' },
-			{ value: 'leSelect_2', label: 'le_类型二' }
-		]
-		/* rules: [
-				{ required: true, message: '请输入邮箱地址', trigger: 'blur' }
-		]*/
-	},
 	{
 		prop: 'render',
 		label: '自定义Render',
@@ -375,16 +347,115 @@ const formOptions = ref({
 	}
 })
 
+const commonChartOpts = ({ xAxis = [], data = [], formatter, series: _series }) => {
+	const series = _series || [
+		{
+			showSymbol: false,
+			smooth: true,
+			data,
+			lineStyle: {
+				width: 1
+			},
+			symbolSize: 0,
+			areaStyle: {
+				color: 'rgba(91, 143, 249, 0.1)'
+			},
+			type: 'line'
+		}
+	]
+	return {
+		legend: { show: false },
+		color: colorBase1,
+		grid: {
+			top: 0,
+			left: 0,
+			bottom: 0,
+			right: 0
+		},
+		tooltip: {
+			trigger: 'axis',
+			position: ['-150px', '-80px'],
+			axisPointer: {
+				label: {
+					show: false
+				}
+			},
+			formatter
+		},
+		xAxis: {
+			show: false,
+			type: 'category',
+			data: xAxis,
+			axisLine: {
+				show: false
+			},
+			axisTick: {
+				show: false
+			},
+			axisLabel: {
+				show: false
+			}
+		},
+		yAxis: {
+			show: false,
+			type: 'value',
+			axisLine: {
+				show: false,
+				lineStyle: {
+					width: 1
+				}
+			},
+			axisTick: {
+				show: false
+			},
+			axisLabel: {
+				show: false
+			}
+		},
+		series
+	}
+}
+
+const getChartOption_price = (chart: any[]) => {
+	const xAxis = chart.map(v => v.date)
+	const series = ['min', 'max'].map(key => {
+		const data = chart.map(v => v[key])
+		return {
+			name: key,
+			showSymbol: false,
+			smooth: true,
+			data,
+			lineStyle: {
+				width: 1
+			},
+			symbolSize: 0,
+			areaStyle: {
+				color: 'rgba(91, 143, 249, 0.1)'
+			},
+			type: 'line'
+		}
+	})
+	const formatter = series => {
+		const markers = series.reduce((res, v) => {
+			res += `<br>${v.marker}${v.seriesName}:  ${v.value}`
+			return res
+		}, '')
+		const params = series[0]
+		return markers ? `${params.axisValue}${markers}` : undefined
+	}
+	return commonChartOpts({ xAxis, series, formatter })
+}
+
 // table列表数据请求
 const queryList = () => {
 	const { options } = tableOpts
-	// console.error('测试....')
 	options.loading = true
 	console.log('搜索参数： ', JSON.stringify(tableOpts.searchParams))
 	getAdminList(tableOpts.searchParams)
 		.then((data: any) => {
 			const { total, data: list } = data
 			tableOpts.total = total
+			list.map(v => (v.chartOption_price = getChartOption_price(v.price_ary)))
 			// list.push({})
 			tableOpts.list = list
 		})
@@ -395,7 +466,6 @@ const queryList = () => {
 // table 参数
 const columns = [
 	{
-		// prop: 'name',
 		prop: 'username',
 		label: '角色',
 		// resizable:false,
@@ -419,7 +489,6 @@ const columns = [
 		sortable: true,
 		minWidth: 100,
 		titleHelp: {
-			// message: 'todo:我是问号提示测试',
 			message: (
 				<span style="background: var(--el-color-danger)">
 					我是自定义 <br />
@@ -435,7 +504,6 @@ const columns = [
 			// console.log(row, column, 'row, column');
 			/** 若在内部用到jsx写法 需要在 script 新增 lang 为 jsx || tsx */
 			return <div style="background: #f0f;">${row.name || '- 66666 -'}</div>
-			// return row.name || '- 66666 -'
 		}
 	},
 	{
@@ -456,6 +524,14 @@ const columns = [
 		prop: 'email',
 		label: '邮箱',
 		minWidth: 200
+	},
+	{
+		prop: 'price_ary',
+		label: '趋势图',
+		minWidth: 150,
+		slots: {
+			default: '图表'
+		}
 	},
 	{
 		prop: 'action',
@@ -510,7 +586,6 @@ nextTick(() => {
 	}
 	// debugger
 	searchForm.value?.forceUpdateInitParams(tableOpts.searchParams)
-	// window.searchForm = searchForm
 })
 /*setTimeout(() => {
 	// 模拟特殊情况初始化搜索数据
@@ -522,7 +597,7 @@ nextTick(() => {
 	searchForm.value.forceUpdateInitParams(tableOpts.searchParams)
 	window.searchForm = searchForm
 })*/
-// 选中的columns
+// 模拟从api获取到选中的columns
 checkedColumns.value = columns.slice(-3)
 /*const tableOpts = reactive({
 	searchParams: {
@@ -587,23 +662,7 @@ watch(
 		immediate: true
 	}
 )
-// window.tableOpts = tableOpts
 
-nextTick(() => {
-	// console.error(searchForm.value, 'searchForm.value')
-	// window.searchForm = searchForm.value
-})
-// watch(() => tableOpts.searchParams.custName, (v, oldv) => {
-// watch(tableOpts.searchParams, (v, oldv) => {
-/*watch(
-	() => tableOpts.searchParams,
-	(v, oldv) => {
-		queryList()
-	},
-	{
-		immediate: true
-	}
-)*/
 const addHandler = () => {
 	isCreate.value = true
 	activeData.value = {}
@@ -654,6 +713,28 @@ const submitHandler = params => {
 		.finally(() => {
 			formOptions.value.formConfig.submitLoading = false
 		})
+}
+const rowTableActions = (row: any) => {
+	return [
+		{
+			tooltip: '删除',
+			icon: 'le-delete',
+			// colorClass: 'text-red-500',
+			colorClass: 'danger-color',
+			// onClick: handleDel.bind(null, row),
+			popconfirm: {
+				title: '确认删除嘛？',
+				confirm: () => {
+					// console.error('删除成功')
+					ElMessage({
+						message: '操作成功!',
+						type: 'success'
+					})
+					updateParams()
+				}
+			}
+		}
+	]
 }
 </script>
 

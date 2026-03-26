@@ -1,5 +1,6 @@
 // 工具函数集合
 import { ElMessage } from 'element-plus'
+import Icon from '@/components/Icon.vue'
 // vue Storage 使用
 export { ls } from './vueStorage'
 import { get, set } from 'lodash-es'
@@ -14,7 +15,7 @@ export const t = (key: string, ...args: any[]) => {
 	// @ts-ignore
 	return hasKey ? i18n.global.t(key, ...args) : key
 }
-export const getPropValue = <T = any>(obj: Record<string, any>, path: Arrayable<string>, defaultValue?: any): { value: T } => {
+export const getPropValue = <T = any,>(obj: Record<string, any>, path: Arrayable<string>, defaultValue?: any): { value: T } => {
 	return {
 		get value() {
 			return get(obj, path, defaultValue)
@@ -88,7 +89,7 @@ export function debounce(func: () => any, wait: number, immediate?: boolean) {
  * @param wait number 延迟毫秒数
  * @param immediate boolean 立即执行
  */
-export function throttle(func: () => any, wait: number, immediate?: boolean) {
+export function throttle(func: (e: any) => any, wait: number, immediate?: boolean) {
 	let t_start = 0
 	return function () {
 		/* eslint-disable */
@@ -167,13 +168,29 @@ export async function copyText(text: string) {
 	} else {
 		await copy(text)
 		if (copied.value) {
-			// 4d
 			// message.success('复制成功~')
 			ElMessage.success(t('le.message.CopiedSuccessfully'))
 		}
 	}
 }
 
+/**
+ * Add the object as a parameter to the URL
+ * @param baseUrl url
+ * @param obj
+ * @returns {string}
+ * eg:
+ *  let obj = {a: '3', b: '4'}
+ *  setObjToUrlParams('www.baidu.com', obj)
+ *  ==>www.baidu.com?a=3&b=4
+ */
+export function setObjToUrlParams(baseUrl: string, obj: any): string {
+	let parameters = ''
+	for (const key in obj) parameters += `${key}=${encodeURIComponent(obj[key])}&`
+
+	parameters = parameters.replace(/&$/, '')
+	return /\?$/.test(baseUrl) ? baseUrl + parameters : baseUrl.replace(/\/?$/, '?') + parameters
+}
 /**
  * 异步操作避免重复触发加锁
  * @param syncFn
@@ -248,4 +265,131 @@ export const isMobile = () => {
 	const userAgent = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 	const screenCheck = window.matchMedia('only screen and (max-width: 750px)').matches
 	return userAgent || screenCheck // window.innerWidth <= 750
+}
+// 接口请求走缓存
+export const queryApiCacheWrap = (apiPromise: () => Promise<any>, minute = 30) => {
+	let dateNum = 0
+	let isError = false
+	let _resolve: (data: any) => any = () => {}
+	let fetchData = new Promise(resolve => {
+		_resolve = resolve
+	})
+	return async () => {
+		// 上次请求失败 || 未请求 || 时长间隔超过 (minute:30)min 分钟
+		if (isError || !dateNum || +new Date() - dateNum > 1000 * 60 * minute) {
+			dateNum = +new Date()
+			fetchData = new Promise(resolve => {
+				_resolve = resolve
+			})
+			apiPromise()
+				.then(res => {
+					_resolve(res)
+				})
+				.catch(e => {
+					// console.error(e, 'error')
+					isError = true
+					return Promise.reject(e)
+				})
+		}
+		return fetchData
+	}
+}
+
+/**
+ * 公用下载
+ * @param path:string
+ * @param fileName:string
+ * @param showMsg:boolean
+ */
+export function commonDownload(path: string, fileName?: string, showMsg = true) {
+	if (!path) {
+		return Promise.reject('no file path')
+	}
+	let msgEl: any = null
+	// const key = `msg_k_${+new Date()}`
+	return new Promise((resolve, reject) => {
+		if (showMsg) {
+			msgEl = ElMessage({
+				type: 'warning',
+				message: '下载中...',
+				icon: <Icon class="action-spin" icon="le-loading" />,
+				duration: 0
+			})
+		}
+		// if (showMsg) message.loading({ content: '下载中...', key, duration: 0 })
+		const xhr = new XMLHttpRequest()
+		const url = path // `${location.protocol}${path.replace(/https?:/g, '')}`
+		xhr.open('GET', url, true)
+		xhr.responseType = 'blob'
+		xhr.send()
+		xhr.onload = function (e: any) {
+			const response = this.response // || { type: 'text/html' } // xhr
+			const status = this.status
+			// console.log('file status', status)
+			if (status >= 200 && status <= 304) {
+				// console.warn(`文件大小: ${response.size / 1024}kb`)
+				const fileReader = new FileReader()
+				fileReader.readAsDataURL(response)
+				fileReader.onload = function () {
+					const a = document.createElement('a')
+					a.style.display = 'none'
+					a.href = this.result as string
+					// 设置文件名 fileName
+					a.download = fileName || url.replace(/.*\/(.*\..*)/g, '$1')
+					document.body.appendChild(a)
+					a.click()
+					document.body.removeChild(a)
+				}
+				// if (showMsg) message.success({ content: '下载完成', key, duration: 1 })
+				if (showMsg) {
+					msgEl?.close()
+					ElMessage({
+						type: 'success',
+						message: '下载完成',
+						duration: 1000
+					})
+				}
+				resolve(response)
+			} else {
+				// 读取失败
+				reject(e.target)
+			}
+		}
+		xhr.onerror = function (e) {
+			// console.error('链接获取文件失败', e)
+			reject(e.target)
+		}
+	}).catch(e => {
+		// if (showMsg) message.error({ content: '下载失败', key, duration: 1 })
+		if (showMsg) {
+			ElMessage({
+				type: 'error',
+				message: '下载失败',
+				duration: 1000
+			})
+			msgEl?.close()
+		}
+
+		return Promise.reject(e)
+	})
+}
+
+/**
+ * @param leftSeconds 剩余时间戳（秒）
+ * @returns { d, h, m, s }
+ */
+export const getRemainingSecondsInfo = (leftSeconds: number) => {
+	if (!leftSeconds) return { s: 0 }
+	let t = leftSeconds
+	const s = t % 60
+	t = (t - s) / 60
+	if (t < 1) return { s }
+	const m = t % 60
+	t = (t - m) / 60
+	if (t < 1) return { m, s }
+	const h = t % 24
+	t = (t - h) / 24
+	if (t < 1) return { h, m, s }
+	const d = t
+	return { d, h, m, s }
 }

@@ -93,6 +93,15 @@ export default {
 				search: 'Search',
 				min: 'Min',
 				max: 'Max'
+			},
+			upload: {
+				upload: 'Upload',
+				acceptImage: 'Only images can be uploaded',
+				acceptUpload: 'Only upload files in {0} format',
+				maxSize: 'A single file does not exceed {0}MB ',
+				del: 'Delete',
+				delConfirm: 'Are you sure you want to delete this file?',
+				uploadErrorTip: '{0} Upload failed, please try again'
 			}
 		},
 		table: {

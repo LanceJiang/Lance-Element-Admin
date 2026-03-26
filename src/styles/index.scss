@@ -1,16 +1,16 @@
-@import './tailwind.scss';
-@import 'src/styles/variables.module';
-@import 'src/styles/element-plus-dark';
-@import './mixin.scss';
-@import './transition.scss';
-@import 'src/styles/element-plus';
-@import './sidebar.scss';
-@import './reset.scss';
-@import './project_normal.scss';
+@use './tailwind.scss';
+@use 'src/styles/variables.module' as *;
+@use './mixins.scss' as *;
+@use 'src/styles/element-plus-dark';
+@use './transition.scss';
+@use 'src/styles/element-plus';
+@use './sidebar.scss';
+@use './reset.scss';
+@use './project_normal.scss';
 // 涉及element-plus的全局样式类改造&&新增修饰
-@import './lance-element-ui.scss';
+@use './lance-element-ui.scss';
 // 涉及lance-element-ui的全局组件样式
-@import './lance-element-vue.scss';
+@use './lance-element-vue.scss';
 html {
 	height: 100%;
 	box-sizing: border-box;
@@ -24,7 +24,6 @@ body {
 	text-rendering: optimizeLegibility;
 	//font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
 	font-size: 12px;
-	//overflow-x: auto;
 }
 
 /*label {
@@ -118,14 +117,15 @@ div:focus {
 	white-space: nowrap;
 }
 @mixin text-overflow_ellipsis_line($line: 2) {
-	white-space: normal;
-	text-overflow: -o-ellipsis-lastline;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	display: -webkit-box; // 作为弹性伸缩盒子模型显示。
-	-webkit-box-orient: vertical; // 设置伸缩盒子的子元素排列方式--从上到下垂直排列
-	-webkit-line-clamp: $line; // 显示的行
+	overflow: hidden;
+	text-overflow: -o-ellipsis-lastline;
+	text-overflow: ellipsis;
 	word-break: break-all;
+	white-space: normal;
+	-webkit-line-clamp: $line; // 显示的行
+	line-clamp: $line;
+	-webkit-box-orient: vertical; // 设置伸缩盒子的子元素排列方式--从上到下垂直排列
 }
 .text-overflow_ellipsis_line_1 {
 	@include text-overflow_ellipsis_line(1);
@@ -154,6 +154,7 @@ div:focus {
 		color: var(--el-color-primary-light-5);
 	}
 }
+
 // 用于 类似 toolLeft 内嵌多个 el-button 排版 小屏兼容
 .btn-actions-flex-gap {
 	display: flex;
@@ -165,4 +166,18 @@ div:focus {
 			margin-left: 0;
 		}
 	}
+}
+
+// 普通列表增删改的通用样式表
+.primary-color {
+	color: var(--el-color-primary); // 使用变量设置填充颜色
+}
+.success-color {
+	color: var(--el-color-success);
+}
+.warning-color {
+	color: var(--el-color-warning);
+}
+.danger-color {
+	color: var(--el-color-danger);
 }

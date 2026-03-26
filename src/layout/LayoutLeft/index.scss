@@ -1,4 +1,5 @@
-@import "../layout_common";
+@use "src/styles/variables.scss" as *;
+@use "../layout_common" as *;
 .#{$prefix}layout-wrap--left {
 	position: relative;
   width: 100%;

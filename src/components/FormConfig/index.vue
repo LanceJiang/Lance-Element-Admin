@@ -2,18 +2,17 @@
 import { defineComponent, watch, computed, ref, reactive, unref, PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 // import { t } from 'lance-element-vue/src/locale'
-// import InputNumber from 'lance-element-vue/packages/InputNumber'
-import InputNumber from '../InputNumber'
-// import InputNumberRange from 'lance-element-vue/packages/InputNumberRange'
-import InputNumberRange from '../InputNumberRange'
-// import CustomRender from 'lance-element-vue/packages/CustomRender'
-import CustomRender from '../CustomRender'
-// import LeSelect from 'lance-element-vue/packages/Select'
-import LeSelect from '../Select'
-import { renderOption, getOptions, get_formSlots } from './utils.ts'
-import { LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from './formConfig.types'
-import { OptionItemProps } from '@/components/Select/select.types.ts'
+import InputNumber from '../InputNumber.vue'
+import InputNumberRange from '../InputNumberRange.vue'
+import CustomRender from '../CustomRender.vue'
+import { renderOption, getOptions, get_formSlots } from './utils'
+import { FormInstance, LeFormItem, FormConfigOpts, FormItemSlots, SlotOption } from './index'
+import { useNamespace } from '@/hooks/useNameSpace'
+
+// import { OptionItemProps } from '@/components/Select/select.types.ts'
 // import { useFormItems } from './hooks/useForm.tsx'
+const { prefixCls } = useNamespace('form')
+
 export const FormConfigProps = {
 	forms: {
 		type: Array as PropType<LeFormItem[]>,
@@ -73,14 +72,13 @@ const FormConfig = defineComponent({
 	components: {
 		CustomRender,
 		InputNumber,
-		InputNumberRange,
-		LeSelect
+		InputNumberRange
 	},
 	props: FormConfigProps,
 	emits: formConfigEmits,
 	setup(props, ctx) {
 		const { t } = useI18n()
-		const formRef = ref(/*formRef*/)
+		const formRef = ref<FormInstance>(/*formRef*/)
 		/*const queryItemTypeKeys = form => {
 			const { prop, itemType } = form
 			switch (itemType) {
@@ -92,7 +90,7 @@ const FormConfig = defineComponent({
 				case 'render':
 					// /!** !!! 暂不对render类型 进行更多标签处理 *!/
 					// return []
-				case 'leSelect':
+				// case 'leSelect':
 				case 'select':
 				case 'radio':
 				case 'datePicker':
@@ -325,28 +323,6 @@ const FormConfig = defineComponent({
 					}
 				}
 				switch (itemType) {
-					/* 自定义 le 自定义Select */
-					case 'leSelect':
-						// leSelect: 基于 element-plus el-select-v2扩展
-						const slots_leSelect = {
-							default: le_slots.option as SlotOption<OptionItemProps>
-						}
-						let leStyle = _itemStyle + (/width\:/g.test(_itemStyle) ? '' : ';width: 200px')
-						return (
-							<LeSelect
-								{...formOthers}
-								options={_options}
-								v-model={params[prop]}
-								isPopover={formOthers.isPopover ?? true}
-								// 通过teleport插入到body (popper-append-to-body popperAppendToBody已弃用)
-								teleported={formOthers.teleported ?? true}
-								onChange={formatterChange}
-								size={_size ?? size}
-								placeholder={_placeholder}
-								style={leStyle}
-								v-slots={slots_leSelect}
-							/>
-						)
 					/* 自定义 render */
 					case 'render':
 						return <CustomRender form={form} params={params} />
@@ -526,7 +502,7 @@ const FormConfig = defineComponent({
 				)
 			}
 			return (
-				<el-form ref={formRef} class={`le-form-config le-form-config--${size}`} {...form_config} size={size} model={params}>
+				<el-form ref={formRef} class={`${prefixCls}-config ${prefixCls}-config--${size}`} {...form_config} size={size} model={params}>
 					<el-row class="form_wrap" gutter={gutter}>
 						{/*renderForms({forms: realForms.value, gutter, span})*/}
 						{realForms.value

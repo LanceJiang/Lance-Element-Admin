@@ -174,7 +174,7 @@ const TableColumnsPopover = defineComponent(
 				<span>
 					<el-tooltip placement="top" content={t('le.column')}>
 						<el-button type="default" class="icon-button button-column">
-							<Icon icon-class="le-hide_column" />
+							<Icon icon="le-hide_column" />
 						</el-button>
 					</el-tooltip>
 				</span>

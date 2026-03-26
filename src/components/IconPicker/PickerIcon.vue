@@ -1,7 +1,8 @@
 <script setup lang="ts" name="PickerIcon">
 import { computed } from 'vue'
+import { useNamespace } from '@/hooks/useNameSpace'
 const props = defineProps({
-	iconClass: {
+	icon: {
 		type: String,
 		required: false
 	},
@@ -10,8 +11,9 @@ const props = defineProps({
 		default: ''
 	}
 })
+const { prefixCls } = useNamespace('pick-icon')
 const icon = computed(() => {
-	const iconClass = props.iconClass || ''
+	const _icon = props.icon || ''
 	let type = {
 		// 来自于 src/assets/icons 的svg: 'icon-[dir]-[name]'
 		icon: 'icon',
@@ -19,12 +21,12 @@ const icon = computed(() => {
 		le: 'le-iconfont'
 		// // 来自于 element svg 链接: 'el-[name]' => 实际icon name为： [name] el-仅用于标记
 		// el: 'element'
-	}[iconClass.split('-')[0]]
+	}[_icon.split('-')[0]]
 	// 匹配不到icon- & le- 默认element
 	if (!type) type = 'element'
-	let component = iconClass
+	let component = _icon
 	// if (type === 'element') {
-	// 	component = iconClass.replace('el-', '')
+	// 	component = _icon.replace('el-', '')
 	// }
 	// console.error(component, 'components.....')
 	return {
@@ -39,9 +41,9 @@ const colorStyle = computed(() => {
 
 <template>
 	<template v-if="icon.type === 'element'">
-		<component :is="icon.component" class="le-pick-icon" :style="colorStyle" />
+		<component :is="icon.component" :class="prefixCls" :style="colorStyle" />
 	</template>
-	<LeIcon v-else :icon-class="icon.component" class="le-pick-icon" :color="color" />
+	<LeIcon v-else :icon="icon.component" :class="prefixCls" :color="color" />
 </template>
 
 <style scoped lang="scss">

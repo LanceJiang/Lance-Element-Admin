@@ -2,7 +2,7 @@
 	<div class="menu--search-wrap">
 		<el-tooltip :content="$t('le.menuSearch')" effect="dark" placement="bottom">
 			<div class="menu--search menu-item le-hover-effect--bg" @click="handleOpen">
-				<LeIcon icon-class="le-search" />
+				<LeIcon icon="le-search" />
 			</div>
 		</el-tooltip>
 		<el-dialog
@@ -24,10 +24,10 @@
 				@click.stop
 			>
 				<template #prefix>
-					<LeIcon icon-class="le-search" />
+					<LeIcon icon="le-search" />
 				</template>
 				<template #default="{ item }">
-					<PickerIcon v-if="item.meta?.icon" class="icon" :icon-class="item.meta.icon" />
+					<PickerIcon v-if="item.meta?.icon" class="icon" :icon="item.meta.icon" />
 					<span class="title"> {{ item.meta.local_title }} </span>
 				</template>
 			</el-autocomplete>

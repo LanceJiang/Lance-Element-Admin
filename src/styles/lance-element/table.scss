@@ -1,6 +1,5 @@
-@import "../variables.scss";
-@import "../mixins.scss";
-
+@use "../variables.scss" as *;
+@use "../mixins" as *;
 // table TableColumnsPopover 样式
 .#{$prefix}column-popover {
   &.el-popper {

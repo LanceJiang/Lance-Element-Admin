@@ -35,7 +35,7 @@
 						:content="$t('le.btn.reset')"
 					>
 						<el-button size='small' @click='$message.warning("触发 reset 方法")'>
-							<le-icon icon-class="le-clear" />
+							<le-icon icon="le-clear" />
 						</el-button>
 					</el-tooltip>
 					<el-tooltip
@@ -43,7 +43,7 @@
 						:content="$t('le.btn.confirm')"
 					>
 						<el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-							<le-icon icon-class="le-confirm" />
+							<le-icon icon="le-confirm" />
 						</el-button>
 					</el-tooltip>
 				</div>
@@ -70,10 +70,10 @@
 
 				<div class="le-popover&#45;&#45;select_footer">
 					<el-button size='small' @click='$message.warning("触发 reset 方法")'>
-						<le-icon icon-class="le-clear" />
+						<le-icon icon="le-clear" />
 					</el-button>
 					<el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-						<le-icon icon-class="le-confirm" />
+						<le-icon icon="le-confirm" />
 					</el-button>
 				</div>
 			</LePopover>
@@ -99,10 +99,10 @@
 
 				<div class="le-popover&#45;&#45;select_footer">
 					<el-button size='small' @click='$message.warning("触发 reset 方法")'>
-						<le-icon icon-class="le-clear" />
+						<le-icon icon="le-clear" />
 					</el-button>
 					<el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-						<le-icon icon-class="le-confirm" />
+						<le-icon icon="le-confirm" />
 					</el-button>
 				</div>
 			</LePopover>
@@ -113,7 +113,7 @@
 						:content="$t('le.filter.filterLabel')"
 					>
 						<el-button @click='triggerFilter'>
-							<le-icon icon-class="le-filter"/>
+							<le-icon icon="le-filter"/>
 						</el-button>
 					</el-tooltip>
 				</span>
@@ -154,7 +154,7 @@
 					:content="$t('le.btn.reset')"
 				>
 					<el-button size='small' @click='$message.warning("触发 reset 方法")'>
-						<le-icon icon-class="le-clear" />
+						<le-icon icon="le-clear" />
 					</el-button>
 				</el-tooltip>
 				<el-tooltip
@@ -162,7 +162,7 @@
 					:content="$t('le.btn.confirm')"
 				>
 					<el-button size='small' type="primary" @click='$message.warning("触发 confirm 方法")'>
-						<le-icon icon-class="le-confirm" />
+						<le-icon icon="le-confirm" />
 					</el-button>
 				</el-tooltip>
 			</div>
@@ -216,7 +216,7 @@
 </template>
 <script setup lang="tsx" name="SearchGroup2Popover">
 import { defineComponent, ref, toRefs, reactive, computed, watch, onMounted } from 'vue'
-import { LeFormItem } from '@/components/FormConfig/formConfig.types.ts'
+import { LeFormItem } from '@/components/FormConfig/index.d'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
@@ -271,7 +271,7 @@ const formOptions = ref({
 			// prepend: 'Http://', // 额外form-item配置
 			// append: '.com' // 额外form-item配置
 		},
-		{
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			// isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelect_icon', // 提交的 params 的字段
@@ -282,14 +282,14 @@ const formOptions = ref({
 				option({ option, label }) {
 					// console.error(option, label, 'option, label')
 					const style = `color: ${option.color}`
-					return <le-icon icon-class={option.icon} style={style}></le-icon>
+					return <le-icon icon={option.icon} style={style}></le-icon>
 				}
 			},
-			/*slotOption({ option, label }) {
+			/!*slotOption({ option, label }) {
 				// console.error(option, label, 'option, label')
 				const style = `color: ${option.color}`
-				return <le-icon icon-class={option.icon} style={style}></le-icon>
-			},*/
+				return <le-icon icon={option.icon} style={style}></le-icon>
+			},*!/
 			// 渲染选中的特殊展示
 			tagRender({ searchParams, transLabel, deleteFn, isMore }) {
 				// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
@@ -300,7 +300,7 @@ const formOptions = ref({
 				if (iconValue) {
 					const option = icon_configObj[iconValue]
 					const style = `color: ${option.color}`
-					showValue = <le-icon icon-class={option.icon} style={style}></le-icon>
+					showValue = <le-icon icon={option.icon} style={style}></le-icon>
 					// isMore请求 无需生成 tag
 					if (isMore) return { showValue }
 					tag = (
@@ -315,8 +315,8 @@ const formOptions = ref({
 					tag
 				}
 			}
-		},
-		{
+		},*/
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelectMultipleMore_icon', // 提交的 params 的字段
@@ -327,13 +327,13 @@ const formOptions = ref({
 			slots: {
 				option({ option, label }) {
 					const style = `color: ${option.color}`
-					return <le-icon icon-class={option.icon} style={style}></le-icon>
+					return <le-icon icon={option.icon} style={style}></le-icon>
 				}
 			},
-			/*slotOption({ option, label }) {
+			/!*slotOption({ option, label }) {
 				const style = `color: ${option.color}`
-				return <le-icon icon-class={option.icon} style={style}></le-icon>
-			},*/
+				return <le-icon icon={option.icon} style={style}></le-icon>
+			},*!/
 			// 渲染选中的特殊展示
 			tagRender({ searchParams, transLabel, deleteFn, isMore }) {
 				// console.error(searchParams, transLabel, deleteFn, isMore, 'searchParams, label, value')
@@ -345,7 +345,7 @@ const formOptions = ref({
 					const options = Array.isArray(iconValue) ? iconValue.map(v => icon_configObj[v]) : [icon_configObj[iconValue]]
 					showValue = options.map(option => {
 						const style = `color: ${option.color}`
-						return <le-icon icon-class={option.icon} style={style}></le-icon>
+						return <le-icon icon={option.icon} style={style}></le-icon>
 					})
 					// isMore请求 无需生成 tag
 					if (isMore) return { showValue }
@@ -361,8 +361,8 @@ const formOptions = ref({
 					tag
 				}
 			}
-		},
-		{
+		},*/
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			// isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelect', // 提交的 params 的字段
@@ -376,8 +376,8 @@ const formOptions = ref({
 					label_1: '黄金糕' + i
 				}
 			})
-		},
-		{
+		},*/
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelectMore', // 提交的 params 的字段
@@ -391,8 +391,8 @@ const formOptions = ref({
 					label_1: '黄金糕' + i
 				}
 			})
-		},
-		{
+		},*/
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			// isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelectMultiple', // 提交的 params 的字段
@@ -407,8 +407,8 @@ const formOptions = ref({
 					label_1: '黄金糕' + i
 				}
 			})
-		},
-		{
+		},*/
+		/*{
 			// visible: true, // 只要不为false 就是 展示
 			isMore: true, // 只要不为true 就是 默认展示
 			prop: 'leSelectMultipleMore', // 提交的 params 的字段
@@ -423,7 +423,7 @@ const formOptions = ref({
 					label_1: '黄金糕' + i
 				}
 			})
-		},
+		},*/
 		/* { // 可用于特殊场合中 但不支持 tagList   （支持 替代  iconTip itemType 类型）
 			// showLabel: true,
 			prop: 'render',

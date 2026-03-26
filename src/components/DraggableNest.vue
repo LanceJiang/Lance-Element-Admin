@@ -126,25 +126,37 @@ const DraggableNest = defineComponent({
 		const slots_item = {
 			item: ({ element: v, index }) => {
 				const _label = v.t_label ? t(v.t_label) : v.label
-				return <div class="le-draggable-nest-item" key={v.prop}>
-					<div
-						class={['itemWrap', `${(v.fixed) ? 'disabled' : ''}`]}
-						// onClick={() => this.removeHandler(v, index, this.realValue)}
-					>
-						<el-checkbox size="default" class={props.level !== 0 ? 'checkbox-hide' : ''} disabled={!!v.fixed || props.level !== 0} modelValue={true} onChange={props.remove.bind(null, v, index, realValue.value)} />
-						<span class="label_txt" title={_label}>{ _label }</span>
-						<Icon class="dragEl" iconClass="le-drag"/>
+				return (
+					<div class="le-draggable-nest-item" key={v.prop}>
+						<div
+							class={['itemWrap', `${v.fixed ? 'disabled' : ''}`]}
+							// onClick={() => this.removeHandler(v, index, this.realValue)}
+						>
+							<el-checkbox
+								size="default"
+								class={props.level !== 0 ? 'checkbox-hide' : ''}
+								disabled={!!v.fixed || props.level !== 0}
+								modelValue={true}
+								onChange={props.remove.bind(null, v, index, realValue.value)}
+							/>
+							<span class="label_txt" title={_label}>
+								{_label}
+							</span>
+							<Icon class="dragEl" icon="le-drag" />
+						</div>
+						{(v.children || []).length ? (
+							<LeDraggableNest
+								group={v.prop}
+								move={props.move}
+								// remove={props.remove}
+								level={props.level + 1}
+								list={v.children}
+							/>
+						) : (
+							''
+						)}
 					</div>
-					{
-						(v.children || []).length ? <LeDraggableNest
-							group={v.prop}
-							move={props.move}
-							// remove={props.remove}
-							level={props.level + 1}
-							list={v.children}
-						/> : ''
-					}
-				</div>
+				)
 			}
 		}
 		return () => {

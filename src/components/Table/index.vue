@@ -7,6 +7,7 @@ import TableColumnsPopover from './components/TableColumnsPopover.vue'
 import { createTableContext } from './hooks/useTableContext'
 import { useColumns, useColumnsOpts } from './hooks/useColumns'
 import { useI18n } from 'vue-i18n'
+import { useNamespace } from '@/hooks/useNameSpace'
 
 export const tableProps = {
 	// 数据列表
@@ -87,7 +88,7 @@ const default_tableConfig = {
 
 	// 额外table参数
 	loading: false, // 是否展示 tableLoading
-	multipleSelect: false, // 是否多选 table
+	multipleSelect: false, // 是否多选 table 控制多选请使用: selectable: (row, index) => boolean 配置
 	rowKey: 'id', // 根据 该值 查找当前页面数据是否包含当前数据 添加 多选被选中的状态
 	// currentRowKey: 'id', // 根据 该值 查找当前页面数据是否包含当前数据 添加 高亮状态(不传 默认继承rowKey)
 	// align: 'center', // columnItem 对齐方式
@@ -106,6 +107,8 @@ const TableComponent = defineComponent({
 	emits: ['update:searchParams', 'update:checkedOptions', 'sortChange', 'refresh', 'row-click', 'update:curRow'],
 	setup(props, { slots, emit, expose }) {
 		const { t } = useI18n()
+		const { b, prefixCls } = useNamespace('table-warp')
+
 		const tableRef = ref(/*tableRef*/)
 		const isFullscreen = ref(false)
 		// 切换全屏
@@ -220,7 +223,7 @@ const TableComponent = defineComponent({
 		return () => {
 			const { list, total, searchParams, columnsConfig, checkedOptions } = props
 			return (
-				<div class={`le-table-warp ${unref(isFullscreen) ? 'le-table-warp-maximize' : ''}`}>
+				<div class={`${prefixCls} ${b(unref(isFullscreen) ? 'maximize' : '')}`}>
 					<div class="tableBody">
 						{/* 工具栏 */}
 						<div class="toolBarWrap">
@@ -234,13 +237,13 @@ const TableComponent = defineComponent({
 								{/* 刷新 */}
 								<el-tooltip placement="top" content={t('le.refresh')}>
 									<el-button class="icon-button button-refresh" onClick={refreshHandler}>
-										<Icon iconClass="le-refresh" />
+										<Icon icon="le-refresh" />
 									</el-button>
 								</el-tooltip>
 								{/* 全屏 */}
 								<el-tooltip placement="top" content={t(isFullscreen.value ? 'le.exitFullscreen' : 'le.fullscreen')}>
 									<el-button class="icon-button button-screen" onClick={toggleFullscreen}>
-										<Icon iconClass={isFullscreen.value ? 'le-suoxiao' : 'le-fangda'} />
+										<Icon icon={isFullscreen.value ? 'le-suoxiao' : 'le-fangda'} />
 									</el-button>
 								</el-tooltip>
 								{/* columns过滤 */}
@@ -267,7 +270,6 @@ const TableComponent = defineComponent({
 								// 组件内单独封装 事件
 								onSortChange={tableSortChange}
 								onRowClick={onRowClick}
-								// onSelectionChange={this.handleSelectionChange}
 								v-slots={table_slots}
 							>
 								{localColumns.value.map(renderColumn)}

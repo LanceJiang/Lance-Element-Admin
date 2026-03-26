@@ -1,5 +1,7 @@
 import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/lib/components/table'
 // import type { ElTable, ElTableColumn, TableColumnCtx } from 'element-plus/es/components/table'
+import type { ElTooltip } from 'element-plus/lib/components/tooltip'
+import type { ElPopconfirm } from 'element-plus/lib/components/popconfirm'
 
 export type LeColumnSlots = {
 	// default?: ((scope: Record<string, any>) => any) | string
@@ -44,6 +46,8 @@ export type Options = {
 	loading?: boolean
 	// 是否多选类型 (默认:false)
 	multipleSelect?: boolean
+	// 多选类型|是否允许选择 (默认:true)
+	selectable?: (row, index) => boolean
 	// 多选类型|(currentRowKey当前行选中key)选中标记唯一key (默认:'id') 【table $prop属性之一】
 	rowKey?: (row) => any | string
 	// 根据 该值 查找当前页面数据是否包含当前数据 添加 高亮状态 (默认:'id')
@@ -58,6 +62,8 @@ export type Options = {
 	showIndex?: boolean
 	// 展示数据序列号_label (默认:'序号')
 	indexLabel?: string
+	// 展示数据序列号_label (默认:'序号')
+	generateIndex?: (index: number) => number
 	// 是否加载table 分页栏 (默认:true)
 	showPagination?: boolean
 
@@ -103,4 +109,23 @@ export type RenderScope<T> = {
 	$index: number
 	column: TableColumnCtx<T>
 	[key: string]: any
+}
+
+export type TooltipProps = InstanceType<typeof ElTooltip>['$props']
+export type PopConfirm = InstanceType<typeof ElPopconfirm>['$props'] & {
+	confirm: Fn
+	cancel?: Fn
+}
+export interface LeActionItem extends Recordable {
+	// tooltip 提示
+	tooltip?: string | TooltipProps
+	// 业务控制是否显示
+	ifShow?: boolean | ((action: ActionItem) => boolean)
+	icon?: string
+	color?: string
+	colorClass?: string
+	disabled?: boolean
+	onClick?: Fn
+	// popconfirm
+	popconfirm?: PopConfirm
 }

@@ -192,7 +192,7 @@ export function useColumns(opts: useColumnsOpts) {
 				label: unref(computedOptions).indexLabel,
 				showOverflowTooltip: true,
 				resizable: true,
-				index: generateIndex,
+				index: unref(computedOptions).generateIndex || generateIndex,
 				width: '50px',
 				fixed: 'left'
 			})
@@ -201,6 +201,7 @@ export function useColumns(opts: useColumnsOpts) {
 			_columns.push({
 				prop: 'leTable_selection',
 				type: 'selection',
+				selectable: unref(computedOptions).selectable,
 				showOverflowTooltip: false,
 				resizable: false,
 				// align: 'center',

@@ -92,6 +92,15 @@ export default {
 				search: '请搜索',
 				min: '最小值',
 				max: '最大值'
+			},
+			upload: {
+				upload: '上传',
+				acceptImage: '只能上传图片',
+				acceptUpload: '只能上传{0}格式文件',
+				maxSize: '单个文件不超过{0}MB',
+				del: '删除',
+				delConfirm: '确定要删除这个文件吗？',
+				uploadErrorTip: '{0} 上传失败，请重试'
 			}
 		},
 		table: {

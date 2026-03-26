@@ -217,6 +217,26 @@ export const local_permissionsMenuList: Array<AppRouteRecordRaw> = [
 				name: 'adminManage',
 				component: 'demo/adminManage/index',
 				meta: { title: 'demo_adminManage', icon: 'Setting' }
+			},
+			{
+				path: 'virtual',
+				name: 'virtual',
+				component: '',
+				meta: { title: '虚拟' /*, icon: 'Setting'*/ },
+				children: [
+					{
+						path: 'baseList',
+						name: 'BaseList',
+						component: 'demo/virtual/baseList/index',
+						meta: { title: '虚拟List' /*, icon: 'Setting'*/ }
+					},
+					{
+						path: 'simpleVxeTable',
+						name: 'simpleVxeTable',
+						component: 'demo/virtual/simpleVxeTable/index',
+						meta: { title: '简易VxeTable' /*, icon: 'Table'*/ }
+					}
+				]
 			}
 		]
 	},

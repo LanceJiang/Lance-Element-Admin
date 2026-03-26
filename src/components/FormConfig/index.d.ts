@@ -1,6 +1,6 @@
 // import type { FormItemInstance, FormInstance } from 'element-plus/lib/components/form'
 import type { FormItemInstance, FormInstance } from 'element-plus/es/components/form'
-import { OptionItemProps } from '@/components/Select/select.types.ts'
+// import { OptionItemProps } from '@/components/Select/select.types.ts'
 // 组件类型
 export type FormConfigOpts = Partial<FormInstance['props']> & {
 	itemWidth?: string // 默认的formItem类型宽度(eg: input/select/radio...)
@@ -16,17 +16,9 @@ export type FormConfigOpts = Partial<FormInstance['props']> & {
 }
 // 组件类型
 export type ComponentType =
-	| 'leSelect'
-	| 'render'
-	| 'select'
-	| 'radio'
-	| 'cascader'
-	| 'inputNumber'
-	| 'inputNumberRange'
-	| 'datePicker'
-	| 'switch'
-	| 'input'
-export type SlotOption<T = Recordable | OptionItemProps | { data: any; node: any }> = ((T) => JSX.Element | string) | string | undefined
+	// | 'leSelect'
+	'render' | 'select' | 'radio' | 'cascader' | 'inputNumber' | 'inputNumberRange' | 'datePicker' | 'switch' | 'input'
+export type SlotOption<T = Recordable /*| OptionItemProps*/ | { data: any; node: any }> = ((T) => JSX.Element | string) | string | undefined
 export type FormItemSlots = {
 	// label 自定义插槽
 	label?: ((opts: { label: string }) => JSX.Element) | string
@@ -81,3 +73,5 @@ export type LeFormItem = Partial<Omit<FormItemInstance['props'], 'render' | 'pro
 	change?: (value: any, options: any[], params: Recordable, propKey?: string) => any
 	[prop: string]: any
 }
+
+export { FormInstance }

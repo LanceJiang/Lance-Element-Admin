@@ -52,16 +52,16 @@ export const createWorkFn = () => {
 		// { type: 'start' | 'stop' }
 		switch (event.data.type) {
 			case 'start':
-			{
-				const data = event.data.data
-				if (data.intervalTime) opts.intervalTime = data.intervalTime
-				if (data.fetchUrl) opts.fetchUrl = data.fetchUrl
-				if (data.immediate) {
-					await doFetch()
+				{
+					const data = event.data.data
+					if (data.intervalTime) opts.intervalTime = data.intervalTime
+					if (data.fetchUrl) opts.fetchUrl = data.fetchUrl
+					if (data.immediate) {
+						await doFetch()
+					}
+					if (timer) stop()
+					timer = setInterval(doFetch, opts.intervalTime)
 				}
-				if (timer) stop()
-				timer = setInterval(doFetch, opts.intervalTime)
-			}
 				break
 			case 'stop': {
 				stop()

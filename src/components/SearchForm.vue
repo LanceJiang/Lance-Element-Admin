@@ -1,12 +1,13 @@
 <script lang="tsx">
 import { defineComponent, watch, ref, computed, PropType } from 'vue'
 import { Refresh, Search } from '@element-plus/icons-vue'
-import { LeFormItem, FormConfigOpts, SlotOption } from '@/components/FormConfig/formConfig.types'
+import { LeFormItem, FormConfigOpts, SlotOption } from '@/components/FormConfig'
 import InputNumber from './InputNumber.vue'
 import InputNumberRange from './InputNumberRange.vue'
 import CustomRender from './CustomRender.vue'
 import { useI18n } from 'vue-i18n'
 import { getOptions, renderOption, get_formSlots } from '@/components/FormConfig/utils'
+// import { OptionItemProps } from '@/components/Select/select.types.ts'
 
 const emits = ['update:searchData']
 export type SearchFormItem = LeFormItem
@@ -132,27 +133,6 @@ export const SearchForm = defineComponent({
 					}
 				}
 				switch (itemType) {
-					case 'leSelect':
-						// leSelect: 基于 element-plus el-select-v2扩展
-						const slots_leSelect = {
-							default: le_slots.option as SlotOption<OptionItemProps>
-						}
-						return (
-							<LeSelect
-								{...formOthers}
-								options={_options}
-								v-model={searchData[prop]}
-								// 通过teleport插入到body (popper-append-to-body popperAppendToBody已弃用)
-								teleported={formOthers.teleported ?? true}
-								// '@update:selected_label' todo
-								onChange={changeAndSearch}
-								disabled={disabled}
-								placeholder={_placeholder}
-								style={getItemStyle(_itemStyle, '200px')}
-								v-slots={slots_leSelect}
-							/>
-						)
-
 					// 自定义render
 					case 'render':
 						return <CustomRender form={form} params={searchData} />

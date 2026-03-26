@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@use "../variables.scss" as *;
 // InputNumber 样式
 .#{$prefix}input-number {
   //position: relative;

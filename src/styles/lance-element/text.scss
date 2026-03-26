@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@use "../variables.scss" as *;
 // Text 样式
 .#{$prefix}text {
 	//font-size: 14px;

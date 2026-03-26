@@ -1,5 +1,5 @@
 import { Slots } from 'vue'
-import { LeFormItem, SlotOption } from '@/components/FormConfig/formConfig.types.ts'
+import { LeFormItem, SlotOption } from '@/components/FormConfig/index.d'
 import { t } from '@/utils'
 export const getOptions = (options: any[], form: LeFormItem) =>
 	options.map(option => {

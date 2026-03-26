@@ -58,6 +58,8 @@ declare global {
 
 	export declare type Recordable<T = any> = Record<string, T>
 
+	export declare type AnyFunction = (...arg: any[]) => any | PromiseLike<any>
+
 	declare type VueNode = VNodeChild | JSX.Element
 
 	declare type PropType<T> = VuePropType<T>

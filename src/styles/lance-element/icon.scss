@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@use "../variables.scss" as *;
 // Icon 样式
 .#{$prefix}icon {
   width: 1em;

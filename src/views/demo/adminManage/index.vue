@@ -1,22 +1,37 @@
 <template>
 	<div class="column-page-wrap">
 		<!-- 公用搜索组件 -->
-		<LeSearchForm v-model:searchData="searchData" :forms="searchForms" :loading="tableOpts.options.loading" />
+		<LeSearchForm v-model:search-data="searchData" :forms="searchForms" :loading="tableOpts.options.loading" />
 		<!-- 公用Table组件 -->
-		<LeTable v-model:searchParams="tableOpts.searchParams" v-bind="tableOpts" v-model:checked-options="checkedColumns" :columns="activeColumns">
+		<LeTable
+			v-bind="tableOpts"
+			v-model:search-params="tableOpts.searchParams"
+			v-model:checked-options="checkedColumns"
+			:list="curList"
+			:columns="activeColumns"
+		>
 			<template #toolLeft>
 				<el-button type="primary" size="default" @click="addItem">
-					新增<el-icon><Plus /></el-icon>
+					新增
+					<el-icon><Plus /></el-icon>
 				</el-button>
 			</template>
 			<template #toolRight>
-				<el-button type="primary"> toolRight </el-button>
+				<el-switch
+					:model-value="isVirtualList"
+					inline-prompt
+					active-text="开"
+					inactive-text="关"
+					:loading="tableOpts.options.loading"
+					@change="switchVirtualList"
+					>切换虚拟滚动列表</el-switch
+				>
 			</template>
 			<template #top>
 				<div class="p-[10px] mb-[10px]" style="background-color: rgb(248 113 113)">顶部自定义插槽#top</div>
 			</template>
 			<template #绑定状态="{ row }">
-				<el-switch :active-value="1" :inactive-value="0" :loading="row.loading" v-model="row.google_key" @click="changGooGleKey(row)" />
+				<el-switch v-model="row.google_key" :active-value="1" :inactive-value="0" :loading="row.loading" @click="handleDel(row)" />
 			</template>
 			<template #账号状态="{ row }">
 				<el-tag :type="['success', 'warning', 'error'][row.status]">
@@ -34,44 +49,44 @@
 				<div v-else style="height: 30px" />
 			</template>
 			<template #描述="{ row }">
-				<LeText :value="row.describe" line-clamp="2" />
+				<LeText :value="row.describe" line-clamp="5" />
 			</template>
 			<template #操作="{ row }">
-				<div class="btn-actions-flex-gap">
+				<LeTableAction :actions="rowTableActions(row)" />
+				<!--<div class="btn-actions-flex-gap">
 					<el-tooltip placement="top" content="查看">
-						<el-button class="local_btn" @click="changeItem(row)" icon="View"></el-button>
+						<el-button class="local_btn" icon="View" @click="changeItem(row)"></el-button>
 					</el-tooltip>
 					<el-tooltip placement="top" content="修改">
 						<el-button class="local_btn" type="primary" icon="Edit" @click="changeItem(row, true)" />
 					</el-tooltip>
 					<el-tooltip placement="top" content="删除">
-						<el-button class="local_btn" type="danger" icon="Delete" @click.prevent="changGooGleKey(row)" />
+						<el-button class="local_btn" type="danger" icon="Delete" @click.prevent="handleDel(row)" />
 					</el-tooltip>
-				</div>
+				</div>-->
 			</template>
 		</LeTable>
 		<!-- 编辑表单弹窗 -->
 		<LeFormConfigDialog
 			v-if="dialog.visible"
-			ref="dialogRef"
 			v-model="dialog.visible"
 			v-bind="dialog"
-			:formData="activeData"
+			:form-data="activeData"
 			:title="`${dialog.isCreate ? '新增' : '编辑'}管理员`"
 			@submit="submitHandler"
 		/>
 	</div>
 </template>
 <script setup lang="ts" name="adminManage">
-import { ref, reactive, watch, toRefs } from 'vue'
+import { ref, reactive, watch, toRefs, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { getAdminList, queryEdit } from '@/api/demo'
 import { forms, search_forms, columns, rolesOptions_config } from './config.data'
 import { useTablePage } from '@/hooks/useTablePage'
 import { SearchParams } from '@/components/Table'
 import { colorBase1 } from '@/components/Chart.vue'
+import useVirtualList from '@/hooks/useVirtualList'
 
-// todo ... 尝试调整 state 编写 合适的 Hooks 进行替换
 // 搜索配置
 const searchForms = ref(search_forms)
 const state: any = reactive({
@@ -216,7 +231,11 @@ const queryList = () => {
 	getAdminList(params)
 		.then((data: any) => {
 			console.error(data, 'data...')
-			tableOpts.list = data.data.map(v => ({ ...v, loading: false, chartOption_price: getChartOption_price(v.price_ary) }))
+			tableOpts.list = data.data.map(v => ({
+				...v,
+				loading: false,
+				chartOption_price: getChartOption_price(v.price_ary)
+			}))
 			tableOpts.total = data.total
 		})
 		.finally(() => {
@@ -228,14 +247,17 @@ const { tableOpts, checkedColumns, activeColumns, searchData } = useTablePage(
 		// 搜索数据
 		searchParams: {
 			page: 1,
-			size: 20
+			// size: 20
+			size: 50
 		},
 		columns,
 		options: {
 			// showOverflowTooltip: false,
 			loading: false,
 			showIndex: true,
-			size: 'small'
+			size: 'small',
+			generateIndex,
+			pageSizes: [50, 100, 500, 1000]
 		},
 		// 控制列配置
 		columnsConfig: {
@@ -255,6 +277,49 @@ const { tableOpts, checkedColumns, activeColumns, searchData } = useTablePage(
 		queryList
 	}
 )
+
+const list = computed(() => {
+	return tableOpts.list
+})
+const { actualRenderData, startIdx, handleOpen, handleClose } = useVirtualList({
+	data: list, // 列表项数据
+	// itemHeight: 100,
+	itemHeight: 46,
+	itemContainer: '.le-table-warp .el-table__row', // 列表项
+	scrollContainer: '.le-table-warp .el-scrollbar__wrap', // 滚动容器
+	// scrollContainer: '.le-table-warp .el-scrollbar__view', // 滚动容器
+	actualHeightContainer: '.le-table-warp .el-scrollbar__view', // 渲染实际高度的容器
+	translateContainer: '.le-table-warp .el-table__body' // 需要偏移的目标元素
+})
+const isVirtualList = ref(true)
+const curList = computed(() => {
+	return isVirtualList.value ? actualRenderData.value : list.value
+})
+const switchVirtualList = bool => {
+	tableOpts.options.loading = true
+	if (!bool) {
+		startIdx.value = 0
+		handleClose()
+	} else {
+		handleOpen()
+	}
+	isVirtualList.value = bool
+	setTimeout(() => {
+		tableOpts.options.loading = false
+	}, 30)
+}
+function generateIndex(index: number) {
+	const { size, page = 1 } = tableOpts.searchParams || {}
+	let _index = ++index + startIdx.value
+	if (size) {
+		_index = size * (page - 1) + _index
+	}
+	return _index
+}
+/*console.log('useVirtualList', actualRenderData)
+watch(actualRenderData, () => {
+	console.error(actualRenderData.value, 'actualRenderData')
+})*/
 // 模拟后端请求获取的 选中的columns
 checkedColumns.value = columns.slice(-3)
 /*const getRequestParams = () => {
@@ -289,13 +354,11 @@ const submitHandler = params => {
 			dialog.value.formOptions.formConfig.submitLoading = false
 		})
 }
-const dialogRef = ref()
 const addItem = () => {
 	activeData.value = {}
 	dialog.value.isCreate = true
 	dialog.value.formOptions.isEdit = true
 	dialog.value.visible = true
-	// window.dialogRef = dialogRef // 测试ref
 }
 
 const changeItem = (value: any, isEdit = false) => {
@@ -305,7 +368,7 @@ const changeItem = (value: any, isEdit = false) => {
 	dialog.value.formOptions.isEdit = isEdit
 	dialog.value.visible = true
 }
-const changGooGleKey = (row: Recordable) => {
+const handleDel = (row: Recordable) => {
 	ElMessage({
 		message: '操作成功!',
 		type: 'success'
@@ -342,6 +405,35 @@ const changGooGleKey = (row: Recordable) => {
 				console.log('取消')
 			})
 	}*/
+}
+// actions
+const rowTableActions = (row: any) => {
+	return [
+		{
+			tooltip: '查看',
+			icon: 'le-view',
+			// colorClass: 'text-blue-500',
+			onClick: changeItem.bind(null, row)
+		},
+		{
+			tooltip: '修改',
+			icon: 'le-edit',
+			// colorClass: 'text-orange-500'
+			colorClass: 'warning-color',
+			onClick: changeItem.bind(null, row, true)
+		},
+		{
+			tooltip: '删除',
+			icon: 'le-delete',
+			// colorClass: 'text-red-500',
+			colorClass: 'danger-color',
+			// onClick: handleDel.bind(null, row),
+			popconfirm: {
+				title: '确认删除嘛？',
+				confirm: handleDel.bind(null, row)
+			}
+		}
+	]
 }
 </script>
 
